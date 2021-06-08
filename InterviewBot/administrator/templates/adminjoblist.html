@@ -1,0 +1,341 @@
+{% load static %}
+
+
+{% block headerinclude %}
+    
+    <title>Interview BOT - Job List</title>
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
+
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="{% static '/css/adminjoblist.css' %}">
+
+{% endblock headerinclude %}
+
+
+
+{% block footerinclude %}
+
+    <!-- Font Awesome JS -->
+    <script src="{% static 'Automate/js/bootstrap.js' %}"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+{% endblock footerinclude %}
+
+
+
+{% block content %}
+
+    <div class="wrapper">
+        <!-- Sidebar  -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <img src="{% static '/images/logo.png' %}" width="100%">
+            </div>
+            <center>
+                <button type="button" id="id-btnCreateJob" class="jobCreate" data-toggle="modal" data-target="#modalCreate" class="btn btn-warning">Create Job</button>
+            </center>
+            <br>
+            <ul class="list-unstyled components">
+                <li>
+                    <a href="{% url 'administrator:dashboard_view' %}">
+                        <i class="fas fa-table"></i>
+                        &nbsp;&nbsp;Dashboard
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{% url 'administrator:job-lists_view' %}">
+                        <i class="fas fa-search"></i>
+                        &nbsp;&nbsp;Job List
+                    </a>
+                </li>
+                <li>
+                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-user-circle"></i>&nbsp;&nbsp; {{user.email}}</a>
+                    <ul class="collapse list-unstyled" id="homeSubmenu">
+                        <li>
+                            <a href="{% url 'administrator:settings_view' %}"><i class="fas fa-cog"></i>&nbsp;&nbsp; Settings</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'administrator:logout_view' %}"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp; Logout</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="addAdmin">
+                <a href="{% url 'administrator:add-admin_view' %}">Add Admin Account</a>
+            </div>
+        </nav>
+    </div>
+
+    <div class="content-container">
+        <div class="red-header">
+            <div id="content-header">
+                <!-- Temporary -->
+            </div>
+        </div>
+
+        <div class="cont">
+            {% for joblist in joblists %}
+            <div class="content-form">
+                <form id="test" method="POST">
+                    {% csrf_token %}
+                <div class="row">
+                    <div class="column-form">
+                        <header>{{joblist.title}} 
+                            <div hidden>
+                                <input type="text" id="jobID1" name="jobID1" value="{{joblist.id}}">
+                            </div>
+                        </header>
+                        <textarea style="background-color:#E5E5E5;" readonly>{{joblist.description}}</textarea>
+                            <a data-target="#updateModal-{{joblist.id}}" data-toggle="modal" href="#updateModal">Update</a>
+                            <a data-target="#deleteModal-{{joblist.id}}" data-toggle="modal" href="#deleteModal">Delete</a>
+                            <a data-target="#viewModal-{{joblist.id}}" data-toggle="modal" href="#viewModal">View</a>             
+                    </div>
+                    <div class="column-status">
+                        <br><br>
+                        <!-- <a>Applied: <a id="totalApplied"></a></a><br> -->
+
+                        <button type="submit" class="citButton" id="viewApplicant" name="viewApplicant" style="margin-top: 30px;font-size: smaller;">View Applicants</button>
+                    </div>
+                </div>        
+                </form>
+            </div>
+
+            <!-- View Modal -->
+            <div class="modal fade" id="viewModal-{{joblist.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">{{joblist.title}}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    <div class="modal-body">
+                    {{joblist.description}}
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="citButton1" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+            <!-- Update Modal -->
+            <div class="modal fade" id="updateModal-{{joblist.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">{{joblist.title}}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    <form id="updateForm" method="POST">
+                        {% csrf_token %}
+                        <div hidden>
+                            <input type="text" name="jobID" value="{{joblist.id}}">
+                        </div>
+                        <div class="modal-body">
+                        <textarea name="jobHeader">{{joblist.title}}</textarea>
+                        <textarea name="jobDescription">{{joblist.description}}</textarea>
+                        </div>
+                        <div class="modal-footer">
+                        <button type="submit" class="citButton" id="btnUpdate" name="btnUpdate">Save changes</button>
+                        <button type="button" class="citButton1" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+                </div>
+            </div>
+
+            <!-- Delete Modal -->
+            <div class="modal fade" id="deleteModal-{{joblist.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Delete</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form id="deleteForm" method="POST">
+                            <div hidden>
+                                <input type="text" name="jobID" value="{{joblist.id}}">
+                            </div>
+                        {% csrf_token %}
+                            <div class="modal-body">
+                                <center>Are you sure?</center>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="citButton" id="btnDelete" name="btnDelete">Yes</button>
+                                <button type="button" class="citButton1" data-dismiss="modal">No</button>  
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+                <nav aria-label="Page navigation example" id="paginate-align">
+                    <ul class="pagination justify-content-center">
+                    {% if joblists.has_previous %}
+                    <li class="page-item">  
+                        <a class="page-link" href="{% url 'administrator:job-lists_view' %}?page={{joblists.previous_page_number}}" tabindex="-1">Previous</a>
+                    </li>
+                        {% else %}
+                        <li class="page-item disabled">
+                        <a class="page-link" href="#">Previous</a>              
+                        </li>
+                        {% endif %}
+
+                    {% for page in pages %}
+                    <li class="page-item {% if page == page_number %} active {% endif %}">
+                        <a class="page-link" href="?page={{page}}">{{page}}</a>
+                    </li>
+                    {% endfor %}
+                    
+                    {% if joblists.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="{% url 'administrator:job-lists_view' %}?page={{joblists.next_page_number}}">Next</a>              
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                    <a class="page-link" href="#">Next</a>              
+                    </li>
+                    {% endif %}
+                    </ul>
+                </nav>
+            <div class="footer">
+                <p>Copyright © InterviewBOT. All rights reserved.</p>
+            </div>
+    </div>
+
+    <!-- CREATE JOB MODAL -->
+    <div id="createJobModal" class="jobCreateModal">
+        <div class="createJob-content">
+            <span class="close">&times</span>
+            <form id="post_question" method="POST" action="" autocomplete="off" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="containerColor">
+                    <div class="modalHeader">
+                        <img src="{% static '/images/Notepad.png' %}" class="imgNotepad">
+                        <a class="questionTitle">Create Job Offering</a>
+                        <img src="{% static '/images/citLogo.png' %}" class="imgProfile">
+                        <a href="#"><img src="{% static '/images/ellipsis.png' %}" class="imgEllipsis"></a>
+                        <button type="submit" class="btnPost" name="btnAdd" id="btnAdd">Post</button>
+                    </div>
+                    <div class="container">
+                        <div id="questionsTab" class="tab-pane active"><center>
+                            <div class="questionnaireTitle">
+                                <select name="name-title" id="id-title" style="border-color: #ccc;" required>
+                                    <option style="display: none;">---Please select a job---</option>
+                                    <option value="Administrator">Administrator</option>
+                                    <option value="Office Staff">Office Staff</option>
+                                    <option value="Guidance Counselor">Guidance Counselor</option>
+                                    <option value="School Social Worker">School Social Worker</option>
+                                    <option value="School Nurse">School Nurse</option>
+                                    <option value="Librarian">Librarian</option>
+                                    <option value="Maintenance">Maintenance</option>
+                                    <option value="Custodial">Custodial</option>
+                                    <option value="Food Service">Food Service</option>
+                                    <option value="Transportation">Transportation</option>
+                                </select>
+                                <textarea type="text" name="name-description" id="id-description" rows="5" cols="50" style="margin-top: 5px;" placeholder="Job description" required></textarea>
+                            </div>
+                            <div class="questionContainer">
+                                <p class="note">Note: You are required to input all the question fields.</p>
+                                <div class="tabs" style="width: 80%; border-left: 5px solid #933633; border-radius: 10px 10px 0 0;">
+                                    <a class="tablink" onclick="numberQuestion(event, 'fiveQuest')" id="defaultQuestionOpen">5 QUESTIONS</a>
+                                    <a class="tablink" onclick="numberQuestion(event, 'tenQuest')">10 QUESTIONS</a>
+                                </div>
+                                <div class="contentQuestion">
+                                    <div class="input_fields_wrap2">
+                                        <div id="fiveQuest" class="tabcontents">
+                                            <input type="text" name="qtn11" id="id-question11" placeholder="Question 1" required> &nbsp;<br>
+                                            <input type="text" name="qtn12" id="id-question12" placeholder="Question 2" required> &nbsp;<br>
+                                            <input type="text" name="qtn13" id="id-question13" placeholder="Question 3" required> &nbsp;<br>
+                                            <input type="text" name="qtn14" id="id-question14" placeholder="Question 4" required> &nbsp;<br>
+                                            <input type="text" name="qtn15" id="id-question15" placeholder="Question 5" required> &nbsp;<br>
+                                        </div>
+
+                                        <div id="tenQuest" class="tabcontents">
+                                            <input type="text" name="qtn16" id="id-question16" placeholder="Question 6" required> &nbsp;<br>
+                                            <input type="text" name="qtn17" id="id-question17" placeholder="Question 7" required> &nbsp;<br>
+                                            <input type="text" name="qtn18" id="id-question18" placeholder="Question 8" required> &nbsp;<br>
+                                            <input type="text" name="qtn19" id="id-question19" placeholder="Question 9" required> &nbsp;<br>
+                                            <input type="text" name="qtn20" id="id-question20" placeholder="Question 10" required> &nbsp;<br>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div></center>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- script for Create Job Modal -->
+    <script type="text/javascript">
+        var modal = document.getElementById("createJobModal");
+        var btn = document.getElementById("id-btnCreateJob");
+        var span = document.getElementsByClassName("close")[0];
+        btn.onclick = function(){
+            modal.style.display = "block";
+        }
+        span.onclick = function(){
+            modal.style.display = "none";
+        }
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+
+    <!-- MODAL EXIT WHEN PRESSED ESCAPE -->
+    <script type="text/javascript">
+        $(document).keydown(function(event) { 
+            if (event.keyCode == 27) { 
+                $('#createJobModal').hide();
+            }
+        });
+    </script>
+
+    <!-- SHOW QUESTION BUTTONS -->
+    <script type="text/javascript">
+        function numberQuestion(evt, number) {
+          // Declare all variables
+          var i, tabcontent, tablinks;
+
+          // Get all elements with class="tabcontent" and hide them
+          tabcontent = document.getElementsByClassName("tabcontents");
+          for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+          }
+
+          // Get all elements with class="tablinks" and remove the class "active"
+          tablinks = document.getElementsByClassName("tablink");
+          for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+          }
+
+          // Show the current tab, and add an "active" class to the button that opened the tab
+          document.getElementById(number).style.display = "block";
+          evt.currentTarget.className += " active";
+        }
+
+        document.getElementById("defaultQuestionOpen").click();
+    </script>
+
+{% endblock content %}

@@ -1,0 +1,218 @@
+{% load static %}
+
+
+{% block headerinclude %}
+    
+    <title>Interview BOT - Job Responses</title>
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
+    
+
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="{% static '/css/jobapplicants.css' %}">
+
+{% endblock headerinclude %}
+
+
+
+{% block footerinclude %}
+    
+    <!-- Font Awesome JS -->
+    <script src="{% static 'Automate/js/bootstrap.js' %}"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+{% endblock footerinclude %}
+
+
+{% block content %}
+    <div class="containerColor" style="border-radius: 0%;min-height: 100%;width: 100%;">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
+            <span aria-hidden="true">&times;</span>
+        </button>
+
+        <div class="modalHeader" style="border-radius: 0px;height: 80px;">
+            <img src="{% static '/images/Notepad.png' %}" class="imgNotepad">
+            {% for job in job %}
+            <a class="questionTitle">{{job.title}} - Responses</a><br><br>
+            {% endfor %}
+            <a href=  "{% url 'administrator:applicants_view' %}"><b>Back</b></a>
+        </div>
+                    
+        {% for response in responses %}
+        <div id="questionsTab" class="tab-pane in active" style="margin-top: 2%;">
+            <center>
+            <div class="questionnaireTitle" style="height: 100px;">
+                <h2><b>{{response.firstname}} {{response.lastname}}</b></h2>
+                <div class="column-form" style="margin-left: -49%;">
+                    <a type="button" class="btnView" data-toggle="modal" id="id-btnView" data-target="#viewModal-{{response.user_id}}" style="margin-right: 125px; cursor: pointer;"><i>View Requirements</i></a>
+                </div>
+            </div>
+
+            <div class="questionContainer">
+                <div class="contentQuestion">
+                    <header></header>
+                    <div id="quest" class="tabcontentHeader" style="width: 100%;">
+                        <div class="tab">
+                          <button class="tablinks" onclick="jobApplicant(event, 'q1to5')" id="defaultOpenQuestionsTab">Questions 1-5</button>
+                          <button class="tablinks" onclick="jobApplicant(event, 'q6to10')">Questions 6-10</button>
+                          <button class="tablinks" onclick="jobApplicant(event, 'q11to15')">Questions 11-15</button>
+                          <button class="tablinks" onclick="jobApplicant(event, 'q16to20')">Questions 16-20</button>
+                        </div>
+                    </div>
+
+                    <center>
+                    <div id="q1to5" class="tabcontent" style="width: 87%; margin-bottom: inherit;">
+                        <div class="input_fields_wrap2">
+                            <br>
+                            <p class="question">1. {{response.question_1}} &nbsp;</p><hr>
+                            <p class="answer">{{response.response_1}}&nbsp;</p><br>
+                            <p class="question">2. {{response.question_2}} &nbsp;</p><hr>
+                            <p class="answer">:{{response.response_2}}&nbsp;</p><br>
+                            <p class="question">3. {{response.question_3}} &nbsp;</p><hr>
+                            <p class="answer">{{response.response_3}}&nbsp;</p><br>
+                            <p class="question">4. {{response.question_4}} &nbsp;</p><hr>
+                            <p class="answer">{{response.response_4}}&nbsp;</p><br>
+                            <p class="question">5. {{response.question_5}} &nbsp;</p><hr>
+                            <p class="answer">{{response.response_5}}&nbsp;</p><br>
+                        </div>
+                    </div>
+
+                    <div id="q6to10" class="tabcontent" style="width: 87%;">
+                        <div class="input_fields_wrap2">
+                            <br>
+                            <p class="question">6. {{response.question_6}} &nbsp;</p><hr>
+                            <p class="answer">{{response.response_6}}&nbsp;</p><br>
+                            <p class="question">7. {{response.question_7}} &nbsp;</p><hr>
+                            <p class="answer">{{response.response_7}}&nbsp;</p><br>
+                            <p class="question">8. {{response.question_8}} &nbsp;</p><hr>
+                            <p class="answer">{{response.response_8}}&nbsp;</p><br>
+                            <p class="question">9. {{response.question_9}} &nbsp;</p><hr>
+                            <p class="answer">{{response.response_9}}&nbsp;</p><br>
+                            <p class="question">10. {{response.question_10}} &nbsp;</p><hr>
+                            <p class="answer">{{response.response_10}}&nbsp;</p><br>
+                        </div>
+                    </div>
+
+                    <div id="q11to15" class="tabcontent" style="width: 87%;">
+                        <div class="input_fields_wrap2">
+                            <br>
+                            <p class="question">11. {{response.question_11}} &nbsp;</p><hr>
+                            <p class="answer">{{response.response_11}}&nbsp;</p><br>
+                            <p class="question">12. {{response.question_12}} &nbsp;</p><hr>
+                            <p class="answer">{{response.response_12}}&nbsp;</p><br>
+                            <p class="question">13. {{response.question_13}} &nbsp;</p><hr>
+                            <p class="answer">{{response.response_13}}&nbsp;</p><br>
+                            <p class="question">14. {{response.question_14}} &nbsp;</p><hr>
+                            <p class="answer">{{response.response_14}}&nbsp;</p><br>
+                            <p class="question">15. {{response.question_15}} &nbsp;</p><hr>
+                            <p class="answer">{{response.response_15}}&nbsp;</p><br>
+                        </div>
+                    </div>
+
+                    <div id="q16to20" class="tabcontent" style="width: 87%;">
+                        <div class="input_fields_wrap2">
+                            <br>
+                            <p class="question">16. {{response.question_16}} &nbsp;</p><hr>
+                            <p class="answer">{{response.response_16}}&nbsp;</p><br>
+                            <p class="question">17. {{response.question_17}} &nbsp;</p><hr>
+                            <p class="answer">{{response.response_17}}&nbsp;</p><br>
+                            <p class="question">18. {{response.question_18}} &nbsp;</p><hr>
+                            <p class="answer">{{response.response_18}}&nbsp;</p><br>
+                            <p class="question">19. {{response.question_19}} &nbsp;</p><hr>
+                            <p class="answer">{{response.response_19}}&nbsp;</p><br>
+                            <p class="question">20. {{response.question_20}} &nbsp;</p><hr>
+                            <p class="answer">{{response.response_20}}&nbsp;</p><br>
+                        </div>
+                    </div>
+                    </center>
+                </div>
+            </div><br><br>
+        </div>
+    </div>
+
+    <!-- VIEW REQUIREMENTS MODAL -->
+    <div class="modal fade" id="viewModal-{{response.user_id}}" tabindex="-1" role="dialog" aria-labelledby="viewModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #933633; color: #FFF;">
+                    <h5 class="modal-title" id="myLargeModalLabel"><b>FILE SUBMITTED</b></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                {% for job in job %}
+                <div class="modal-content"><br>
+                    {% if response_requirement_1 != null or response_requirement_1 != ' ' %}
+                        <a href="http://127.0.0.1:8000/media/{{response.requirement_1}}" class="btn btn-primary btn-sm" target="_blank">Resume</a>
+                    {% else %}
+                        <strong style="text-align: center;">No file submitted.</strong>
+                    {% endif %}
+                </div>
+                {% endfor %}
+
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">CLOSE</button>
+                </div>
+            </div>
+        </div>
+    </div></center> 
+    {% endfor %}                  
+
+    <script type="text/javascript">
+    function jobApplicant(evt, applicant) {
+    // Declare all variables
+    var i, tabcontent, tablinks;
+
+    // Get all elements with class="tabcontent" and hide them
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+    }
+
+    // Get all elements with class="tablinks" and remove the class "active"
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace("active", "");
+    }
+
+    // Show the current tab, and add an "active" class to the button that opened the tab
+    document.getElementById(applicant).style.display = "block";
+    evt.currentTarget.className += " active";
+    }
+    document.getElementById("defaultOpenQuestionsTab").click();
+    </script>                        
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

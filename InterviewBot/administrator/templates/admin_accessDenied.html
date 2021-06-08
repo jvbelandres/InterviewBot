@@ -1,0 +1,41 @@
+{% load static %}
+
+{% block headerinclude %}
+
+    <title>Access Denied</title>
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
+
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="{% static '/css/Redirect.css' %}">
+
+{% endblock headerinclude %}
+
+<script>
+    function redirect(){
+       window.location.href = "/administrator/dashboard/";
+    }
+
+    setTimeout(redirect, 3000); //2000 is equivalent to 2 seconds
+</script>
+
+{% block body %}
+
+   <div class="logout">
+        <div class="logo pb-2">
+          <center>  <img  src="{% static '/images/logo.png' %}" width="40%" height="23%"></center>
+         </div>            
+        <center><form>
+        	<div class="pt-5 pb-5">
+        	<h1>ACCESS DENIED.</h1><br><br><h3>You are logged in as<h3><h1>ADMINISTRATOR</h1>
+        	</div>
+        	<div class="pt-3">
+            <p>Redirecting to dashboard page in a few seconds...</p>
+        	</div>
+        </form>
+    </center>
+</div>    
+
+{% endblock %}
