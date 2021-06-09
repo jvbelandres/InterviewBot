@@ -178,6 +178,20 @@
                         </div>
                     </div>
 
+                    <script type="text/javascript"> // Script to only accept .PDF or .JPEG format
+                        $(function(){
+                            $("#myfile1").on('change', function(event) {
+                                var file = event.target.files[0];
+
+                                if(!file.type.match('image/jp.*') || !file.type.match('application/pdf')) {
+                                    alert("This only accepts .PDF or .JPG/JPEG format.");
+                                    $("#applyForm").get(0).reset();
+                                    return;
+                                }
+                            });
+                        });
+                    </script>
+
                     <!---- SAVE MODAL ------->
                     <div class="modal fade" id="jobdetailsModal-{{joblist.id}}" tabindex="-1" role="dialog" aria-labelledby="jobdetailsModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
