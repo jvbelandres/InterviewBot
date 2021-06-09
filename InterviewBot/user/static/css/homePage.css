@@ -285,8 +285,9 @@ td {
 .jobDescription {
     width: 98%;
     font-size: 12px;
-    text-align: inherit;
+    text-align: justify;
     margin-left: 1%;
+    margin-bottom: 2%;
 }
 
 .imgJob {
@@ -303,24 +304,16 @@ td {
   border-radius: 50%;
 }
 
-.saveJobImg {
-  width: 13%;
-  height: 13%;
-  border-radius: 50%;
-}
-
 .jobRequirementName {
   float: left;
-  margin-left: 8%;
   border: none;
 }
 
-.job-description{
-  margin-left: 5%; 
-  margin-right: 5%; 
+.job-description {
+  margin-left: 3%;
+  margin-right: 2%;
   text-align: justify;
 }
-
 
 /* ---------- MODAL -------------*/
 @media (min-width: 768px) {

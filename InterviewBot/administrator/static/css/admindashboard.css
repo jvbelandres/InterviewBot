@@ -34,10 +34,19 @@ h1 {
     margin-top: 5%;
 }
 
+h2 {
+    font-family: 'GothamBold';
+    margin-top: 3%;
+    margin-left: 5%;
+    color: #FFF;
+}
+
 hr {
+    margin-top: 1%;
 	border-color: white; 
     width: 100%;  
-    float: left; 
+    float: left;
+    opacity: 30%;
 }
 
 ::-webkit-scrollbar {
@@ -202,17 +211,6 @@ ul ul a {
 .topBorder{
     width: 101%;
     border-top: 10px solid #2b353b;
-    
-}
-
-.dateandtime {
-    color: #ffffff;
-    text-align: right;
-    font-size: 0.7em;
-}
-
-hr{
-    opacity: 30%;
 }
 
 .addAdmin{
@@ -286,16 +284,10 @@ hr{
 
 .createJob-content{
     background-color: #fefefe;
-    margin: 5% auto; /* 5% from the top and centered */
+    margin: 15% auto; /* 15% from the top and centered */
     /*padding: 20px;*/
     width: 80%; /* Could be more or less, depending on screen size */
     border-radius: 15px;
-}
-
-.note{
-    color: #FF0000;
-    float: left;
-    margin-left: 10%;
 }
 
 .close{
@@ -322,7 +314,7 @@ hr{
 
 .modalHeader{
     background-color: #ffcc00;
-    height: 110px;
+    height: 130px;
     width: 100%;
     border-radius: 15px 15px 0 0;
     padding: 20px;
@@ -424,16 +416,34 @@ hr{
     padding-top: 20px;
 }
 
-.container{
+.container li{
     margin-left: 30px;
-    margin-top: 2%;
-    margin-bottom: 2%;
+    margin-top: -24px;
 }
 
 .tab-modal:hover,
 .tab-modal.active{
     color: #ffffff;
     border-bottom: 3px solid #933633;
+}
+
+.tools{
+    width: 25%;
+    height: 35px;
+    background-color: #ffffff;
+    border-radius: 8px 8px 0 0;
+    border-bottom: 3px solid #933633;
+    opacity: 25%;
+    transition: 0.3s;
+    margin-top: -2px;
+}
+
+.tools:hover{
+    opacity: 100%;
+}
+
+.tools img:hover{
+    background-color: #ECECEC;
 }
 
 .contentQuestion{
@@ -466,6 +476,30 @@ hr{
 .tools img{
     padding: 5px;
     cursor: pointer;
+}
+
+.imgPlus{
+    width: 32px;
+}
+
+.imgForward{
+    width: 32px;
+}
+
+.imgTruetype{
+    width: 32px;
+}
+
+.imgGallery{
+    width: 38px;
+}
+
+.imgCopy{
+    width: 32px;
+}
+
+.imgDelete{
+    width: 32px;
 }
 
 .input_fields_wrap button{

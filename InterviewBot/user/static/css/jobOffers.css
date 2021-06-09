@@ -227,10 +227,6 @@ td {
 	color: white;
 }
 
-.note {
-  color: #FF0000;
-}
-
 .btnSave {
 	border: none;
 	font-size: 16px;
@@ -251,6 +247,7 @@ td {
 	font-size: 12px;
 	text-align: justify;
 	margin-left: 1%;
+  margin-bottom: -2%;
 }
 
 .imgJob {
@@ -277,9 +274,14 @@ td {
   border: none;
 }
 
-.job-description{
-  margin-left: 3%; 
-  margin-right: 5%; 
+.jobRequirementFileUpload {
+  padding: 2px; 
+  margin-left: 25%;
+}
+
+.job-description {
+  margin-left: 3%;
+  margin-right: 2%;
   text-align: justify;
 }
 

@@ -79,26 +79,25 @@ class JobListsView(View):
 			job = CreateJob.objects.filter(id=jobID1).update(description = jobDesription1, title= jobHeader1)
 			return redirect('administrator:job-lists_view')
 		elif 'btnAdd' in request.POST:
-			if form.is_valid():
-				jobTitle = request.POST.get("name-title")
-				jobDescription = request.POST.get("name-description")
-				q11 = request.POST.get("qtn11")
-				q12 = request.POST.get("qtn12")
-				q13 = request.POST.get("qtn13")
-				q14 = request.POST.get("qtn14")
-				q15 = request.POST.get("qtn15")
-				q16 = request.POST.get("qtn16")
-				q17 = request.POST.get("qtn17")
-				q18 = request.POST.get("qtn18")
-				q19 = request.POST.get("qtn19")
-				q20 = request.POST.get("qtn20")
+			jobTitle = request.POST.get("name-title")
+			jobDescription = request.POST.get("name-description")
+			q11 = request.POST.get("qtn11")
+			q12 = request.POST.get("qtn12")
+			q13 = request.POST.get("qtn13")
+			q14 = request.POST.get("qtn14")
+			q15 = request.POST.get("qtn15")
+			q16 = request.POST.get("qtn16")
+			q17 = request.POST.get("qtn17")
+			q18 = request.POST.get("qtn18")
+			q19 = request.POST.get("qtn19")
+			q20 = request.POST.get("qtn20")
 
-				form = CreateJob(title = jobTitle, description = jobDescription,
-				    question_11 = q11, question_12 = q12, question_13 = q13, question_14 = q14,
-				    question_15 = q15, question_16 = q16, question_17 = q17, question_18 = q18,
-				    question_19 = q19, question_20 = q20, admin_id = user.id)
-				form.save()
-				return redirect('administrator:job-lists_view')
+			form = CreateJob(title = jobTitle, description = jobDescription,
+			    question_11 = q11, question_12 = q12, question_13 = q13, question_14 = q14,
+			    question_15 = q15, question_16 = q16, question_17 = q17, question_18 = q18,
+			    question_19 = q19, question_20 = q20, admin_id = user.id)
+			form.save()
+			return redirect('administrator:job-lists_view')
 		elif 'viewApplicant' in request.POST:
 			jobID1 = request.POST.get("jobID1")
 			request.session['job'] = jobID1

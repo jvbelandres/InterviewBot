@@ -21,13 +21,6 @@ hr {
 	padding: 50px;
 }
 
-ul{
-	list-style-type: none;
-	color: red;
-	margin-left: -5%;
-	margin-bottom: -3%;
-}
-
 input:focus{
     outline: none;
 }
@@ -97,14 +90,7 @@ hr {
 	position: relative;	
 }
 
-/* Get rid of arrows of the NumberInput */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-#phone{
+#phoneNo{
 	border-radius: 15px;
 	width: 175px;
 	text-align: center;
@@ -151,7 +137,7 @@ input::-webkit-inner-spin-button {
 
 
 
-#pass, #pass2 {
+#pass {
 	border-radius: 15px;
 	width: 350px;
 	text-align: center;
@@ -164,6 +150,7 @@ input::-webkit-inner-spin-button {
 	border-bottom-width: 0px;
 	background-color: #ffcc00;
 	position: relative;
+	
 }
 
 .btn_register {

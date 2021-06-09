@@ -45,7 +45,7 @@ hr {
     float: left;
 }
 
-#name, #subject{
+#name, #email, #subject{
     border-radius: 15px;
     border: none;
 }
@@ -57,7 +57,6 @@ hr {
 }
 
 #message{
-    height: 200px;
     border-radius: 15px 15px 5px 15px;
     border:none;
 }

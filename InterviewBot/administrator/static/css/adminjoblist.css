@@ -213,7 +213,6 @@ ul ul a {
 ----------------------------------------------------- */
 
 #content-header{
-    margin-top: 5%;
     padding-left: 0.981%;
     padding-right: 13px;
 }
@@ -223,6 +222,11 @@ ul ul a {
     min-height: 100%;
     margin-left: 25%;
     float: right;
+}
+
+.topBorder{
+    width: 100%;
+    border-top: 10px solid #2b353b;
 }
 
 .addAdmin{
@@ -267,9 +271,16 @@ ul ul a {
     border-top: 30px solid lightgray;
 }
 
+.dateandtime {
+    color: #ffffff;
+    text-align: right;
+    font-size: 0.7em;
+    margin-right: 0.44%;
+}
+
 .red-header{
     width: 100%;
-    height: 8%;
+    height: 100px;
     background-color: #933633;
     float: right;
     margin-bottom: 20px;
@@ -392,16 +403,10 @@ ul ul a {
 
 .createJob-content{
     background-color: #fefefe;
-    margin: 5% auto; /* 5% from the top and centered */
+    margin: 15% auto; /* 15% from the top and centered */
     /*padding: 20px;*/
     width: 80%; /* Could be more or less, depending on screen size */
     border-radius: 15px;
-}
-
-.note{
-    color: #FF0000;
-    float: left;
-    margin-left: 10%;
 }
 
 .close{
@@ -428,7 +433,7 @@ ul ul a {
 
 .modalHeader{
     background-color: #ffcc00;
-    height: 110px;
+    height: 130px;
     width: 100%;
     border-radius: 15px 15px 0 0;
     padding: 20px;
@@ -537,10 +542,9 @@ textarea{
     padding-top: 20px;
 }
 
-.container{
+.container li{
     margin-left: 30px;
-    margin-top: 2%;
-    margin-bottom: 5%;
+    margin-top: -24px;
 }
 
 .tab-modal:hover,

@@ -28,126 +28,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
     <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
-    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-    <script>
-        window.onload = function () {
-        
-var chart = new CanvasJS.Chart("chartContainer", {
-	animationEnabled: true,
-	theme: "light2",
-	title:{
-		text: "Site Traffic"
-	},
-	axisX:{
-		valueFormatString: "DD MMM",
-		crosshair: {
-			enabled: true,
-			snapToDataPoint: true
-		}
-	},
-	axisY: {
-		title: "Number of Visits",
-		includeZero: true,
-		crosshair: {
-			enabled: true
-		}
-	},
-	toolTip:{
-		shared:true
-	},  
-	legend:{
-		cursor:"pointer",
-		verticalAlign: "bottom",
-		horizontalAlign: "left",
-		dockInsidePlotArea: true,
-		itemclick: toogleDataSeries
-	},
-	data: [{
-		type: "line",
-		showInLegend: true,
-		name: "Total Visit",
-		lineDashType: "dash",
-		xValueFormatString: "DD MMM, YYYY",
-		color: "#F08080",
-		dataPoints: [
-			{ x: new Date(2017, 0, 3), y: 8},
-			{ x: new Date(2017, 0, 4), y: 5 },
-			{ x: new Date(2017, 0, 5), y: 5 },
-			{ x: new Date(2017, 0, 6), y: 4 },
-			{ x: new Date(2017, 0, 7), y: 4 },
-			{ x: new Date(2017, 0, 8), y: 2 },
-			{ x: new Date(2017, 0, 9), y: 1 },
-			{ x: new Date(2017, 0, 10), y: 3 },
-			{ x: new Date(2017, 0, 11), y: 2 },
-			{ x: new Date(2017, 0, 12), y: 5 },
-			{ x: new Date(2017, 0, 13), y: 5 },
-			{ x: new Date(2017, 0, 14), y: 7 },
-			{ x: new Date(2017, 0, 15), y: 9 },
-			{ x: new Date(2017, 0, 16), y: 14 }
-		]
-	},
-    {
-		type: "line",
-		showInLegend: true,
-		name: "Male",
-		markerType: "square",
-		xValueFormatString: "DD MMM, YYYY",
-		color: "#2B8420",
-		dataPoints: [
-			{ x: new Date(2017, 0, 3), y: 5},
-			{ x: new Date(2017, 0, 4), y: 5 },
-			{ x: new Date(2017, 0, 5), y: 5 },
-			{ x: new Date(2017, 0, 6), y: 4 },
-			{ x: new Date(2017, 0, 7), y: 4 },
-			{ x: new Date(2017, 0, 8), y: 2 },
-			{ x: new Date(2017, 0, 9), y: 1 },
-			{ x: new Date(2017, 0, 10), y: 3 },
-			{ x: new Date(2017, 0, 11), y: 2 },
-			{ x: new Date(2017, 0, 12), y: 5 },
-			{ x: new Date(2017, 0, 13), y: 5 },
-			{ x: new Date(2017, 0, 14), y: 7 },
-			{ x: new Date(2017, 0, 15), y: 9 },
-			{ x: new Date(2017, 0, 16), y: 14 }
-		]
-	},
-	{
-		type: "line",
-		showInLegend: true,
-		name: "Female",
-		markerType: "square",
-        color: "#E01477",
-		dataPoints: [
-			{ x: new Date(2017, 0, 3), y: 3 },
-			{ x: new Date(2017, 0, 4), y: 5 },
-			{ x: new Date(2017, 0, 5), y: 5 },
-			{ x: new Date(2017, 0, 6), y: 5 },
-			{ x: new Date(2017, 0, 7), y: 5 },
-			{ x: new Date(2017, 0, 8), y: 6 },
-			{ x: new Date(2017, 0, 9), y: 6 },
-			{ x: new Date(2017, 0, 10), y: 6 },
-			{ x: new Date(2017, 0, 11), y: 6 },
-			{ x: new Date(2017, 0, 12), y: 5 },
-			{ x: new Date(2017, 0, 13), y: 7 },
-			{ x: new Date(2017, 0, 14), y: 8 },
-			{ x: new Date(2017, 0, 15), y: 8 },
-			{ x: new Date(2017, 0, 16), y: 10 }
-		]
-	}]
-});
-chart.render();
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
 
-function toogleDataSeries(e){
-	if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
-		e.dataSeries.visible = false;
-	} else{
-		e.dataSeries.visible = true;
-	}
-	chart.render();
-}
-
-}
-
-    </script>
 {% endblock footerinclude %}
 
 
@@ -198,40 +80,101 @@ function toogleDataSeries(e){
     <div id="content">
         <div class="topBorder"></div>
         <div class="contentWrapper">
-            <div class="dateandtime">
-                <a>2:13:00 PM</a><br>
-                <a>Friday, November 27, 2020</a><br><br>
-            </div>
-            <form>
-                <div class="selectWrapper">
-                    <select class="selectBox">
-                    <option value="0">TBD</option>
-                    <option value="1">job1</option>
-                    <option value="2">job2</option>
-                    </select>
-                </div>
-                <div class="selectWrapper">
-                    <select class="selectBox" style="width: 240px;">
-                    <option value="0">TBD</option>
-                    <option value="1">test  </option>
-                    <option value="2">test</option>
-                    </select>
-                </div>
-                <hr>
-                <div class="tableContent">
-                    <div class="col-md-12">
-                        <div class="table1">
-                            <div id="chartContainer" style="height: 370px; width: 100%;"></div>
-                            <div style="margin-top:16px;color:dimgrey;font-size:9px;font-family: Verdana, Arial, Helvetica, sans-serif;text-decoration:none;"></div>
-                        </div>
-                    </div>
-                </div>    
-            </form>   
+            <h2> Total Number of Applicants per Job</h2>
+            <hr>
+            <canvas id="myChart"></canvas>
         </div>
         <div class="footer">
             <p>Copyright © InterviewBOT. All rights reserved.</p>
         </div>  
     </div>
+
+    <script>
+        let myChart = document.getElementById('myChart').getContext('2d');
+
+        // Global Options
+        Chart.defaults.global.defaultFontFamily = 'GothamLight';
+        Chart.defaults.global.defaultFontSize = 18;
+        Chart.defaults.global.defaultFontColor = '#FFF';
+
+        let massPopChart = new Chart(myChart, {
+          type:'bar', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+          data:{
+            labels:['Job 1', 'Job 2', 'Job 3', 'Job 4', 'Job 5', 'Job 6', 'Job 7', 'Job 8', 'Job 9', 'Job 10'],
+            datasets:[{
+              label:'Applicants',
+              data:[
+                7,
+                3,
+                5,
+                10,
+                5,
+                4,
+                8,
+                2,
+                1,
+                0
+              ],
+              //backgroundColor:'green',
+              backgroundColor:[
+                'rgba(255, 99, 132, 0.6)',
+                'rgba(54, 162, 235, 0.6)',
+                'rgba(255, 206, 86, 0.6)',
+                'rgba(75, 192, 192, 0.6)',
+                'rgba(153, 102, 255, 0.6)',
+                'rgba(255, 159, 64, 0.6)',
+                'rgba(255, 99, 132, 0.6)',
+                'rgba(54, 162, 235, 0.6)',
+                'rgba(255, 206, 86, 0.6)',
+                'rgba(75, 192, 192, 0.6)',
+                'rgba(153, 102, 255, 0.6)',
+                'rgba(255, 159, 64, 0.6)',
+                'rgba(255, 99, 132, 0.6)',
+                'rgba(54, 162, 235, 0.6)',
+                'rgba(255, 206, 86, 0.6)',
+                'rgba(75, 192, 192, 0.6)',
+                'rgba(153, 102, 255, 0.6)',
+                'rgba(255, 159, 64, 0.6)',
+                'rgba(255, 99, 132, 0.6)',
+                'rgba(54, 162, 235, 0.6)',
+                'rgba(255, 206, 86, 0.6)',
+                'rgba(75, 192, 192, 0.6)',
+                'rgba(153, 102, 255, 0.6)',
+                'rgba(255, 159, 64, 0.6)',
+              ],
+              borderWidth:1,
+              borderColor:'#777',
+              hoverBorderWidth:3,
+              hoverBorderColor:'#FFF'
+            }]
+          },
+          options:{
+            // title:{
+            //   display:true,
+            //   text:'Total Applicants per Job Offering',
+            //   fontSize:25
+            // },
+            legend:{
+              display:true,
+              position:'right',
+              labels:{
+                fontColor:'#FFF'
+              }
+            },
+            layout:{
+              padding:{
+                left:50,
+                right:0,
+                bottom:0,
+                top:0
+              }
+            },
+            tooltips:{
+              enabled:true
+            }
+          }
+        });
+    </script>
 
 
     <!-- CREATE JOB MODAL -->
@@ -264,7 +207,7 @@ function toogleDataSeries(e){
                                     <option value="Food Service">Food Service</option>
                                     <option value="Transportation">Transportation</option>
                                 </select>
-                                <textarea type="text" name="name-description" id="id-description" rows="5" cols="50" style="margin-top: 5px;" placeholder="Job description" required></textarea>
+                                <textarea type="text" name="name-description" id="id-description" rows="5" cols="50" maxlength="500" style="margin-top: 5px;" placeholder="Job description" required></textarea>
                             </div>
                             <div class="questionContainer">
                                 <p class="note">Note: You are required to input all the question fields.</p>

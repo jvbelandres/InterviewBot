@@ -109,7 +109,7 @@
       {% csrf_token %}
       <div class="message-box" style="position: fixed; bottom: 10px;">
         <span id="time">02:00</span>
-        <input type="text" class="message-input" id="message" name="message" placeholder="Type your answer here..." style="left: 6%; top: 25%; position: absolute;">
+        <input type="text" class="message-input" id="message" name="message" placeholder="Type your answer here..." style="left: 6%; top: 25%; position: absolute;" autofocus>
         <button name="mic" id="id-mic" style="left: 88%; top: 17%; position: absolute;"><i id="fa-mic" class="fa fa-microphone"></i></button>
         <button type="submit" id="send" class="message-submit sound-on-click" style="left: 92%; top: 17%; height: 40px; position: absolute; text-align: center;"><i id="fa-send" class="fa fa-send-o"> Send</i></button>
       </div>
