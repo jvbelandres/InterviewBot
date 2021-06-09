@@ -227,10 +227,6 @@ td {
 	color: white;
 }
 
-.note {
-  color: #FF0000;
-}
-
 .btnSave {
 	border: none;
 	font-size: 16px;
@@ -277,10 +273,9 @@ td {
   border: none;
 }
 
-.job-description{
-  margin-left: 3%; 
-  margin-right: 5%; 
-  text-align: justify;
+.jobRequirementFileUpload {
+  padding: 2px; 
+  margin-left: 25%;
 }
 
 /*BUTTON CLOSE FOR MODAL*/

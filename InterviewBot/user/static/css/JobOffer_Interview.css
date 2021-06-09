@@ -66,14 +66,6 @@ input[type="range"]::-webkit-slider-thumb {
   content: counter(3)
 }
 
-#paginate {
-  margin-left: 45%;
-  width: 10%;
-}
-
-.paginator {
-  text-align: center;
-}
 
 .chat {
   position: absolute;

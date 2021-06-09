@@ -297,31 +297,6 @@ td {
     border-radius: 50%;
 }
 
-.applyJobImg {
-  width: 8%;
-  height: 8%;
-  border-radius: 50%;
-}
-
-.saveJobImg {
-  width: 13%;
-  height: 13%;
-  border-radius: 50%;
-}
-
-.jobRequirementName {
-  float: left;
-  margin-left: 8%;
-  border: none;
-}
-
-.job-description{
-  margin-left: 5%; 
-  margin-right: 5%; 
-  text-align: justify;
-}
-
-
 /* ---------- MODAL -------------*/
 @media (min-width: 768px) {
   .modal-xl {
