@@ -1,3 +1,4 @@
+import os
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.generic import View, TemplateView, CreateView, FormView
@@ -54,7 +55,6 @@ class HomePageView(View):
 	def get(self, request):
 		if request.user.staff:
 			return redirect('administrator:access_denied_view')
-
 		appliedjobs = AppliedJob.objects.raw('SELECT * FROM appliedjob, jobofferings WHERE jobofferings.id = appliedjob.job_id AND appliedjob.user_id = '+str(self.request.user.id))
 		savedjobs = SavedJob.objects.raw('SELECT * FROM savedjob, jobofferings WHERE jobofferings.id = savedjob.job_id AND savedjob.user_id = '+str(self.request.user.id))
 		context = {
@@ -82,11 +82,11 @@ class HomePageView(View):
 				try:
 					r1 = request.FILES['myfile1']
 					resume = user.lastname+"_"+user.firstname+"_resume.pdf"
-					fs.save(resume, r1)
+					file_name = fs.save(resume, r1)
 				except MultiValueDictKeyError:
-					resume = None
+					file_name = None
 
-				apply_job = AppliedJob(requirement_1 = resume, job_id = job_id, user_id = user.id)
+				apply_job = AppliedJob(requirement_1 = file_name, job_id = job_id, user_id = user.id)
 				apply_job.save()
 
 				return redirect('user:job-interview_view')
@@ -167,11 +167,11 @@ class JobOffersView(View):
 				try:
 					r1 = request.FILES['myfile1']
 					resume = user.lastname+"_"+user.firstname+"_resume.pdf"
-					fs.save(resume, r1)
+					file_name = fs.save(resume, r1)
 				except MultiValueDictKeyError:
-					resume = None
+					file_name = None
 
-				apply_job = AppliedJob(requirement_1 = resume, job_id = job_id, user_id = user.id)
+				apply_job = AppliedJob(requirement_1 = file_name, job_id = job_id, user_id = user.id)
 				apply_job.save()
 
 				return redirect('user:job-interview_view')

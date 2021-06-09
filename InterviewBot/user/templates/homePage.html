@@ -170,7 +170,7 @@
                                             <div class="col-md-6">
                                                 <h5 style="font-weight: bold; text-align: left;">Attach Files Here</h5>
                                                 <center>
-                                                <input type="file" id="myfile1" name="myfile1" accept="image/jpeg,application/pdf" />
+                                                <input type="file" id="myfile1" name="myfile1" accept="application/pdf" />
                                                 </center>
                                             </div>
                                     </div>
@@ -184,13 +184,12 @@
                             </div>
                         </div>
 
-                        <script type="text/javascript"> // Script to only accept .PDF or .JPEG format
+                        <script type="text/javascript"> // Script to only accept .PDF format
                             $(function(){
                                 $("#myfile1").on('change', function(event) {
                                     var file = event.target.files[0];
-
-                                    if(!file.type == 'application/pdf' || !file.type.match('image/jpeg')) {
-                                        alert("This only accepts .PDF or .JPG/JPEG format.");
+                                    if(file.type !== 'application/pdf') {
+                                        alert("This only accepts .PDF format.");
                                         $("#applyForm").get(0).reset();
                                         return;
                                     }

@@ -34,10 +34,19 @@ h1 {
     margin-top: 5%;
 }
 
+h2 {
+    font-family: 'GothamBold';
+    margin-top: 3%;
+    margin-left: 5%;
+    color: #FFF;
+}
+
 hr {
+    margin-top: 1%;
 	border-color: white; 
     width: 100%;  
-    float: left; 
+    float: left;
+    opacity: 30%;
 }
 
 ::-webkit-scrollbar {
@@ -202,17 +211,6 @@ ul ul a {
 .topBorder{
     width: 101%;
     border-top: 10px solid #2b353b;
-    
-}
-
-.dateandtime {
-    color: #ffffff;
-    text-align: right;
-    font-size: 0.7em;
-}
-
-hr{
-    opacity: 30%;
 }
 
 .addAdmin{

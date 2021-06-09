@@ -141,7 +141,6 @@ class SavedJob(models.Model):
 class AppliedJob(models.Model):
 	user = models.ForeignKey(Account, null = False, blank = False, on_delete = models.CASCADE, related_name = "Applicant")
 	job = models.ForeignKey(CreateJob, null = False, blank = False, on_delete = models.CASCADE, related_name = "CreateJob")
-	date_Applied = models.DateTimeField(auto_now_add=True, blank=True)
 	response_1 = models.TextField(null = True)
 	response_2 = models.TextField(null = True)
 	response_3 = models.TextField(null = True)
