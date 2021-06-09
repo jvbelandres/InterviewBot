@@ -1,4 +1,8 @@
-
+/InterviewerBot/administrator/__pycache__
+/InterviewerBot/administrator/migrations/__pycache__
+/InterviewerBot/InterviewerBot/__pycache__
+/InterviewerBot/user/__pycache__
+/InterviewerBot/user/migrations/__pycache__
 *.pyc
 *.ttf
 *.jpg
