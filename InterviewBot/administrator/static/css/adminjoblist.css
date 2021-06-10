@@ -403,7 +403,7 @@ ul ul a {
 
 .createJob-content{
     background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
+    margin: 2% auto; /* 15% from the top and centered */
     /*padding: 20px;*/
     width: 80%; /* Could be more or less, depending on screen size */
     border-radius: 15px;
@@ -441,6 +441,12 @@ ul ul a {
 
 .imgNotepad{
     width: 50px;
+}
+
+.note {
+    color: red;
+    float: left;
+    margin-left: 10%;
 }
 
 .questionTitle{
@@ -542,9 +548,9 @@ textarea{
     padding-top: 20px;
 }
 
-.container li{
+.container{
     margin-left: 30px;
-    margin-top: -24px;
+    margin-top: 2%;
 }
 
 .tab-modal:hover,

@@ -14,7 +14,17 @@ class DashboardView(View):
 	def get(self, request):
 		if not request.user.staff:
 			return redirect('user:access_denied_view')
-		return render(request, 'admindashboard.html')
+
+		if request.user.admin:
+			joblists = CreateJob.objects.all()
+		else:
+			joblists = CreateJob.objects.filter(admin_id=request.user.id)
+		appliedJobs = AppliedJob.objects.all()
+		context = {
+			'joblists': joblists,
+			'appliedJobs': appliedJobs
+		}
+		return render(request, 'admindashboard.html', context)
 
 	def post(self, request):
 		user = request.user

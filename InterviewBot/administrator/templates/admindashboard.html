@@ -90,6 +90,37 @@
     </div>
 
     <script>
+        var jobLabels = []
+        var backgroundColors = []
+        var applicantCount = []
+        var count = 0;
+
+        // Loop for jobLabels
+        {% for joblist in joblists %}
+            jobLabels.push('{{joblist.title}}');
+            // Loop for counting appliedjob
+            {% for appliedJob in appliedJobs %}
+                if ({{joblist.id}} == {{appliedJob.job_id}}){
+                    count++;
+                }
+            {% endfor %}
+            applicantCount.push(count);
+            count = 0;
+        {% endfor %}
+
+        // Loop for backgroundColor
+        for (i = 0; i < 500; i++){
+            backgroundColors.push('rgba(255, 99, 132, 0.6)')
+            backgroundColors.push('rgba(54, 162, 235, 0.6)')
+            backgroundColors.push('rgba(255, 206, 86, 0.6)')
+            backgroundColors.push('rgba(75, 192, 192, 0.6)')
+            backgroundColors.push('rgba(153, 102, 255, 0.6)')
+            backgroundColors.push('rgba(255, 159, 64, 0.6)')
+            backgroundColors.push('rgba(255, 99, 132, 0.6)')
+            backgroundColors.push('rgba(54, 162, 235, 0.6)')
+            backgroundColors.push('rgba(255, 206, 86, 0.6)')
+        }
+
         let myChart = document.getElementById('myChart').getContext('2d');
 
         // Global Options
@@ -100,48 +131,12 @@
         let massPopChart = new Chart(myChart, {
           type:'bar', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
           data:{
-            labels:['Job 1', 'Job 2', 'Job 3', 'Job 4', 'Job 5', 'Job 6', 'Job 7', 'Job 8', 'Job 9', 'Job 10'],
+            labels: jobLabels,
             datasets:[{
               label:'Applicants',
-              data:[
-                7,
-                3,
-                5,
-                10,
-                5,
-                4,
-                8,
-                2,
-                1,
-                0
-              ],
+              data: applicantCount,
               //backgroundColor:'green',
-              backgroundColor:[
-                'rgba(255, 99, 132, 0.6)',
-                'rgba(54, 162, 235, 0.6)',
-                'rgba(255, 206, 86, 0.6)',
-                'rgba(75, 192, 192, 0.6)',
-                'rgba(153, 102, 255, 0.6)',
-                'rgba(255, 159, 64, 0.6)',
-                'rgba(255, 99, 132, 0.6)',
-                'rgba(54, 162, 235, 0.6)',
-                'rgba(255, 206, 86, 0.6)',
-                'rgba(75, 192, 192, 0.6)',
-                'rgba(153, 102, 255, 0.6)',
-                'rgba(255, 159, 64, 0.6)',
-                'rgba(255, 99, 132, 0.6)',
-                'rgba(54, 162, 235, 0.6)',
-                'rgba(255, 206, 86, 0.6)',
-                'rgba(75, 192, 192, 0.6)',
-                'rgba(153, 102, 255, 0.6)',
-                'rgba(255, 159, 64, 0.6)',
-                'rgba(255, 99, 132, 0.6)',
-                'rgba(54, 162, 235, 0.6)',
-                'rgba(255, 206, 86, 0.6)',
-                'rgba(75, 192, 192, 0.6)',
-                'rgba(153, 102, 255, 0.6)',
-                'rgba(255, 159, 64, 0.6)',
-              ],
+              backgroundColor: backgroundColors,
               borderWidth:1,
               borderColor:'#777',
               hoverBorderWidth:3,
@@ -149,11 +144,6 @@
             }]
           },
           options:{
-            // title:{
-            //   display:true,
-            //   text:'Total Applicants per Job Offering',
-            //   fontSize:25
-            // },
             legend:{
               display:true,
               position:'right',
@@ -176,6 +166,15 @@
         });
     </script>
 
+    <table hidden>
+        <tr>
+            <th>{{joblist.title</th>
+        </tr>
+
+        <tr>
+            <td></td>
+        </tr>
+    </table>
 
     <!-- CREATE JOB MODAL -->
     <div id="createJobModal" class="jobCreateModal">
