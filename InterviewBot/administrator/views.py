@@ -20,6 +20,7 @@ class DashboardView(View):
 		else:
 			joblists = CreateJob.objects.filter(admin_id=request.user.id)
 		appliedJobs = AppliedJob.objects.all()
+
 		context = {
 			'joblists': joblists,
 			'appliedJobs': appliedJobs
@@ -55,7 +56,7 @@ class JobListsView(View):
 			return redirect('user:access_denied_view')
 
 		if user.admin:
-			joblists = CreateJob.objects.all()
+			joblists = CreateJob.objects.raw('SELECT account.email, jobofferings.* FROM account, jobofferings WHERE jobofferings.admin_id = account.id')
 		elif user.staff:
 			joblists = CreateJob.objects.filter(admin_id = user.id)
 

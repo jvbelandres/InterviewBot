@@ -61,6 +61,13 @@ hr {
     border: none;
 }
 
+/* Remove arrows for NumberInput */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 #lastname, #phone, #email, #password, #firstname{
     border-radius: 15px;
     border: none;
