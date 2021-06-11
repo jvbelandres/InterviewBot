@@ -1,4 +1,3 @@
-import os
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.generic import View, TemplateView, CreateView, FormView
@@ -137,23 +136,21 @@ class JobOffersView(View):
 		if user.staff:
 			return redirect('administrator:access_denied_view')
 		joblists = CreateJob.objects.raw('SELECT jobofferings.id, jobofferings.title, jobofferings.description FROM jobofferings WHERE jobofferings.id NOT IN (SELECT savedjob.job_id FROM savedjob WHERE '+str(user.id)+' = savedjob.user_id UNION ALL SELECT appliedjob.job_id FROM appliedjob WHERE appliedjob.user_id = '+str(user.id)+')')
-		return render(request, 'jobOffers.html', {'joblists':joblists})
+		saved_jobs = SavedJob.objects.filter(user_id = user.id)
+		context = {
+			'joblists': joblists,
+			'saved_jobs': saved_jobs
+		}
+		return render(request, 'jobOffers.html', context)
 
 	def post(self, request):
 		if request.method == 'POST':
 			if 'btnSave' in request.POST:
 				user = request.user
 				job_id = request.POST.get("job-id")
-				saved_jobs = SavedJob.objects.filter(user_id = user.id)
 
-				count = 0
-				for saved_job in saved_jobs:
-					count = count + 1
+				save_jobs = SavedJob.objects.create(job_id = job_id, user_id = user.id)
 
-				if count < 5:
-					save_jobs = SavedJob.objects.create(job_id = job_id, user_id = user.id)
-				else:
-					Mbox('You can only save at most 5 job offers.', 'Error', 16)
 				return redirect('user:job-offers_view')
 			elif 'btnApply' in request.POST:
 				user = request.user

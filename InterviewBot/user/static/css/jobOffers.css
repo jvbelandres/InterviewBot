@@ -319,6 +319,10 @@ td {
   }
 }
 
+.saveModal {
+  margin: 7% auto;
+}
+
 .column {
   float: left;
   padding: 10px;

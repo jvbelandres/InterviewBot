@@ -192,7 +192,7 @@
                     </script>
 
                     <!---- SAVE MODAL ------->
-                    <div class="modal fade" id="jobdetailsModal-{{joblist.id}}" tabindex="-1" role="dialog" aria-labelledby="jobdetailsModalLabel" aria-hidden="true">
+                    <div class="modal fade saveModal" id="jobdetailsModal-{{joblist.id}}" tabindex="-1" role="dialog" aria-labelledby="jobdetailsModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header" style="background-color:#933633; color: white">
@@ -209,7 +209,7 @@
                                     <br>
                                     <h5 style="border: none; text-align: center;">Do you want to save this job?</h5><br>
                                     <div class="modal-footer">
-                                      <button type="submit" id="btnSave" name="btnSave" class="btn btn-primary">SAVE</button>
+                                      <button type="submit" id="btnSave" name="btnSave" class="btn btn-primary" onclick="countSavedJobs()">SAVE</button>
                                       <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCEL</button>
                                     </div>
                                 </form>
@@ -219,38 +219,23 @@
                     {% endfor %}
                 </tbody>
             </table><br>
-
-            <!-- <nav aria-label="Page navigation example" id="paginate-align" id="paginate">
-                <ul class="pagination justify-content-center">
-                {% if joblists.has_previous %}
-                    <li class="page-item">  
-                        <a class="page-link" href="{% url 'user:job-offers_view' %}?page={{joblists.previous_page_number}}" tabindex="-1">Previous</a>
-                    </li>
-                {% else %}
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#">Previous</a>              
-                    </li>
-                {% endif %}
-
-                {% for page in pages %}
-                    <li class="page-item {% if page == page_number %} active {% endif %}">
-                        <a class="page-link" href="?page={{page}}">{{page}}</a>
-                    </li>
-                {% endfor %}
-                    
-                {% if joblists.has_next %}
-                    <li class="page-item">
-                        <a class="page-link" href="{% url 'user:job-offers_view' %}?page={{joblists.next_page_number}}">Next</a>              
-                    </li>
-                {% else %}
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#">Next</a>              
-                    </li>
-                {% endif %}
-                </ul>
-            </nav> -->
     	</div>
     </div>
+
+    <!-- script to check if how many jobs are saved by the user -->
+    <script>
+        function countSavedJobs() {
+            var count = 0;
+            {% for savedjob in saved_jobs %}
+                count++;
+            {% endfor %}
+
+            if (count >= 5){
+                alert('You can only save at most 5 job offerings.')
+                event.preventDefault();
+            }
+        }
+    </script>
 
     <!-- script for Job Requirements Modal -->
     <script type="text/javascript">

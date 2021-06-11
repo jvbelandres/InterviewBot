@@ -90,7 +90,14 @@ hr {
 	position: relative;	
 }
 
-#phoneNo{
+/* Remove arrows for NumberInput */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+#phone{
 	border-radius: 15px;
 	width: 175px;
 	text-align: center;
@@ -135,9 +142,7 @@ hr {
 	position: relative;
 }
 
-
-
-#pass {
+#pass, #pass2 {
 	border-radius: 15px;
 	width: 350px;
 	text-align: center;

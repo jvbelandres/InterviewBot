@@ -15,7 +15,6 @@
 {% endblock headerinclude %}
 
 
-
 {% block footerinclude %}
 
     <!-- Font Awesome JS -->
@@ -79,7 +78,11 @@
     <div class="content-container">
         <div class="red-header">
             <div id="content-header">
-                <!-- Temporary -->
+                {% if user.admin %}
+                    <h2>All Job Offerings</h2>
+                {% else %}
+                    <h2>My Job Offerings</h2>
+                {% endif %}
             </div>
         </div>
 
@@ -91,6 +94,9 @@
                 <div class="row">
                     <div class="column-form">
                         <header>{{joblist.title}} 
+                            {% if user.admin %}
+                            <span style="float: right;">Administrator: {{joblist.email}}</span> 
+                            {% endif %}
                             <div hidden>
                                 <input type="text" id="jobID1" name="jobID1" value="{{joblist.id}}">
                             </div>
@@ -102,8 +108,6 @@
                     </div>
                     <div class="column-status">
                         <br><br>
-                        <!-- <a>Applied: <a id="totalApplied"></a></a><br> -->
-
                         <button type="submit" class="citButton" id="viewApplicant" name="viewApplicant" style="margin-top: 30px;font-size: smaller;">View Applicants</button>
                     </div>
                 </div>        
@@ -186,38 +190,38 @@
             </div>
             {% endfor %}
         </div>
-                <nav aria-label="Page navigation example" id="paginate-align">
-                    <ul class="pagination justify-content-center">
-                    {% if joblists.has_previous %}
-                    <li class="page-item">  
-                        <a class="page-link" href="{% url 'administrator:job-lists_view' %}?page={{joblists.previous_page_number}}" tabindex="-1">Previous</a>
-                    </li>
-                        {% else %}
-                        <li class="page-item disabled">
-                        <a class="page-link" href="#">Previous</a>              
-                        </li>
-                        {% endif %}
+        <nav aria-label="Page navigation example" id="paginate-align">
+            <ul class="pagination justify-content-center">
+            {% if joblists.has_previous %}
+            <li class="page-item">  
+                <a class="page-link" href="{% url 'administrator:job-lists_view' %}?page={{joblists.previous_page_number}}" tabindex="-1">Previous</a>
+            </li>
+                {% else %}
+                <li class="page-item disabled">
+                <a class="page-link" href="#">Previous</a>              
+                </li>
+                {% endif %}
 
-                    {% for page in pages %}
-                    <li class="page-item {% if page == page_number %} active {% endif %}">
-                        <a class="page-link" href="?page={{page}}">{{page}}</a>
-                    </li>
-                    {% endfor %}
-                    
-                    {% if joblists.has_next %}
-                    <li class="page-item">
-                        <a class="page-link" href="{% url 'administrator:job-lists_view' %}?page={{joblists.next_page_number}}">Next</a>              
-                    </li>
-                    {% else %}
-                    <li class="page-item disabled">
-                    <a class="page-link" href="#">Next</a>              
-                    </li>
-                    {% endif %}
-                    </ul>
-                </nav>
-            <div class="footer">
-                <p>Copyright © InterviewBOT. All rights reserved.</p>
-            </div>
+            {% for page in pages %}
+            <li class="page-item {% if page == page_number %} active {% endif %}">
+                <a class="page-link" href="?page={{page}}">{{page}}</a>
+            </li>
+            {% endfor %}
+            
+            {% if joblists.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="{% url 'administrator:job-lists_view' %}?page={{joblists.next_page_number}}">Next</a>              
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+            <a class="page-link" href="#">Next</a>              
+            </li>
+            {% endif %}
+            </ul>
+        </nav>
+        <div class="footer">
+            <p>Copyright © InterviewBOT. All rights reserved.</p>
+        </div>
     </div>
 
     <!-- CREATE JOB MODAL -->
