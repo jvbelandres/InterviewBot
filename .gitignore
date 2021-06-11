@@ -4,8 +4,4 @@
 /InterviewerBot/user/__pycache__
 /InterviewerBot/user/migrations/__pycache__
 *.pyc
-*.ttf
-*.jpg
-*.png
 *.pdf
-*.jpeg
