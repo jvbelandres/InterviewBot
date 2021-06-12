@@ -166,32 +166,6 @@ ul ul a {
     background: white;
 }
 
-.jobCreate{
-    color: #ffffff;
-    text-decoration: none;
-    padding-left: 70px;
-    padding-right: 70px;
-    padding-top: 7px;
-    padding-bottom: 7px;
-    background-color: #ffcc00;
-    border: none;
-    font-weight: bold;
-    font-size: 20px;
-    border-radius: 15px;
-    transition: 0.3s;
-}
-
-.jobCreate:hover,
-.jobCreate:focus{
-    background-color: #933633;
-}
-
-.image-upload>input {
-    display: none;
-    width: 0;
-    height: 0;
-}
-
 /* ---------------------------------------------------
     CONTENT STYLE
 ----------------------------------------------------- */
@@ -223,7 +197,6 @@ ul ul a {
     bottom: 0;
 }
 
-
 .footer{
     position: fixed;
     left: 0;
@@ -236,26 +209,35 @@ ul ul a {
     z-index: -1;
 }
 
-#content .selectWrapper{
-  border-radius: 10px;
-  display:inline-block;
-  overflow:hidden;
-  background:white;
-}
-#content .selectBox{
-  width: 140px;
-  height: 30px;
-  padding-left: 10px;
-  font-size: 0.85em;
-  border: none;
-}
-
-#modalContent {
-    padding: 20px;
-    transition: all 0.3s;
-}
-
 /*CREATE JOB CSS*/
+.modalHeader{
+    background-color: #ffcc00;
+    height: 110px;
+    width: 100%;
+    border-radius: 15px 15px 0 0;
+    padding: 20px;
+}
+
+.jobCreate{
+    color: #ffffff;
+    text-decoration: none;
+    padding-left: 70px;
+    padding-right: 70px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    background-color: #ffcc00;
+    border: none;
+    font-weight: bold;
+    font-size: 20px;
+    border-radius: 15px;
+    transition: 0.3s;
+}
+
+.jobCreate:hover,
+.jobCreate:focus{
+    background-color: #933633;
+}
+
 .jobCreateModal{
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
@@ -275,6 +257,14 @@ ul ul a {
     /*padding: 20px;*/
     width: 80%; /* Could be more or less, depending on screen size */
     border-radius: 15px;
+}
+
+/* Question contents */
+.tabcontents {
+  display: none;
+  padding: 6px 12px;
+  border-top: none;
+  height: 75%;
 }
 
 .close{
@@ -297,14 +287,6 @@ ul ul a {
 .containerColor{
     background-color: #DEDEDE;
     border-radius: 15px;
-}
-
-.modalHeader{
-    background-color: #ffcc00;
-    height: 110px;
-    width: 100%;
-    border-radius: 15px 15px 0 0;
-    padding: 20px;
 }
 
 .imgNotepad{
@@ -338,10 +320,6 @@ ul ul a {
 }
 
 .btnPost:hover{
-    background-color: #A00000;
-}
-
-.btnPost:hover{
     background-color: #781B1B;
 }
 
@@ -361,18 +339,6 @@ ul ul a {
 .imgProfile{
     width: 70px;
     float: right;
-}
-
-.tab-content header{
-    height: 20px;
-}
-
-.tab-content footer{
-    height: 20px;
-}
-
-.questionsContainer{
-    background-color: #ffffff;
 }
 
 .questionnaireTitle{
@@ -440,6 +406,7 @@ ul ul a {
 }
 
 .contentQuestion{
+    text-align: left;
     width: 80%;
     min-height: 100px;
     background-color: #ffffff;
@@ -448,7 +415,13 @@ ul ul a {
     border-left: 5px solid #933633;
 }
 
-.contentQuestion input{
+.contentQuestion label {
+    float: left;
+    margin-top: 2%;
+    margin-left: 1%;
+}
+
+.contentQuestion input[type=text]{
     float: left;
     width: 100%;
     border: none;
@@ -456,6 +429,18 @@ ul ul a {
     padding: 8px;
     border-radius: 10px;
     font-weight: bold;
+    margin-bottom: 2%;
+}
+
+.contentQuestion input[type=number]{
+    float: left;
+    width: 6%;
+    border: none;
+    border: 1px solid #ccc;
+    padding: 8px;
+    border-radius: 5px;
+    margin-top: 1%;
+    margin-right: 2%;
 }
 
 #id-answer{
@@ -469,30 +454,6 @@ ul ul a {
 .tools img{
     padding: 5px;
     cursor: pointer;
-}
-
-.imgPlus{
-    width: 32px;
-}
-
-.imgForward{
-    width: 32px;
-}
-
-.imgTruetype{
-    width: 32px;
-}
-
-.imgGallery{
-    width: 38px;
-}
-
-.imgCopy{
-    width: 32px;
-}
-
-.imgDelete{
-    width: 32px;
 }
 
 .input_fields_wrap button{
@@ -562,10 +523,4 @@ ul ul a {
 
 .tabs a.active {
   background-color: #ccc;
-}
-
-.tabcontents {
-  display: none;
-  padding: 6px 12px;
-  border-top: none;
 }

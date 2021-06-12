@@ -58,8 +58,8 @@ hr {
 }
 
 /* Remove arrows for NumberInput */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
+input[step="0"]::-webkit-outer-spin-button,
+input[step="0"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
@@ -455,9 +455,16 @@ ul ul a {
     border-radius: 0 0 10px 10px;
     padding: 20px;
     border-left: 5px solid #933633;
+    margin-bottom: 2%;
 }
 
-.contentQuestion input{
+.contentQuestion label {
+    float: left;
+    margin-top: 2%;
+    margin-left: 1%;
+}
+
+.contentQuestion input[type=text]{
     float: left;
     width: 100%;
     border: none;
@@ -465,6 +472,18 @@ ul ul a {
     padding: 8px;
     border-radius: 10px;
     font-weight: bold;
+    margin-bottom: 2%;
+}
+
+.contentQuestion input[type=number]{
+    float: left;
+    width: 6%;
+    border: none;
+    border: 1px solid #ccc;
+    padding: 8px;
+    border-radius: 5px;
+    margin-top: 1%;
+    margin-right: 2%;
 }
 
 #id-answer{
@@ -573,8 +592,10 @@ ul ul a {
   background-color: #ccc;
 }
 
+/* Question contents */
 .tabcontents {
   display: none;
   padding: 6px 12px;
   border-top: none;
+  height: 75%;
 }

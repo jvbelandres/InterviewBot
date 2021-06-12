@@ -369,6 +369,18 @@ Message Box
   transition: background .2s ease;
 }
 
+/*---------------------
+Paginator
+---------------------*/
+.paginator {
+  text-align: center;
+}
+
+#paginate {
+  width: 10%;
+  margin-left: 45%;
+}
+
 /*--------------------
 Custom Srollbar
 --------------------*/

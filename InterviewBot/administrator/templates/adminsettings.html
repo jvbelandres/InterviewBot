@@ -98,7 +98,7 @@
                             </div>
 
                             <div class="form-group">
-                                <input type="number" id="phone" name="phone" class="form-control" placeholder="Phone Number" value="{{user.phone}}">
+                                <input type="number" id="phone" name="phone" class="form-control" placeholder="Phone Number" value="{{user.phone}}" step="0">
                             </div>
                     </div>
 
@@ -202,19 +202,67 @@
                                 <div class="contentQuestion">
                                     <div class="input_fields_wrap2">
                                         <div id="fiveQuest" class="tabcontents">
-                                            <input type="text" name="qtn11" id="id-question11" placeholder="Question 1" required> &nbsp;<br>
-                                            <input type="text" name="qtn12" id="id-question12" placeholder="Question 2" required> &nbsp;<br>
-                                            <input type="text" name="qtn13" id="id-question13" placeholder="Question 3" required> &nbsp;<br>
-                                            <input type="text" name="qtn14" id="id-question14" placeholder="Question 4" required> &nbsp;<br>
-                                            <input type="text" name="qtn15" id="id-question15" placeholder="Question 5" required> &nbsp;<br>
+                                            <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                            <input type="number" min="1" max="5" name="weight1" value="1" title="Weight" required>
+                                            <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                            <input type="number" min="2" max="5" name="timer1" value="2" title="Timer" required>
+                                            <input type="text" name="qtn11" id="id-question11" placeholder="Question 1" required>
+
+                                            <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                            <input type="number" min="1" max="5" name="weight2" value="1" title="Weight" required>
+                                            <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                            <input type="number" min="2" max="5" name="timer2" value="2" title="Timer" required>
+                                            <input type="text" name="qtn12" id="id-question12" placeholder="Question 2" required>
+
+                                            <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                            <input type="number" min="1" max="5" name="weight3" value="1" title="Weight" required>
+                                            <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                            <input type="number" min="2" max="5" name="timer3" value="2" title="Timer" required>
+                                            <input type="text" name="qtn13" id="id-question13" placeholder="Question 3" required>
+
+                                            <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                            <input type="number" min="1" max="5" name="weight4" value="1" title="Weight" required>
+                                            <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                            <input type="number" min="2" max="5" name="timer4" value="2" title="Timer" required>
+                                            <input type="text" name="qtn14" id="id-question14" placeholder="Question 4" required>
+
+                                            <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                            <input type="number" min="1" max="5" name="weight5" value="1" title="Weight" required>
+                                            <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                            <input type="number" min="2" max="5" name="timer5" value="2" title="Timer" required>
+                                            <input type="text" name="qtn15" id="id-question15" placeholder="Question 5" required>
                                         </div>
 
                                         <div id="tenQuest" class="tabcontents">
-                                            <input type="text" name="qtn16" id="id-question16" placeholder="Question 6" required> &nbsp;<br>
-                                            <input type="text" name="qtn17" id="id-question17" placeholder="Question 7" required> &nbsp;<br>
-                                            <input type="text" name="qtn18" id="id-question18" placeholder="Question 8" required> &nbsp;<br>
-                                            <input type="text" name="qtn19" id="id-question19" placeholder="Question 9" required> &nbsp;<br>
-                                            <input type="text" name="qtn20" id="id-question20" placeholder="Question 10" required> &nbsp;<br>
+                                            <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                            <input type="number" min="1" max="5" name="weight6" value="1" title="Weight" required>
+                                            <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                            <input type="number" min="2" max="5" name="timer6" value="2" title="Timer" required>
+                                            <input type="text" name="qtn16" id="id-question8" placeholder="Question 6" required>
+
+                                            <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                            <input type="number" min="1" max="5" name="weight7" value="1" title="Weight" required>
+                                            <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                            <input type="number" min="2" max="5" name="timer7" value="2" title="Timer" required>
+                                            <input type="text" name="qtn17" id="id-question17" placeholder="Question 7" required>
+
+                                            <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                            <input type="number" min="1" max="5" name="weight8" value="1" title="Weight" required>
+                                            <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                            <input type="number" min="2" max="5" name="timer8" value="2" title="Timer" required>
+                                            <input type="text" name="qtn18" id="id-question18" placeholder="Question 8" required>
+
+                                            <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                            <input type="number" min="1" max="5" name="weight9" value="1" title="Weight" required>
+                                            <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                            <input type="number" min="2" max="5" name="timer9" value="2" title="Timer" required>
+                                            <input type="text" name="qtn19" id="id-question19" placeholder="Question 9" required>
+
+                                            <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                            <input type="number" min="1" max="5" name="weight10" value="1" title="Weight" required>
+                                            <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                            <input type="number" min="2" max="5" name="timer10" value="2" title="Timer" required>
+                                            <input type="text" name="qtn20" id="id-question20" placeholder="Question 10" required>
                                         </div>
                                     </div>
                                 </div>

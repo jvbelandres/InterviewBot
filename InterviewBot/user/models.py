@@ -125,8 +125,26 @@ class CreateJob(models.Model):
     question_18 = models.CharField(max_length = 250, null=True, blank=True)
     question_19 = models.CharField(max_length = 250, null=True, blank=True)
     question_20 = models.CharField(max_length = 250, null=True, blank=True)
-
-    requirement1 = models.CharField(max_length = 250, null=True, blank=True)
+    weight1 = models.IntegerField(null=True, blank=True)
+    weight2 = models.IntegerField(null=True, blank=True)
+    weight3 = models.IntegerField(null=True, blank=True)
+    weight4 = models.IntegerField(null=True, blank=True)
+    weight5 = models.IntegerField(null=True, blank=True)
+    weight6 = models.IntegerField(null=True, blank=True)
+    weight7 = models.IntegerField(null=True, blank=True)
+    weight8 = models.IntegerField(null=True, blank=True)
+    weight9 = models.IntegerField(null=True, blank=True)
+    weight10 = models.IntegerField(null=True, blank=True)
+    timer1 = models.IntegerField(null=True, blank=True)
+    timer2 = models.IntegerField(null=True, blank=True)
+    timer3 = models.IntegerField(null=True, blank=True)
+    timer4 = models.IntegerField(null=True, blank=True)
+    timer5 = models.IntegerField(null=True, blank=True)
+    timer6 = models.IntegerField(null=True, blank=True)
+    timer7 = models.IntegerField(null=True, blank=True)
+    timer8 = models.IntegerField(null=True, blank=True)
+    timer9 = models.IntegerField(null=True, blank=True)
+    timer10 = models.IntegerField(null=True, blank=True)
 
     class Meta: 
         db_table = "JobOfferings"
