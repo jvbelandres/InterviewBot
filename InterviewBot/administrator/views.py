@@ -41,11 +41,34 @@ class DashboardView(View):
 		q18 = request.POST.get("qtn18")
 		q19 = request.POST.get("qtn19")
 		q20 = request.POST.get("qtn20")
+		w1 = request.POST.get("weight1")
+		w2 = request.POST.get("weight2")
+		w3 = request.POST.get("weight3")
+		w4 = request.POST.get("weight4")
+		w5 = request.POST.get("weight5")
+		w6 = request.POST.get("weight6")
+		w7 = request.POST.get("weight7")
+		w8 = request.POST.get("weight8")
+		w9 = request.POST.get("weight9")
+		w10 = request.POST.get("weight10")
+		t1 = request.POST.get("timer1")
+		t2 = request.POST.get("timer2")
+		t3 = request.POST.get("timer3")
+		t4 = request.POST.get("timer4")
+		t5 = request.POST.get("timer5")
+		t6 = request.POST.get("timer6")
+		t7 = request.POST.get("timer7")
+		t8 = request.POST.get("timer8")
+		t9 = request.POST.get("timer9")
+		t10 = request.POST.get("timer10")
 
 		form = CreateJob(title = jobTitle, description = jobDescription,
             question_11 = q11, question_12 = q12, question_13 = q13, question_14 = q14,
             question_15 = q15, question_16 = q16, question_17 = q17, question_18 = q18,
-            question_19 = q19, question_20 = q20, admin_id = user.id)
+            question_19 = q19, question_20 = q20, weight1 = w1, weight2 = w2, weight3 = w3,
+            weight4 = w4, weight5 = w5, weight6 = w6, weight7 = w7, weight8 = w8, weight9 = w9,
+            weight10 = w10, timer1 = t1, timer2 = t2, timer3 = t3, timer4 = t4, timer5 = t5,
+            timer6 = t6, timer7 = t7, timer8 = t8, timer9 = t9, timer10 = t10, admin_id = user.id)
 		form.save()
 		return redirect('administrator:job-lists_view')
 
@@ -102,11 +125,35 @@ class JobListsView(View):
 			q18 = request.POST.get("qtn18")
 			q19 = request.POST.get("qtn19")
 			q20 = request.POST.get("qtn20")
+			w1 = request.POST.get("weight1")
+			w2 = request.POST.get("weight2")
+			w3 = request.POST.get("weight3")
+			w4 = request.POST.get("weight4")
+			w5 = request.POST.get("weight5")
+			w6 = request.POST.get("weight6")
+			w7 = request.POST.get("weight7")
+			w8 = request.POST.get("weight8")
+			w9 = request.POST.get("weight9")
+			w10 = request.POST.get("weight10")
+			t1 = request.POST.get("timer1")
+			t2 = request.POST.get("timer2")
+			t3 = request.POST.get("timer3")
+			t4 = request.POST.get("timer4")
+			t5 = request.POST.get("timer5")
+			t6 = request.POST.get("timer6")
+			t7 = request.POST.get("timer7")
+			t8 = request.POST.get("timer8")
+			t9 = request.POST.get("timer9")
+			t10 = request.POST.get("timer10")
 
 			form = CreateJob(title = jobTitle, description = jobDescription,
-			    question_11 = q11, question_12 = q12, question_13 = q13, question_14 = q14,
-			    question_15 = q15, question_16 = q16, question_17 = q17, question_18 = q18,
-			    question_19 = q19, question_20 = q20, admin_id = user.id)
+            question_11 = q11, question_12 = q12, question_13 = q13, question_14 = q14,
+            question_15 = q15, question_16 = q16, question_17 = q17, question_18 = q18,
+            question_19 = q19, question_20 = q20, weight1 = w1, weight2 = w2, weight3 = w3,
+            weight4 = w4, weight5 = w5, weight6 = w6, weight7 = w7, weight8 = w8, weight9 = w9,
+            weight10 = w10, timer1 = t1, timer2 = t2, timer3 = t3, timer4 = t4, timer5 = t5,
+            timer6 = t6, timer7 = t7, timer8 = t8, timer9 = t9, timer10 = t10, admin_id = user.id)
+
 			form.save()
 			return redirect('administrator:job-lists_view')
 		elif 'viewApplicant' in request.POST:
@@ -159,11 +206,34 @@ class SettingsView(FormView):
 			q18 = request.POST.get("qtn18")
 			q19 = request.POST.get("qtn19")
 			q20 = request.POST.get("qtn20")
+			w1 = request.POST.get("weight1")
+			w2 = request.POST.get("weight2")
+			w3 = request.POST.get("weight3")
+			w4 = request.POST.get("weight4")
+			w5 = request.POST.get("weight5")
+			w6 = request.POST.get("weight6")
+			w7 = request.POST.get("weight7")
+			w8 = request.POST.get("weight8")
+			w9 = request.POST.get("weight9")
+			w10 = request.POST.get("weight10")
+			t1 = request.POST.get("timer1")
+			t2 = request.POST.get("timer2")
+			t3 = request.POST.get("timer3")
+			t4 = request.POST.get("timer4")
+			t5 = request.POST.get("timer5")
+			t6 = request.POST.get("timer6")
+			t7 = request.POST.get("timer7")
+			t8 = request.POST.get("timer8")
+			t9 = request.POST.get("timer9")
+			t10 = request.POST.get("timer10")
 
 			form = CreateJob(title = jobTitle, description = jobDescription,
-	            question_11 = q11, question_12 = q12, question_13 = q13, question_14 = q14,
-	            question_15 = q15, question_16 = q16, question_17 = q17, question_18 = q18,
-	            question_19 = q19, question_20 = q20, admin_id = user.id)
+            question_11 = q11, question_12 = q12, question_13 = q13, question_14 = q14,
+            question_15 = q15, question_16 = q16, question_17 = q17, question_18 = q18,
+            question_19 = q19, question_20 = q20, weight1 = w1, weight2 = w2, weight3 = w3,
+            weight4 = w4, weight5 = w5, weight6 = w6, weight7 = w7, weight8 = w8, weight9 = w9,
+            weight10 = w10, timer1 = t1, timer2 = t2, timer3 = t3, timer4 = t4, timer5 = t5,
+            timer6 = t6, timer7 = t7, timer8 = t8, timer9 = t9, timer10 = t10, admin_id = user.id)
 			form.save()
 			return redirect('administrator:job-lists_view')
 

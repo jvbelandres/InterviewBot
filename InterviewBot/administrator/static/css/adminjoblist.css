@@ -101,13 +101,6 @@ hr {
     font-size: 0.85em;
 }
 
-/*#sidebar.active ul li a i {
-    margin-right: 0;
-    display: block;
-    font-size: 1.8em;
-    margin-bottom: 5px;
-}*/
-
 #sidebar.active ul ul a {
     padding: 10px !important;
 }
@@ -254,42 +247,6 @@ ul ul a {
     bottom: 0;
 }
 
-#content-header .selectWrapper{
-  border-radius: 10px;
-  display:inline-block;
-  overflow:hidden;
-  background:white;
-}
-#content-header .selectBox{
-  width: 140px;
-  height: 30px;
-  padding-left: 10px;
-  font-size: 0.85em;
-  border: none;
-}
-
-#content-header .table1{
-    margin-top: 35px;
-    height: 350px;
-    background-color: white;
-    border-radius: 20px;
-    border-top: 30px solid lightgray;
-}
-#content-header .table2{
-    margin-top: 35px;
-    min-height: 740px;
-    background-color: white;
-    border-radius: 20px;
-    border-top: 30px solid lightgray;
-}
-
-.dateandtime {
-    color: #ffffff;
-    text-align: right;
-    font-size: 0.7em;
-    margin-right: 0.44%;
-}
-
 .red-header{
     width: 100%;
     height: 100px;
@@ -373,7 +330,7 @@ ul ul a {
     background-color: #781B1B;
 }
 
-.citButton1 {
+.btnClose {
     border-radius: 15px;
     padding-top: 5px;
     padding-bottom: 5px;
@@ -390,7 +347,8 @@ ul ul a {
     color: white;
     cursor: pointer;
 }
-.citButton1:hover{
+
+.btnClose:hover{
     background-color: gray;
 }
 
@@ -398,7 +356,6 @@ ul ul a {
     width: 100%;
 }
 
-/*MODAL JOB CREATE*/
 /*CREATE JOB CSS*/
 .jobCreateModal{
     display: none; /* Hidden by default */
@@ -591,6 +548,7 @@ textarea{
 }
 
 .contentQuestion{
+    text-align: left;
     width: 80%;
     min-height: 100px;
     background-color: #ffffff;
@@ -599,7 +557,7 @@ textarea{
     border-left: 5px solid #933633;
 }
 
-.contentQuestion input{
+.contentQuestion input[type=text]{
     float: left;
     width: 100%;
     border: none;
@@ -607,6 +565,24 @@ textarea{
     padding: 8px;
     border-radius: 10px;
     font-weight: bold;
+    margin-bottom: 2%;
+}
+
+.contentQuestion input[type=number]{
+    float: left;
+    width: 6%;
+    border: none;
+    border: 1px solid #ccc;
+    padding: 8px;
+    border-radius: 5px;
+    margin-top: 1%;
+    margin-right: 2%;
+}
+
+.contentQuestion label {
+    float: left;
+    margin-top: 2%;
+    margin-left: 1%;
 }
 
 #id-answer{
@@ -719,10 +695,12 @@ textarea{
   background-color: #ccc;
 }
 
+/* Question contents */
 .tabcontents {
   display: none;
   padding: 6px 12px;
   border-top: none;
+  height: 75%;
 }
 
 .project-tab {

@@ -43,8 +43,8 @@
 
 
 {% block content %}
-
-<div class="chat" onload="timestart();">
+<body onload="talk()">
+<div class="chat">
   <div class="chat-title">
     {% for job in job %}
     <b><h1>{{job.title}}</h1></b>
@@ -55,42 +55,44 @@
     </figure>
 
     <script type="text/javascript">
-      function startTimer(duration, display) {
-        var timer = duration, minutes, seconds;
-        setInterval(function () {
-            minutes = parseInt(timer / 60, 10);
-            seconds = parseInt(timer % 60, 10);
-
-            minutes = minutes < 10 ? "0" + minutes : minutes;
-            seconds = seconds < 10 ? "0" + seconds : seconds;
-
-            display.textContent = minutes + ":" + seconds;
-
-            if (--timer < 0) {
-                timer = 0;
-            }
-        }, 1000);
-      }
-
-
-
       function talk(){
         {% for job in job %}
         responsiveVoice.speak("{{job.question_6}}", "US English Female", {volume: 1});
         {% endfor %}
       }
 
-      window.onload = function () {
-        var twoMinutes = 60 * 2,
-          display = document.querySelector('#time');
-        setTimeout(function() { startTimer(twoMinutes, display); }, 2000)
-        talk();
-      };
-
-      function pageRedirect() {
+      function pageRedirect(){
         document.getElementById('send').click();
-      }      
-      setTimeout("pageRedirect()", 123000);
+      }
+
+      // Set the date we're counting down to
+      var countDownDate = new Date();
+      {% for job in job %}
+      countDownDate.setMinutes(countDownDate.getMinutes() + {{job.timer6}});
+      countDownDate.setSeconds(countDownDate.getSeconds() + 1);
+      {% endfor %}
+
+      var x = setInterval(function() {
+
+        // Get today's date and time
+        var now = new Date().getTime();
+          
+        // Find the distance between now and the count down date
+        var distance = countDownDate - now;
+          
+        // Time calculations for minutes and seconds
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+          
+        // Output the result in an element with id="time"
+        document.getElementById("time").innerHTML = minutes + ":" + seconds; 
+
+        // If the count down is over, write some text 
+        if (distance < 0) {
+          clearInterval(x);
+          pageRedirect();
+        }
+      }, 1000);
     </script>
   </div><br>
 
@@ -108,7 +110,9 @@
     <form id="response" method="POST" autocomplete="off" enctype="multipart/form-data">
       {% csrf_token %}
       <div class="message-box" style="position: fixed; bottom: 10px;">
-        <span id="time">02:00</span>
+        {% for job in job %}
+        <span id="time">0{{job.timer6}}:00</span>
+        {% endfor %}
         <input type="text" class="message-input" id="message" name="message" placeholder="Type your answer here..." style="left: 6%; top: 25%; position: absolute;" autofocus>
         <button name="mic" id="id-mic" style="left: 88%; top: 17%; position: absolute;"><i id="fa-mic" class="fa fa-microphone"></i></button>
         <button type="submit" id="send" class="message-submit sound-on-click" style="left: 92%; top: 17%; height: 40px; position: absolute; text-align: center;"><i id="fa-send" class="fa fa-send-o"> Send</i></button>
@@ -117,5 +121,5 @@
   </div>
 
 </div>
-
+</body>
 {% endblock content %}
