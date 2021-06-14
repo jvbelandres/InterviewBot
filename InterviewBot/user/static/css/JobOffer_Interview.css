@@ -314,8 +314,9 @@ Message Box
   flex: 0 1 40px;
   width: 100%;
   background: rgba(0, 0, 0, 0.3);
-  padding: 20px;
-  position: relative;
+  padding: 0.5%;
+  margin-top: 5%;
+  
 }
 .message-box .message-input {
   position: relative;
