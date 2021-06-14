@@ -59,16 +59,28 @@
         {% for job in job %}
         responsiveVoice.speak("{{job.question_10}}", "US English Female", {volume: 1});
         {% endfor %}
+        // not letting applicants copy and paste their responses
+        const response = document.getElementById('message');
+        response.onpaste = e => e.preventDefault();
       }
 
       function pageRedirect(){
         document.getElementById('send').click();
       }
+  
+      function record(){
+          var recognition = new webkitSpeechRecognition();
+          recognition.lang  = "en-US";
+          recognition.onresult = function(event){
+            document.getElementById('message').value = event.results[0][0].transcript;
+          }
+          recognition.start();
+        }
 
       // Set the date we're counting down to
       var countDownDate = new Date();
       {% for job in job %}
-      countDownDate.setMinutes(countDownDate.getMinutes() + {{job.timer10}});
+      countDownDate.setMinutes(countDownDate.getMinutes() + {{job.timer1}});
       countDownDate.setSeconds(countDownDate.getSeconds() + 1);
       {% endfor %}
 
@@ -106,18 +118,19 @@
       {% endfor %}
       <button onclick="talk();"><span style="color: #1D80FF;"><small><i class="fa fa-volume-up fa-fw"></i></small></span></button></h1>
     </div>
-  
+  </div>
+
+  <div class="message-box" style="position: fixed; bottom: 0%;">
     <form id="response" method="POST" autocomplete="off" enctype="multipart/form-data">
-      {% csrf_token %}
-      <div class="message-box" style="position: fixed; bottom: 10px;">
-        {% for job in job %}
-        <span id="time">0{{job.timer10}}:00</span>
-        {% endfor %}
+      {% csrf_token %}        
+        <!-- {% for job in job %}
+         <span id="time" style="margin-left: 1.5%;">0{{job.timer1}}:00</span>
+         {% endfor %}-->
+        <br>
         <input type="text" class="message-input" id="message" name="message" placeholder="Type your answer here..." style="left: 6%; top: 25%; position: absolute;" autofocus>
-        <button name="mic" id="id-mic" style="left: 88%; top: 17%; position: absolute;"><i id="fa-mic" class="fa fa-microphone"></i></button>
         <button type="submit" id="send" class="message-submit sound-on-click" style="left: 92%; top: 17%; height: 40px; position: absolute; text-align: center;"><i id="fa-send" class="fa fa-send-o"> Send</i></button>
-      </div>
     </form>
+    <button name="mic" id="id-mic" style="left: 88%; top: 17%; position: absolute;" onclick=record();><i id="fa-mic" class="fa fa-microphone"></i></button>
   </div>
 
 </div>
