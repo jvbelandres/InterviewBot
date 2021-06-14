@@ -361,6 +361,8 @@ ul ul a {
     font-size: 20px;
     border-radius: 8px;
     border: 1px solid #000000;
+    width: 100%;
+    float: left;
 }
 
 #id-description{

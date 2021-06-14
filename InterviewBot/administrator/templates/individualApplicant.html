@@ -53,7 +53,7 @@
             <div class="questionnaireTitle" style="height: 100px;">
                 <h2><b>{{response.firstname}} {{response.lastname}}</b></h2>
                 <div class="column-form" style="margin-left: -49%;">
-                    <a type="button" class="btnView" data-toggle="modal" id="id-btnView" data-target="#viewModal-{{response.user_id}}" style="margin-right: 125px; cursor: pointer;"><i>View Requirements</i></a>
+                    <a type="button" class="btnView" data-toggle="modal" id="id-btnView" data-target="#viewModal-{{response.user_id}}" style="margin-right: 125px; cursor: pointer;"><i>View Resume</i></a>
                 </div>
             </div>
 
@@ -150,15 +150,13 @@
                     </button>
                 </div>
 
-                {% for job in job %}
                 <div class="modal-content"><br>
-                    {% if response_requirement_1 != null or response_requirement_1 != ' ' %}
+                    {% if response.requirement_1 != None %}
                         <a href="http://127.0.0.1:8000/media/{{response.requirement_1}}" class="btn btn-primary btn-sm" target="_blank">Resume</a>
                     {% else %}
                         <strong style="text-align: center;">No file submitted.</strong>
                     {% endif %}
                 </div>
-                {% endfor %}
 
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">CLOSE</button>
