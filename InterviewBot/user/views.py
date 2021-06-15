@@ -208,7 +208,6 @@ class JobInterviewView(View):
 				return redirect('administrator:access_denied_view')
 			interview_job = request.session['job']
 			job = CreateJob.objects.filter(id = interview_job)
-
 			context = {
 				'job': job
 			}
@@ -223,7 +222,6 @@ class JobInterviewQ1View(View):
 				return redirect('administrator:access_denied_view')
 			interview_job = request.session['job']
 			job = CreateJob.objects.filter(id = interview_job)
-
 			context = {
 				'job': job
 			}
@@ -245,7 +243,7 @@ class JobInterviewQ2View(View):
 				return redirect('administrator:access_denied_view')
 			interview_job = request.session['job']
 			job = CreateJob.objects.filter(id = interview_job)
-
+			request.session['q2'] = True
 			context = {
 				'job': job
 			}
