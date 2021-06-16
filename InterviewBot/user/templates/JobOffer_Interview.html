@@ -55,16 +55,43 @@
   </div><br>
 
   <script>
-    responsiveVoice.speak("Good day! You are now in the interview session. You need to answer all 20 questions. Each question has a time limit of two minutes to be answered. You may either encode or voice your responses. Best of luck!", "US English Female", {volume: 1});
+    responsiveVoice.speak("Please take time to read the instruction. Be aware of the Dos and Don'ts when answering the interview questions. Best of luck!", "US English Female", {volume: 1});
   </script>
 
   <div class="messages">
-    <div class="messages-content">
-      <h3 style="text-align: justify; margin: auto; width: 75%; padding: 75px;">You are now in the interview session. You need to answer all 20 questions. Each question has a time limit of two minutes to be answered. You may either encode or voice your responses. Best of luck!<h3>
-    </div>
-
-    <div style="position: sticky; bottom: 10px; text-align: center;">
-      <a href="{% url 'user:job-interview_q1' %}"> Proceed</a>
+    <div class="messages-content"><br>
+      <h5><i>Instruction</i>: The first ten interview questions will not have a timer, but questions 11 through 20 will have their own timers. You can only view the questions once. Your responses will be submitted automatically once the timer expires.<h5> 
+      <h5>Here are the list of <b>Dos</b> and <b>Don'ts</b> when answering the virtual interview session. <h5> <br style="line-height: 10px;">
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="do">
+            <header><strong><center>Dos</center></strong></header><br>
+            <ul id="do">
+              <li> Answer the interview questions in chronological order.</li>
+              <li> Answer within the time limit.</li>
+              <li> Answer either encoding or speaking your responses.</li>
+              <li> Answer at your own best.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="dont">
+            <header><strong><center>Don'ts</center></strong></header><br>
+            <ul id="dont">
+              <li> Refreshing the page results in forfeiting the job interview.</li>
+              <li> Submitting your responses after the time limit has passed.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <br><br><br>
+      <form method="POST">
+        {% csrf_token %}
+        <center>
+          <a href="{% url 'user:job-interview_q1' %}" class="button btn btn-primary">PROCEED</a>
+          <button class="btn btn-secondary" name="btnCancel">CANCEL</button>
+        </center>
+      </form>
     </div>
   </div>
 

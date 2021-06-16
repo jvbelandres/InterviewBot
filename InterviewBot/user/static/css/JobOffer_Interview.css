@@ -22,6 +22,46 @@ body {
   overflow: hidden;
 }
 
+h5 {
+  text-align: justify;
+  margin-left: 3%;
+  width: 95%; 
+  padding: 5px;
+}
+
+ul#do {
+  list-style-image: url('../images/checkmark.png')
+}
+
+ul#dont {
+  list-style-image: url('../images/wrong.png')
+
+}
+
+.do {
+  border-width: 2px;
+  border-style: solid;
+  border-color: green;
+  height: 100%;
+}
+
+.dont {
+  border-width: 2px;
+  border-style: solid;
+  border-color: red;
+  height: 100%;
+}
+
+li {
+  margin-bottom: 2%;
+  margin-right: 5%;
+}
+
+a:hover {
+  text-align: center;
+  text-decoration: none;
+}
+
 .bg {
   width: 100%;
   height: 100%;

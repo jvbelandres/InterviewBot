@@ -69,9 +69,8 @@
         function record(){
             var recognition = new webkitSpeechRecognition();
             recognition.lang  = "en-US";
-            recognition.continuous = true;
             recognition.onresult = function(event){
-              document.getElementById('message').append = event.results[0][0].transcript;
+              document.getElementById('message').value = event.results[0][0].transcript;
             }
             recognition.start();
         }

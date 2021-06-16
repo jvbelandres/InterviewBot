@@ -88,6 +88,27 @@ class HomePageView(View):
 				apply_job = AppliedJob(requirement_1 = file_name, job_id = job_id, user_id = user.id)
 				apply_job.save()
 
+				request.session['q1'] = False
+				request.session['q2'] = False
+				request.session['q3'] = False
+				request.session['q4'] = False
+				request.session['q5'] = False
+				request.session['q6'] = False
+				request.session['q7'] = False
+				request.session['q8'] = False
+				request.session['q9'] = False
+				request.session['q10'] = False
+				request.session['q11'] = False
+				request.session['q12'] = False
+				request.session['q13'] = False
+				request.session['q14'] = False
+				request.session['q15'] = False
+				request.session['q16'] = False
+				request.session['q17'] = False
+				request.session['q18'] = False
+				request.session['q19'] = False
+				request.session['q20'] = False
+				
 				return redirect('user:job-interview_view')
 
 class LogOutView(View):
@@ -171,6 +192,27 @@ class JobOffersView(View):
 				apply_job = AppliedJob(requirement_1 = file_name, job_id = job_id, user_id = user.id)
 				apply_job.save()
 
+				request.session['q1'] = False
+				request.session['q2'] = False
+				request.session['q3'] = False
+				request.session['q4'] = False
+				request.session['q5'] = False
+				request.session['q6'] = False
+				request.session['q7'] = False
+				request.session['q8'] = False
+				request.session['q9'] = False
+				request.session['q10'] = False
+				request.session['q11'] = False
+				request.session['q12'] = False
+				request.session['q13'] = False
+				request.session['q14'] = False
+				request.session['q15'] = False
+				request.session['q16'] = False
+				request.session['q17'] = False
+				request.session['q18'] = False
+				request.session['q19'] = False
+				request.session['q20'] = False
+
 				return redirect('user:job-interview_view')
 
 class SettingsView(FormView):
@@ -215,16 +257,28 @@ class JobInterviewView(View):
 			return redirect('user:interview_access_denied')
 		return render(request, 'jobOffer_Interview.html', context)
 
+	def post(self, request):
+		if request.method == 'POST':
+			if 'btnCancel' in request.POST:
+				interview_job = request.session['job']
+				delete_requirement = AppliedJob.objects.filter(job_id = interview_job).delete()
+				return redirect('user:job-offers_view')
+
 class JobInterviewQ1View(View):
 	def get(self, request):
 		try:
 			if request.user.staff:
 				return redirect('administrator:access_denied_view')
-			interview_job = request.session['job']
-			job = CreateJob.objects.filter(id = interview_job)
-			context = {
-				'job': job
-			}
+
+			if request.session['q1'] == False:
+				request.session['q1'] = True
+				interview_job = request.session['job']
+				job = CreateJob.objects.filter(id = interview_job)
+				context = {
+					'job': job
+				}
+			else:
+				return redirect('user:interview_forfeit_view')
 		except KeyError:
 			return redirect('user:interview_access_denied')
 		return render(request, 'jobInterview_Q1.html', context)
@@ -241,12 +295,16 @@ class JobInterviewQ2View(View):
 		try:
 			if request.user.staff:
 				return redirect('administrator:access_denied_view')
-			interview_job = request.session['job']
-			job = CreateJob.objects.filter(id = interview_job)
-			request.session['q2'] = True
-			context = {
-				'job': job
-			}
+
+			if request.session['q2'] == False:
+				request.session['q2'] = True
+				interview_job = request.session['job']
+				job = CreateJob.objects.filter(id = interview_job)
+				context = {
+					'job': job
+				}
+			else:
+				return redirect('user:interview_forfeit_view')
 		except KeyError:
 			return redirect('user:interview_access_denied')
 		return render(request, 'jobInterview_Q2.html', context)
@@ -263,12 +321,16 @@ class JobInterviewQ3View(View):
 		try:
 			if request.user.staff:
 				return redirect('administrator:access_denied_view')
-			interview_job = request.session['job']
-			job = CreateJob.objects.filter(id = interview_job)
 
-			context = {
-				'job': job
-			}
+			if request.session['q3'] == False:
+				request.session['q3'] = True
+				interview_job = request.session['job']
+				job = CreateJob.objects.filter(id = interview_job)
+				context = {
+					'job': job
+				}
+			else:
+				return redirect('user:interview_forfeit_view')
 		except KeyError:
 			return redirect('user:interview_access_denied')	
 		return render(request, 'jobInterview_Q3.html', context)
@@ -285,12 +347,16 @@ class JobInterviewQ4View(View):
 		try:
 			if request.user.staff:
 				return redirect('administrator:access_denied_view')
-			interview_job = request.session['job']
-			job = CreateJob.objects.filter(id = interview_job)
 
-			context = {
-				'job': job
-			}
+			if request.session['q4'] == False:
+				request.session['q4'] = True
+				interview_job = request.session['job']
+				job = CreateJob.objects.filter(id = interview_job)
+				context = {
+					'job': job
+				}
+			else:
+				return redirect('user:interview_forfeit_view')
 		except KeyError:
 			return redirect('user:interview_access_denied')
 		return render(request, 'jobInterview_Q4.html', context)
@@ -307,12 +373,16 @@ class JobInterviewQ5View(View):
 		try:
 			if request.user.staff:
 				return redirect('administrator:access_denied_view')
-			interview_job = request.session['job']
-			job = CreateJob.objects.filter(id = interview_job)
 
-			context = {
-				'job': job
-			}
+			if request.session['q5'] == False:
+				request.session['q5'] = True
+				interview_job = request.session['job']
+				job = CreateJob.objects.filter(id = interview_job)
+				context = {
+					'job': job
+				}
+			else:
+				return redirect('user:interview_forfeit_view')
 		except KeyError:
 			return redirect('user:interview_access_denied')
 		return render(request, 'jobInterview_Q5.html', context)
@@ -329,12 +399,16 @@ class JobInterviewQ6View(View):
 		try:
 			if request.user.staff:
 				return redirect('administrator:access_denied_view')
-			interview_job = request.session['job']
-			job = CreateJob.objects.filter(id = interview_job)
 
-			context = {
-				'job': job
-			}
+			if request.session['q6'] == False:
+				request.session['q6'] = True
+				interview_job = request.session['job']
+				job = CreateJob.objects.filter(id = interview_job)
+				context = {
+					'job': job
+				}
+			else:
+				return redirect('user:interview_forfeit_view')
 		except KeyError:
 			return redirect('user:interview_access_denied')
 		return render(request, 'jobInterview_Q6.html', context)
@@ -351,12 +425,16 @@ class JobInterviewQ7View(View):
 		try:
 			if request.user.staff:
 				return redirect('administrator:access_denied_view')
-			interview_job = request.session['job']
-			job = CreateJob.objects.filter(id = interview_job)
 
-			context = {
-				'job': job
-			}
+			if request.session['q7'] == False:
+				request.session['q7'] = True
+				interview_job = request.session['job']
+				job = CreateJob.objects.filter(id = interview_job)
+				context = {
+					'job': job
+				}
+			else:
+				return redirect('user:interview_forfeit_view')
 		except KeyError:
 			return redirect('user:interview_access_denied')
 		return render(request, 'jobInterview_Q7.html', context)
@@ -373,12 +451,16 @@ class JobInterviewQ8View(View):
 		try:
 			if request.user.staff:
 				return redirect('administrator:access_denied_view')
-			interview_job = request.session['job']
-			job = CreateJob.objects.filter(id = interview_job)
 
-			context = {
-				'job': job
-			}
+			if request.session['q8'] == False:
+				request.session['q8'] = True
+				interview_job = request.session['job']
+				job = CreateJob.objects.filter(id = interview_job)
+				context = {
+					'job': job
+				}
+			else:
+				return redirect('user:interview_forfeit_view')
 		except KeyError:
 			return redirect('user:interview_access_denied')
 		return render(request, 'jobInterview_Q8.html', context)
@@ -395,12 +477,16 @@ class JobInterviewQ9View(View):
 		try:
 			if request.user.staff:
 				return redirect('administrator:access_denied_view')
-			interview_job = request.session['job']
-			job = CreateJob.objects.filter(id = interview_job)
 
-			context = {
-				'job': job
-			}
+			if request.session['q9'] == False:
+				request.session['q9'] = True
+				interview_job = request.session['job']
+				job = CreateJob.objects.filter(id = interview_job)
+				context = {
+					'job': job
+				}
+			else:
+				return redirect('user:interview_forfeit_view')
 		except KeyError:
 			return redirect('user:interview_access_denied')
 		return render(request, 'jobInterview_Q9.html', context)
@@ -417,12 +503,16 @@ class JobInterviewQ10View(View):
 		try:
 			if request.user.staff:
 				return redirect('administrator:access_denied_view')
-			interview_job = request.session['job']
-			job = CreateJob.objects.filter(id = interview_job)
 
-			context = {
-				'job': job
-			}
+			if request.session['q10'] == False:
+				request.session['q10'] = True
+				interview_job = request.session['job']
+				job = CreateJob.objects.filter(id = interview_job)
+				context = {
+					'job': job
+				}
+			else:
+				return redirect('user:interview_forfeit_view')
 		except KeyError:
 			return redirect('user:interview_access_denied')
 		return render(request, 'jobInterview_Q10.html', context)
@@ -439,12 +529,16 @@ class JobInterviewQ11View(View):
 		try:
 			if request.user.staff:
 				return redirect('administrator:access_denied_view')
-			interview_job = request.session['job']
-			job = CreateJob.objects.filter(id = interview_job)
 
-			context = {
-				'job': job
-			}
+			if request.session['q11'] == False:
+				request.session['q11'] = True
+				interview_job = request.session['job']
+				job = CreateJob.objects.filter(id = interview_job)
+				context = {
+					'job': job
+				}
+			else:
+				return redirect('user:interview_forfeit_view')
 		except KeyError:
 			return redirect('user:interview_access_denied')
 		return render(request, 'jobInterview_Q11.html', context)
@@ -461,12 +555,16 @@ class JobInterviewQ12View(View):
 		try:
 			if request.user.staff:
 				return redirect('administrator:access_denied_view')
-			interview_job = request.session['job']
-			job = CreateJob.objects.filter(id = interview_job)
 
-			context = {
-				'job': job
-			}
+			if request.session['q12'] == False:
+				request.session['q12'] = True
+				interview_job = request.session['job']
+				job = CreateJob.objects.filter(id = interview_job)
+				context = {
+					'job': job
+				}
+			else:
+				return redirect('user:interview_forfeit_view')
 		except KeyError:
 			return redirect('user:interview_access_denied')
 		return render(request, 'jobInterview_Q12.html', context)
@@ -483,12 +581,16 @@ class JobInterviewQ13View(View):
 		try:
 			if request.user.staff:
 				return redirect('administrator:access_denied_view')
-			interview_job = request.session['job']
-			job = CreateJob.objects.filter(id = interview_job)
 
-			context = {
-				'job': job
-			}
+			if request.session['q13'] == False:
+				request.session['q13'] = True
+				interview_job = request.session['job']
+				job = CreateJob.objects.filter(id = interview_job)
+				context = {
+					'job': job
+				}
+			else:
+				return redirect('user:interview_forfeit_view')
 		except KeyError:
 			return redirect('user:interview_access_denied')
 		return render(request, 'jobInterview_Q13.html', context)
@@ -505,12 +607,16 @@ class JobInterviewQ14View(View):
 		try:
 			if request.user.staff:
 				return redirect('administrator:access_denied_view')
-			interview_job = request.session['job']
-			job = CreateJob.objects.filter(id = interview_job)
 
-			context = {
-				'job': job
-			}
+			if request.session['q14'] == False:
+				request.session['q14'] = True
+				interview_job = request.session['job']
+				job = CreateJob.objects.filter(id = interview_job)
+				context = {
+					'job': job
+				}
+			else:
+				return redirect('user:interview_forfeit_view')
 		except KeyError:
 			return redirect('user:interview_access_denied')
 		return render(request, 'jobInterview_Q14.html', context)
@@ -527,12 +633,16 @@ class JobInterviewQ15View(View):
 		try:
 			if request.user.staff:
 				return redirect('administrator:access_denied_view')
-			interview_job = request.session['job']
-			job = CreateJob.objects.filter(id = interview_job)
 
-			context = {
-				'job': job
-			}
+			if request.session['q15'] == False:
+				request.session['q15'] = True
+				interview_job = request.session['job']
+				job = CreateJob.objects.filter(id = interview_job)
+				context = {
+					'job': job
+				}
+			else:
+				return redirect('user:interview_forfeit_view')
 		except KeyError:
 			return redirect('user:interview_access_denied')
 		return render(request, 'jobInterview_Q15.html', context)
@@ -549,12 +659,16 @@ class JobInterviewQ16View(View):
 		try:
 			if request.user.staff:
 				return redirect('administrator:access_denied_view')
-			interview_job = request.session['job']
-			job = CreateJob.objects.filter(id = interview_job)
 
-			context = {
-				'job': job
-			}
+			if request.session['q16'] == False:
+				request.session['q16'] = True
+				interview_job = request.session['job']
+				job = CreateJob.objects.filter(id = interview_job)
+				context = {
+					'job': job
+				}
+			else:
+				return redirect('user:interview_forfeit_view')
 		except KeyError:
 			return redirect('user:interview_access_denied')
 		return render(request, 'jobInterview_Q16.html', context)
@@ -571,12 +685,16 @@ class JobInterviewQ17View(View):
 		try:
 			if request.user.staff:
 				return redirect('administrator:access_denied_view')
-			interview_job = request.session['job']
-			job = CreateJob.objects.filter(id = interview_job)
 
-			context = {
-				'job': job
-			}
+			if request.session['q17'] == False:
+				request.session['q17'] = True
+				interview_job = request.session['job']
+				job = CreateJob.objects.filter(id = interview_job)
+				context = {
+					'job': job
+				}
+			else:
+				return redirect('user:interview_forfeit_view')
 		except KeyError:
 			return redirect('user:interview_access_denied')
 		return render(request, 'jobInterview_Q17.html', context)
@@ -593,12 +711,16 @@ class JobInterviewQ18View(View):
 		try:
 			if request.user.staff:
 				return redirect('administrator:access_denied_view')
-			interview_job = request.session['job']
-			job = CreateJob.objects.filter(id = interview_job)
 
-			context = {
-				'job': job
-			}
+			if request.session['q18'] == False:
+				request.session['q18'] = True
+				interview_job = request.session['job']
+				job = CreateJob.objects.filter(id = interview_job)
+				context = {
+					'job': job
+				}
+			else:
+				return redirect('user:interview_forfeit_view')
 		except KeyError:
 			return redirect('user:interview_access_denied')
 		return render(request, 'jobInterview_Q18.html', context)
@@ -615,12 +737,16 @@ class JobInterviewQ19View(View):
 		try:
 			if request.user.staff:
 				return redirect('administrator:access_denied_view')
-			interview_job = request.session['job']
-			job = CreateJob.objects.filter(id = interview_job)
 
-			context = {
-				'job': job
-			}
+			if request.session['q19'] == False:
+				request.session['q19'] = True
+				interview_job = request.session['job']
+				job = CreateJob.objects.filter(id = interview_job)
+				context = {
+					'job': job
+				}
+			else:
+				return redirect('user:interview_forfeit_view')
 		except KeyError:
 			return redirect('user:interview_access_denied')
 		return render(request, 'jobInterview_Q19.html', context)
@@ -637,12 +763,16 @@ class JobInterviewQ20View(View):
 		try:
 			if request.user.staff:
 				return redirect('administrator:access_denied_view')
-			interview_job = request.session['job']
-			job = CreateJob.objects.filter(id = interview_job)
 
-			context = {
-				'job': job
-			}
+			if request.session['q20'] == False:
+				request.session['q20'] = True
+				interview_job = request.session['job']
+				job = CreateJob.objects.filter(id = interview_job)
+				context = {
+					'job': job
+				}
+			else:
+				return redirect('user:interview_forfeit_view')
 		except KeyError:
 			return redirect('user:interview_access_denied')
 		return render(request, 'jobInterview_Q20.html', context)
@@ -664,9 +794,41 @@ class InterviewSuccessView(View):
 		try:
 			if request.user.staff:
 				return redirect('administrator:access_denied_view')
+
+			del request.session['q1']
+			del request.session['q2']
+			del request.session['q3']
+			del request.session['q4']
+			del request.session['q5']
+			del request.session['q6']
+			del request.session['q7']
+			del request.session['q8']
+			del request.session['q9']
+			del request.session['q10']
+			del request.session['q11']
+			del request.session['q12']
+			del request.session['q13']
+			del request.session['q14']
+			del request.session['q15']
+			del request.session['q16']
+			del request.session['q17']
+			del request.session['q18']
+			del request.session['q19']
+			del request.session['q20']	
 		except KeyError:
 			return redirect('user:interview_access_denied')
+		except: 
+			pass
 		return render(request, 'interviewSuccess.html')
+
+class InterviewForfeitView(View):
+	def get(self, request):
+		try:
+			if request.user.staff:
+				return redirect('administrator:access_denied_view')
+		except KeyError:
+			return redirect('user:interview_access_denied')
+		return render(request, 'interviewForfeit.html')
 
 class JobInterviewAccessDenied(View):
 	def get(self, request):
