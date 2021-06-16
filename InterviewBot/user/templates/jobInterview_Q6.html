@@ -78,10 +78,8 @@
       }
 
       // Prevent users from pressing F5
-      document.onkeydown = disableF5;
-      document.onkeypress = disableF5
-      document.onkeyup = disableF5;    
-      function disableF5(e) { if ((e.which || e.keyCode) == 116) e.preventDefault(); };
+      document.onkeydown = disableF5;    
+      function disableF5(e) { if ((e.keyCode) == 116) e.preventDefault(); };
 
       // Set the date we're counting down to
       var countDownDate = new Date();

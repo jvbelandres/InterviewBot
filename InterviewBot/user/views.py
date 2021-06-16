@@ -9,6 +9,11 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 
+import nltk
+nltk.download('vader_lexicon')
+import string
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+
 from .forms import *
 from user.models import AppliedJob, SavedJob
 
@@ -287,6 +292,8 @@ class JobInterviewQ1View(View):
 		user = request.user
 		job_id = request.session['job']
 		response_1 = request.POST.get("message")
+		sentiment_text = getCleanedText(response_1)
+		sentiment_analyze(sentiment_text)
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(response_1 = response_1)
 		return redirect('user:job-interview_q2')
 
@@ -313,6 +320,8 @@ class JobInterviewQ2View(View):
 		user = request.user
 		job_id = request.session['job']
 		response_2 = request.POST.get("message")
+		sentiment_text = getCleanedText(response_2)
+		sentiment_analyze(sentiment_text)
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(response_2 = response_2)
 		return redirect('user:job-interview_q3')
 
@@ -339,6 +348,8 @@ class JobInterviewQ3View(View):
 		user = request.user
 		job_id = request.session['job']
 		response_3 = request.POST.get("message")
+		sentiment_text = getCleanedText(response_3)
+		sentiment_analyze(sentiment_text)
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(response_3 = response_3)
 		return redirect('user:job-interview_q4')
 
@@ -365,6 +376,8 @@ class JobInterviewQ4View(View):
 		user = request.user
 		job_id = request.session['job']
 		response_4 = request.POST.get("message")
+		sentiment_text = getCleanedText(response_4)
+		sentiment_analyze(sentiment_text)
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(response_4 = response_4)
 		return redirect('user:job-interview_q5')
 
@@ -391,6 +404,8 @@ class JobInterviewQ5View(View):
 		user = request.user
 		job_id = request.session['job']
 		response_5 = request.POST.get("message")
+		sentiment_text = getCleanedText(response_5)
+		sentiment_analyze(sentiment_text)
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(response_5 = response_5)
 		return redirect('user:job-interview_q6')
 
@@ -417,6 +432,8 @@ class JobInterviewQ6View(View):
 		user = request.user
 		job_id = request.session['job']
 		response_6 = request.POST.get("message")
+		sentiment_text = getCleanedText(response_6)
+		sentiment_analyze(sentiment_text)
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(response_6 = response_6)
 		return redirect('user:job-interview_q7')
 
@@ -443,6 +460,8 @@ class JobInterviewQ7View(View):
 		user = request.user
 		job_id = request.session['job']
 		response_7 = request.POST.get("message")
+		sentiment_text = getCleanedText(response_7)
+		sentiment_analyze(sentiment_text)
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(response_7 = response_7)
 		return redirect('user:job-interview_q8')
 
@@ -469,6 +488,8 @@ class JobInterviewQ8View(View):
 		user = request.user
 		job_id = request.session['job']
 		response_8 = request.POST.get("message")
+		sentiment_text = getCleanedText(response_8)
+		sentiment_analyze(sentiment_text)
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(response_8 = response_8)
 		return redirect('user:job-interview_q9')
 
@@ -495,6 +516,8 @@ class JobInterviewQ9View(View):
 		user = request.user
 		job_id = request.session['job']
 		response_9 = request.POST.get("message")
+		sentiment_text = getCleanedText(response_9)
+		sentiment_analyze(sentiment_text)
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(response_9 = response_9)
 		return redirect('user:job-interview_q10')
 
@@ -521,6 +544,8 @@ class JobInterviewQ10View(View):
 		user = request.user
 		job_id = request.session['job']
 		response_10 = request.POST.get("message")
+		sentiment_text = getCleanedText(response_10)
+		sentiment_analyze(sentiment_text)
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(response_10 = response_10)
 		return redirect('user:job-interview_q11')
 
@@ -547,6 +572,8 @@ class JobInterviewQ11View(View):
 		user = request.user
 		job_id = request.session['job']
 		response_11 = request.POST.get("message")
+		sentiment_text = getCleanedText(response_11)
+		sentiment_analyze(sentiment_text)
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(response_11 = response_11)
 		return redirect('user:job-interview_q12')
 
@@ -573,6 +600,8 @@ class JobInterviewQ12View(View):
 		user = request.user
 		job_id = request.session['job']
 		response_12 = request.POST.get("message")
+		sentiment_text = getCleanedText(response_12)
+		sentiment_analyze(sentiment_text)
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(response_12 = response_12)
 		return redirect('user:job-interview_q13')
 
@@ -599,6 +628,8 @@ class JobInterviewQ13View(View):
 		user = request.user
 		job_id = request.session['job']
 		response_13 = request.POST.get("message")
+		sentiment_text = getCleanedText(response_13)
+		sentiment_analyze(sentiment_text)
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(response_13 = response_13)
 		return redirect('user:job-interview_q14')
 
@@ -625,6 +656,8 @@ class JobInterviewQ14View(View):
 		user = request.user
 		job_id = request.session['job']
 		response_14 = request.POST.get("message")
+		sentiment_text = getCleanedText(response_14)
+		sentiment_analyze(sentiment_text)
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(response_14 = response_14)
 		return redirect('user:job-interview_q15')
 
@@ -651,6 +684,8 @@ class JobInterviewQ15View(View):
 		user = request.user
 		job_id = request.session['job']
 		response_15 = request.POST.get("message")
+		sentiment_text = getCleanedText(response_15)
+		sentiment_analyze(sentiment_text)
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(response_15 = response_15)
 		return redirect('user:job-interview_q16')
 
@@ -677,6 +712,8 @@ class JobInterviewQ16View(View):
 		user = request.user
 		job_id = request.session['job']
 		response_16 = request.POST.get("message")
+		sentiment_text = getCleanedText(response_16)
+		sentiment_analyze(sentiment_text)
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(response_16 = response_16)
 		return redirect('user:job-interview_q17')
 
@@ -703,6 +740,8 @@ class JobInterviewQ17View(View):
 		user = request.user
 		job_id = request.session['job']
 		response_17 = request.POST.get("message")
+		sentiment_text = getCleanedText(response_17)
+		sentiment_analyze(sentiment_text)
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(response_17 = response_17)
 		return redirect('user:job-interview_q18')
 
@@ -729,6 +768,8 @@ class JobInterviewQ18View(View):
 		user = request.user
 		job_id = request.session['job']
 		response_18 = request.POST.get("message")
+		sentiment_text = getCleanedText(response_18)
+		sentiment_analyze(sentiment_text)
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(response_18 = response_18)
 		return redirect('user:job-interview_q19')
 
@@ -755,6 +796,8 @@ class JobInterviewQ19View(View):
 		user = request.user
 		job_id = request.session['job']
 		response_19 = request.POST.get("message")
+		sentiment_text = getCleanedText(response_19)
+		sentiment_analyze(sentiment_text)
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(response_19 = response_19)
 		return redirect('user:job-interview_q20')
 
@@ -781,6 +824,8 @@ class JobInterviewQ20View(View):
 		user = request.user
 		job_id = request.session['job']
 		response_20 = request.POST.get("message")
+		sentiment_text = getCleanedText(response_20)
+		sentiment_analyze(sentiment_text)
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(response_20 = response_20)
 
 		try:
@@ -835,3 +880,36 @@ class JobInterviewAccessDenied(View):
 		if request.user.staff:
 			return redirect('administrator:access_denied_view')
 		return render(request, 'jobInterviewAccessDenied.html')
+
+def getCleanedText(text):
+	# converting to lowercase
+	lower_text = text.lower()
+
+	# removing punctuations
+	cleaned_text = lower_text.translate(str.maketrans('','', string.punctuation))
+
+	# splitting text into words
+	tokenized_words = cleaned_text.split()
+
+	stop_words = ["i", "me", "my", "myself", "we", "our", "ours", "ourselves", "you", "your", "yours", "yourself",
+              "yourselves", "he", "him", "his", "himself", "she", "her", "hers", "herself", "it", "its", "itself",
+              "they", "them", "their", "theirs", "themselves", "what", "which", "who", "whom", "this", "that", "these",
+              "those", "am", "is", "are", "was", "were", "be", "been", "being", "have", "has", "had", "having", "do",
+              "does", "did", "doing", "a", "an", "the", "and", "but", "if", "or", "because", "as", "until", "while",
+              "of", "at", "by", "for", "with", "about", "against", "between", "into", "through", "during", "before",
+              "after", "above", "below", "to", "from", "up", "down", "in", "out", "on", "off", "over", "under", "again",
+              "further", "then", "once", "here", "there", "when", "where", "why", "how", "all", "any", "both", "each",
+              "few", "more", "most", "other", "some", "such", "no", "nor", "not", "only", "own", "same", "so", "than",
+              "too", "very", "s", "t", "can", "will", "just", "don", "should", "now"]
+	final_words = []
+
+	# removing stopwords
+	for word in tokenized_words:
+	    if word not in stop_words:
+	        final_words.append(word)
+
+	return " ".join(final_words)
+
+def sentiment_analyze(sentiment_text):
+	score = SentimentIntensityAnalyzer().polarity_scores(sentiment_text)
+	print(score)
