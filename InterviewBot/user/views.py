@@ -9,13 +9,31 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 
-import nltk
-nltk.download('vader_lexicon')
-import string
-from nltk.sentiment.vader import SentimentIntensityAnalyzer
+# import nltk
+# nltk.download('vader_lexicon')
+# import string
+# from nltk.sentiment.vader import SentimentIntensityAnalyzer
+
+import json
+import requests
 
 from .forms import *
 from user.models import AppliedJob, SavedJob
+
+def textProccessing(text):
+	url = "https://japerk-text-processing.p.rapidapi.com/sentiment/"
+	text = text.replace(" ", "%20") 
+	payload = "text="+text+".&language=english"
+	headers = {
+	    'content-type': "application/x-www-form-urlencoded",
+	    'x-rapidapi-key': "bab359c48dmsh0dd3b24fa8d2016p1484e5jsnfabda9701382",
+	    'x-rapidapi-host': "japerk-text-processing.p.rapidapi.com"
+	}
+	response = requests.request("POST", url, data=payload, headers=headers)
+	return json.loads(response.text)
+
+def finalScoring(pos, weight):
+	return pos * float(weight)
 
 class RegisterView(CreateView):
 	form_class = RegisterForm
@@ -292,9 +310,29 @@ class JobInterviewQ1View(View):
 		user = request.user
 		job_id = request.session['job']
 		response_1 = request.POST.get("message")
-		sentiment_text = getCleanedText(response_1)
-		sentiment_analyze(sentiment_text)
-		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(response_1 = response_1)
+		
+		if len(response_1) > 0:
+			# use Text-Proccessing API
+			json_object = textProccessing(response_1)
+
+			# getting the scores
+			dict_response = json_object.get('probability')
+			label = json_object.get('label')
+			positive = dict_response.get('pos')
+			negative = dict_response.get('neg')
+			neutral = dict_response.get('neutral')
+		else:
+			label = None
+			positive = 0
+			negative = 0
+			neutral = 0
+
+		# Score multiplied by weight
+		final_score = finalScoring(positive, 1)
+
+		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+			response_1 = response_1, positive1 = positive, negative1 = negative, neutral1 = neutral, 
+			label1 = label, score1 = final_score)
 		return redirect('user:job-interview_q2')
 
 class JobInterviewQ2View(View):
@@ -320,9 +358,29 @@ class JobInterviewQ2View(View):
 		user = request.user
 		job_id = request.session['job']
 		response_2 = request.POST.get("message")
-		sentiment_text = getCleanedText(response_2)
-		sentiment_analyze(sentiment_text)
-		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(response_2 = response_2)
+		
+		if len(response_2) > 0:
+			# use Text-Proccessing API
+			json_object = textProccessing(response_2)
+
+			# getting the scores
+			dict_response = json_object.get('probability')
+			label = json_object.get('label')
+			positive = dict_response.get('pos')
+			negative = dict_response.get('neg')
+			neutral = dict_response.get('neutral')
+		else:
+			label = None
+			positive = 0
+			negative = 0
+			neutral = 0
+
+		# Score multiplied by weight
+		final_score = finalScoring(positive, 1)
+
+		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+			response_2 = response_2, positive2 = positive, negative2 = negative, neutral2 = neutral, 
+			label2 = label, score2 = final_score)
 		return redirect('user:job-interview_q3')
 
 class JobInterviewQ3View(View):
@@ -348,9 +406,29 @@ class JobInterviewQ3View(View):
 		user = request.user
 		job_id = request.session['job']
 		response_3 = request.POST.get("message")
-		sentiment_text = getCleanedText(response_3)
-		sentiment_analyze(sentiment_text)
-		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(response_3 = response_3)
+
+		if len(response_3) > 0:
+			# use Text-Proccessing API
+			json_object = textProccessing(response_3)
+
+			# getting the scores
+			dict_response = json_object.get('probability')
+			label = json_object.get('label')
+			positive = dict_response.get('pos')
+			negative = dict_response.get('neg')
+			neutral = dict_response.get('neutral')
+		else:
+			label = None
+			positive = 0
+			negative = 0
+			neutral = 0
+
+		# Score multiplied by weight
+		final_score = finalScoring(positive, 1)
+
+		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+			response_3 = response_3, positive3 = positive, negative3 = negative, neutral3 = neutral, 
+			label3 = label, score3 = final_score)
 		return redirect('user:job-interview_q4')
 
 class JobInterviewQ4View(View):
@@ -376,9 +454,29 @@ class JobInterviewQ4View(View):
 		user = request.user
 		job_id = request.session['job']
 		response_4 = request.POST.get("message")
-		sentiment_text = getCleanedText(response_4)
-		sentiment_analyze(sentiment_text)
-		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(response_4 = response_4)
+
+		if len(response_4) > 0:
+			# use Text-Proccessing API
+			json_object = textProccessing(response_4)
+
+			# getting the scores
+			dict_response = json_object.get('probability')
+			label = json_object.get('label')
+			positive = dict_response.get('pos')
+			negative = dict_response.get('neg')
+			neutral = dict_response.get('neutral')
+		else:
+			label = None
+			positive = 0
+			negative = 0
+			neutral = 0
+
+		# Score multiplied by weight
+		final_score = finalScoring(positive, 1)
+
+		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+			response_4 = response_4, positive4 = positive, negative4 = negative, neutral4 = neutral, 
+			label4 = label, score4 = final_score)
 		return redirect('user:job-interview_q5')
 
 class JobInterviewQ5View(View):
@@ -404,9 +502,29 @@ class JobInterviewQ5View(View):
 		user = request.user
 		job_id = request.session['job']
 		response_5 = request.POST.get("message")
-		sentiment_text = getCleanedText(response_5)
-		sentiment_analyze(sentiment_text)
-		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(response_5 = response_5)
+		
+		if len(response_5) > 0:
+			# use Text-Proccessing API
+			json_object = textProccessing(response_5)
+
+			# getting the scores
+			dict_response = json_object.get('probability')
+			label = json_object.get('label')
+			positive = dict_response.get('pos')
+			negative = dict_response.get('neg')
+			neutral = dict_response.get('neutral')
+
+			# Score multiplied by weight
+			final_score = finalScoring(positive, 1)
+		else:
+			label = None
+			positive = 0
+			negative = 0
+			neutral = 0
+
+		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+			response_5 = response_5, positive5 = positive, negative5 = negative, neutral5 = neutral, 
+			label5 = label, score5 = final_score)
 		return redirect('user:job-interview_q6')
 
 class JobInterviewQ6View(View):
@@ -432,9 +550,29 @@ class JobInterviewQ6View(View):
 		user = request.user
 		job_id = request.session['job']
 		response_6 = request.POST.get("message")
-		sentiment_text = getCleanedText(response_6)
-		sentiment_analyze(sentiment_text)
-		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(response_6 = response_6)
+
+		if len(response_6) > 0:
+			# use Text-Proccessing API
+			json_object = textProccessing(response_6)
+
+			# getting the scores
+			dict_response = json_object.get('probability')
+			label = json_object.get('label')
+			positive = dict_response.get('pos')
+			negative = dict_response.get('neg')
+			neutral = dict_response.get('neutral')
+		else:
+			label = None
+			positive = 0
+			negative = 0
+			neutral = 0
+
+		# Score multiplied by weight
+		final_score = finalScoring(positive, 1)
+
+		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+			response_6 = response_6, positive6 = positive, negative6 = negative, neutral6 = neutral, 
+			label6 = label, score6 = final_score)
 		return redirect('user:job-interview_q7')
 
 class JobInterviewQ7View(View):
@@ -460,9 +598,29 @@ class JobInterviewQ7View(View):
 		user = request.user
 		job_id = request.session['job']
 		response_7 = request.POST.get("message")
-		sentiment_text = getCleanedText(response_7)
-		sentiment_analyze(sentiment_text)
-		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(response_7 = response_7)
+
+		if len(response_7) > 0:
+			# use Text-Proccessing API
+			json_object = textProccessing(response_7)
+
+			# getting the scores
+			dict_response = json_object.get('probability')
+			label = json_object.get('label')
+			positive = dict_response.get('pos')
+			negative = dict_response.get('neg')
+			neutral = dict_response.get('neutral')
+		else:
+			label = None
+			positive = 0
+			negative = 0
+			neutral = 0
+
+		# Score multiplied by weight
+		final_score = finalScoring(positive, 1)
+
+		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+			response_7 = response_7, positive7 = positive, negative7 = negative, neutral7 = neutral, 
+			label7 = label, score7 = final_score)
 		return redirect('user:job-interview_q8')
 
 class JobInterviewQ8View(View):
@@ -488,9 +646,29 @@ class JobInterviewQ8View(View):
 		user = request.user
 		job_id = request.session['job']
 		response_8 = request.POST.get("message")
-		sentiment_text = getCleanedText(response_8)
-		sentiment_analyze(sentiment_text)
-		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(response_8 = response_8)
+
+		if len(response_8) > 0:
+			# use Text-Proccessing API
+			json_object = textProccessing(response_8)
+
+			# getting the scores
+			dict_response = json_object.get('probability')
+			label = json_object.get('label')
+			positive = dict_response.get('pos')
+			negative = dict_response.get('neg')
+			neutral = dict_response.get('neutral')
+		else:
+			label = None
+			positive = 0
+			negative = 0
+			neutral = 0
+
+		# Score multiplied by weight
+		final_score = finalScoring(positive, 1)
+
+		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+			response_8 = response_8, positive8 = positive, negative8 = negative, neutral8 = neutral, 
+			label8 = label, score8 = final_score)
 		return redirect('user:job-interview_q9')
 
 class JobInterviewQ9View(View):
@@ -516,9 +694,29 @@ class JobInterviewQ9View(View):
 		user = request.user
 		job_id = request.session['job']
 		response_9 = request.POST.get("message")
-		sentiment_text = getCleanedText(response_9)
-		sentiment_analyze(sentiment_text)
-		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(response_9 = response_9)
+
+		if len(response_9) > 0:
+			# use Text-Proccessing API
+			json_object = textProccessing(response_9)
+
+			# getting the scores
+			dict_response = json_object.get('probability')
+			label = json_object.get('label')
+			positive = dict_response.get('pos')
+			negative = dict_response.get('neg')
+			neutral = dict_response.get('neutral')
+		else:
+			label = None
+			positive = 0
+			negative = 0
+			neutral = 0
+
+		# Score multiplied by weight
+		final_score = finalScoring(positive, 1)
+
+		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+			response_9 = response_9, positive9 = positive, negative9 = negative, neutral9 = neutral, 
+			label9 = label, score9 = final_score)
 		return redirect('user:job-interview_q10')
 
 class JobInterviewQ10View(View):
@@ -544,9 +742,29 @@ class JobInterviewQ10View(View):
 		user = request.user
 		job_id = request.session['job']
 		response_10 = request.POST.get("message")
-		sentiment_text = getCleanedText(response_10)
-		sentiment_analyze(sentiment_text)
-		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(response_10 = response_10)
+
+		if len(response_10) > 0:
+			# use Text-Proccessing API
+			json_object = textProccessing(response_10)
+
+			# getting the scores
+			dict_response = json_object.get('probability')
+			label = json_object.get('label')
+			positive = dict_response.get('pos')
+			negative = dict_response.get('neg')
+			neutral = dict_response.get('neutral')
+		else:
+			label = None
+			positive = 0
+			negative = 0
+			neutral = 0
+
+		# Score multiplied by weight
+		final_score = finalScoring(positive, 1)
+
+		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+			response_10 = response_10, positive10 = positive, negative10 = negative, neutral10 = neutral, 
+			label10 = label, score10 = final_score)
 		return redirect('user:job-interview_q11')
 
 class JobInterviewQ11View(View):
@@ -571,10 +789,31 @@ class JobInterviewQ11View(View):
 	def post(self, request):
 		user = request.user
 		job_id = request.session['job']
+		job_weight = request.POST.get("job-weight")
 		response_11 = request.POST.get("message")
-		sentiment_text = getCleanedText(response_11)
-		sentiment_analyze(sentiment_text)
-		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(response_11 = response_11)
+
+		if len(response_11) > 0:
+			# use Text-Proccessing API
+			json_object = textProccessing(response_11)
+
+			# getting the scores
+			dict_response = json_object.get('probability')
+			label = json_object.get('label')
+			positive = dict_response.get('pos')
+			negative = dict_response.get('neg')
+			neutral = dict_response.get('neutral')
+		else:
+			label = None
+			positive = 0
+			negative = 0
+			neutral = 0
+
+		# get final score
+		final_score = finalScoring(positive, job_weight)
+
+		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+			response_11 = response_11, label11 = label, positive11 = positive, negative11 = negative, 
+			neutral11 = neutral, score11 = final_score)
 		return redirect('user:job-interview_q12')
 
 class JobInterviewQ12View(View):
@@ -599,10 +838,31 @@ class JobInterviewQ12View(View):
 	def post(self, request):
 		user = request.user
 		job_id = request.session['job']
+		job_weight = request.POST.get("job-weight")
 		response_12 = request.POST.get("message")
-		sentiment_text = getCleanedText(response_12)
-		sentiment_analyze(sentiment_text)
-		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(response_12 = response_12)
+
+		if len(response_12) > 0:
+			# use Text-Proccessing API
+			json_object = textProccessing(response_12)
+
+			# getting the scores
+			dict_response = json_object.get('probability')
+			label = json_object.get('label')
+			positive = dict_response.get('pos')
+			negative = dict_response.get('neg')
+			neutral = dict_response.get('neutral')
+		else:
+			label = None
+			positive = 0
+			negative = 0
+			neutral = 0
+
+		# get final score
+		final_score = finalScoring(positive, job_weight)
+
+		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+			response_12 = response_12, label12 = label, positive12 = positive, negative12 = negative, 
+			neutral12 = neutral, score12 = final_score)
 		return redirect('user:job-interview_q13')
 
 class JobInterviewQ13View(View):
@@ -627,10 +887,31 @@ class JobInterviewQ13View(View):
 	def post(self, request):
 		user = request.user
 		job_id = request.session['job']
+		job_weight = request.POST.get("job-weight")
 		response_13 = request.POST.get("message")
-		sentiment_text = getCleanedText(response_13)
-		sentiment_analyze(sentiment_text)
-		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(response_13 = response_13)
+
+		if len(response_13) > 0:
+			# use Text-Proccessing API
+			json_object = textProccessing(response_13)
+
+			# getting the scores
+			dict_response = json_object.get('probability')
+			label = json_object.get('label')
+			positive = dict_response.get('pos')
+			negative = dict_response.get('neg')
+			neutral = dict_response.get('neutral')
+		else:
+			label = None
+			positive = 0
+			negative = 0
+			neutral = 0
+
+		# get final score
+		final_score = finalScoring(positive, job_weight)
+
+		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+			response_13 = response_13, label13 = label, positive13 = positive, negative13 = negative, 
+			neutral13 = neutral, score13 = final_score)
 		return redirect('user:job-interview_q14')
 
 class JobInterviewQ14View(View):
@@ -655,10 +936,31 @@ class JobInterviewQ14View(View):
 	def post(self, request):
 		user = request.user
 		job_id = request.session['job']
+		job_weight = request.POST.get("job-weight")
 		response_14 = request.POST.get("message")
-		sentiment_text = getCleanedText(response_14)
-		sentiment_analyze(sentiment_text)
-		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(response_14 = response_14)
+
+		if len(response_14) > 0:
+			# use Text-Proccessing API
+			json_object = textProccessing(response_14)
+
+			# getting the scores
+			dict_response = json_object.get('probability')
+			label = json_object.get('label')
+			positive = dict_response.get('pos')
+			negative = dict_response.get('neg')
+			neutral = dict_response.get('neutral')
+		else:
+			label = None
+			positive = 0
+			negative = 0
+			neutral = 0
+
+		# get final score
+		final_score = finalScoring(positive, job_weight)
+
+		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+			response_14 = response_14, label14 = label, positive14 = positive, negative14 = negative, 
+			neutral14 = neutral, score14 = final_score)
 		return redirect('user:job-interview_q15')
 
 class JobInterviewQ15View(View):
@@ -683,10 +985,31 @@ class JobInterviewQ15View(View):
 	def post(self, request):
 		user = request.user
 		job_id = request.session['job']
+		job_weight = request.POST.get("job-weight")
 		response_15 = request.POST.get("message")
-		sentiment_text = getCleanedText(response_15)
-		sentiment_analyze(sentiment_text)
-		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(response_15 = response_15)
+
+		if len(response_15) > 0:
+			# use Text-Proccessing API
+			json_object = textProccessing(response_15)
+
+			# getting the scores
+			dict_response = json_object.get('probability')
+			label = json_object.get('label')
+			positive = dict_response.get('pos')
+			negative = dict_response.get('neg')
+			neutral = dict_response.get('neutral')
+		else:
+			label = None
+			positive = 0
+			negative = 0
+			neutral = 0
+
+		# get final score
+		final_score = finalScoring(positive, job_weight)
+
+		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+			response_15 = response_15, label15 = label, positive15 = positive, negative15 = negative, 
+			neutral15 = neutral, score15 = final_score)
 		return redirect('user:job-interview_q16')
 
 class JobInterviewQ16View(View):
@@ -711,10 +1034,31 @@ class JobInterviewQ16View(View):
 	def post(self, request):
 		user = request.user
 		job_id = request.session['job']
+		job_weight = request.POST.get("job-weight")
 		response_16 = request.POST.get("message")
-		sentiment_text = getCleanedText(response_16)
-		sentiment_analyze(sentiment_text)
-		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(response_16 = response_16)
+
+		if len(response_16) > 0:
+			# use Text-Proccessing API
+			json_object = textProccessing(response_16)
+
+			# getting the scores
+			dict_response = json_object.get('probability')
+			label = json_object.get('label')
+			positive = dict_response.get('pos')
+			negative = dict_response.get('neg')
+			neutral = dict_response.get('neutral')
+		else:
+			label = None
+			positive = 0
+			negative = 0
+			neutral = 0
+
+		# get final score
+		final_score = finalScoring(positive, job_weight)
+
+		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+			response_16 = response_16, label16 = label, positive16 = positive, negative16 = negative, 
+			neutral16 = neutral, score16 = final_score)
 		return redirect('user:job-interview_q17')
 
 class JobInterviewQ17View(View):
@@ -739,10 +1083,31 @@ class JobInterviewQ17View(View):
 	def post(self, request):
 		user = request.user
 		job_id = request.session['job']
+		job_weight = request.POST.get("job-weight")
 		response_17 = request.POST.get("message")
-		sentiment_text = getCleanedText(response_17)
-		sentiment_analyze(sentiment_text)
-		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(response_17 = response_17)
+		
+		if len(response_17) > 0:
+			# use Text-Proccessing API
+			json_object = textProccessing(response_17)
+
+			# getting the scores
+			dict_response = json_object.get('probability')
+			label = json_object.get('label')
+			positive = dict_response.get('pos')
+			negative = dict_response.get('neg')
+			neutral = dict_response.get('neutral')
+		else:
+			label = None
+			positive = 0
+			negative = 0
+			neutral = 0
+
+		# get final score
+		final_score = finalScoring(positive, job_weight)
+
+		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+			response_17 = response_17, label17 = label, positive17 = positive, negative17 = negative, 
+			neutral17 = neutral, score17 = final_score)
 		return redirect('user:job-interview_q18')
 
 class JobInterviewQ18View(View):
@@ -767,10 +1132,31 @@ class JobInterviewQ18View(View):
 	def post(self, request):
 		user = request.user
 		job_id = request.session['job']
+		job_weight = request.POST.get("job-weight")
 		response_18 = request.POST.get("message")
-		sentiment_text = getCleanedText(response_18)
-		sentiment_analyze(sentiment_text)
-		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(response_18 = response_18)
+
+		if len(response_18) > 0:
+			# use Text-Proccessing API
+			json_object = textProccessing(response_18)
+
+			# getting the scores
+			dict_response = json_object.get('probability')
+			label = json_object.get('label')
+			positive = dict_response.get('pos')
+			negative = dict_response.get('neg')
+			neutral = dict_response.get('neutral')
+		else:
+			label = None
+			positive = 0
+			negative = 0
+			neutral = 0
+
+		# get final score
+		final_score = finalScoring(positive, job_weight)
+
+		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+			response_18 = response_18, label18 = label, positive18 = positive, negative18 = negative, 
+			neutral18 = neutral, score18 = final_score)
 		return redirect('user:job-interview_q19')
 
 class JobInterviewQ19View(View):
@@ -795,10 +1181,31 @@ class JobInterviewQ19View(View):
 	def post(self, request):
 		user = request.user
 		job_id = request.session['job']
+		job_weight = request.POST.get("job-weight")
 		response_19 = request.POST.get("message")
-		sentiment_text = getCleanedText(response_19)
-		sentiment_analyze(sentiment_text)
-		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(response_19 = response_19)
+
+		if len(response_19) > 0:
+			# use Text-Proccessing API
+			json_object = textProccessing(response_19)
+
+			# getting the scores
+			dict_response = json_object.get('probability')
+			label = json_object.get('label')
+			positive = dict_response.get('pos')
+			negative = dict_response.get('neg')
+			neutral = dict_response.get('neutral')
+		else:
+			label = None
+			positive = 0
+			negative = 0
+			neutral = 0
+
+		# get final score
+		final_score = finalScoring(positive, job_weight)
+
+		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+			response_19 = response_19, label19 = label, positive19 = positive, negative19 = negative, 
+			neutral19 = neutral, score19 = final_score)
 		return redirect('user:job-interview_q20')
 
 class JobInterviewQ20View(View):
@@ -823,10 +1230,31 @@ class JobInterviewQ20View(View):
 	def post(self, request):
 		user = request.user
 		job_id = request.session['job']
+		job_weight = request.POST.get("job-weight")
 		response_20 = request.POST.get("message")
-		sentiment_text = getCleanedText(response_20)
-		sentiment_analyze(sentiment_text)
-		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(response_20 = response_20)
+
+		if len(response_20) > 0:
+			# use Text-Proccessing API
+			json_object = textProccessing(response_20)
+
+			# getting the scores
+			dict_response = json_object.get('probability')
+			label = json_object.get('label')
+			positive = dict_response.get('pos')
+			negative = dict_response.get('neg')
+			neutral = dict_response.get('neutral')
+		else:
+			label = None
+			positive = 0
+			negative = 0
+			neutral = 0
+
+		# get final score
+		final_score = finalScoring(positive, job_weight)
+
+		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+			response_20 = response_20, label20 = label, positive20 = positive, negative20 = negative, 
+			neutral20 = neutral, score20 = final_score)
 
 		try:
 			del request.session['job']
@@ -881,35 +1309,35 @@ class JobInterviewAccessDenied(View):
 			return redirect('administrator:access_denied_view')
 		return render(request, 'jobInterviewAccessDenied.html')
 
-def getCleanedText(text):
-	# converting to lowercase
-	lower_text = text.lower()
+# def getCleanedText(text):
+# 	# converting to lowercase
+# 	lower_text = text.lower()
 
-	# removing punctuations
-	cleaned_text = lower_text.translate(str.maketrans('','', string.punctuation))
+# 	# removing punctuations
+# 	cleaned_text = lower_text.translate(str.maketrans('','', string.punctuation))
 
-	# splitting text into words
-	tokenized_words = cleaned_text.split()
+# 	# splitting text into words
+# 	tokenized_words = cleaned_text.split()
 
-	stop_words = ["i", "me", "my", "myself", "we", "our", "ours", "ourselves", "you", "your", "yours", "yourself",
-              "yourselves", "he", "him", "his", "himself", "she", "her", "hers", "herself", "it", "its", "itself",
-              "they", "them", "their", "theirs", "themselves", "what", "which", "who", "whom", "this", "that", "these",
-              "those", "am", "is", "are", "was", "were", "be", "been", "being", "have", "has", "had", "having", "do",
-              "does", "did", "doing", "a", "an", "the", "and", "but", "if", "or", "because", "as", "until", "while",
-              "of", "at", "by", "for", "with", "about", "against", "between", "into", "through", "during", "before",
-              "after", "above", "below", "to", "from", "up", "down", "in", "out", "on", "off", "over", "under", "again",
-              "further", "then", "once", "here", "there", "when", "where", "why", "how", "all", "any", "both", "each",
-              "few", "more", "most", "other", "some", "such", "no", "nor", "not", "only", "own", "same", "so", "than",
-              "too", "very", "s", "t", "can", "will", "just", "don", "should", "now"]
-	final_words = []
+# 	stop_words = ["i", "me", "my", "myself", "we", "our", "ours", "ourselves", "you", "your", "yours", "yourself",
+#               "yourselves", "he", "him", "his", "himself", "she", "her", "hers", "herself", "it", "its", "itself",
+#               "they", "them", "their", "theirs", "themselves", "what", "which", "who", "whom", "this", "that", "these",
+#               "those", "am", "is", "are", "was", "were", "be", "been", "being", "have", "has", "had", "having", "do",
+#               "does", "did", "doing", "a", "an", "the", "and", "but", "if", "or", "because", "as", "until", "while",
+#               "of", "at", "by", "for", "with", "about", "against", "between", "into", "through", "during", "before",
+#               "after", "above", "below", "to", "from", "up", "down", "in", "out", "on", "off", "over", "under", "again",
+#               "further", "then", "once", "here", "there", "when", "where", "why", "how", "all", "any", "both", "each",
+#               "few", "more", "most", "other", "some", "such", "no", "nor", "not", "only", "own", "same", "so", "than",
+#               "too", "very", "s", "t", "can", "will", "just", "don", "should", "now"]
+# 	final_words = []
 
-	# removing stopwords
-	for word in tokenized_words:
-	    if word not in stop_words:
-	        final_words.append(word)
+# 	# removing stopwords
+# 	for word in tokenized_words:
+# 	    if word not in stop_words:
+# 	        final_words.append(word)
 
-	return " ".join(final_words)
+# 	return " ".join(final_words)
 
-def sentiment_analyze(sentiment_text):
-	score = SentimentIntensityAnalyzer().polarity_scores(sentiment_text)
-	print(score)
+# def sentiment_analyze(sentiment_text):
+# 	score = SentimentIntensityAnalyzer().polarity_scores(sentiment_text)
+# 	print(score)

@@ -129,6 +129,7 @@
       {% csrf_token %}        
         <br style="line-height: 10px">
         {% for job in job %}
+        <input type="text" name="job-weight" value="{{job.weight2}}" hidden>
         <span id="time">0{{job.timer2}}:00</span>
         {% endfor %}
         <textarea class="message-input" id="message" name="message" placeholder="Type your answer here..." autofocus></textarea>
