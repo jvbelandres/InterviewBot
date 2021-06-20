@@ -129,7 +129,16 @@
       {% csrf_token %}        
         <br style="line-height: 10px">
         {% for job in job %}
-        <input type="text" name="job-weight" value="{{job.weight10}}" hidden>
+        <input type="text" name="job-weight1" value="{{job.weight1}}" hidden>
+        <input type="text" name="job-weight2" value="{{job.weight2}}" hidden>
+        <input type="text" name="job-weight3" value="{{job.weight3}}" hidden>
+        <input type="text" name="job-weight4" value="{{job.weight4}}" hidden>
+        <input type="text" name="job-weight5" value="{{job.weight5}}" hidden>
+        <input type="text" name="job-weight6" value="{{job.weight6}}" hidden>
+        <input type="text" name="job-weight7" value="{{job.weight7}}" hidden>
+        <input type="text" name="job-weight8" value="{{job.weight8}}" hidden>
+        <input type="text" name="job-weight9" value="{{job.weight9}}" hidden>
+        <input type="text" name="job-weight10" value="{{job.weight10}}" hidden>
         <span id="time">0{{job.timer10}}:00</span>
         {% endfor %}
         <textarea class="message-input" id="message" name="message" placeholder="Type your answer here..." autofocus></textarea>
