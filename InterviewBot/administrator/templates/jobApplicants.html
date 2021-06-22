@@ -42,104 +42,32 @@
 
         <div class="modalHeader" style="border-radius: 0px;height: 80px;">
             <img src="{% static '/images/Notepad.png' %}" class="imgNotepad">
-            <a class="questionTitle">Job Applicants </a><br><br>
+            <a class="questionTitle">{{joblist.title}} </a><br><br>
             <a href=  "{% url 'administrator:job-lists_view' %}"><b>Back</b></a>
         </div>
+    {% endfor %}
 
         <div class="container">
-            <ul class="nav nav-tabs" style="margin-left: 38%;">
-                <li><a data-toggle="tab" href="#questionsTab" class="tab-modal active" style="font-weight: bold;">Questions</a></li>
-                <li><a data-toggle="tab" href="#applicantTab" class="tab-modal" style="font-weight: bold;">Applicants</a></li>
-            </ul>
-
-
             <div class="tab-content" style="width: 150%;margin-left: -25%;" >
+                <center><header></header>
+                <div class="questionnaireTitle" style="height: 100px;">
+                    <h2><b>Applicants</b></h2>
+                    <h5>(Last Name, First Name)</h5>
+                </div>
 
-                <!-- QUESTIONS TAB -->
-                <div id="questionsTab" class="tab-pane in active">
-                    <center><header></header>
-                    <div class="questionnaireTitle" style="height: 100px;">
-                        <h2><b>{{joblist.title}}</b></h2>
-                    </div>
-
-                    <div class="questionContainer">
-                        <div class="contentQuestion">
-                            <section id="tabs" class="project-tab">
-                                <div class="container" style="width: 120%;margin-left: -5%;">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <nav>
-                                                <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                                                    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true" aria-disabled="true">Questions 1-5</a>
-                                                    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Questions 6-10</a>
-                                                    <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Questions 11-15</a>
-                                                    <a class="nav-item nav-link" id="nav-last-tab" data-toggle="tab" href="#nav-last" role="tab" aria-controls="nav-last" aria-selected="false">Questions 16-20</a>
-                                                </div>
-                                            </nav>
-                                            <div class="tab-content" id="nav-tabContents">
-                                                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                                                    <br>
-                                                    <p id="question"> 1. {{joblist.question_1}} </p> <hr>
-                                                    <p id="question"> 2. {{joblist.question_2}} </p> <hr>
-                                                    <p id="question"> 3. {{joblist.question_3}} </p> <hr>
-                                                    <p id="question"> 4. {{joblist.question_4}} </p> <hr>
-                                                    <p id="question"> 5. {{joblist.question_5}} </p> <hr>
-                                                </div>
-                                                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                                                    <br>
-                                                    <p id="question"> 6. {{joblist.question_6}} </p> <hr>
-                                                    <p id="question"> 7. {{joblist.question_7}} </p> <hr>
-                                                    <p id="question"> 8. {{joblist.question_8}} </p> <hr>
-                                                    <p id="question"> 9. {{joblist.question_9}} </p> <hr>
-                                                    <p id="question"> 10. {{joblist.question_10}} </p> <hr>
-                                                </div>
-                                                <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab"><br>
-                                                    <p id="question"> 11. {{joblist.question_11}} </p> <hr>
-                                                    <p id="question"> 12. {{joblist.question_12}} </p> <hr>
-                                                    <p id="question"> 13. {{joblist.question_13}} </p> <hr>
-                                                    <p id="question"> 14. {{joblist.question_14}} </p> <hr>
-                                                    <p id="question"> 15. {{joblist.question_15}} </p> <hr>
-                                                </div>
-                                                <div class="tab-pane fade" id="nav-last" role="tabpanel" aria-labelledby="nav-last-tab"><br>
-                                                    <p id="question"> 16. {{joblist.question_16}} </p> <hr>
-                                                    <p id="question"> 17. {{joblist.question_17}} </p> <hr>
-                                                    <p id="question"> 18. {{joblist.question_18}} </p> <hr>
-                                                    <p id="question"> 19. {{joblist.question_19}} </p> <hr>
-                                                    <p id="question"> 20. {{joblist.question_20}} </p> <hr>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </section>
+                <div class="questionContainer">
+                    <div class="contentQuestion" >
+                    <center><p style="border-style: dotted; width: 40%;" class="text-info">&nbsp; Applicants are ordered from highest to lowest scorers &nbsp;</p></center>
+                    {% for applicant in applicants %}
+                        <div class="input_fields_wrap2" style="display:flex ;margin-bottom: 10px; width: 87%;margin-top: 3%;">
+                            <input type="text" placeholder="{{applicant.lastname}}, {{applicant.firstname}} " disabled>
+                            <button type="button" class="citButton" data-toggle="modal" id="id-btnView" data-target="#viewModal-{{applicant.id}}">View</button>
                         </div>
+                    {% endfor %}
                     </div>
-                    <footer></footer>
-                    </center>
-                </div> <!-- END OF QUESTIONS TAB -->
-                {% endfor %}
-
-                <!-- APPLICANT TAB -->
-                <div id="applicantTab" class="tab-pane in fade">
-                    <center><header></header>
-                    <div class="questionnaireTitle" style="height: 100px;">
-                        <h2><b>Applicants</b></h2>
-                        <h5>(Last Name, First Name)</h5>
-                    </div>
-
-                    <div class="questionContainer">
-                        <div class="contentQuestion" >
-                        {% for applicant in applicants %}
-                            <div class="input_fields_wrap2" style="display:flex ;margin-bottom: 10px; width: 87%;margin-top: 3%;"> 
-                                <input type="text" placeholder="{{applicant.lastname}}, {{applicant.firstname}} " disabled>
-                                <button type="button" class="citButton" data-toggle="modal" id="id-btnView" data-target="#viewModal-{{applicant.id}}">View</button>
-                            </div>
-                        {% endfor %}
-                        </div>
-                    </div>
-                    <footer></footer>
-                    </center>
-                </div> <!-- END OF APPLICANT TAB -->
+                </div>
+                <footer></footer>
+                </center>
 
                 <!-- VIEW MODAL -->
                 {% for applicant in applicants %}
@@ -161,17 +89,13 @@
                                     <p class="tab">Gender: {{applicant.gender}}</p>
                                     <br><p><b>Contact Details:</b></p>
                                     <p class="tab">Email address: {{applicant.email}}</p>
-                                    {% if applicant.phone == null or applicant.phone == '' %}
-                                        <p class="tab">Phone: n/a</p>
-                                    {% else %}
-                                        <p class="tab">Phone: {{applicant.phone}}</p>
-                                    {% endif %}
+                                    <p class="tab">Phone: {{applicant.phone}}</p>
                                 </div>
 
                                 <input type="text" name="applicantID" value="{{applicant.id}}" hidden>
 
                                 <div class="modal-footer">
-                                    <button type="submit" name="btnAnswers" class="btn btn-primary">ANSWERS</button>
+                                    <button type="submit" name="btnAnswers" class="btn btn-primary">RESPONSES</button>
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">CLOSE</button>
                                 </div>
                             </form>
@@ -184,53 +108,6 @@
         </div>
     </div>
 
-    <script type="text/javascript">
-    function headrTab(evt, applicantHeader) {
-    // Declare all variables
-    var i, tabcontent, tablinks;
-
-    // Get all elements with class="tabcontent" and hide them
-    tabcontent = document.getElementsByClassName("tabcontentHeader");
-    for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
-    }
-
-    // Get all elements with class="tablinks" and remove the class "active"
-    tablinks = document.getElementsByClassName("tablinksHeader");
-    for (i = 0; i < tablinks.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" active", "");
-    }
-
-    // Show the current tab, and add an "active" class to the button that opened the tab
-    document.getElementById(applicantHeader).style.display = "block";
-    evt.currentTarget.className += " active";
-    }
-    document.getElementById("defaultOpen").click();
-    </script>
-
-    <script type="text/javascript">
-    function jobApplicant(evt, applicant) {
-    // Declare all variables
-    var i, tabcontent, tablinks;
-
-    // Get all elements with class="tabcontent" and hide them
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
-    }
-
-    // Get all elements with class="tablinks" and remove the class "active"
-    tablinks = document.getElementsByClassName("tablinks");
-    for (i = 0; i < tablinks.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" active", "");
-    }
-
-    // Show the current tab, and add an "active" class to the button that opened the tab
-    document.getElementById(applicant).style.display = "block";
-    evt.currentTarget.className += " active";
-    }
-    document.getElementById("defaultOpenQuestionsTab").click();
-    </script>                        
 {% endblock content %}
 
 

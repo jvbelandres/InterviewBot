@@ -29,6 +29,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
     <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <!-- Chart.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
 
 {% endblock footerinclude %}
 
@@ -61,12 +63,13 @@
                 <div class="contentQuestion">
                     <header></header>
                     <div id="quest" class="tabcontentHeader" style="width: 100%;">
-                        <div class="tab">
-                          <button class="tablinks" onclick="jobApplicant(event, 'q1to5')" id="defaultOpenQuestionsTab">Questions 1-5</button>
-                          <button class="tablinks" onclick="jobApplicant(event, 'q6to10')">Questions 6-10</button>
-                          <button class="tablinks" onclick="jobApplicant(event, 'q11to15')">Questions 11-15</button>
-                          <button class="tablinks" onclick="jobApplicant(event, 'q16to20')">Questions 16-20</button>
-                        </div>
+                        <nav class="tab">
+                            <button class="tablinks" onclick="jobApplicant(event, 'summary')" id="defaultOpenQuestionsTab">Summary</button>
+                            <button class="tablinks" onclick="jobApplicant(event, 'q1to5')">Questions 1-5</button>
+                            <button class="tablinks" onclick="jobApplicant(event, 'q6to10')">Questions 6-10</button>
+                            <button class="tablinks" onclick="jobApplicant(event, 'q11to15')">Questions 11-15</button>
+                            <button class="tablinks" onclick="jobApplicant(event, 'q16to20')">Questions 16-20</button>
+                        </nav>
                     </div>
 
                     <center>
@@ -131,6 +134,81 @@
                             <p class="answer">{{response.response_19}}&nbsp;</p><br>
                             <p class="question">20. {{response.question_20}} &nbsp;</p><hr>
                             <p class="answer">{{response.response_20}}&nbsp;</p><br>
+                        </div>
+                    </div>
+
+                    <div id="summary" class="tabcontent" style="width: 87%; margin-bottom: inherit;">
+                        <div class="input_fields_wrap2">
+                            <br><br>
+                            <h5>Overall Score based on Sentiment Analysis</h5>
+                            <h3>{{response.final_score}}%</h3><br>
+                            <h5 style="float: left;">Summary of Scores per Question</h5>
+                            <canvas id="myChart"></canvas>
+                            <script>
+                                let myChart = document.getElementById('myChart').getContext('2d');
+
+                                // Global Options
+                                Chart.defaults.global.defaultFontFamily = 'GothamLight';
+                                Chart.defaults.global.defaultFontSize = 18;
+                                Chart.defaults.global.defaultFontColor = '#000';
+
+                                let massPopChart = new Chart(myChart, {
+                                  type:'horizontalBar', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+                                  data:{
+                                    labels: ['Q1', 'Q2', 'Q3', 'Q4', 'Q5', 'Q6', 'Q7', 'Q8', 'Q9', 'Q10', 'Q11', 'Q12', 'Q13', 'Q14', 'Q15', 'Q16', 'Q17', 'Q18', 'Q19', 'Q20'],
+                                    datasets:[{
+                                      label:'Scores',
+                                      data: [
+                                            Number.parseFloat({{response.score1}}).toFixed(2), 
+                                            Number.parseFloat({{response.score2}}).toFixed(2), 
+                                            Number.parseFloat({{response.score3}}).toFixed(2),
+                                            Number.parseFloat({{response.score4}}).toFixed(2), 
+                                            Number.parseFloat({{response.score5}}).toFixed(2),
+                                            Number.parseFloat({{response.score6}}).toFixed(2),
+                                            Number.parseFloat({{response.score7}}).toFixed(2),
+                                            Number.parseFloat({{response.score8}}).toFixed(2),
+                                            Number.parseFloat({{response.score9}}).toFixed(2), 
+                                            Number.parseFloat({{response.score10}}).toFixed(2),
+                                            Number.parseFloat({{response.score11}}).toFixed(2),
+                                            Number.parseFloat({{response.score12}}).toFixed(2), 
+                                            Number.parseFloat({{response.score13}}).toFixed(2),
+                                            Number.parseFloat({{response.score14}}).toFixed(2),
+                                            Number.parseFloat({{response.score15}}).toFixed(2),
+                                            Number.parseFloat({{response.score16}}).toFixed(2),
+                                            Number.parseFloat({{response.score17}}).toFixed(2),
+                                            Number.parseFloat({{response.score18}}).toFixed(2),
+                                            Number.parseFloat({{response.score19}}).toFixed(2),
+                                            Number.parseFloat({{response.score20}}).toFixed(2)
+                                            ],
+                                      backgroundColor: 'rgba(178,34,34,0.8)',
+                                      borderWidth:1,
+                                      borderColor:'#777',
+                                      hoverBorderWidth:3,
+                                      hoverBorderColor:'#FFF'
+                                    }]
+                                  },
+                                  options:{
+                                    legend:{
+                                      display:true,
+                                      position:'right',
+                                      labels:{
+                                        fontColor:'#000'
+                                      }
+                                    },
+                                    layout:{
+                                      padding:{
+                                        left:50,
+                                        right:0,
+                                        bottom:0,
+                                        top:0
+                                      }
+                                    },
+                                    tooltips:{
+                                      enabled:true
+                                    }
+                                  }
+                                });
+                            </script>
                         </div>
                     </div>
                     </center>
