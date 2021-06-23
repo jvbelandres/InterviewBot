@@ -479,11 +479,11 @@ class JobInterviewQ5View(View):
 			# getting the positive score
 			dict_response = json_object.get('probability')
 			positive = dict_response.get('pos')
-
-			# Score multiplied by weight
-			final_score = finalScoring(positive, 1)
 		else:
 			positive = 0
+
+		# Score multiplied by weight
+		final_score = finalScoring(positive, 1)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_5 = response_5, positive5 = positive, score5 = final_score)
