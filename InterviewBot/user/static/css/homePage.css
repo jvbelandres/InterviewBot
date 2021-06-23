@@ -265,7 +265,7 @@ td {
     color: white;
 }
 
-.btnUnsave {
+.btnUnsave, .btnResult {
     border: none;
     font-size: 16px;
     font-weight: bold;
@@ -275,6 +275,11 @@ td {
 
 .btnUnsave:hover {
     font-size: 18px;
+}
+
+.btnResult:hover {
+    font-size: 18px;
+    color: #781B1B;
 }
 
 .jobTitle {

@@ -22,6 +22,46 @@ body {
   overflow: hidden;
 }
 
+h5 {
+  text-align: justify;
+  margin-left: 3%;
+  width: 95%; 
+  padding: 5px;
+}
+
+ul#do {
+  list-style-image: url('../images/checkmark.png')
+}
+
+ul#dont {
+  list-style-image: url('../images/wrong.png')
+
+}
+
+.do {
+  border-width: 2px;
+  border-style: solid;
+  border-color: green;
+  height: 100%;
+}
+
+.dont {
+  border-width: 2px;
+  border-style: solid;
+  border-color: red;
+  height: 100%;
+}
+
+li {
+  margin-bottom: 2%;
+  margin-right: 5%;
+}
+
+a:hover {
+  text-align: center;
+  text-decoration: none;
+}
+
 .bg {
   width: 100%;
   height: 100%;
@@ -305,9 +345,20 @@ Messages
   height: 100%;
 }
 
+
 /*--------------------
 Message Box
 --------------------*/
+textarea {
+  resize: none; /* hide resizer */
+  overflow: auto; /* hide scrollbar */
+}
+
+#time {
+  margin-left: 1%;
+  font-size: 18px;
+}
+
 .message-box {
   -webkit-box-flex: 0;
   -ms-flex: 0 1 40px;
@@ -316,21 +367,22 @@ Message Box
   background: rgba(0, 0, 0, 0.3);
   padding: 0.5%;
   margin-top: 5%;
-  
+  height: 10%;
 }
-.message-box .message-input {
-  position: relative;
-  top: 1px;
-  left: 100px;
+
+.message-input {
+  position: absolute;
+  top: 15%;
+  left: 6%;
   border-right-width: 0px;
   border-top-width: 0px;
   border-left-width: 0px;
   border-bottom-width: 0px;
-  border-radius: 50px;
+  border-radius: 10px;
   outline: none !important;
   color: black;
   font-size: 15px;
-  height: 30px;
+  height: 60%;
   margin: 0;
   width: 80%;
 }

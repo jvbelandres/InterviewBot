@@ -33,11 +33,9 @@
      <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
     
-
     <!-- Font-awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    
+
 {% endblock footerinclude %}
 
 
@@ -75,12 +73,16 @@
             document.getElementById('message').value = event.results[0][0].transcript;
           }
           recognition.start();
-        }
+      }
+
+      // Prevent users from pressing F5
+      document.onkeydown = disableF5;   
+      function disableF5(e) { if ((e.keyCode) == 116) e.preventDefault(); };
 
       // Set the date we're counting down to
       var countDownDate = new Date();
       {% for job in job %}
-      countDownDate.setMinutes(countDownDate.getMinutes() + {{job.timer1}});
+      countDownDate.setMinutes(countDownDate.getMinutes() + {{job.timer5}});
       countDownDate.setSeconds(countDownDate.getSeconds() + 1);
       {% endfor %}
 
@@ -122,11 +124,13 @@
 
   <div class="message-box" style="position: fixed; bottom: 0%;">
     <form id="response" method="POST" autocomplete="off" enctype="multipart/form-data">
-      {% csrf_token %}        
+      {% csrf_token %}
+        <br style="line-height: 10px">
         {% for job in job %}
-        <span id="time" style="margin-left: 1.5%;">0{{job.timer5}}:00</span>
+        <input type="text" name="job-weight" value="{{job.weight5}}" hidden>
+        <span id="time">0{{job.timer5}}:00</span>
         {% endfor %}
-        <input type="text" class="message-input" id="message" name="message" placeholder="Type your answer here..." style="left: 6%; top: 25%; position: absolute;" autofocus>
+        <textarea class="message-input" id="message" name="message" placeholder="Type your answer here..." autofocus></textarea>
         <button type="submit" id="send" class="message-submit sound-on-click" style="left: 92%; top: 17%; height: 40px; position: absolute; text-align: center;"><i id="fa-send" class="fa fa-send-o"> Send</i></button>
     </form>
     <button name="mic" id="id-mic" style="left: 88%; top: 17%; position: absolute;" onclick=record();><i id="fa-mic" class="fa fa-microphone"></i></button>
