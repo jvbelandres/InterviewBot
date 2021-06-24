@@ -103,8 +103,10 @@ class JobListsView(View):
 	def post(self, request):
 		user = request.user
 		if 'btnDelete' in request.POST:
-			jobID1 = request.POST.get("jobID")
-			job = CreateJob.objects.filter(id=jobID1).update(is_deleted=1)
+			print('btnDelete clicked')
+			job_id = request.POST.get("id-job")
+			print(job_id)
+			job = CreateJob.objects.filter(id=job_id).update(is_deleted=1)
 			return redirect('administrator:job-lists_view')
 		elif 'btnUpdate' in request.POST:
 			job_id = request.POST.get("job-id")

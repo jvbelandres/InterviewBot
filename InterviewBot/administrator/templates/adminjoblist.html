@@ -102,7 +102,7 @@
                                 </div>
                             </header>
                             <textarea style="background-color:#E5E5E5;" readonly>{{joblist.description}}</textarea>
-                                <a data-target="#deleteModal-{{joblist.id}}" data-toggle="modal" href="#deleteModal">Delete</a>
+                                <a data-target="#deleteModal-{{joblist.id}}" data-toggle="modal" href="#deleteModal-{{joblist.id}}">Delete</a>
                                 <a data-target="#viewModal-{{joblist.id}}" data-toggle="modal" href="#viewModal">View</a>             
                         </div>
                         <div class="column-status">
@@ -262,20 +262,18 @@
             </div>
 
             <!-- Delete Modal -->
-            <div class="modal fade" id="deleteModal-{{joblist.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLongTitle">Delete</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div hidden>
-                            <input type="text" name="jobID" value="{{joblist.id}}">
-                        </div>
-                        <form id="deleteForm" method="POST">
-                            {% csrf_token %}
+             <form id="deleteForm" method="POST">
+                {% csrf_token %}
+                <div class="modal fade" id="deleteModal-{{joblist.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Delete</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <input type="text" name="id-job" value="{{joblist.id}}" hidden>
                             <div class="modal-body">
                                 <center>You are about to delete the job entitled <b>{{joblist.title}}</b>.<br>Do you want to proceed?</center>
                             </div>
@@ -283,10 +281,10 @@
                                 <button type="submit" class="citButton" id="btnDelete" name="btnDelete">Yes</button>
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>  
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </form>
             {% endfor %}
         </div>
         <nav aria-label="Page navigation example" id="paginate-align">
