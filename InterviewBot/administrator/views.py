@@ -16,9 +16,9 @@ class DashboardView(View):
 			return redirect('user:access_denied_view')
 
 		if request.user.admin:
-			joblists = CreateJob.objects.all()
+			joblists = CreateJob.objects.filter(is_deleted=0)
 		else:
-			joblists = CreateJob.objects.filter(admin_id=request.user.id)
+			joblists = CreateJob.objects.filter(admin_id=request.user.id, is_deleted=0)
 		appliedJobs = AppliedJob.objects.all()
 
 		context = {
@@ -79,9 +79,9 @@ class JobListsView(View):
 			return redirect('user:access_denied_view')
 
 		if user.admin:
-			joblists = CreateJob.objects.raw('SELECT account.email, jobofferings.* FROM account, jobofferings WHERE jobofferings.admin_id = account.id')
+			joblists = CreateJob.objects.raw('SELECT account.email, jobofferings.* FROM account, jobofferings WHERE jobofferings.admin_id = account.id AND jobofferings.is_deleted = 0')
 		elif user.staff:
-			joblists = CreateJob.objects.filter(admin_id = user.id)
+			joblists = CreateJob.objects.filter(admin_id = user.id, is_deleted=0)
 
 		p = Paginator(joblists,2)
 		page_number = request.GET.get('page',1)
@@ -104,13 +104,50 @@ class JobListsView(View):
 		user = request.user
 		if 'btnDelete' in request.POST:
 			jobID1 = request.POST.get("jobID")
-			job = CreateJob.objects.filter(id=jobID1).delete()
+			job = CreateJob.objects.filter(id=jobID1).update(is_deleted=1)
 			return redirect('administrator:job-lists_view')
 		elif 'btnUpdate' in request.POST:
-			jobID1 = request.POST.get("jobID")
-			jobDesription1 = request.POST.get("jobDescription")
-			jobHeader1 = request.POST.get("jobHeader")
-			job = CreateJob.objects.filter(id=jobID1).update(description = jobDesription1, title= jobHeader1)
+			job_id = request.POST.get("job-id")
+			title = request.POST.get("job-title")
+			description = request.POST.get("job-description")
+			weight1 = request.POST.get("weight1")
+			weight2 = request.POST.get("weight2")
+			weight3 = request.POST.get("weight3")
+			weight4 = request.POST.get("weight4")
+			weight5 = request.POST.get("weight5")
+			weight6 = request.POST.get("weight6")
+			weight7 = request.POST.get("weight7")
+			weight8 = request.POST.get("weight8")
+			weight9 = request.POST.get("weight9")
+			weight10 = request.POST.get("weight10")
+			timer1 = request.POST.get("timer1")
+			timer2 = request.POST.get("timer2")
+			timer3 = request.POST.get("timer3")
+			timer4 = request.POST.get("timer4")
+			timer5 = request.POST.get("timer5")
+			timer6 = request.POST.get("timer6")
+			timer7 = request.POST.get("timer7")
+			timer8 = request.POST.get("timer8")
+			timer9 = request.POST.get("timer9")
+			timer10 = request.POST.get("timer10")
+			q11 = request.POST.get("qtn11")
+			q12 = request.POST.get("qtn12")
+			q13 = request.POST.get("qtn13")
+			q14 = request.POST.get("qtn14")
+			q15 = request.POST.get("qtn15")
+			q16 = request.POST.get("qtn16")
+			q17 = request.POST.get("qtn17")
+			q18 = request.POST.get("qtn18")
+			q19 = request.POST.get("qtn19")
+			q20 = request.POST.get("qtn20")
+
+			job = CreateJob.objects.filter(id=job_id).update(title=title, description=description,
+				question_11=q11, question_12=q12, question_13=q13, question_14=q14, question_15=q15, 
+				question_16=q16, question_17=q17, question_18=q18, question_19=q19, question_20=q20,
+				weight1=weight1, weight2=weight2, weight3=weight3, weight4=weight4, weight5=weight5,
+				weight6=weight6, weight7=weight7, weight8=weight8, weight9=weight9, weight10=weight10,
+				timer1=timer1, timer2=timer2, timer3=timer3, timer4=timer4, timer5=timer5, timer6=timer6,
+				timer7=timer7, timer8=timer8,timer9=timer9,timer10=timer10)
 			return redirect('administrator:job-lists_view')
 		elif 'btnAdd' in request.POST:
 			jobTitle = request.POST.get("name-title")

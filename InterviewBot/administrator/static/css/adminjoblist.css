@@ -529,6 +529,7 @@ ul ul a {
 
 textarea{
     border: none;
+    outline: none;
     resize: none;
     line-height: 2ch;
     background-image: linear-gradient(transparent, transparent calc(2ch - 1px), #DEDEDE 0px);
@@ -558,7 +559,6 @@ textarea{
     border-radius: 0 0 10px 10px;
     padding: 20px;
     border-left: 5px solid #933633;
-    margin-top: 5%;
 }
 
 .contentQuestion input[type=text]{
@@ -678,6 +678,7 @@ textarea{
     padding-left: 10%;
     padding-right: 10%;
 }
+
 .project-tab #tabs{
     background: #007b5e;
     color: #eee;
