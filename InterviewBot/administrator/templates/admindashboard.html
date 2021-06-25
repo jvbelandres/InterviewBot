@@ -90,6 +90,7 @@
     </div>
 
     <script>
+        var jobIds = []
         var jobLabels = []
         var backgroundColors = []
         var applicantCount = []
@@ -97,6 +98,7 @@
 
         // Loop for jobLabels
         {% for joblist in joblists %}
+            jobIds.push('{{joblist.id}}')
             jobLabels.push('{{joblist.title}}');
             // Loop for counting appliedjob
             {% for appliedJob in appliedJobs %}
@@ -161,6 +163,13 @@
             },
             tooltips:{
               enabled:true
+            },
+            onClick: function (e) { //change request.session['job'] in views.py to the value of job_id based on the bar chart being clicked by the administrator.
+                debugger;
+                var activePointIndex = this.getElementsAtEvent(e)[0]._index;
+                var job_id = jobIds[activePointIndex];
+                document.getElementById("job-id").value = job_id;
+                document.getElementById("btnJobId").click();
             }
           }
         });
@@ -279,6 +288,12 @@
             </form>
         </div>
     </div>
+
+    <form id="setJobId" method="POST">
+        {% csrf_token %}
+        <input type="text" id="job-id" name="job-id" hidden>
+        <button type="submit" id="btnJobId" name="btnJobId" hidden>
+    </form>
 
     <!-- script for Create Job Modal -->
     <script type="text/javascript">

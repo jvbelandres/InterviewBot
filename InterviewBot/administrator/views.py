@@ -23,11 +23,17 @@ class DashboardView(View):
 
 		context = {
 			'joblists': joblists,
-			'appliedJobs': appliedJobs
+			'appliedJobs': appliedJobs,
 		}
 		return render(request, 'admindashboard.html', context)
 
 	def post(self, request):
+		if request.method == 'POST':
+			if 'btnJobId' in request.POST: # when bar chart is clicked by the administrator
+				job_id = request.POST.get("job-id")
+				request.session['job'] = job_id
+				return redirect('administrator:applicants_view')
+
 		user = request.user
 		jobTitle = request.POST.get("name-title")
 		jobDescription = request.POST.get("name-description")

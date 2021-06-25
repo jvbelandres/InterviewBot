@@ -43,7 +43,7 @@
         <div class="modalHeader" style="border-radius: 0px;height: 80px;">
             <img src="{% static '/images/Notepad.png' %}" class="imgNotepad">
             <a class="questionTitle">{{joblist.title}} </a><br><br>
-            <a href=  "{% url 'administrator:job-lists_view' %}"><b>Back</b></a>
+            <a href=  "{% url 'administrator:dashboard_view' %}"><b>Back</b></a>
         </div>
     {% endfor %}
 

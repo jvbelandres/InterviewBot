@@ -61,85 +61,27 @@
 
             <div class="questionContainer">
                 <div class="contentQuestion">
-                    <header></header>
-                    <div id="quest" class="tabcontentHeader" style="width: 100%;">
-                        <nav class="tab">
-                            <button class="tablinks" onclick="jobApplicant(event, 'summary')" id="defaultOpenQuestionsTab">Summary</button>
-                            <button class="tablinks" onclick="jobApplicant(event, 'q1to5')">Questions 1-5</button>
-                            <button class="tablinks" onclick="jobApplicant(event, 'q6to10')">Questions 6-10</button>
-                            <button class="tablinks" onclick="jobApplicant(event, 'q11to15')">Questions 11-15</button>
-                            <button class="tablinks" onclick="jobApplicant(event, 'q16to20')">Questions 16-20</button>
-                        </nav>
-                    </div>
+                    <section id="tabs" class="project-tab">
+                        <div class="container" style="width: 150%; margin-left: -10%;">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <nav>
+                                        <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                                            <a class="nav-item nav-link active" id="summary-tab" data-toggle="tab" href="#summary-{{response.job_id}}" role="tab"aria-selected="true" aria-disabled="true">Summary</a>
+                                            <a class="nav-item nav-link" id="q1to5-tab" data-toggle="tab" href="#q1to5-{{response.job_id}}" role="tab" aria-selected="false" aria-disabled="false">Questions 1-5</a>
+                                            <a class="nav-item nav-link" id="q6to10-tab" data-toggle="tab" href="#q6to10-{{response.job_id}}" role="tab" aria-selected="false">Questions 6-10</a>
+                                            <a class="nav-item nav-link" id="q11to15-tab" data-toggle="tab" href="#q11to15-{{response.job_id}}" role="tab" aria-selected="false">Questions 11-15</a>
+                                            <a class="nav-item nav-link" id="q16to20-tab" data-toggle="tab" href="#q16to20-{{response.job_id}}" role="tab" aria-selected="false">Questions 16-20</a>
+                                        </div>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
 
                     <center>
-                    <div id="q1to5" class="tabcontent" style="width: 87%; margin-bottom: inherit;">
-                        <div class="input_fields_wrap2">
-                            <br>
-                            <p class="question">1. {{response.question_1}} &nbsp;</p><hr>
-                            <p class="answer">{{response.response_1}}&nbsp;</p><br>
-                            <p class="question">2. {{response.question_2}} &nbsp;</p><hr>
-                            <p class="answer">:{{response.response_2}}&nbsp;</p><br>
-                            <p class="question">3. {{response.question_3}} &nbsp;</p><hr>
-                            <p class="answer">{{response.response_3}}&nbsp;</p><br>
-                            <p class="question">4. {{response.question_4}} &nbsp;</p><hr>
-                            <p class="answer">{{response.response_4}}&nbsp;</p><br>
-                            <p class="question">5. {{response.question_5}} &nbsp;</p><hr>
-                            <p class="answer">{{response.response_5}}&nbsp;</p><br>
-                        </div>
-                    </div>
-
-                    <div id="q6to10" class="tabcontent" style="width: 87%;">
-                        <div class="input_fields_wrap2">
-                            <br>
-                            <p class="question">6. {{response.question_6}} &nbsp;</p><hr>
-                            <p class="answer">{{response.response_6}}&nbsp;</p><br>
-                            <p class="question">7. {{response.question_7}} &nbsp;</p><hr>
-                            <p class="answer">{{response.response_7}}&nbsp;</p><br>
-                            <p class="question">8. {{response.question_8}} &nbsp;</p><hr>
-                            <p class="answer">{{response.response_8}}&nbsp;</p><br>
-                            <p class="question">9. {{response.question_9}} &nbsp;</p><hr>
-                            <p class="answer">{{response.response_9}}&nbsp;</p><br>
-                            <p class="question">10. {{response.question_10}} &nbsp;</p><hr>
-                            <p class="answer">{{response.response_10}}&nbsp;</p><br>
-                        </div>
-                    </div>
-
-                    <div id="q11to15" class="tabcontent" style="width: 87%;">
-                        <div class="input_fields_wrap2">
-                            <br>
-                            <p class="question">11. {{response.question_11}} &nbsp;</p><hr>
-                            <p class="answer">{{response.response_11}}&nbsp;</p><br>
-                            <p class="question">12. {{response.question_12}} &nbsp;</p><hr>
-                            <p class="answer">{{response.response_12}}&nbsp;</p><br>
-                            <p class="question">13. {{response.question_13}} &nbsp;</p><hr>
-                            <p class="answer">{{response.response_13}}&nbsp;</p><br>
-                            <p class="question">14. {{response.question_14}} &nbsp;</p><hr>
-                            <p class="answer">{{response.response_14}}&nbsp;</p><br>
-                            <p class="question">15. {{response.question_15}} &nbsp;</p><hr>
-                            <p class="answer">{{response.response_15}}&nbsp;</p><br>
-                        </div>
-                    </div>
-
-                    <div id="q16to20" class="tabcontent" style="width: 87%;">
-                        <div class="input_fields_wrap2">
-                            <br>
-                            <p class="question">16. {{response.question_16}} &nbsp;</p><hr>
-                            <p class="answer">{{response.response_16}}&nbsp;</p><br>
-                            <p class="question">17. {{response.question_17}} &nbsp;</p><hr>
-                            <p class="answer">{{response.response_17}}&nbsp;</p><br>
-                            <p class="question">18. {{response.question_18}} &nbsp;</p><hr>
-                            <p class="answer">{{response.response_18}}&nbsp;</p><br>
-                            <p class="question">19. {{response.question_19}} &nbsp;</p><hr>
-                            <p class="answer">{{response.response_19}}&nbsp;</p><br>
-                            <p class="question">20. {{response.question_20}} &nbsp;</p><hr>
-                            <p class="answer">{{response.response_20}}&nbsp;</p><br>
-                        </div>
-                    </div>
-
-                    <div id="summary" class="tabcontent" style="width: 87%; margin-bottom: inherit;">
-                        <div class="input_fields_wrap2">
-                            <br><br>
+                    <div class="tab-content" id="nav-tabContents">
+                        <div class="tab-pane fade show active" id="summary-{{response.job_id}}" role="tabpanel" aria-labelledby="summary-tab" style="width: 87%; margin-top: -5%;">
                             <h5>Overall Score based on Sentiment Analysis</h5>
                             <h3>{{response.final_score}}%</h3><br>
                             <h5 style="float: left;">Summary of Scores per Question</h5>
@@ -210,6 +152,57 @@
                                 });
                             </script>
                         </div>
+                        <div class="tab-pane fade" id="q1to5-{{response.job_id}}" role="tabpanel" aria-labelledby="q1to5-tab" style="width: 87%; margin-top: -5%;">
+                            <p class="question">1. {{response.question_1}} &nbsp;</p><hr>
+                            <p class="answer">{{response.response_1}}&nbsp;</p><br>
+                            <p class="question">2. {{response.question_2}} &nbsp;</p><hr>
+                            <p class="answer">:{{response.response_2}}&nbsp;</p><br>
+                            <p class="question">3. {{response.question_3}} &nbsp;</p><hr>
+                            <p class="answer">{{response.response_3}}&nbsp;</p><br>
+                            <p class="question">4. {{response.question_4}} &nbsp;</p><hr>
+                            <p class="answer">{{response.response_4}}&nbsp;</p><br>
+                            <p class="question">5. {{response.question_5}} &nbsp;</p><hr>
+                            <p class="answer">{{response.response_5}}&nbsp;</p><br>
+                        </div>
+
+                         <div class="tab-pane fade" id="q6to10-{{response.job_id}}" role="tabpanel" aria-labelledby="q6to10-tab" style="width: 87%; margin-top: -5%;">
+                            <p class="question">6. {{response.question_6}} &nbsp;</p><hr>
+                            <p class="answer">{{response.response_6}}&nbsp;</p><br>
+                            <p class="question">7. {{response.question_7}} &nbsp;</p><hr>
+                            <p class="answer">{{response.response_7}}&nbsp;</p><br>
+                            <p class="question">8. {{response.question_8}} &nbsp;</p><hr>
+                            <p class="answer">{{response.response_8}}&nbsp;</p><br>
+                            <p class="question">9. {{response.question_9}} &nbsp;</p><hr>
+                            <p class="answer">{{response.response_9}}&nbsp;</p><br>
+                            <p class="question">10. {{response.question_10}} &nbsp;</p><hr>
+                            <p class="answer">{{response.response_10}}&nbsp;</p><br>
+                        </div>
+
+                        <div class="tab-pane fade" id="q11to15-{{response.job_id}}" role="tabpanel" aria-labelledby="q11to15-tab" style="width: 87%; margin-top: -5%;">
+                            <p class="question">11. {{response.question_11}} &nbsp;</p><hr>
+                            <p class="answer">{{response.response_11}}&nbsp;</p><br>
+                            <p class="question">12. {{response.question_12}} &nbsp;</p><hr>
+                            <p class="answer">{{response.response_12}}&nbsp;</p><br>
+                            <p class="question">13. {{response.question_13}} &nbsp;</p><hr>
+                            <p class="answer">{{response.response_13}}&nbsp;</p><br>
+                            <p class="question">14. {{response.question_14}} &nbsp;</p><hr>
+                            <p class="answer">{{response.response_14}}&nbsp;</p><br>
+                            <p class="question">15. {{response.question_15}} &nbsp;</p><hr>
+                            <p class="answer">{{response.response_15}}&nbsp;</p><br>
+                        </div>
+
+                        <div class="tab-pane fade" id="q16to20-{{response.job_id}}" role="tabpanel" aria-labelledby="q16to20-tab" style="width: 87%; margin-top: -5%;">
+                            <p class="question">16. {{response.question_16}} &nbsp;</p><hr>
+                            <p class="answer">{{response.response_16}}&nbsp;</p><br>
+                            <p class="question">17. {{response.question_17}} &nbsp;</p><hr>
+                            <p class="answer">{{response.response_17}}&nbsp;</p><br>
+                            <p class="question">18. {{response.question_18}} &nbsp;</p><hr>
+                            <p class="answer">{{response.response_18}}&nbsp;</p><br>
+                            <p class="question">19. {{response.question_19}} &nbsp;</p><hr>
+                            <p class="answer">{{response.response_19}}&nbsp;</p><br>
+                            <p class="question">20. {{response.question_20}} &nbsp;</p><hr>
+                            <p class="answer">{{response.response_20}}&nbsp;</p><br>
+                        </div>
                     </div>
                     </center>
                 </div>
@@ -244,29 +237,31 @@
     </div></center> 
     {% endfor %}                  
 
+  <!-- SHOW QUESTION BUTTONS -->
     <script type="text/javascript">
-    function jobApplicant(evt, applicant) {
-    // Declare all variables
-    var i, tabcontent, tablinks;
+        function numberQuestion(evt, number) {
+          // Declare all variables
+          var i, tabcontent, tablinks;
 
-    // Get all elements with class="tabcontent" and hide them
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
-    }
+          // Get all elements with class="tabcontent" and hide them
+          tabcontent = document.getElementsByClassName("tabcontents");
+          for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+          }
 
-    // Get all elements with class="tablinks" and remove the class "active"
-    tablinks = document.getElementsByClassName("tablinks");
-    for (i = 0; i < tablinks.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace("active", "");
-    }
+          // Get all elements with class="tablinks" and remove the class "active"
+          tablinks = document.getElementsByClassName("tablink");
+          for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+          }
 
-    // Show the current tab, and add an "active" class to the button that opened the tab
-    document.getElementById(applicant).style.display = "block";
-    evt.currentTarget.className += " active";
-    }
-    document.getElementById("defaultOpenQuestionsTab").click();
-    </script>                        
+          // Show the current tab, and add an "active" class to the button that opened the tab
+          document.getElementById(number).style.display = "block";
+          evt.currentTarget.className += " active";
+        }
+
+        document.getElementById("defaultQuestionOpen").click();
+    </script>                    
 {% endblock content %}
 
 
