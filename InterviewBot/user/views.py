@@ -2,18 +2,53 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.generic import View, TemplateView, CreateView, FormView
 from django.core.files.storage import FileSystemStorage
-from django.core.mail import send_mail
+from django.core.mail import send_mail, BadHeaderError
 from django.utils.datastructures import MultiValueDictKeyError
 
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordResetForm
+
+from django.template.loader import render_to_string
+from django.db.models.query_utils import Q
+from django.utils.http import urlsafe_base64_encode
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.encoding import force_bytes
 
 import json
 import requests
 
 from .forms import *
 from user.models import AppliedJob, SavedJob
+
+def password_reset_request(request):
+	if request.method == "POST":
+		password_reset_form = PasswordResetForm(request.POST)
+		if password_reset_form.is_valid():
+			data = password_reset_form.cleaned_data['email']
+			associated_users = Account.objects.filter(Q(email=data))
+			if associated_users.exists():
+				for user in associated_users:
+					subject = "Password Reset Requested"
+					email_template_name = "password/password_reset_email.txt"
+					c = {
+					"email":user.email,
+					'domain':'127.0.0.1:8000',
+					'site_name': 'Interview Bot',
+					"uid": urlsafe_base64_encode(force_bytes(user.pk)),
+					"user": user,
+					'token': default_token_generator.make_token(user),
+					'protocol': 'http',
+					}
+					email = render_to_string(email_template_name, c)
+					try:
+						send_mail(subject, email, 'interviewbot.cit@gmail.com' , [user.email], fail_silently=False)
+					except BadHeaderError:
+						return HttpResponse('Invalid header found.')
+					return redirect ("password_reset_done")
+	password_reset_form = PasswordResetForm()
+	return render(request=request, template_name="password/password_reset.html", context={"password_reset_form":password_reset_form})
 
 # Text-Processing API
 def textProccessing(text):
@@ -176,7 +211,7 @@ class JobOffersView(View):
 		user = request.user
 		if user.staff:
 			return redirect('administrator:access_denied_view')
-		joblists = CreateJob.objects.raw('SELECT jobofferings.id, jobofferings.title, jobofferings.description FROM jobofferings WHERE jobofferings.id NOT IN (SELECT savedjob.job_id FROM savedjob WHERE '+str(user.id)+' = savedjob.user_id UNION ALL SELECT appliedjob.job_id FROM appliedjob WHERE appliedjob.user_id = '+str(user.id)+')')
+		joblists = CreateJob.objects.raw('SELECT jobofferings.id, jobofferings.title, jobofferings.description FROM jobofferings WHERE jobofferings.id NOT IN (SELECT savedjob.job_id FROM savedjob WHERE '+str(user.id)+' = savedjob.user_id UNION ALL SELECT appliedjob.job_id FROM appliedjob WHERE appliedjob.user_id = '+str(user.id)+') AND jobofferings.is_deleted=0')
 		saved_jobs = SavedJob.objects.filter(user_id = user.id)
 		context = {
 			'joblists': joblists,
@@ -301,7 +336,7 @@ class JobInterviewQ1View(View):
 				return redirect('user:interview_forfeit_view')
 		except KeyError:
 			return redirect('user:interview_access_denied')
-		return render(request, 'jobInterview_Q1.html', context)
+		return render(request, 'questions/jobInterview_Q1.html', context)
 
 	def post(self, request):
 		user = request.user
@@ -342,7 +377,7 @@ class JobInterviewQ2View(View):
 				return redirect('user:interview_forfeit_view')
 		except KeyError:
 			return redirect('user:interview_access_denied')
-		return render(request, 'jobInterview_Q2.html', context)
+		return render(request, 'questions/jobInterview_Q2.html', context)
 
 	def post(self, request):
 		user = request.user
@@ -383,7 +418,7 @@ class JobInterviewQ3View(View):
 				return redirect('user:interview_forfeit_view')
 		except KeyError:
 			return redirect('user:interview_access_denied')	
-		return render(request, 'jobInterview_Q3.html', context)
+		return render(request, 'questions/jobInterview_Q3.html', context)
 
 	def post(self, request):
 		user = request.user
@@ -424,7 +459,7 @@ class JobInterviewQ4View(View):
 				return redirect('user:interview_forfeit_view')
 		except KeyError:
 			return redirect('user:interview_access_denied')
-		return render(request, 'jobInterview_Q4.html', context)
+		return render(request, 'questions/jobInterview_Q4.html', context)
 
 	def post(self, request):
 		user = request.user
@@ -465,7 +500,7 @@ class JobInterviewQ5View(View):
 				return redirect('user:interview_forfeit_view')
 		except KeyError:
 			return redirect('user:interview_access_denied')
-		return render(request, 'jobInterview_Q5.html', context)
+		return render(request, 'questions/jobInterview_Q5.html', context)
 
 	def post(self, request):
 		user = request.user
@@ -506,7 +541,7 @@ class JobInterviewQ6View(View):
 				return redirect('user:interview_forfeit_view')
 		except KeyError:
 			return redirect('user:interview_access_denied')
-		return render(request, 'jobInterview_Q6.html', context)
+		return render(request, 'questions/jobInterview_Q6.html', context)
 
 	def post(self, request):
 		user = request.user
@@ -547,7 +582,7 @@ class JobInterviewQ7View(View):
 				return redirect('user:interview_forfeit_view')
 		except KeyError:
 			return redirect('user:interview_access_denied')
-		return render(request, 'jobInterview_Q7.html', context)
+		return render(request, 'questions/jobInterview_Q7.html', context)
 
 	def post(self, request):
 		user = request.user
@@ -588,7 +623,7 @@ class JobInterviewQ8View(View):
 				return redirect('user:interview_forfeit_view')
 		except KeyError:
 			return redirect('user:interview_access_denied')
-		return render(request, 'jobInterview_Q8.html', context)
+		return render(request, 'questions/jobInterview_Q8.html', context)
 
 	def post(self, request):
 		user = request.user
@@ -629,7 +664,7 @@ class JobInterviewQ9View(View):
 				return redirect('user:interview_forfeit_view')
 		except KeyError:
 			return redirect('user:interview_access_denied')
-		return render(request, 'jobInterview_Q9.html', context)
+		return render(request, 'questions/jobInterview_Q9.html', context)
 
 	def post(self, request):
 		user = request.user
@@ -670,7 +705,7 @@ class JobInterviewQ10View(View):
 				return redirect('user:interview_forfeit_view')
 		except KeyError:
 			return redirect('user:interview_access_denied')
-		return render(request, 'jobInterview_Q10.html', context)
+		return render(request, 'questions/jobInterview_Q10.html', context)
 
 	def post(self, request):
 		user = request.user
@@ -711,7 +746,7 @@ class JobInterviewQ11View(View):
 				return redirect('user:interview_forfeit_view')
 		except KeyError:
 			return redirect('user:interview_access_denied')
-		return render(request, 'jobInterview_Q11.html', context)
+		return render(request, 'questions/jobInterview_Q11.html', context)
 
 	def post(self, request):
 		user = request.user
@@ -753,7 +788,7 @@ class JobInterviewQ12View(View):
 				return redirect('user:interview_forfeit_view')
 		except KeyError:
 			return redirect('user:interview_access_denied')
-		return render(request, 'jobInterview_Q12.html', context)
+		return render(request, 'questions/jobInterview_Q12.html', context)
 
 	def post(self, request):
 		user = request.user
@@ -795,7 +830,7 @@ class JobInterviewQ13View(View):
 				return redirect('user:interview_forfeit_view')
 		except KeyError:
 			return redirect('user:interview_access_denied')
-		return render(request, 'jobInterview_Q13.html', context)
+		return render(request, 'questions/jobInterview_Q13.html', context)
 
 	def post(self, request):
 		user = request.user
@@ -837,7 +872,7 @@ class JobInterviewQ14View(View):
 				return redirect('user:interview_forfeit_view')
 		except KeyError:
 			return redirect('user:interview_access_denied')
-		return render(request, 'jobInterview_Q14.html', context)
+		return render(request, 'questions/jobInterview_Q14.html', context)
 
 	def post(self, request):
 		user = request.user
@@ -879,7 +914,7 @@ class JobInterviewQ15View(View):
 				return redirect('user:interview_forfeit_view')
 		except KeyError:
 			return redirect('user:interview_access_denied')
-		return render(request, 'jobInterview_Q15.html', context)
+		return render(request, 'questions/jobInterview_Q15.html', context)
 
 	def post(self, request):
 		user = request.user
@@ -921,7 +956,7 @@ class JobInterviewQ16View(View):
 				return redirect('user:interview_forfeit_view')
 		except KeyError:
 			return redirect('user:interview_access_denied')
-		return render(request, 'jobInterview_Q16.html', context)
+		return render(request, 'questions/jobInterview_Q16.html', context)
 
 	def post(self, request):
 		user = request.user
@@ -963,7 +998,7 @@ class JobInterviewQ17View(View):
 				return redirect('user:interview_forfeit_view')
 		except KeyError:
 			return redirect('user:interview_access_denied')
-		return render(request, 'jobInterview_Q17.html', context)
+		return render(request, 'questions/jobInterview_Q17.html', context)
 
 	def post(self, request):
 		user = request.user
@@ -1005,7 +1040,7 @@ class JobInterviewQ18View(View):
 				return redirect('user:interview_forfeit_view')
 		except KeyError:
 			return redirect('user:interview_access_denied')
-		return render(request, 'jobInterview_Q18.html', context)
+		return render(request, 'questions/jobInterview_Q18.html', context)
 
 	def post(self, request):
 		user = request.user
@@ -1047,7 +1082,7 @@ class JobInterviewQ19View(View):
 				return redirect('user:interview_forfeit_view')
 		except KeyError:
 			return redirect('user:interview_access_denied')
-		return render(request, 'jobInterview_Q19.html', context)
+		return render(request, 'questions/jobInterview_Q19.html', context)
 
 	def post(self, request):
 		user = request.user
@@ -1089,7 +1124,7 @@ class JobInterviewQ20View(View):
 				return redirect('user:interview_forfeit_view')
 		except KeyError:
 			return redirect('user:interview_access_denied')
-		return render(request, 'jobInterview_Q20.html', context)
+		return render(request, 'questions/jobInterview_Q20.html', context)
 
 	def post(self, request):
 		user = request.user
