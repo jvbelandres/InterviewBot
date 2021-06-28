@@ -97,9 +97,7 @@
                                 {% if user.admin %}
                                 <span style="float: right;">Administrator: {{joblist.email}}</span> 
                                 {% endif %}
-                                <div hidden>
-                                    <input type="text" id="jobID1" name="jobID1" value="{{joblist.id}}">
-                                </div>
+                                <input type="text" id="jobID1" name="jobID1" value="{{joblist.id}}" hidden>
                             </header>
                             <textarea style="background-color:#E5E5E5;" readonly>{{joblist.description}}</textarea>
                                 <a data-target="#deleteModal-{{joblist.id}}" data-toggle="modal" href="#deleteModal-{{joblist.id}}">Delete</a>
@@ -108,6 +106,7 @@
                         <div class="column-status">
                             <br><br>
                             <button type="submit" class="citButton" id="viewApplicant" name="viewApplicant" style="margin-top: 30px;font-size: smaller;">View Applicants</button>
+                            <p id="test"></p>
                         </div>
                     </div>
                 </form>    

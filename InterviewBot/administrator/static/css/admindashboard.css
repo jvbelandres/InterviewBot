@@ -170,6 +170,12 @@ ul ul a {
     CONTENT STYLE
 ----------------------------------------------------- */
 
+.selectFilter {
+    width: 80%;
+    margin-left: 5%;
+    margin-bottom: -1%;
+}
+
 #content {
 	width: 99%; 
     min-height: 100vh;

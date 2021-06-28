@@ -15,15 +15,26 @@ class DashboardView(View):
 		if not request.user.staff:
 			return redirect('user:access_denied_view')
 
+		admin_joblist = request.GET.get('job-list-filter')
+		if admin_joblist == None:
+			admin_joblist = 'All Job Offerings'
+
 		if request.user.admin:
-			joblists = CreateJob.objects.filter(is_deleted=0)
+			if admin_joblist == 'All Job Offerings' or admin_joblist == None:
+				joblists = CreateJob.objects.filter(is_deleted=0)
+			else:
+				joblists = CreateJob.objects.raw('SELECT jobofferings.* FROM jobofferings, account WHERE jobofferings.is_deleted = 0 AND account.email = \''+ str(admin_joblist) + '\' AND jobofferings.admin_id = account.id')
 		else:
 			joblists = CreateJob.objects.filter(admin_id=request.user.id, is_deleted=0)
 		appliedJobs = AppliedJob.objects.all()
 
+		accounts = Account.objects.filter(staff=1)
+
 		context = {
 			'joblists': joblists,
 			'appliedJobs': appliedJobs,
+			'accounts': accounts,
+			'admin_joblist': admin_joblist,
 		}
 		return render(request, 'admindashboard.html', context)
 
@@ -109,7 +120,6 @@ class JobListsView(View):
 	def post(self, request):
 		user = request.user
 		if 'btnDelete' in request.POST:
-			print('btnDelete clicked')
 			job_id = request.POST.get("id-job")
 			print(job_id)
 			job = CreateJob.objects.filter(id=job_id).update(is_deleted=1)

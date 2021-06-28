@@ -80,9 +80,24 @@
     <div id="content">
         <div class="topBorder"></div>
         <div class="contentWrapper">
-            <h2> Total Number of Applicants per Job</h2>
+            <h2> Total Number of Applicants of <i>{{admin_joblist}}</i></h2>
+            {% if user.admin %}
+            <form method="GET">
+                <select id="job-list-filter-id" class="form-control selectFilter" name="job-list-filter" onchange="btnFilter.click();">
+                    <option value="All Job Offerings">All Job Offerings</option>
+                    {% for account in accounts %}
+                        <option value="{{account.email}}">{{account.email}}</option>
+                    {% endfor %}
+                </select>
+                <input type="submit" value="Filter" name="btnFilter" hidden>
+
+                <script> // SET OPTION TO SELECTED IF BEING FILTERED
+                    document.getElementById("job-list-filter-id").value = "{{admin_joblist}}";
+                </script>
+            </form>
+            {% endif %}
             <hr>
-            <canvas id="myChart"></canvas>
+            <canvas id="myChart" style="position: relative; height: 300px;"></canvas>
         </div>
         <div class="footer">
             <p>Copyright © InterviewBOT. All rights reserved.</p>
@@ -146,12 +161,19 @@
             }]
           },
           options:{
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                yAxes: [{
+                    display: true,
+                    ticks: {
+                        beginAtZero: true,
+                        stepSize: 1
+                    }
+                }]
+            },
             legend:{
-              display:true,
-              position:'right',
-              labels:{
-                fontColor:'#FFF'
-              }
+              display:false,
             },
             layout:{
               padding:{
