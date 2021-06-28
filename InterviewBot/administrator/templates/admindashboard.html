@@ -60,8 +60,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-user-circle"></i>&nbsp;&nbsp; {{user.email}}</a>
-                    <ul class="collapse list-unstyled" id="homeSubmenu">
+                    <a href="#settings" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-user-circle"></i>&nbsp;&nbsp; {{user.email}}</a>
+                    <ul class="collapse list-unstyled" id="settings">
                         <li>
                             <a href="{% url 'administrator:settings_view' %}"><i class="fas fa-cog"></i>&nbsp;&nbsp; Settings</a>
                         </li>
@@ -80,9 +80,24 @@
     <div id="content">
         <div class="topBorder"></div>
         <div class="contentWrapper">
-            <h2> Total Number of Applicants per Job</h2>
+            <h2> Total Number of Applicants of <i>{{admin_joblist}}</i></h2>
+            {% if user.admin %}
+            <form method="GET">
+                <select id="job-list-filter-id" class="form-control selectFilter" name="job-list-filter" onchange="btnFilter.click();">
+                    <option value="All Job Offerings">All Job Offerings</option>
+                    {% for account in accounts %}
+                        <option value="{{account.email}}">{{account.email}}</option>
+                    {% endfor %}
+                </select>
+                <input type="submit" value="Filter" name="btnFilter" hidden>
+
+                <script> // SET OPTION TO SELECTED IF BEING FILTERED
+                    document.getElementById("job-list-filter-id").value = "{{admin_joblist}}";
+                </script>
+            </form>
+            {% endif %}
             <hr>
-            <canvas id="myChart"></canvas>
+            <canvas id="myChart" style="position: relative; height: 300px;"></canvas>
         </div>
         <div class="footer">
             <p>Copyright © InterviewBOT. All rights reserved.</p>
@@ -90,6 +105,7 @@
     </div>
 
     <script>
+        var jobIds = []
         var jobLabels = []
         var backgroundColors = []
         var applicantCount = []
@@ -97,6 +113,7 @@
 
         // Loop for jobLabels
         {% for joblist in joblists %}
+            jobIds.push('{{joblist.id}}')
             jobLabels.push('{{joblist.title}}');
             // Loop for counting appliedjob
             {% for appliedJob in appliedJobs %}
@@ -133,7 +150,7 @@
           data:{
             labels: jobLabels,
             datasets:[{
-              label:'Applicants',
+              label:'Applicant(s)',
               data: applicantCount,
               //backgroundColor:'green',
               backgroundColor: backgroundColors,
@@ -144,12 +161,19 @@
             }]
           },
           options:{
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                yAxes: [{
+                    display: true,
+                    ticks: {
+                        beginAtZero: true,
+                        stepSize: 1
+                    }
+                }]
+            },
             legend:{
-              display:true,
-              position:'right',
-              labels:{
-                fontColor:'#FFF'
-              }
+              display:false,
             },
             layout:{
               padding:{
@@ -161,6 +185,13 @@
             },
             tooltips:{
               enabled:true
+            },
+            onClick: function (e) { //change request.session['job'] in views.py to the value of job_id based on the bar chart being clicked by the administrator.
+                debugger;
+                var activePointIndex = this.getElementsAtEvent(e)[0]._index;
+                var job_id = jobIds[activePointIndex];
+                document.getElementById("job-id").value = job_id;
+                document.getElementById("btnJobId").click();
             }
           }
         });
@@ -183,7 +214,7 @@
                     <div class="container">
                         <div class="tab-pane active"><center>
                             <div class="questionnaireTitle">
-                                <input type="text" name="name-title" id="id-title" style="border-color: #ccc" placeholder="Job Title" required>
+                                <input type="text" name="name-title" id="id-title" style="border-color: #ccc; outline: none;" placeholder="Job Title" required>
                                 <!-- <select name="name-title" id="id-title" style="border-color: #ccc;" required>
                                     <option style="display: none;">---Please select a job---</option>
                                     <option value="Administrator">Administrator</option>
@@ -197,7 +228,7 @@
                                     <option value="Food Service">Food Service</option>
                                     <option value="Transportation">Transportation</option>
                                 </select> -->
-                                <textarea type="text" name="name-description" id="id-description" rows="5" cols="50" maxlength="500" style="margin-top: 5px;" placeholder="Job description" required></textarea>
+                                <textarea type="text" name="name-description" id="id-description" rows="5" cols="50" maxlength="500" style="margin-top: 5px; border: none; outline: none;" placeholder="Job description" required></textarea>
                             </div>
                             <div class="questionContainer">
                                 <p class="note">Note: You are required to input all the question fields.</p>
@@ -279,6 +310,12 @@
             </form>
         </div>
     </div>
+
+    <form id="setJobId" method="POST">
+        {% csrf_token %}
+        <input type="text" id="job-id" name="job-id" hidden>
+        <button type="submit" id="btnJobId" name="btnJobId" hidden>
+    </form>
 
     <!-- script for Create Job Modal -->
     <script type="text/javascript">

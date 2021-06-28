@@ -104,6 +104,7 @@ class CreateJob(models.Model):
     admin = models.ForeignKey('user.Account', null = False, blank = False, on_delete = models.CASCADE)
     title = models.CharField(max_length = 50, null=True, blank=True)
     description = models.CharField(max_length = 500, null=True, blank=True)
+    is_deleted = models.BooleanField(default=False)
 
     # questions from https://bit.ly/3vGcAav
     question_1 = models.CharField(max_length = 250, null=True, blank=True, default='Please tell me about yourself.', editable=False)

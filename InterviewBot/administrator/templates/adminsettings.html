@@ -59,8 +59,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-user-circle"></i>&nbsp;&nbsp; {{user.email}}</a>
-                    <ul class="list-unstyled" id="homeSubmenu">
+                    <a href="#settings" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-user-circle"></i>&nbsp;&nbsp; {{user.email}}</a>
+                    <ul class="list-unstyled" id="settings">
                         <li class="active">
                             <a href="{% url 'administrator:settings_view' %}"><i class="fas fa-cog"></i>&nbsp;&nbsp; Settings</a>
                         </li>
@@ -178,7 +178,7 @@
                     <div class="container">
                         <div id="questionsTab" class="tab-pane active"><center>
                             <div class="questionnaireTitle">
-                                <input type="text" name="name-title" id="id-title" style="border-color: #ccc" placeholder="Job Title" required>
+                                <input type="text" name="name-title" id="id-title" style="border-color: #ccc;" placeholder="Job Title" required>
                                 <!-- <select name="name-title" id="id-title" style="border-color: #ccc;" required>
                                     <option style="display: none;">---Please select a job---</option>
                                     <option value="Administrator">Administrator</option>
@@ -192,7 +192,7 @@
                                     <option value="Food Service">Food Service</option>
                                     <option value="Transportation">Transportation</option>
                                 </select> -->
-                                <textarea type="text" name="name-description" id="id-description" rows="5" cols="50" style="margin-top: 5px;" placeholder="Job description" required></textarea>
+                                <textarea type="text" name="name-description" id="id-description" rows="5" cols="50" maxlength="500" style="margin-top: 5px; border: none; outline: none;" placeholder="Job description" required></textarea>
                             </div>
                             <div class="questionContainer">
                                 <p class="note">Note: You are required to input all the question fields.</p>

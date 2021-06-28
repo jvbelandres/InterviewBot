@@ -64,8 +64,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-user-circle"></i>&nbsp;&nbsp; {{user.email}}</a>
-                    <ul class="collapse list-unstyled" id="homeSubmenu">
+                    <a href="#settings" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-user-circle"></i>&nbsp;&nbsp; {{user.email}}</a>
+                    <ul class="collapse list-unstyled" id="settings">
                         <li>
                             <a href="{% url 'user:settings_view' %}"><i class="fas fa-cog"></i>&nbsp;&nbsp; Settings</a>
                         </li>
@@ -260,8 +260,17 @@
                                     <div class="modal-body">
                                         <center>
                                             <br>
+                                            {% if appliedjob.final_score == null %}
+                                            <h4> This interview has been</h4><h2><b style="color: red;">FORFEITED</b>.</h2>
+                                            {% else %}
                                             <h5> OVERALL SCORE </h5>
                                             <h2> {{appliedjob.final_score}}%</h2>
+                                            {% endif %}
+
+                                            {% if appliedjob.is_deleted == 1 %}
+                                            <br>
+                                            <p class="text-danger" style="font-size: 14px; margin-bottom: -5px;">Note: This job offering is currently deleted by the administrator.</p>
+                                            {% endif %}
                                             <br><br>
                                         </center>
                                     </div>

@@ -44,4 +44,6 @@ urlpatterns=[
     path('job-interview/interview-success', login_required(views.InterviewSuccessView.as_view()), name="interview_success_view"),
     path('job-interview/interview-forfeited', login_required(views.InterviewForfeitView.as_view()), name="interview_forfeit_view"),
     path('job-interview/access-denied', login_required(views.JobInterviewAccessDenied.as_view()), name="interview_access_denied"),
+
+    path("password_reset", views.password_reset_request, name="password_reset")
 ]

@@ -58,8 +58,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-user-circle"></i>&nbsp;&nbsp; {{user.email}}</a>
-                    <ul class="collapse list-unstyled" id="homeSubmenu">
+                    <a href="#settings" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-user-circle"></i>&nbsp;&nbsp; {{user.email}}</a>
+                    <ul class="collapse list-unstyled" id="settings">
                         <li>
                             <a href="{% url 'administrator:settings_view' %}"><i class="fas fa-cog"></i>&nbsp;&nbsp; Settings</a>
                         </li>
@@ -89,189 +89,190 @@
         <div class="cont">
             {% for joblist in joblists %}
             <div class="content-form">
-                <form id="test" method="POST">
+                <form id="viewApplicantForm" method="POST">
                     {% csrf_token %}
-                <div class="row">
-                    <div class="column-form">
-                        <header>{{joblist.title}} 
-                            {% if user.admin %}
-                            <span style="float: right;">Administrator: {{joblist.email}}</span> 
-                            {% endif %}
-                            <div hidden>
-                                <input type="text" id="jobID1" name="jobID1" value="{{joblist.id}}">
-                            </div>
-                        </header>
-                        <textarea style="background-color:#E5E5E5;" readonly>{{joblist.description}}</textarea>
-                            <a data-target="#deleteModal-{{joblist.id}}" data-toggle="modal" href="#deleteModal">Delete</a>
-                            <a data-target="#viewModal-{{joblist.id}}" data-toggle="modal" href="#viewModal">View</a>             
+                    <div class="row">
+                        <div class="column-form">
+                            <header>{{joblist.title}} 
+                                {% if user.admin %}
+                                <span style="float: right;">Administrator: {{joblist.email}}</span> 
+                                {% endif %}
+                                <input type="text" id="jobID1" name="jobID1" value="{{joblist.id}}" hidden>
+                            </header>
+                            <textarea style="background-color:#E5E5E5;" readonly>{{joblist.description}}</textarea>
+                                <a data-target="#deleteModal-{{joblist.id}}" data-toggle="modal" href="#deleteModal-{{joblist.id}}">Delete</a>
+                                <a data-target="#viewModal-{{joblist.id}}" data-toggle="modal" href="#viewModal">View</a>             
+                        </div>
+                        <div class="column-status">
+                            <br><br>
+                            <button type="submit" class="citButton" id="viewApplicant" name="viewApplicant" style="margin-top: 30px;font-size: smaller;">View Applicants</button>
+                            <p id="test"></p>
+                        </div>
                     </div>
-                    <div class="column-status">
-                        <br><br>
-                        <button type="submit" class="citButton" id="viewApplicant" name="viewApplicant" style="margin-top: 30px;font-size: smaller;">View Applicants</button>
-                    </div>
-                </div>        
-                </form>
+                </form>    
             </div>
 
             <!-- View Modal -->
             <div class="modal fade modal-xl" id="viewModal-{{joblist.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" style="max-width: 75%;" role="document">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle"><input type="text" name="job-title" value="{{joblist.title}}" style="font-weight: bold; border: none;" required></h5><br>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <br style="line-height: 10px;">
-                        <h6><textarea name="job-description" required>{{joblist.description}}</textarea></h6>
+                    <form id="viewJobForm" method="POST">
+                        {% csrf_token %}
+                        <div class="modal-header">
+                            <input type="text" name="job-id" value="{{joblist.id}}" hidden>
+                            <h5 class="modal-title" id="exampleModalLongTitle"><input type="text" name="job-title" value="{{joblist.title}}" style="font-weight: bold; border: none; outline: none;" required></h5><br>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <br style="line-height: 10px;">
+                            <h6><textarea name="job-description" rows="5" cols="50" maxlength="500" style="text-align: justify" required>{{joblist.description}}</textarea></h6><br style="line-height: 50px;">
 
-                        <div class="questionContainer">
-                            <div class="contentQuestion">
-                                <section id="tabs" class="project-tab">
-                                    <div class="container" style="width: 150%; margin-left: -10%;">
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <nav>
-                                                    <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                                                        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true" aria-disabled="true">Questions 1-5</a>
-                                                        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Questions 6-10</a>
-                                                        <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Questions 11-15</a>
-                                                        <a class="nav-item nav-link" id="nav-last-tab" data-toggle="tab" href="#nav-last" role="tab" aria-controls="nav-last" aria-selected="false">Questions 16-20</a>
-                                                    </div>
-                                                </nav>
-                                                <div class="tab-content" id="nav-tabContents">
-                                                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                                                        <br>
-                                                        <p id="question"> 1. {{joblist.question_1}} </p> <hr>
-                                                        <p id="question"> 2. {{joblist.question_2}} </p> <hr>
-                                                        <p id="question"> 3. {{joblist.question_3}} </p> <hr>
-                                                        <p id="question"> 4. {{joblist.question_4}} </p> <hr>
-                                                        <p id="question"> 5. {{joblist.question_5}} </p> <hr>
-                                                        <br><br>
-                                                        <p style="font-size: 16px; color: red; float: right;">Note: Questions 1 to 5 cannot be changed</p>
-                                                    </div>
-                                                    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                                                        <br>
-                                                        <p id="question"> 6. {{joblist.question_6}} </p> <hr>
-                                                        <p id="question"> 7. {{joblist.question_7}} </p> <hr>
-                                                        <p id="question"> 8. {{joblist.question_8}} </p> <hr>
-                                                        <p id="question"> 9. {{joblist.question_9}} </p> <hr>
-                                                        <p id="question"> 10. {{joblist.question_10}} </p> <hr>
-                                                        <br><br>
-                                                        <p style="font-size: 16px; color: red; float: right;">Note: Questions 6 to 10 cannot be changed</p>
-                                                    </div>
-                                                    <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab"><br>
-                                                        <h6 style="font-weight: bold; margin-bottom: -0.5%;">Question 11:</h6>
-                                                        <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
-                                                        <input type="number" min="1" max="5" name="weight1" value="{{joblist.weight1}}" title="Weight" required>
-                                                        <label><i class="fas fa-clock"></i> &nbsp;</label>
-                                                        <input type="number" min="2" max="5" name="timer1" value="{{joblist.timer1}}" title="Timer" required>
-                                                        <input type="text" name="qtn11" id="id-question11" value="{{joblist.question_11}}" placeholder="Question 11" required>
-                                                        <br><br>
+                            <div class="questionContainer">
+                                <div class="contentQuestion">
+                                    <section id="tabs" class="project-tab">
+                                        <div class="container" style="width: 150%; margin-left: -10%;">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <nav>
+                                                        <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                                                            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#q1to5-{{joblist.id}}" role="tab" aria-controls="nav-home" aria-selected="true" aria-disabled="true">Questions 1-5</a>
+                                                            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#q6to10-{{joblist.id}}" role="tab" aria-controls="nav-profile" aria-selected="false">Questions 6-10</a>
+                                                            <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#q11to15-{{joblist.id}}" role="tab" aria-controls="nav-contact" aria-selected="false">Questions 11-15</a>
+                                                            <a class="nav-item nav-link" id="nav-last-tab" data-toggle="tab" href="#q16to20-{{joblist.id}}" role="tab" aria-controls="nav-last" aria-selected="false">Questions 16-20</a>
+                                                        </div>
+                                                    </nav>
+                                                    <div class="tab-content" id="nav-tabContents">
+                                                        <div class="tab-pane fade show active" id="q1to5-{{joblist.id}}" role="tabpanel" aria-labelledby="nav-home-tab">
+                                                            <br>
+                                                            <p id="question"> 1. {{joblist.question_1}} </p> <hr>
+                                                            <p id="question"> 2. {{joblist.question_2}} </p> <hr>
+                                                            <p id="question"> 3. {{joblist.question_3}} </p> <hr>
+                                                            <p id="question"> 4. {{joblist.question_4}} </p> <hr>
+                                                            <p id="question"> 5. {{joblist.question_5}} </p> <hr>
+                                                            <br><br>
+                                                            <p style="font-size: 16px; color: red; float: right;">Note: Questions 1 to 5 cannot be changed</p>
+                                                        </div>
+                                                        <div class="tab-pane fade" id="q6to10-{{joblist.id}}" role="tabpanel" aria-labelledby="nav-profile-tab">
+                                                            <br>
+                                                            <p id="question"> 6. {{joblist.question_6}} </p> <hr>
+                                                            <p id="question"> 7. {{joblist.question_7}} </p> <hr>
+                                                            <p id="question"> 8. {{joblist.question_8}} </p> <hr>
+                                                            <p id="question"> 9. {{joblist.question_9}} </p> <hr>
+                                                            <p id="question"> 10. {{joblist.question_10}} </p> <hr>
+                                                            <br><br>
+                                                            <p style="font-size: 16px; color: red; float: right;">Note: Questions 6 to 10 cannot be changed</p>
+                                                        </div>
+                                                        <div class="tab-pane fade" id="q11to15-{{joblist.id}}" role="tabpanel" aria-labelledby="nav-contact-tab"><br>
+                                                            <h6 style="font-weight: bold; margin-bottom: -0.5%;">Question 11:</h6>
+                                                            <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                                            <input type="number" min="1" max="5" name="weight1" value="{{joblist.weight1}}" title="Weight" required>
+                                                            <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                                            <input type="number" min="2" max="5" name="timer1" value="{{joblist.timer1}}" title="Timer" required>
+                                                            <input type="text" name="qtn11" id="id-question11" value="{{joblist.question_11}}" placeholder="Question 11" required>
+                                                            <br><br>
 
-                                                        <h6 style="font-weight: bold; margin-bottom: -0.5%;">Question 12:</h6>
-                                                        <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
-                                                        <input type="number" min="1" max="5" name="weight2" value="{{joblist.weight2}}" title="Weight" required>
-                                                        <label><i class="fas fa-clock"></i> &nbsp;</label>
-                                                        <input type="number" min="2" max="5" name="timer2" value="{{joblist.timer2}}" title="Timer" required>
-                                                        <input type="text" name="qtn12" id="id-question12" value="{{joblist.question_12}}" placeholder="Question 12" required>
-                                                        <br><br>
+                                                            <h6 style="font-weight: bold; margin-bottom: -0.5%;">Question 12:</h6>
+                                                            <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                                            <input type="number" min="1" max="5" name="weight2" value="{{joblist.weight2}}" title="Weight" required>
+                                                            <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                                            <input type="number" min="2" max="5" name="timer2" value="{{joblist.timer2}}" title="Timer" required>
+                                                            <input type="text" name="qtn12" id="id-question12" value="{{joblist.question_12}}" placeholder="Question 12" required>
+                                                            <br><br>
 
-                                                        <h6 style="font-weight: bold; margin-bottom: -0.5%;">Question 13:</h6>
-                                                        <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
-                                                        <input type="number" min="1" max="5" name="weight3" value="{{joblist.weight3}}" title="Weight" required>
-                                                        <label><i class="fas fa-clock"></i> &nbsp;</label>
-                                                        <input type="number" min="2" max="5" name="timer3" value="{{joblist.timer3}}" title="Timer" required>
-                                                        <input type="text" name="qtn13" id="id-question13" value="{{joblist.question_13}}" placeholder="Question 13" required>
-                                                        <br><br>
+                                                            <h6 style="font-weight: bold; margin-bottom: -0.5%;">Question 13:</h6>
+                                                            <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                                            <input type="number" min="1" max="5" name="weight3" value="{{joblist.weight3}}" title="Weight" required>
+                                                            <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                                            <input type="number" min="2" max="5" name="timer3" value="{{joblist.timer3}}" title="Timer" required>
+                                                            <input type="text" name="qtn13" id="id-question13" value="{{joblist.question_13}}" placeholder="Question 13" required>
+                                                            <br><br>
 
-                                                        <h6 style="font-weight: bold; margin-bottom: -0.5%;">Question 14:</h6>
-                                                        <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
-                                                        <input type="number" min="1" max="5" name="weight4" value="{{joblist.weight4}}" title="Weight" required>
-                                                        <label><i class="fas fa-clock"></i> &nbsp;</label>
-                                                        <input type="number" min="2" max="5" name="timer4" value="{{joblist.timer4}}" title="Timer" required>
-                                                        <input type="text" name="qtn14" id="id-question14" value="{{joblist.question_14}}" placeholder="Question 14" required>
-                                                        <br><br>
+                                                            <h6 style="font-weight: bold; margin-bottom: -0.5%;">Question 14:</h6>
+                                                            <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                                            <input type="number" min="1" max="5" name="weight4" value="{{joblist.weight4}}" title="Weight" required>
+                                                            <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                                            <input type="number" min="2" max="5" name="timer4" value="{{joblist.timer4}}" title="Timer" required>
+                                                            <input type="text" name="qtn14" id="id-question14" value="{{joblist.question_14}}" placeholder="Question 14" required>
+                                                            <br><br>
 
-                                                        <h6 style="font-weight: bold; margin-bottom: -0.5%;">Question 15:</h6>
-                                                        <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
-                                                        <input type="number" min="1" max="5" name="weight5" value="{{joblist.weight5}}" title="Weight" required>
-                                                        <label><i class="fas fa-clock"></i> &nbsp;</label>
-                                                        <input type="number" min="2" max="5" name="timer5" value="{{joblist.timer5}}" title="Timer" required>
-                                                        <input type="text" name="qtn15" id="id-question15" value="{{joblist.question_15}}" placeholder="Question 15" required>
-                                                    </div>
-                                                    <div class="tab-pane fade" id="nav-last" role="tabpanel" aria-labelledby="nav-last-tab"><br>
-                                                        <h6 style="font-weight: bold; margin-bottom: -0.5%;">Question 16:</h6>
-                                                        <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
-                                                        <input type="number" min="1" max="5" name="weight6" value="{{joblist.weight6}}" title="Weight" required>
-                                                        <label><i class="fas fa-clock"></i> &nbsp;</label>
-                                                        <input type="number" min="2" max="5" name="timer6" value="{{joblist.timer6}}" title="Timer" required>
-                                                        <input type="text" name="qtn16" id="id-question16" value="{{joblist.question_16}}" placeholder="Question 16" required>
-                                                        <br><br>
+                                                            <h6 style="font-weight: bold; margin-bottom: -0.5%;">Question 15:</h6>
+                                                            <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                                            <input type="number" min="1" max="5" name="weight5" value="{{joblist.weight5}}" title="Weight" required>
+                                                            <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                                            <input type="number" min="2" max="5" name="timer5" value="{{joblist.timer5}}" title="Timer" required>
+                                                            <input type="text" name="qtn15" id="id-question15" value="{{joblist.question_15}}" placeholder="Question 15" required>
+                                                        </div>
+                                                        <div class="tab-pane fade" id="q16to20-{{joblist.id}}" role="tabpanel" aria-labelledby="nav-last-tab"><br>
+                                                            <h6 style="font-weight: bold; margin-bottom: -0.5%;">Question 16:</h6>
+                                                            <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                                            <input type="number" min="1" max="5" name="weight6" value="{{joblist.weight6}}" title="Weight" required>
+                                                            <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                                            <input type="number" min="2" max="5" name="timer6" value="{{joblist.timer6}}" title="Timer" required>
+                                                            <input type="text" name="qtn16" id="id-question16" value="{{joblist.question_16}}" placeholder="Question 16" required>
+                                                            <br><br>
 
-                                                        <h6 style="font-weight: bold; margin-bottom: -0.5%;">Question 17:</h6>
-                                                        <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
-                                                        <input type="number" min="1" max="5" name="weight7" value="{{joblist.weight7}}" title="Weight" required>
-                                                        <label><i class="fas fa-clock"></i> &nbsp;</label>
-                                                        <input type="number" min="2" max="5" name="timer7" value="{{joblist.timer7}}" title="Timer" required>
-                                                        <input type="text" name="qtn17" id="id-question17" value="{{joblist.question_17}}" placeholder="Question 17" required>
-                                                        <br><br>
+                                                            <h6 style="font-weight: bold; margin-bottom: -0.5%;">Question 17:</h6>
+                                                            <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                                            <input type="number" min="1" max="5" name="weight7" value="{{joblist.weight7}}" title="Weight" required>
+                                                            <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                                            <input type="number" min="2" max="5" name="timer7" value="{{joblist.timer7}}" title="Timer" required>
+                                                            <input type="text" name="qtn17" id="id-question17" value="{{joblist.question_17}}" placeholder="Question 17" required>
+                                                            <br><br>
 
-                                                        <h6 style="font-weight: bold; margin-bottom: -0.5%;">Question 18:</h6>
-                                                        <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
-                                                        <input type="number" min="1" max="5" name="weight8" value="{{joblist.weight8}}" title="Weight" required>
-                                                        <label><i class="fas fa-clock"></i> &nbsp;</label>
-                                                        <input type="number" min="2" max="5" name="timer8" value="{{joblist.timer8}}" title="Timer" required>
-                                                        <input type="text" name="qtn18" id="id-question18" value="{{joblist.question_18}}" placeholder="Question 18" required>
-                                                        <br><br>
+                                                            <h6 style="font-weight: bold; margin-bottom: -0.5%;">Question 18:</h6>
+                                                            <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                                            <input type="number" min="1" max="5" name="weight8" value="{{joblist.weight8}}" title="Weight" required>
+                                                            <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                                            <input type="number" min="2" max="5" name="timer8" value="{{joblist.timer8}}" title="Timer" required>
+                                                            <input type="text" name="qtn18" id="id-question18" value="{{joblist.question_18}}" placeholder="Question 18" required>
+                                                            <br><br>
 
-                                                        <h6 style="font-weight: bold; margin-bottom: -0.5%;">Question 19:</h6>
-                                                        <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
-                                                        <input type="number" min="1" max="5" name="weight9" value="{{joblist.weight9}}" title="Weight" required>
-                                                        <label><i class="fas fa-clock"></i> &nbsp;</label>
-                                                        <input type="number" min="2" max="5" name="timer9" value="{{joblist.timer9}}" title="Timer" required>
-                                                        <input type="text" name="qtn19" id="id-question19" value="{{joblist.question_19}}" placeholder="Question 11" required>
-                                                        <br><br>
+                                                            <h6 style="font-weight: bold; margin-bottom: -0.5%;">Question 19:</h6>
+                                                            <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                                            <input type="number" min="1" max="5" name="weight9" value="{{joblist.weight9}}" title="Weight" required>
+                                                            <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                                            <input type="number" min="2" max="5" name="timer9" value="{{joblist.timer9}}" title="Timer" required>
+                                                            <input type="text" name="qtn19" id="id-question19" value="{{joblist.question_19}}" placeholder="Question 11" required>
+                                                            <br><br>
 
-                                                        <h6 style="font-weight: bold; margin-bottom: -0.5%;">Question 20:</h6>
-                                                        <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
-                                                        <input type="number" min="1" max="5" name="weight10" value="{{joblist.weight10}}" title="Weight" required>
-                                                        <label><i class="fas fa-clock"></i> &nbsp;</label>
-                                                        <input type="number" min="2" max="5" name="timer10" value="{{joblist.timer10}}" title="Timer" required>
-                                                        <input type="text" name="qtn20" id="id-question20" value="{{joblist.question_20}}" placeholder="Question 20" required>
+                                                            <h6 style="font-weight: bold; margin-bottom: -0.5%;">Question 20:</h6>
+                                                            <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                                            <input type="number" min="1" max="5" name="weight10" value="{{joblist.weight10}}" title="Weight" required>
+                                                            <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                                            <input type="number" min="2" max="5" name="timer10" value="{{joblist.timer10}}" title="Timer" required>
+                                                            <input type="text" name="qtn20" id="id-question20" value="{{joblist.question_20}}" placeholder="Question 20" required>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </section>
+                                    </section>
+                                </div>
                             </div>
+                        </div> <!-- END OF QUESTIONS TAB -->
+                        <div class="modal-footer" style="margin-top: -2%;">
+                            <button type="submit" class="citButton" id="btnUpdate" name="btnUpdate">Save changes</button>
                         </div>
-                    </div> <!-- END OF QUESTIONS TAB -->
-                    <div class="modal-footer" style="margin-top: -2%;">
-                        <button type="submit" class="citButton" id="btnUpdate" name="btnUpdate">Save changes</button>
-                    </div>
+                    </form>
                 </div>
                 </div>
             </div>
 
             <!-- Delete Modal -->
-            <div class="modal fade" id="deleteModal-{{joblist.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLongTitle">Delete</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <form id="deleteForm" method="POST">
-                            <div hidden>
-                                <input type="text" name="jobID" value="{{joblist.id}}">
+             <form id="deleteForm" method="POST">
+                {% csrf_token %}
+                <div class="modal fade" id="deleteModal-{{joblist.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Delete</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
-                        {% csrf_token %}
+                            <input type="text" name="id-job" value="{{joblist.id}}" hidden>
                             <div class="modal-body">
                                 <center>You are about to delete the job entitled <b>{{joblist.title}}</b>.<br>Do you want to proceed?</center>
                             </div>
@@ -279,10 +280,10 @@
                                 <button type="submit" class="citButton" id="btnDelete" name="btnDelete">Yes</button>
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>  
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </form>
             {% endfor %}
         </div>
         <nav aria-label="Page navigation example" id="paginate-align">
@@ -336,7 +337,7 @@
                     <div class="container">
                         <div id="questionsTab" class="tab-pane active"><center>
                             <div class="questionnaireTitle">
-                                <input type="text" name="name-title" id="id-title" style="border-color: #ccc" placeholder="Job Title" required>
+                                <input type="text" name="name-title" id="id-title" style="border-color: #ccc; outline: none;" placeholder="Job Title" required>
                                 <!-- <select name="name-title" id="id-title" style="border-color: #ccc;" required>
                                     <option style="display: none;">---Please select a job---</option>
                                     <option value="Administrator">Administrator</option>
@@ -350,7 +351,7 @@
                                     <option value="Food Service">Food Service</option>
                                     <option value="Transportation">Transportation</option>
                                 </select> -->
-                                <textarea type="text" name="name-description" id="id-description" rows="5" cols="50" style="margin-top: 5px;" placeholder="Job description" required></textarea>
+                                <textarea type="text" name="name-description" id="id-description" rows="5" cols="50" maxlength="500" style="margin-top: 5px;" placeholder="Job description" required></textarea>
                             </div>
                             <div class="questionContainer">
                                 <p class="note">Note: You are required to input all the question fields.</p>

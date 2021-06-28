@@ -68,9 +68,9 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-user-circle"></i>&nbsp;&nbsp; {{user.email}}</a>
+                    <a href="#settings" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-user-circle"></i>&nbsp;&nbsp; {{user.email}}</a>
 
-                    <ul class="collapse list-unstyled" id="homeSubmenu">
+                    <ul class="collapse list-unstyled" id="settings">
                         <li>
                             <a href="{% url 'user:settings_view' %}"><i class="fas fa-cog"></i>&nbsp;&nbsp; Settings</a>
                         </li>
@@ -124,7 +124,7 @@
                 <tbody>
                     {% for joblist in joblists %}
                     <tr>
-                        <td width="13%"> <img src="{% static '/images/citLogo.png' %}" class="imgJob"> </td>
+                        <td width="12%" align="center"> <img src="{% static '/images/citLogo.png' %}" class="imgJob"> </td>
                         <td width="60%">
                             <div class="row jobTitle">{{joblist.title}}</div>
                             <div class="row jobDescription">{{joblist.description}}</div>
