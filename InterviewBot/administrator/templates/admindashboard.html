@@ -89,7 +89,7 @@
                         <option value="{{account.email}}">{{account.email}}</option>
                     {% endfor %}
                 </select>
-                <input type="submit" value="Filter" name="btnFilter" hidden>
+                <input type="submit" name="btnFilter" hidden>
 
                 <script> // SET OPTION TO SELECTED IF BEING FILTERED
                     document.getElementById("job-list-filter-id").value = "{{admin_joblist}}";
