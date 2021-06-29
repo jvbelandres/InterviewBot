@@ -14,7 +14,6 @@ html, body {
     right:0;
 }
 
-
 button {
     cursor: pointer;
 }
@@ -218,6 +217,12 @@ ul ul a {
     CONTENT STYLE
 ----------------------------------------------------- */
 
+.selectFilter {
+    width: 80%;
+    margin-left: 5%;
+    margin-bottom: -1%;
+}
+
 #content-header{
     padding-left: 0.981%;
     padding-right: 13px;
@@ -250,15 +255,15 @@ ul ul a {
 
 .red-header{
     width: 100%;
-    height: 100px;
+    height: 130px;
     background-color: #933633;
     float: right;
     margin-bottom: 20px;
 }
 
 .content-form{
-    padding: 20px;
-    margin-left: 20px;
+    padding: 10px;
+    margin-left: 70px;
 }
 
 .column-form{

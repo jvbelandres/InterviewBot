@@ -20,7 +20,7 @@ class DashboardView(View):
 			admin_joblist = 'All Job Offerings'
 
 		if request.user.admin:
-			if admin_joblist == 'All Job Offerings' or admin_joblist == None:
+			if admin_joblist == 'All Job Offerings':
 				joblists = CreateJob.objects.filter(is_deleted=0)
 			else:
 				joblists = CreateJob.objects.raw('SELECT jobofferings.* FROM jobofferings, account WHERE jobofferings.is_deleted = 0 AND account.email = \''+ str(admin_joblist) + '\' AND jobofferings.admin_id = account.id')
@@ -95,8 +95,17 @@ class JobListsView(View):
 		if not user.staff:
 			return redirect('user:access_denied_view')
 
+		accounts = Account.objects.filter(staff=1)
+
+		admin_joblist = request.GET.get('job-list-filter')
+		if admin_joblist == None:
+			admin_joblist = 'All Job Offerings'
+
 		if user.admin:
-			joblists = CreateJob.objects.raw('SELECT account.email, jobofferings.* FROM account, jobofferings WHERE jobofferings.admin_id = account.id AND jobofferings.is_deleted = 0')
+			if admin_joblist == 'All Job Offerings':
+				joblists = CreateJob.objects.raw('SELECT account.email, jobofferings.* FROM account, jobofferings WHERE jobofferings.admin_id = account.id AND jobofferings.is_deleted = 0')
+			else:
+				joblists = CreateJob.objects.raw('SELECT account.email, jobofferings.* FROM jobofferings, account WHERE jobofferings.is_deleted = 0 AND account.email = \''+ str(admin_joblist) + '\' AND jobofferings.admin_id = account.id')
 		elif user.staff:
 			joblists = CreateJob.objects.filter(admin_id = user.id, is_deleted=0)
 
@@ -113,6 +122,8 @@ class JobListsView(View):
 			'joblists': page,
 			'pages':array,
 			'page_number':int(page_number),
+			'accounts': accounts,
+			'admin_joblist': admin_joblist,
 		}
 
 		return render(request, 'adminjoblist.html', context)
