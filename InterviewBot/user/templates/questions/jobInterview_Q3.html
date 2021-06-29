@@ -57,12 +57,18 @@
     <script type="text/javascript">
       function talk(){
         {% for job in job %}
-        responsiveVoice.speak("{{job.question_3}}", "US English Female", {volume: 1});
+        responsiveVoice.speak("{{job.question_3}}", "US English Female", {volume: 1, "onend": function() { onEnd();}});
         {% endfor %}
         // not letting applicants copy and paste their responses
         const response = document.getElementById('message');
         response.onpaste = e => e.preventDefault();
       }
+
+      function onEnd(text) {
+          document.getElementById("message").disabled=false;
+          document.getElementById("send").disabled=false;
+          document.getElementById("id-mic").disabled=false;
+      } 
 
       function pageRedirect(){
         document.getElementById('send').click();
@@ -131,10 +137,10 @@
         {% for job in job %}
         <span id="time">0{{job.timer1}}:00</span>
         {% endfor %} -->
-        <textarea class="message-input" id="message" name="message" placeholder="Type your answer here..." autofocus></textarea>
-        <button type="submit" id="send" class="message-submit sound-on-click" style="left: 92%; top: 17%; height: 40px; position: absolute; text-align: center;"><i id="fa-send" class="fa fa-send-o"> Send</i></button>
+        <textarea class="message-input" id="message" name="message" placeholder="Type your answer here..." autofocus disabled></textarea>
+        <button type="submit" id="send" class="message-submit sound-on-click" style="left: 92%; top: 17%; height: 40px; position: absolute; text-align: center;" disabled><i id="fa-send" class="fa fa-send-o"> Send</i></button>
     </form>
-    <button name="mic" id="id-mic" style="left: 88%; top: 17%; position: absolute;" onclick=record();><i id="fa-mic" class="fa fa-microphone"></i></button>
+    <button name="mic" id="id-mic" style="left: 88%; top: 17%; position: absolute;" onclick=record();><i id="fa-mic" class="fa fa-microphone" disabled></i></button>
   </div>
 
 </div>
