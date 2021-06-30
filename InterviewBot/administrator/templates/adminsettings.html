@@ -70,8 +70,15 @@
                     </ul>
                 </li>
             </ul>
-            <div class="addAdmin">
-                <a href="{% url 'administrator:add-admin_view' %}">Add Admin Account</a>
+            <div class="row">
+                <div class="addStaff">
+                    <a href="{% url 'administrator:create-staff_view' %}">Add Staff Account</a>
+                </div>
+                {% if user.admin %}
+                <div class="addAdmin">
+                    <a href="{% url 'administrator:create-admin_view' %}">Add Admin Account</a>
+                </div>
+                {% endif %}
             </div>
         </nav>
 

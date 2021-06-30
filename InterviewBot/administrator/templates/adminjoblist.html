@@ -69,8 +69,15 @@
                     </ul>
                 </li>
             </ul>
-            <div class="addAdmin">
-                <a href="{% url 'administrator:add-admin_view' %}">Add Admin Account</a>
+            <div class="row">
+                <div class="addStaff">
+                    <a href="{% url 'administrator:create-staff_view' %}">Add Staff Account</a>
+                </div>
+                {% if user.admin %}
+                <div class="addAdmin">
+                    <a href="{% url 'administrator:create-admin_view' %}">Add Admin Account</a>
+                </div>
+                {% endif %}
             </div>
         </nav>
     </div>
@@ -80,7 +87,7 @@
             <div id="content-header">
                 {% if user.admin %}
                 <form method="GET">
-                    <h2>Filter by Administrator</h2>
+                    <h2>Filter by Staff</h2>
                     <select id="job-list-filter-id" class="form-control selectFilter" name="job-list-filter" onchange="btnFilter.click();">
                     <option value="All Job Offerings">All Job Offerings</option>
                     {% for account in accounts %}
@@ -100,6 +107,11 @@
         </div>
 
         <div class="cont">
+            {% if not joblists %}
+            <center>
+                <h1 style="opacity: 80%;">This staff does not have any job offerings owned.</h1>
+            </center>
+            {% else %}
             {% for joblist in joblists %}
             <div class="content-form">
                 <form id="viewApplicantForm" method="POST">
@@ -298,7 +310,9 @@
                 </div>
             </form>
             {% endfor %}
+            {% endif %}
         </div>
+        {% if joblists %} <!-- if queryset contains element/s -->
         <nav aria-label="Page navigation example" id="paginate-align">
             <ul class="pagination justify-content-center">
             {% if joblists.has_previous %}
@@ -362,6 +376,7 @@
             </script>
             </ul>
         </nav>
+        {% endif %}
         <div class="footer">
             <p>Copyright © InterviewBOT. All rights reserved.</p>
         </div>

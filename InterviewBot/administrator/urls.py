@@ -11,7 +11,8 @@ urlpatterns=[
     #TEST URL
     path('dashboard/', login_required(views.DashboardView.as_view()), name="dashboard_view"),
     path('job-lists/', login_required(views.JobListsView.as_view()), name="job-lists_view"),
-    path('add-admin/', login_required(views.AdminRegistrationView.as_view()), name="add-admin_view"),
+    path('create-admin/', login_required(views.AdminRegistrationView.as_view()), name="create-admin_view"),
+    path('create-staff/', login_required(views.StaffRegistrationView.as_view()), name="create-staff_view"),
     path('settings/', login_required(views.SettingsView.as_view()), name="settings_view"),
     path('applicants/',login_required(views.Applicants.as_view()), name="applicants_view"),
     path('applicant/response', login_required(views.ResponseView.as_view()), name="response_view"),
