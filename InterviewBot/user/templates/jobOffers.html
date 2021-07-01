@@ -86,39 +86,16 @@
         <div id="content">
             <h1>Job Offers</h1><br>
 
-            <!-- <form method="POST">
-                {% csrf_token %} -->
-                <div class="searchInput">
-                    <input type="text" id="search" name="search" onkeyup="searchJob()" placeholder="&#xF002;&nbsp;&nbsp; Search jobs by title, or keyword." style="font-family: Arial, 'Font Awesome 5 Free'" />
-                    <!-- <button type="submit" class="searchButton" id="btnSearch" name="btnSearch">Search</button> -->
-    	        </div>
-            <!-- </form> -->
+            <form method="GET">
+                <div class="row">
+                    <span class="form_fields">{{ joblist_filter.form.title }}</span>
+                    <span class="form_fields">{{ joblist_filter.form.description }}</span>
+                    <button type="submit" class="btnFilter" title="Search"><i class="fas fa-search"></i></button>
+                    <button type="button" class="btnClear" onclick='location.href="/user/job-offers/"' title="Clear Search"><i class="fas fa-ban"></i></button>
+                </div>
+            </form>
 
-            <script>
-                function searchJob() {
-                  // Declare variables
-                  var input, filter, table, tr, td, i, txtValue, nav;
-                  input = document.getElementById("search");
-                  filter = input.value.toUpperCase();
-                  table = document.getElementById("jobTable");
-                  tr = table.getElementsByTagName("tr");
-
-                  // Loop through all table rows, and hide those who don't match the search query
-                  for (i = 0; i < tr.length; i++){
-                    td = tr[i].getElementsByTagName("td")[1];
-                    if (td) {
-                      txtValue = td.textContent || td.innerText;
-                      if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                      } else {
-                        tr[i].style.display = "none";
-                      }
-                    }
-                  }
-                }
-            </script>
-
-            <br><hr>
+            <hr>
 
             <table width="100%" id="jobTable" class="table-striped table-bordered table-sm">
                 <tbody>
@@ -221,6 +198,70 @@
             </table><br>
     	</div>
     </div>
+
+    <nav aria-label="Page navigation example" id="paginate-align" style="margin-top: -5%;">
+            <ul class="pagination justify-content-center">
+            {% if joblists.has_previous %}
+                <li class="page-item">  
+                    <a class="page-link" href="#" onclick="redirectURL({{joblists.previous_page_number}});return false;" tabindex="-1">Previous</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">Previous</a>              
+                </li>
+            {% endif %}
+
+            {% for page in pages %}
+            <li class="page-item {% if page == page_number %} active {% endif %}">
+                <a class="page-link" href="#" onclick="redirectURL({{page}});return false;">{{page}}</a>
+            </li>
+            {% endfor %}
+            
+            {% if joblists.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="#" onclick="redirectURL({{joblists.next_page_number}});return false;">Next</a>              
+            </li>
+
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">Next</a>              
+                </li>
+            {% endif %}
+
+            <!-- script for dynamic URL for clicking previous, page numbers and next -->
+            <script>
+                function checkLastChar(url){ // for URL purpose
+                // check if last character is a number and eliminate it if it is a number.
+                    if (isNaN(url.slice(-1))){ //isNan = is Not a Number
+                        return url;
+                    }
+                    else{
+                        url = url.slice(0, url.length - 1);
+                        return checkLastChar(url); // recursive function to eliminate last character if it is a number.
+                    }
+                }
+
+                function dynamicURL(page){
+                    var url = window.location.href;
+                    if (url.includes("title") || url.includes("description")){ // if URL includes title OR description
+                        if(url.includes("&page")){ // if URL includes &page
+                            url = url.replace("&page=", ""); // remove &page= in URL
+                            url = checkLastChar(url);
+                        }
+                        url += "&page="+page; // concatenate this to URL
+                    }
+                    else{ // if not filtered
+                        url = "?page="+page; // add this to URL
+                    }
+                    return url;
+                }
+
+                function redirectURL(page){ // redirect URL using the dynamic URL
+                    window.location = dynamicURL(page);
+                }
+            </script>
+        </ul>
+    </nav>
 
     <!-- script to check if how many jobs are saved by the user -->
     <script>

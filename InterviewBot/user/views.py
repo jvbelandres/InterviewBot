@@ -16,12 +16,16 @@ from django.utils.http import urlsafe_base64_encode
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
 
+from django.core.paginator import Paginator
+
 import json
 import requests
 
+from .filters import JobSearchFilter
 from .forms import *
 from user.models import AppliedJob, SavedJob
 
+# For password reset feature (Django)
 def password_reset_request(request):
 	if request.method == "POST":
 		password_reset_form = PasswordResetForm(request.POST)
@@ -215,9 +219,25 @@ class JobOffersView(View):
 			return redirect('administrator:access_denied_view')
 		joblists = CreateJob.objects.raw('SELECT jobofferings.id, jobofferings.title, jobofferings.description FROM jobofferings WHERE jobofferings.id NOT IN (SELECT savedjob.job_id FROM savedjob WHERE '+str(user.id)+' = savedjob.user_id UNION ALL SELECT appliedjob.job_id FROM appliedjob WHERE appliedjob.user_id = '+str(user.id)+') AND jobofferings.is_deleted=0')
 		saved_jobs = SavedJob.objects.filter(user_id = user.id)
+
+		joblists = CreateJob.objects.all()
+		joblist_filter = JobSearchFilter(request.GET, queryset = joblists)
+
+		p = Paginator(joblist_filter.qs, 4)
+		page_number = request.GET.get('page',1)
+		page = p.page(page_number)
+		numberOfPage = p.num_pages
+        
+		array = []
+		for x in range(1, numberOfPage+1):
+			array.append(x)
+
 		context = {
-			'joblists': joblists,
-			'saved_jobs': saved_jobs
+			'joblists': page,
+			'pages':array,
+			'page_number':int(page_number),
+			'saved_jobs': saved_jobs,
+			'joblist_filter': joblist_filter,
 		}
 		return render(request, 'jobOffers.html', context)
 
