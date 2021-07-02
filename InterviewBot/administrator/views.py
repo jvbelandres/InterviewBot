@@ -228,8 +228,13 @@ class JobListsView(View):
 			return redirect('administrator:applicants_view')
 
 class AdminRegistrationView(CreateView):
-	form_class = RegisterForm
+	form_class = AdminRegisterForm
 	template_name = 'registeradmin.html'
+	success_url = '/administrator/dashboard/'
+
+class StaffRegistrationView(CreateView):
+	form_class = StaffRegisterForm
+	template_name = 'registerStaff.html'
 	success_url = '/administrator/dashboard/'
 
 class SettingsView(FormView):

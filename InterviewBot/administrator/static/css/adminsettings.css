@@ -210,7 +210,7 @@ ul ul a {
     background: white;
 }
 
-.addAdmin{
+.addAdmin, .addStaff {
     text-align: left;
     margin-left: 22px;
     color: #933633;
@@ -218,7 +218,7 @@ ul ul a {
     transition: 0.1s;
 }
 
-.addAdmin:hover{
+.addAdmin:hover, .addStaff:hover {
     color: #CD0000;
     bottom: 0;
 }
