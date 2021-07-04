@@ -64,15 +64,20 @@
                 {{form.email}}
             </div>
 
+            {% for message in messages %}
+                <div class="alert" role="alert" style="margin-top: -4%; margin-bottom: -1%; margin-left: 20%; font-size: 14px; width: 50%; color: red;">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
             <div class="pb-2">                
                 {{form.password}}<br>
             </div>
 
             <div class="pb-2">                
-                {{form.password_2}}<br>
+                {{form.password_2}}
             </div>
 
-            <p>{{form.errors}}</p>
 
             <!-- JS for confirm password -->
             <script type="text/javascript">

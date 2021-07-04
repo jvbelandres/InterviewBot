@@ -2,11 +2,9 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
-User = settings.AUTH_USER_MODEL
-
 # Create your models here. 
-def image_upload_path(instance, filename):
-	return "{}/{}".format(instance.applicant.lastname, filename)
+#def image_upload_path(instance, filename):
+#	return "{}/{}".format(instance.applicant.lastname, filename)
 
 class AccountManager(BaseUserManager):
 	def create_user(self, email, firstname, lastname, gender, phone, password, active=True,
@@ -57,7 +55,7 @@ class AccountManager(BaseUserManager):
 
 class Account(AbstractBaseUser):
 	email = models.EmailField(verbose_name="email", max_length=60, unique="True")
-	is_active = models.BooleanField(default=True)
+	is_active = models.BooleanField(default=False)
 	staff = models.BooleanField(default=False)
 	admin = models.BooleanField(default=False)
 

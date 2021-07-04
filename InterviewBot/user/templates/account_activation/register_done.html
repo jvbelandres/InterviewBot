@@ -1,0 +1,42 @@
+{% load static %}
+
+{% block headerinclude %}
+
+    <title>Registration Complete</title>
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
+
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="{% static '/css/Redirect.css' %}">
+
+{% endblock headerinclude %}
+
+{% block footerinclude %}
+    <!-- Font-awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/solid.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+{% endblock footerinclude %}
+
+
+{% block body %}
+
+<div class="logout">
+    <center>
+        <div class="logo pb-2">
+            <img  src="{% static '/images/logo.png' %}" width="40%" height="23%">
+         </div>            
+        <div class="pt-5 pb-5">
+            <i class="fas fa-info-circle fa-5x text-info" style="margin-top: -2%;"></i>
+            <br><br>
+            <h1 class="text-dark">We've sent you a verification link to your email address</h1>
+            <h1 class="text-primary">{{ email }}</h1><br><br>
+            <h5 class="text-dark">Click the link received to activate your account.</h5>
+        </div>
+    </center>
+</div>
+
+{% endblock %}

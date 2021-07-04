@@ -28,7 +28,7 @@ class RegisterForm(forms.ModelForm):
         email = self.cleaned_data.get('email')
         qs = User.objects.filter(email=email)
         if qs.exists():
-            raise forms.ValidationError('Email address is invalid.')
+            raise forms.ValidationError('Invalid email.')
         return email
 
     def save(self, commit=True):
@@ -37,7 +37,6 @@ class RegisterForm(forms.ModelForm):
         firstname = self.cleaned_data["firstname"]
         lastname = self.cleaned_data["lastname"]
         phone = self.cleaned_data["phone"]
-        print(phone)
         gender = self.cleaned_data["gender"]
         email = self.cleaned_data["email"]
         password = self.cleaned_data["password"]

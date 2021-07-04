@@ -1,28 +1,28 @@
 from django.http import HttpResponse
+from django.db.models.query_utils import Q
 from django.shortcuts import render, redirect
-from django.views.generic import View, TemplateView, CreateView, FormView
+from django.template.loader import render_to_string
+from django.views.generic import View, CreateView, FormView
+
 from django.core.files.storage import FileSystemStorage
-from django.core.mail import send_mail, BadHeaderError
+from django.core.mail import send_mail, BadHeaderError, EmailMessage
+from django.core.paginator import Paginator
+
 from django.utils.datastructures import MultiValueDictKeyError
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_text
 
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordResetForm
-
-from django.template.loader import render_to_string
-from django.db.models.query_utils import Q
-from django.utils.http import urlsafe_base64_encode
 from django.contrib.auth.tokens import default_token_generator
-from django.utils.encoding import force_bytes
+from django.contrib.sites.shortcuts import get_current_site
 
-from django.core.paginator import Paginator
+import json, requests 
 
-import json
-import requests
-
-from .filters import JobSearchFilter
 from .forms import *
+from .filters import JobSearchFilter
+from .tokens import account_activation_token
 from user.models import AppliedJob, SavedJob
 
 # For password reset feature (Django)
@@ -76,7 +76,64 @@ def finalScoring(pos, weight):
 class RegisterView(CreateView):
 	form_class = RegisterForm
 	template_name = 'RegistrationPage.html'
-	success_url = '/user/login/'
+	
+	def form_valid(self, form):
+		user = form.save(commit=False)
+		user.is_active = False
+		pw = form.cleaned_data.get('password')
+		user.set_password(pw)
+		user.save()
+		current_site = get_current_site(self.request)
+		mail_subject = 'Activate your account.'
+		message = render_to_string('account_activation/acc_active_email.html', {
+            'user': user,
+            'domain': current_site.domain,
+            'uid':urlsafe_base64_encode(force_bytes(user.pk)),
+            'token':account_activation_token.make_token(user),
+	    })
+		to_email = form.cleaned_data.get('email')
+		email = EmailMessage(
+					mail_subject, message, to=[to_email]
+		)
+		email.send()
+		self.request.session['email'] = to_email
+		return redirect('user:registration_complete')
+
+	def form_invalid(self, form):
+		messages.error(self.request, 'Invalid email. Please try another.')
+		return super().form_invalid(form)
+
+# Method for account activation
+def activate(request, uidb64, token):
+	try:
+		uid = force_text(urlsafe_base64_decode(uidb64).decode())
+		user = Account.objects.get(pk=uid)
+	except(TypeError, ValueError, OverflowError, Account.DoesNotExist):
+		user = None
+
+	if user is not None and account_activation_token.check_token(user, token):
+		user.is_active = True
+		user.save()
+		login(request, user)
+		return redirect('user:activate-success')
+	else:
+		return redirect('user:activate-failed')
+
+class RegisterComplete(View): # After user registration
+	def get(self, request):
+		try:
+			email = request.session['email']
+			return render(request, 'account_activation/register_done.html', {'email': email})
+		except:
+			return redirect('user:login_view')
+
+class ActivationSuccess(View): # If account activation succeed
+	def get(self, request):
+		return render(request, 'account_activation/activation_success.html')
+
+class ActivationFailed(View): # If account activation failed
+	def get(self, request):
+		return render(request, 'account_activation/activation_failed.html')
 
 class LoginView(FormView):
 	form_class = LoginForm

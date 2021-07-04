@@ -30,7 +30,7 @@
     <div class="login">
         <div class="logo">
           <center>  <img  src="{% static '/images/logo.png' %}" width="40%" height="23%"></center>
-         </div>   
+         </div>
 
         {% if user.is_authenticated and not user.staff %} 
         <!-- if user is authenticated and not a staff/admin, redirect to user homepage -->
@@ -65,7 +65,7 @@
             </div>
 
             {% for message in messages %}
-                <div class="alert alert-danger" role="alert" style="font-size: 13px; width: 50%;">
+                <div {% if 'error' in message.tags %} class="alert alert-danger" {% else %} class="alert alert-{{message.tags}}" {% endif %} role="alert" style="font-size: 13px; width: 50%;">
                     {{ message }}
                 </div>
             {% endfor %}

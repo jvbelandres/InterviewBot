@@ -49,36 +49,21 @@ button{
 	position: relative;
 	margin:auto;
 }
-#emailAdd {
-	border-radius: 15px;
-	width: 350px;
-	text-align: center;
-	border-left-width: 0px;
-	border-right-width: 0px;
-	border-top-width: 0px;
-	border-bottom-width: 0px;
-	padding-top: 5px;
-	padding-bottom: 5px;
-	background-color: #ffcc00;
-	position: relative;
-	
-	
-}
-#pass {
-	border-radius: 15px;
-	width: 350px;
-	text-align: center;
-	border-left-width: 0px;
-	border-right-width: 0px;
-	border-top-width: 0px;
-	border-bottom-width: 0px;
-	padding-top: 5px;
-	padding-bottom: 5px;
-	background-color: #ffcc00;
-	position: relative;
-	
 
+#emailAdd, #pass {
+	border-radius: 15px;
+	width: 350px;
+	text-align: center;
+	border-left-width: 0px;
+	border-right-width: 0px;
+	border-top-width: 0px;
+	border-bottom-width: 0px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	background-color: #ffcc00;
+	position: relative;
 }
+
 .btn_login {
 	text-align: center;
 	font-weight: bold;

@@ -15,6 +15,10 @@ urlpatterns=[
     path('contact-us/', login_required(views.ContactUsView.as_view()), name="contact-us_view"),
     path('home/', login_required(views.HomePageView.as_view()), name="home_view"),
     path('registration/', views.RegisterView.as_view(), name="registration_view"),
+    path('registration/complete/', views.RegisterComplete.as_view(), name="registration_complete"),
+    path('activate/<uidb64>/<token>/', views.activate, name="activate"),
+    path('activate/success/', views.ActivationSuccess.as_view(), name="activate-success"),
+    path('activate/failed/', views.ActivationFailed.as_view(), name="activate-failed"),
     path('job-offers/', login_required(views.JobOffersView.as_view()), name="job-offers_view"),
     path('settings/', login_required(views.SettingsView.as_view()), name="settings_view"),
     path('logout/', login_required(views.LogOutView.as_view()), name="logout_view"),
@@ -44,6 +48,6 @@ urlpatterns=[
     path('job-interview/interview-success', login_required(views.InterviewSuccessView.as_view()), name="interview_success_view"),
     path('job-interview/interview-forfeited', login_required(views.InterviewForfeitView.as_view()), name="interview_forfeit_view"),
     path('job-interview/access-denied', login_required(views.JobInterviewAccessDenied.as_view()), name="interview_access_denied"),
-
-    path("password_reset", views.password_reset_request, name="password_reset")
+    
+    path('password_reset', views.password_reset_request, name="password_reset"),
 ]
