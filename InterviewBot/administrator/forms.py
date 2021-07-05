@@ -68,7 +68,7 @@ class StaffRegisterForm(forms.ModelForm):
         return email
 
     def save(self, commit=True):
-        # Save the created admin account
+        # Save the created staff account
         user = super().save(commit=False)
         firstname = self.cleaned_data["firstname"]
         lastname = self.cleaned_data["lastname"]

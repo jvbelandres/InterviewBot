@@ -1,0 +1,10 @@
+{% autoescape off %}
+
+Hi {{ user.firstname }},
+
+You are given the privilege to be part of the {{ type }} of the Interview Bot. If you wish to continue, please click on the link to confirm your registration,
+http://{{ domain }}{% url 'administrator:sp_activate' uidb64=uid token=token %}
+
+Thank you!
+InterviewerBot Team
+{% endautoescape %}

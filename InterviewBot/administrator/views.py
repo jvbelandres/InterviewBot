@@ -1,14 +1,20 @@
 from .forms import *
+from user.tokens import account_activation_token
 from user.models import Account, CreateJob, AppliedJob
 
+from django.template.loader import render_to_string
 from django.shortcuts import render, redirect
 from django.views.generic import View, CreateView, FormView
 
 from django.core.paginator import Paginator
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMessage
+
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_text
 
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
+from django.contrib.sites.shortcuts import get_current_site
 
 class DashboardView(View):
 	def get(self, request):
@@ -28,7 +34,7 @@ class DashboardView(View):
 			joblists = CreateJob.objects.filter(admin_id=request.user.id, is_deleted=0)
 		appliedJobs = AppliedJob.objects.all()
 
-		accounts = Account.objects.filter(staff=1)
+		accounts = Account.objects.filter(staff=1, is_active=1)
 
 		context = {
 			'joblists': joblists,
@@ -95,7 +101,7 @@ class JobListsView(View):
 		if not user.staff:
 			return redirect('user:access_denied_view')
 
-		accounts = Account.objects.filter(staff=1)
+		accounts = Account.objects.filter(staff=1, is_active=1)
 
 		admin_joblist = request.GET.get('job-list-filter')
 		if admin_joblist == None:
@@ -230,12 +236,99 @@ class JobListsView(View):
 class AdminRegistrationView(CreateView):
 	form_class = AdminRegisterForm
 	template_name = 'registeradmin.html'
-	success_url = '/administrator/dashboard/'
+
+	def form_valid(self, form):
+		user = form.save(commit=False)
+		user.is_active = False
+		user.admin = True
+		user.staff = True
+		pw = form.cleaned_data.get('password')
+		user.set_password(pw)
+		user.save() # If dili mag user.save() kay dili mu gana ang token
+		current_site = get_current_site(self.request)
+		mail_subject = 'Activate your administrator account.'
+		message = render_to_string('account_activation/spAcc_active_email.html', {
+            'user': user,
+            'domain': current_site.domain,
+            'uid':urlsafe_base64_encode(force_bytes(user.pk)),
+            'token':account_activation_token.make_token(user),
+            'type': 'administrator',
+	    })
+		to_email = form.cleaned_data.get('email')
+		email = EmailMessage(
+					mail_subject, message, to=[to_email]
+		)
+		email.send()
+		self.request.session['email'] = to_email
+		return redirect('administrator:registration_complete')
+
+	def form_invalid(self, form):
+		messages.error(self.request, 'Invalid email. Please try another.')
+		return super().form_invalid(form)
 
 class StaffRegistrationView(CreateView):
 	form_class = StaffRegisterForm
 	template_name = 'registerStaff.html'
-	success_url = '/administrator/dashboard/'
+	
+	def form_valid(self, form):
+		user = form.save(commit=False)
+		user.is_active = False
+		user.staff = True
+		pw = form.cleaned_data.get('password')
+		user.set_password(pw)
+		user.save()
+		current_site = get_current_site(self.request)
+		mail_subject = 'Activate your staff account.'
+		message = render_to_string('account_activation/spAcc_active_email.html', {
+            'user': user,
+            'domain': current_site.domain,
+            'uid':urlsafe_base64_encode(force_bytes(user.pk)),
+            'token':account_activation_token.make_token(user),
+            'type': 'staff',
+	    })
+		to_email = form.cleaned_data.get('email')
+		email = EmailMessage(
+					mail_subject, message, to=[to_email]
+		)
+		email.send()
+		self.request.session['email'] = to_email
+		return redirect('administrator:registration_complete')
+
+	def form_invalid(self, form):
+		messages.error(self.request, 'Invalid email. Please try another.')
+		return super().form_invalid(form)
+
+# Method for account activation
+def sp_activate(request, uidb64, token):
+	try:
+		uid = force_text(urlsafe_base64_decode(uidb64).decode())
+		user = Account.objects.get(pk=uid)
+	except(TypeError, ValueError, OverflowError, Account.DoesNotExist):
+		user = None
+
+	if user is not None and account_activation_token.check_token(user, token):
+		user.is_active = True
+		user.save()
+		login(request, user)
+		return redirect('administrator:activate-success')
+	else:
+		return redirect('administrator:activate-failed')
+
+class RegisterComplete(View): # After staff and administrator registration
+	def get(self, request):
+		try:
+			email = request.session['email']
+			return render(request, 'account_activation/account_register_done.html', {'email': email})
+		except:
+			return redirect('administrator:dashboard_view')
+
+class SpActivationSuccess(View): # If account activation succeed
+	def get(self, request):
+		return render(request, 'account_activation/spAcc_activation_success.html')
+
+class SpActivationFailed(View): # If account activation failed
+	def get(self, request):
+		return render(request, 'account_activation/spAcc_activation_failed.html')
 
 class SettingsView(FormView):
 	def get(self, request):

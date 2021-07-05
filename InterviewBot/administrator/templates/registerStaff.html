@@ -66,6 +66,12 @@
                 {{form.email}}
             </div>
 
+            {% for message in messages %}
+                <div class="alert" role="alert" style="margin-top: -4%; margin-bottom: -1%; margin-left: 20%; font-size: 14px; width: 50%; color: red;">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
             <div class="pb-2">                
                 {{form.password}}
             </div>
@@ -74,11 +80,22 @@
                 {{form.password_2}}
             </div>
 
-            {% for message in messages %}
-                <div class="alert" style="color: red; font-size: 13px; margin-bottom: -2%">
-                    {{ message }}
-                </div>
-            {% endfor %}
+            <!-- JS for confirm password -->
+            <script type="text/javascript">
+                var password = document.getElementById("pass")
+                  , confirm_password = document.getElementById("pass2");
+
+                function validatePassword(){
+                  if(password.value != confirm_password.value) {
+                    confirm_password.setCustomValidity("Your password must match.");
+                  } else {
+                    confirm_password.setCustomValidity('');
+                  }
+                }
+
+                password.onchange = validatePassword;
+                confirm_password.onkeyup = validatePassword;
+            </script>
 
             <div class="py-3">
                 <hr style="width: 50%; text-align:center;">
