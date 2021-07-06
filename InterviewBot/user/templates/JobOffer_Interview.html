@@ -56,6 +56,7 @@
   <script>
     function onEnd(text) {
       document.getElementById("btnProceed").hidden=false;
+      document.getElementById("btnCancel").hidden=false;
     } 
     responsiveVoice.speak("Please take time to read the instruction. Be aware of the Dos and Don'ts when answering the interview questions. Best of luck!", "US English Female", {volume: 1, "onend": function() { onEnd();} });
   </script>
@@ -92,7 +93,7 @@
         {% csrf_token %}
         <center>
           <a href="{% url 'user:job-interview_q1' %}" class="button btn btn-primary" id="btnProceed" hidden>PROCEED</a>
-          <button class="btn btn-secondary" name="btnCancel">CANCEL</button>
+          <button class="btn btn-secondary" id="btnCancel" name="btnCancel" hidden>CANCEL</button>
         </center>
       </form>
     </div>

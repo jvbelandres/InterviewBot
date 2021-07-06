@@ -32,7 +32,7 @@ class DashboardView(View):
 				joblists = CreateJob.objects.raw('SELECT jobofferings.* FROM jobofferings, account WHERE jobofferings.is_deleted = 0 AND account.email = \''+ str(admin_joblist) + '\' AND jobofferings.admin_id = account.id')
 		else:
 			joblists = CreateJob.objects.filter(admin_id=request.user.id, is_deleted=0)
-		appliedJobs = AppliedJob.objects.all()
+		appliedJobs = AppliedJob.objects.raw('SELECT * FROM appliedjob WHERE final_score IS NOT NULL')
 
 		accounts = Account.objects.filter(staff=1, is_active=1)
 
@@ -407,7 +407,7 @@ class Applicants(View):
 			return redirect('user:access_denied_view')
 		job_id = request.session['job']
 		joblists = CreateJob.objects.filter(id = job_id)
-		applicants = Account.objects.raw('SELECT DISTINCT account.id,firstname,lastname FROM account,jobofferings,appliedjob WHERE appliedjob.job_id =' + str(job_id) +' AND account.id = appliedjob.user_id ORDER BY appliedjob.final_score DESC')
+		applicants = Account.objects.raw('SELECT DISTINCT account.id,firstname,lastname,appliedjob.final_score FROM account,jobofferings,appliedjob WHERE appliedjob.job_id =' + str(job_id) +' AND account.id = appliedjob.user_id ORDER BY appliedjob.final_score DESC')
 		
 		context = {
 			'joblists': joblists,

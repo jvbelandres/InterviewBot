@@ -58,8 +58,10 @@
                 <div class="questionContainer">
                     <div class="contentQuestion" >
                     <center><p style="border-style: dotted; width: 40%;" class="text-info">&nbsp; Applicants are sorted from highest to lowest scorers &nbsp;</p></center>
+                    <span style="float: left; font-weight: bolder; margin-left: 6.5%;">Score</span><br style="line-height: 1px;">
                     {% for applicant in applicants %}
                         <div class="input_fields_wrap2" style="display:flex ;margin-bottom: 10px; width: 87%;margin-top: 3%;">
+                            <span id="final_score">{{applicant.final_score}}%</span>
                             <input type="text" placeholder="{{applicant.lastname}}, {{applicant.firstname}} " disabled>
                             <button type="button" class="citButton" data-toggle="modal" id="id-btnView" data-target="#viewModal-{{applicant.id}}">View</button>
                         </div>
@@ -95,7 +97,11 @@
                                 <input type="text" name="applicantID" value="{{applicant.id}}" hidden>
 
                                 <div class="modal-footer">
+                                    {% if applicant.final_score == None %}
+                                    <button type="submit" name="btnAnswers" class="btn btn-primary" disabled>RESPONSES</button>
+                                    {% else %}
                                     <button type="submit" name="btnAnswers" class="btn btn-primary">RESPONSES</button>
+                                    {% endif %}
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">CLOSE</button>
                                 </div>
                             </form>

@@ -274,10 +274,10 @@ class JobOffersView(View):
 		user = request.user
 		if user.staff:
 			return redirect('administrator:access_denied_view')
-		joblists = CreateJob.objects.raw('SELECT jobofferings.id, jobofferings.title, jobofferings.description FROM jobofferings WHERE jobofferings.id NOT IN (SELECT savedjob.job_id FROM savedjob WHERE '+str(user.id)+' = savedjob.user_id UNION ALL SELECT appliedjob.job_id FROM appliedjob WHERE appliedjob.user_id = '+str(user.id)+') AND jobofferings.is_deleted=0')
+		
 		saved_jobs = SavedJob.objects.filter(user_id = user.id)
-
-		joblists = CreateJob.objects.all()
+		#joblists = CreateJob.objects.raw('SELECT jobofferings.id, jobofferings.title, jobofferings.description FROM jobofferings WHERE jobofferings.id NOT IN (SELECT savedjob.job_id FROM savedjob WHERE '+str(user.id)+' = savedjob.user_id UNION ALL SELECT appliedjob.job_id FROM appliedjob WHERE appliedjob.user_id = '+str(user.id)+') AND jobofferings.is_deleted=0')
+		joblists = CreateJob.objects.filter(is_deleted=0) # Bawal na mag .all() or .filter() if naka raw ang query.
 		joblist_filter = JobSearchFilter(request.GET, queryset = joblists)
 
 		p = Paginator(joblist_filter.qs, 4)
