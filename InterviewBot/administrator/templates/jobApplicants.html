@@ -56,17 +56,43 @@
                 </div>
 
                 <div class="questionContainer">
-                    <div class="contentQuestion" >
-                    <center><p style="border-style: dotted; width: 40%;" class="text-info">&nbsp; Applicants are sorted from highest to lowest scorers &nbsp;</p></center>
-                    <span style="float: left; font-weight: bolder; margin-left: 6.5%;">Score</span><br style="line-height: 1px;">
-                    {% for applicant in applicants %}
-                        <div class="input_fields_wrap2" style="display:flex ;margin-bottom: 10px; width: 87%;margin-top: 3%;">
-                            <span id="final_score">{{applicant.final_score}}%</span>
-                            <input type="text" placeholder="{{applicant.lastname}}, {{applicant.firstname}} " disabled>
-                            <button type="button" class="citButton" data-toggle="modal" id="id-btnView" data-target="#viewModal-{{applicant.id}}">View</button>
-                        </div>
-                    {% endfor %}
+                    <!-- SHOW THIS IF THERE IS AT LEAST ONE APPLICANT -->
+                    <div id="applicantList" class="contentQuestion" hidden>
+                        <center><p style="border-style: dotted; width: 40%;" class="text-info">&nbsp; Applicants are sorted from highest to lowest scorers &nbsp;</p></center>
+                        <span style="float: left; font-weight: bolder; margin-left: 6.5%;">Score</span><br style="line-height: 1px;">
+                        {% for applicant in applicants %}
+                            {% if applicant.final_score is not None %}
+                                <div class="input_fields_wrap2" style="display:flex ;margin-bottom: 10px; width: 87%;margin-top: 3%;">
+                                    <span id="final_score">{{applicant.final_score}}%</span>
+                                    <input type="text" placeholder="{{applicant.lastname}}, {{applicant.firstname}} " disabled>
+                                    <button type="button" class="citButton" data-toggle="modal" id="id-btnView" data-target="#viewModal-{{applicant.id}}">View</button>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
                     </div>
+
+                    <!-- SHOW THIS IF THERE IS NO APPLICANT -->
+                    <div id="noApplicant" class="contentQuestion">
+                        <br><br>
+                        <h2 id="noApplicant">This job offer does not have any applicants.</h2>
+                        <br><br>
+                    </div>
+
+                    <script> // SCRIPT TO HIDE 
+                        var count = 0;
+                        {% for applicant in applicants %}
+                            if ({{applicant.final_score}} != null)
+                                count++;
+                        {% endfor %}
+
+                        if (count > 0){ 
+                            document.getElementById("applicantList").hidden = false; 
+                            document.getElementById("noApplicant").style.display = "none";
+                        }
+                        else{
+                            document.getElementById("noApplicant").style.display = "block";
+                        }
+                    </script>
                 </div>
                 <footer></footer>
                 </center>

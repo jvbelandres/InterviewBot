@@ -34,16 +34,8 @@ h1 {
 	margin-top: 5%;
 }
 
-h5 {
-  font-family: 'Gotham';
-  margin-left: 3%;
-  margin-right: 1%;
-  color: black;
-}
-
 hr {
 	border-color: white;
-  margin-top: 0;
 	width: 87%; 
 	height: 0.5%; 
 	float: left;
@@ -181,24 +173,21 @@ ul ul a {
 }
 
 /* ---------------------------------------------
-	FILTER
+	SEARCH BAR
 -----------------------------------------------*/
-.btnFilter {
-  margin-left: 2%;
-  border-radius: 5px;
+.searchInput {
+  position: relative;
+  margin-right: 10px;
 }
 
-.btnClear {
-  margin-left: 0.5%;
-  border-radius: 5px;
-}
-
-.form_fields {
-  margin-left: 2%;
-}
-
-#id_title, #id_description {
-  border-radius: 5px;
+.searchInput input[type=text] {
+  width: 87%;
+  padding: 10px;
+  padding-left: 20px;
+  border-radius: 100px;
+  margin-right: 2%;
+  font-weight: bold;
+  background-color: white;
 }
 
 /* ---------------------------------
@@ -288,9 +277,26 @@ td {
 }
 
 .job-description {
-  margin-left: 3%;
+  margin-left: 4%;
   margin-right: 2%;
+  margin-bottom: 3%;
   text-align: justify;
+}
+
+.job-owner {
+  margin-left: 2%;
+  margin-right: 2%;
+  margin-bottom: 3%;
+}
+
+.modal_header {
+  font-weight: bold; 
+  margin-left: 3%;
+}
+
+.modal_header_req {
+  font-weight: bold;
+  margin-left: 5%;
 }
 
 /*BUTTON CLOSE FOR MODAL*/

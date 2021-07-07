@@ -130,7 +130,9 @@
                         <tr>
                             <td width="13%"> <img src="{% static '/images/citLogo.png' %}" class="imgJob"></td>
                             <td width="60%">
-                                <div class="row jobTitle">{{savedjob.title}}</div>
+                                <div class="row jobTitle">
+                                    <div style="margin-left: -1%;">{{savedjob.title}}</div>
+                                </div><br style="line-height: 5px;">
                                 <div class="row jobDescription">{{savedjob.description}}</div>
                             </td>
                             <td width="15%" align="center">
@@ -155,11 +157,22 @@
 
                                     <form id="applyForm" action="" method="POST" autocomplete="off" enctype="multipart/form-data"><br>
                                     {% csrf_token %}
-                                        <h5 style="font-weight: bold; margin-left: 3%;">Job Description</h5>
-                                        <div class="row job-description">{{savedjob.description}}</div><br><br>
+                                        <h5 class="modal_header">Job Owner</h5>
+                                        <div class=" row job-owner">
+                                            <div class="col-sm-6">
+                                                <b>Name:</b> {{savedjob.firstname}} {{savedjob.lastname}}
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <b>Email address:</b> {{savedjob.email}}
+                                            </div>
+                                        </div>
+
+                                        <h5 class="modal_header">Job Description</h5>
+                                        <div class="row job-description">{{savedjob.description}}</div>
+
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <h5 style="font-weight: bold;">Job Requirements</h5>
+                                                <h5 class="modal_header_req">Job Requirements</h5>
                                                 <input type="text" name="job-id" value="{{savedjob.job_id}}" hidden>
 
                                                 <center>
@@ -213,8 +226,10 @@
                                         <input type="text" name="job-id" value= {{savedjob.job_id}} hidden>
                              
                                         <div class="modal-body">
-                                            <p>Are you sure you want to unsave this job offering?<p>
+                                            <center>
+                                            <p>Are you sure you want to unsave this job offering?</p>
                                             <p style="text-align: center; font-weight: bold; font-size: 24px;">{{savedjob.title}}</p>
+                                            </center>
                                         </div>
 
                                 <div class="modal-footer">
@@ -237,8 +252,15 @@
                         {% for appliedjob in appliedjobs %}
                         <tr>
                             <td width="11%"> <img src="{% static '/images/citLogo.png' %}" class="imgJob"></td>
-                            <td width="60%">
-                                <div class="row jobTitle">{{appliedjob.title}}</div>
+                            <td width="70%">
+                                <div class="row jobTitle">
+                                    <div class="col-sm-6">
+                                        <span style="margin-left: -5%;">{{appliedjob.title}}</span>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <span style="float: right;">Owner: {{appliedjob.email}}</span>
+                                    </div>
+                                </div><br style="line-height: 5px;">
                                 <div class="row jobDescription">{{appliedjob.description}}</div>
                             </td>
                             <td width="11%" align="center">
