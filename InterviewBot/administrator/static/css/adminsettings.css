@@ -94,6 +94,25 @@ input:focus{
 ::-webkit-scrollbar {
     display: none;
 }
+
+/* ---------------------------------------------------
+    SWEET ALERT     source: https://sweetalert.js.org/docs/
+----------------------------------------------------- */
+
+.swal-modal {
+  border: 3px solid black;
+}
+
+.swal-title {
+    font-family: GothamBold;
+}
+
+.swal-text {
+    font-family: GothamBook;
+    color: black;
+}
+
+
 /* ---------------------------------------------------
     SIDEBAR STYLE
 ----------------------------------------------------- */
@@ -322,8 +341,8 @@ ul ul a {
 
 .note {
     color: red;
-    float: left;
-    margin-left: 10%;
+    float: right;
+    margin-right: 15%;
 }
 
 .questionTitle{
@@ -599,5 +618,5 @@ ul ul a {
   display: none;
   padding: 6px 12px;
   border-top: none;
-  height: 75%;
+  height: 80%;
 }

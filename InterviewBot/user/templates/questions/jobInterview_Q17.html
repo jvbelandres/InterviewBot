@@ -64,6 +64,13 @@
         response.onpaste = e => e.preventDefault();
       }
 
+      function checkSeconds(seconds) {
+        if (seconds < 10) 
+          return String(seconds).padStart(2, '0');
+        else
+          return seconds
+      }
+
       function onEnd(text) {
           document.getElementById("message").disabled=false;
           document.getElementById("send").disabled=false;
@@ -72,7 +79,7 @@
           // Set the date we're counting down to
           var countDownDate = new Date();
           {% for job in job %}
-          countDownDate.setMinutes(countDownDate.getMinutes() + {{job.timer7}});
+          countDownDate.setMinutes(countDownDate.getMinutes() + {{job.timer17}});
           countDownDate.setSeconds(countDownDate.getSeconds() + 1);
           {% endfor %}
 
@@ -87,6 +94,8 @@
             // Time calculations for minutes and seconds
             var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            seconds = checkSeconds(seconds);
               
             // Output the result in an element with id="time"
             document.getElementById("time").innerHTML = minutes + ":" + seconds; 
@@ -124,8 +133,6 @@
               
               document.getElementById('message').value += final_text + " ";
             }
-            
-            
         }
 
       // Prevent users from pressing F5
@@ -154,7 +161,7 @@
         <br style="line-height: 10px">
         {% for job in job %}
         <input type="text" name="job-weight" value="{{job.weight7}}" hidden>
-        <span id="time">0{{job.timer7}}:00</span>
+        <span id="time">0{{job.timer17}}:00</span>
         {% endfor %}
         <textarea class="message-input" id="message" name="message" placeholder="Type your answer here..." autofocus disabled></textarea>
         <button type="submit" id="send" class="message-submit sound-on-click" style="left: 92%; top: 17%; height: 40px; position: absolute; text-align: center;" disabled><i id="fa-send" class="fa fa-send-o"> Send</i></button>

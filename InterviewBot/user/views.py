@@ -256,13 +256,10 @@ class ContactUsView(View):
 			form.save()
 
 			send_mail(subject,message,user.email,['interviewbot.cit@gmail.com'])
-			return redirect('user:mailsent_view')
+			messages.success(request, 'sent')
+			return redirect('user:contact-us_view')
 
 		return render(request, 'ContactUs.html')
-
-class MailSentView(View):
-	def get(self,request):
-		return render(request, 'MailSent.html')
 
 class AccessDeniedView(View):
 	def get(self, request):
@@ -359,7 +356,7 @@ class SettingsView(FormView):
 			login(request,loginUser)
 			update_account = Account.objects.filter(id = u.id).update(firstname = firstName, 
 				lastname = lastName, phone = phone)
-
+		messages.success(request, 'updated')
 		return redirect('user:settings_view')
 
 class JobInterviewView(View):
@@ -405,6 +402,7 @@ class JobInterviewQ1View(View):
 	def post(self, request):
 		user = request.user
 		job_id = request.session['job']
+		job_weight = request.POST.get("job-weight")
 		response_1 = request.POST.get("message")
 		
 		if len(response_1) > 0:
@@ -418,7 +416,7 @@ class JobInterviewQ1View(View):
 			positive = 0
 
 		# Score multiplied by weight
-		final_score = finalScoring(positive, 1)
+		final_score = finalScoring(positive, job_weight)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_1 = response_1, positive1 = positive, score1 = final_score)
@@ -446,6 +444,7 @@ class JobInterviewQ2View(View):
 	def post(self, request):
 		user = request.user
 		job_id = request.session['job']
+		job_weight = request.POST.get("job-weight")
 		response_2 = request.POST.get("message")
 		
 		if len(response_2) > 0:
@@ -459,7 +458,7 @@ class JobInterviewQ2View(View):
 			positive = 0
 
 		# Score multiplied by weight
-		final_score = finalScoring(positive, 1)
+		final_score = finalScoring(positive, job_weight)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_2 = response_2, positive2 = positive, score2 = final_score)
@@ -487,6 +486,7 @@ class JobInterviewQ3View(View):
 	def post(self, request):
 		user = request.user
 		job_id = request.session['job']
+		job_weight = request.POST.get("job-weight")
 		response_3 = request.POST.get("message")
 
 		if len(response_3) > 0:
@@ -500,7 +500,7 @@ class JobInterviewQ3View(View):
 			positive = 0
 
 		# Score multiplied by weight
-		final_score = finalScoring(positive, 1)
+		final_score = finalScoring(positive, job_weight)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_3 = response_3, positive3 = positive, score3 = final_score)
@@ -528,6 +528,7 @@ class JobInterviewQ4View(View):
 	def post(self, request):
 		user = request.user
 		job_id = request.session['job']
+		job_weight = request.POST.get("job-weight")
 		response_4 = request.POST.get("message")
 
 		if len(response_4) > 0:
@@ -541,7 +542,7 @@ class JobInterviewQ4View(View):
 			positive = 0
 
 		# Score multiplied by weight
-		final_score = finalScoring(positive, 1)
+		final_score = finalScoring(positive, job_weight)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_4 = response_4, positive4 = positive, score4 = final_score)
@@ -569,6 +570,7 @@ class JobInterviewQ5View(View):
 	def post(self, request):
 		user = request.user
 		job_id = request.session['job']
+		job_weight = request.POST.get("job-weight")
 		response_5 = request.POST.get("message")
 		
 		if len(response_5) > 0:
@@ -582,7 +584,7 @@ class JobInterviewQ5View(View):
 			positive = 0
 
 		# Score multiplied by weight
-		final_score = finalScoring(positive, 1)
+		final_score = finalScoring(positive, job_weight)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_5 = response_5, positive5 = positive, score5 = final_score)
@@ -610,6 +612,7 @@ class JobInterviewQ6View(View):
 	def post(self, request):
 		user = request.user
 		job_id = request.session['job']
+		job_weight = request.POST.get("job-weight")
 		response_6 = request.POST.get("message")
 
 		if len(response_6) > 0:
@@ -623,7 +626,7 @@ class JobInterviewQ6View(View):
 			positive = 0
 
 		# Score multiplied by weight
-		final_score = finalScoring(positive, 1)
+		final_score = finalScoring(positive, job_weight)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_6 = response_6, positive6 = positive, score6 = final_score)
@@ -651,6 +654,7 @@ class JobInterviewQ7View(View):
 	def post(self, request):
 		user = request.user
 		job_id = request.session['job']
+		job_weight = request.POST.get("job-weight")
 		response_7 = request.POST.get("message")
 
 		if len(response_7) > 0:
@@ -664,7 +668,7 @@ class JobInterviewQ7View(View):
 			positive = 0
 
 		# Score multiplied by weight
-		final_score = finalScoring(positive, 1)
+		final_score = finalScoring(positive, job_weight)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_7 = response_7, positive7 = positive, score7 = final_score)
@@ -692,6 +696,7 @@ class JobInterviewQ8View(View):
 	def post(self, request):
 		user = request.user
 		job_id = request.session['job']
+		job_weight = request.POST.get("job-weight")
 		response_8 = request.POST.get("message")
 
 		if len(response_8) > 0:
@@ -705,7 +710,7 @@ class JobInterviewQ8View(View):
 			positive = 0
 
 		# Score multiplied by weight
-		final_score = finalScoring(positive, 1)
+		final_score = finalScoring(positive, job_weight)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_8 = response_8, positive8 = positive, score8 = final_score)
@@ -733,6 +738,7 @@ class JobInterviewQ9View(View):
 	def post(self, request):
 		user = request.user
 		job_id = request.session['job']
+		job_weight = request.POST.get("job-weight")
 		response_9 = request.POST.get("message")
 
 		if len(response_9) > 0:
@@ -746,7 +752,7 @@ class JobInterviewQ9View(View):
 			positive = 0
 
 		# Score multiplied by weight
-		final_score = finalScoring(positive, 1)
+		final_score = finalScoring(positive, job_weight)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_9 = response_9, positive9 = positive, score9 = final_score)
@@ -774,6 +780,7 @@ class JobInterviewQ10View(View):
 	def post(self, request):
 		user = request.user
 		job_id = request.session['job']
+		job_weight = request.POST.get("job-weight")
 		response_10 = request.POST.get("message")
 
 		if len(response_10) > 0:
@@ -787,7 +794,7 @@ class JobInterviewQ10View(View):
 			positive = 0
 
 		# Score multiplied by weight
-		final_score = finalScoring(positive, 1)
+		final_score = finalScoring(positive, job_weight)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_10 = response_10, positive10 = positive, score10 = final_score)

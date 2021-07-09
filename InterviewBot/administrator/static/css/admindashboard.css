@@ -271,7 +271,7 @@ ul ul a {
   display: none;
   padding: 6px 12px;
   border-top: none;
-  height: 75%;
+  height: 80%;
 }
 
 .close{
@@ -302,8 +302,8 @@ ul ul a {
 
 .note {
     color: red;
-    float: left;
-    margin-left: 10%;
+    float: right;
+    margin-right: 15%;
 }
 
 .questionTitle{

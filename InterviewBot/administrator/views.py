@@ -54,44 +54,115 @@ class DashboardView(View):
 		user = request.user
 		jobTitle = request.POST.get("name-title")
 		jobDescription = request.POST.get("name-description")
-		q11 = request.POST.get("qtn11")
-		q12 = request.POST.get("qtn12")
-		q13 = request.POST.get("qtn13")
-		q14 = request.POST.get("qtn14")
-		q15 = request.POST.get("qtn15")
-		q16 = request.POST.get("qtn16")
-		q17 = request.POST.get("qtn17")
-		q18 = request.POST.get("qtn18")
-		q19 = request.POST.get("qtn19")
-		q20 = request.POST.get("qtn20")
-		w1 = request.POST.get("weight1")
-		w2 = request.POST.get("weight2")
-		w3 = request.POST.get("weight3")
-		w4 = request.POST.get("weight4")
-		w5 = request.POST.get("weight5")
-		w6 = request.POST.get("weight6")
-		w7 = request.POST.get("weight7")
-		w8 = request.POST.get("weight8")
-		w9 = request.POST.get("weight9")
-		w10 = request.POST.get("weight10")
-		t1 = request.POST.get("timer1")
-		t2 = request.POST.get("timer2")
-		t3 = request.POST.get("timer3")
-		t4 = request.POST.get("timer4")
-		t5 = request.POST.get("timer5")
-		t6 = request.POST.get("timer6")
-		t7 = request.POST.get("timer7")
-		t8 = request.POST.get("timer8")
-		t9 = request.POST.get("timer9")
-		t10 = request.POST.get("timer10")
+		checkbox = request.POST.get("defaultQ")
+		
+		q11 = request.POST.get("o-qtn11")
+		q12 = request.POST.get("o-qtn12")
+		q13 = request.POST.get("o-qtn13")
+		q14 = request.POST.get("o-qtn14")
+		q15 = request.POST.get("o-qtn15")
+		q16 = request.POST.get("o-qtn16")
+		q17 = request.POST.get("o-qtn17")
+		q18 = request.POST.get("o-qtn18")
+		q19 = request.POST.get("o-qtn19")
+		q20 = request.POST.get("o-qtn20")
 
-		form = CreateJob(title = jobTitle, description = jobDescription,
-            question_11 = q11, question_12 = q12, question_13 = q13, question_14 = q14,
-            question_15 = q15, question_16 = q16, question_17 = q17, question_18 = q18,
-            question_19 = q19, question_20 = q20, weight1 = w1, weight2 = w2, weight3 = w3,
-            weight4 = w4, weight5 = w5, weight6 = w6, weight7 = w7, weight8 = w8, weight9 = w9,
-            weight10 = w10, timer1 = t1, timer2 = t2, timer3 = t3, timer4 = t4, timer5 = t5,
-            timer6 = t6, timer7 = t7, timer8 = t8, timer9 = t9, timer10 = t10, admin_id = user.id)
+		w11 = request.POST.get("o-weight11")
+		w12 = request.POST.get("o-weight12")
+		w13 = request.POST.get("o-weight13")
+		w14 = request.POST.get("o-weight14")
+		w15 = request.POST.get("o-weight15")
+		w16 = request.POST.get("o-weight16")
+		w17 = request.POST.get("o-weight17")
+		w18 = request.POST.get("o-weight18")
+		w19 = request.POST.get("o-weight19")
+		w20 = request.POST.get("o-weight20")
+		
+		t11 = request.POST.get("o-timer11")
+		t12 = request.POST.get("o-timer12")
+		t13 = request.POST.get("o-timer13")
+		t14 = request.POST.get("o-timer14")
+		t15 = request.POST.get("o-timer15")
+		t16 = request.POST.get("o-timer16")
+		t17 = request.POST.get("o-timer17")
+		t18 = request.POST.get("o-timer18")
+		t19 = request.POST.get("o-timer19")
+		t20 = request.POST.get("o-timer20")
+
+		if checkbox != 'defaultQ':
+			q1 = request.POST.get("o-qtn1")
+			q2 = request.POST.get("o-qtn2")
+			q3 = request.POST.get("o-qtn3")
+			q4 = request.POST.get("o-qtn4")
+			q5 = request.POST.get("o-qtn5")
+			q6 = request.POST.get("o-qtn6")
+			q7 = request.POST.get("o-qtn7")
+			q8 = request.POST.get("o-qtn8")
+			q9 = request.POST.get("o-qtn9")
+			q10 = request.POST.get("o-qtn10")
+			w1 = request.POST.get("o-weight1")
+			w2 = request.POST.get("o-weight2")
+			w3 = request.POST.get("o-weight3")
+			w4 = request.POST.get("o-weight4")
+			w5 = request.POST.get("o-weight5")
+			w6 = request.POST.get("o-weight6")
+			w7 = request.POST.get("o-weight7")
+			w8 = request.POST.get("o-weight8")
+			w9 = request.POST.get("o-weight9")
+			w10 = request.POST.get("o-weight10")
+			t1 = request.POST.get("o-timer1")
+			t2 = request.POST.get("o-timer2")
+			t3 = request.POST.get("o-timer3")
+			t4 = request.POST.get("o-timer4")
+			t5 = request.POST.get("o-timer5")
+			t6 = request.POST.get("o-timer6")
+			t7 = request.POST.get("o-timer7")
+			t8 = request.POST.get("o-timer8")
+			t9 = request.POST.get("o-timer9")
+			t10 = request.POST.get("o-timer10")
+
+			form = CreateJob(title=jobTitle, description=jobDescription, question_1=q1,question_2=q2, 
+				question_3=q3, question_4=q4, question_5=q5, question_6=q6, question_7=q7, question_8=q8,
+				question_9=q9, question_10=q10, question_11=q11, question_12=q12, question_13=q13, 
+				question_14=q14, question_15=q15, question_16=q16, question_17=q17, question_18=q18,
+	            question_19=q19, question_20=q20, weight1=w1, weight2=w2, weight3=w3, weight4=w4, 
+	            weight5=w5, weight6=w6, weight7=w7, weight8=w8, weight9=w9, weight10=w10, weight11=w11,
+	            weight12=w12, weight13=w13, weight14=w14, weight15=w15, weight16=w16, weight17=w17,
+	            weight18=w18, weight19=w19, weight20=w20, timer1=t1, timer2=t2, timer3=t3, timer4=t4,
+	            timer5=t5, timer6=t6, timer7=t7, timer8=t8, timer9=t9, timer10=t10, timer11=t11, 
+	            timer12=t12, timer13=t13, timer14=t14, timer15=t15, timer16=t16, timer17=t17, timer18=t18,
+	            timer19=t19, timer20=t20, is_default=0, admin_id=user.id)
+		else:
+			t1 = request.POST.get("d-timer1")
+			t2 = request.POST.get("d-timer2")
+			t3 = request.POST.get("d-timer3")
+			t4 = request.POST.get("d-timer4")
+			t5 = request.POST.get("d-timer5")
+			t6 = request.POST.get("d-timer6")
+			t7 = request.POST.get("d-timer7")
+			t8 = request.POST.get("d-timer8")
+			t9 = request.POST.get("d-timer9")
+			t10 = request.POST.get("d-timer10")
+			w1 = request.POST.get("d-weight1")
+			w2 = request.POST.get("d-weight2")
+			w3 = request.POST.get("d-weight3")
+			w4 = request.POST.get("d-weight4")
+			w5 = request.POST.get("d-weight5")
+			w6 = request.POST.get("d-weight6")
+			w7 = request.POST.get("d-weight7")
+			w8 = request.POST.get("d-weight8")
+			w9 = request.POST.get("d-weight9")
+			w10 = request.POST.get("d-weight10")
+
+			form = CreateJob(title=jobTitle, description=jobDescription, question_11=q11, question_12=q12,
+				question_13=q13, question_14=q14, question_15=q15, question_16=q16, question_17=q17, 
+				question_18=q18, question_19=q19, question_20=q20, weight1=w1, weight2=w2, weight3=w3, weight4=w4, 
+	            weight5=w5, weight6=w6, weight7=w7, weight8=w8, weight9=w9, weight10=w10, weight11=w11,
+	            weight12=w12, weight13=w13, weight14=w14, weight15=w15, weight16=w16, weight17=w17,
+	            weight18=w18, weight19=w19, weight20=w20, timer1=t1, timer2=t2, timer3=t3, timer4=t4,
+	            timer5=t5, timer6=t6, timer7=t7, timer8=t8, timer9=t9, timer10=t10, timer11=t11, timer12=t12, timer13=t13, timer14=t14, timer15=t15,
+				timer16=t16, timer17=t17, timer18=t18, timer19=t19, timer20=t20, is_default=1, admin_id=user.id)
+
 		form.save()
 		return redirect('administrator:job-lists_view')
 
@@ -138,94 +209,234 @@ class JobListsView(View):
 		user = request.user
 		if 'btnDelete' in request.POST:
 			job_id = request.POST.get("id-job")
-			print(job_id)
 			job = CreateJob.objects.filter(id=job_id).update(is_deleted=1)
+			messages.error(request, 'deleted')
 			return redirect('administrator:job-lists_view')
 		elif 'btnUpdate' in request.POST:
 			job_id = request.POST.get("job-id")
 			title = request.POST.get("job-title")
 			description = request.POST.get("job-description")
-			weight1 = request.POST.get("weight1")
-			weight2 = request.POST.get("weight2")
-			weight3 = request.POST.get("weight3")
-			weight4 = request.POST.get("weight4")
-			weight5 = request.POST.get("weight5")
-			weight6 = request.POST.get("weight6")
-			weight7 = request.POST.get("weight7")
-			weight8 = request.POST.get("weight8")
-			weight9 = request.POST.get("weight9")
-			weight10 = request.POST.get("weight10")
-			timer1 = request.POST.get("timer1")
-			timer2 = request.POST.get("timer2")
-			timer3 = request.POST.get("timer3")
-			timer4 = request.POST.get("timer4")
-			timer5 = request.POST.get("timer5")
-			timer6 = request.POST.get("timer6")
-			timer7 = request.POST.get("timer7")
-			timer8 = request.POST.get("timer8")
-			timer9 = request.POST.get("timer9")
-			timer10 = request.POST.get("timer10")
-			q11 = request.POST.get("qtn11")
-			q12 = request.POST.get("qtn12")
-			q13 = request.POST.get("qtn13")
-			q14 = request.POST.get("qtn14")
-			q15 = request.POST.get("qtn15")
-			q16 = request.POST.get("qtn16")
-			q17 = request.POST.get("qtn17")
-			q18 = request.POST.get("qtn18")
-			q19 = request.POST.get("qtn19")
-			q20 = request.POST.get("qtn20")
+			is_default = request.POST.get("is_default")
+			weight11 = request.POST.get("o-weight11")
+			weight12 = request.POST.get("o-weight12")
+			weight13 = request.POST.get("o-weight13")
+			weight14 = request.POST.get("o-weight14")
+			weight15 = request.POST.get("o-weight15")
+			weight16 = request.POST.get("o-weight16")
+			weight17 = request.POST.get("o-weight17")
+			weight18 = request.POST.get("o-weight18")
+			weight19 = request.POST.get("o-weight19")
+			weight20 = request.POST.get("o-weight20")
+			timer11 = request.POST.get("o-timer11")
+			timer12 = request.POST.get("o-timer12")
+			timer13 = request.POST.get("o-timer13")
+			timer14 = request.POST.get("o-timer14")
+			timer15 = request.POST.get("o-timer15")
+			timer16 = request.POST.get("o-timer16")
+			timer17 = request.POST.get("o-timer17")
+			timer18 = request.POST.get("o-timer18")
+			timer19 = request.POST.get("o-timer19")
+			timer20 = request.POST.get("o-timer20")
+			q11 = request.POST.get("o-qtn11")
+			q12 = request.POST.get("o-qtn12")
+			q13 = request.POST.get("o-qtn13")
+			q14 = request.POST.get("o-qtn14")
+			q15 = request.POST.get("o-qtn15")
+			q16 = request.POST.get("o-qtn16")
+			q17 = request.POST.get("o-qtn17")
+			q18 = request.POST.get("o-qtn18")
+			q19 = request.POST.get("o-qtn19")
+			q20 = request.POST.get("o-qtn20")
 
-			job = CreateJob.objects.filter(id=job_id).update(title=title, description=description,
-				question_11=q11, question_12=q12, question_13=q13, question_14=q14, question_15=q15, 
-				question_16=q16, question_17=q17, question_18=q18, question_19=q19, question_20=q20,
-				weight1=weight1, weight2=weight2, weight3=weight3, weight4=weight4, weight5=weight5,
-				weight6=weight6, weight7=weight7, weight8=weight8, weight9=weight9, weight10=weight10,
-				timer1=timer1, timer2=timer2, timer3=timer3, timer4=timer4, timer5=timer5, timer6=timer6,
-				timer7=timer7, timer8=timer8,timer9=timer9,timer10=timer10)
+			if is_default == 'True':
+				weight1 = request.POST.get("d-weight1")
+				weight2 = request.POST.get("d-weight2")
+				weight3 = request.POST.get("d-weight3")
+				weight4 = request.POST.get("d-weight4")
+				weight5 = request.POST.get("d-weight5")
+				weight6 = request.POST.get("d-weight6")
+				weight7 = request.POST.get("d-weight7")
+				weight8 = request.POST.get("d-weight8")
+				weight9 = request.POST.get("d-weight9")
+				weight10 = request.POST.get("d-weight10")
+				timer1 = request.POST.get("d-timer1")
+				timer2 = request.POST.get("d-timer2")
+				timer3 = request.POST.get("d-timer3")
+				timer4 = request.POST.get("d-timer4")
+				timer5 = request.POST.get("d-timer5")
+				timer6 = request.POST.get("d-timer6")
+				timer7 = request.POST.get("d-timer7")
+				timer8 = request.POST.get("d-timer8")
+				timer9 = request.POST.get("d-timer9")
+				timer10 = request.POST.get("d-timer10")
+
+				job = CreateJob.objects.filter(id=job_id).update(title=title, description=description,
+					question_11=q11, question_12=q12, question_13=q13, question_14=q14, question_15=q15, question_16=q16, 
+					question_17=q17, question_18=q18, question_19=q19, question_20=q20, weight1=weight1, weight2=weight2, 
+					weight3=weight3, weight4=weight4, weight5=weight5, weight6=weight6, weight7=weight7, 
+					weight8=weight8, weight9=weight9, weight10=weight10, weight11=weight11, weight12=weight12,
+					weight13=weight13, weight14=weight14, weight15=weight15, weight16=weight16, weight17=weight17,
+					weight18=weight18, weight19=weight19, weight20=weight20, timer1=timer1, timer2=timer2, 
+					timer3=timer3, timer4=timer4, timer5=timer5, timer6=timer6, timer7=timer7, timer8=timer8,
+					timer9=timer9,timer10=timer10, timer11=timer11, timer12=timer12, timer13=timer13, timer14=timer14,
+					timer15=timer15, timer16=timer16, timer17=timer17, timer18=timer18, timer19=timer19, timer20=timer20)
+			else:
+				weight1 = request.POST.get("o-weight1")
+				weight2 = request.POST.get("o-weight2")
+				weight3 = request.POST.get("o-weight3")
+				weight4 = request.POST.get("o-weight4")
+				weight5 = request.POST.get("o-weight5")
+				weight6 = request.POST.get("o-weight6")
+				weight7 = request.POST.get("o-weight7")
+				weight8 = request.POST.get("o-weight8")
+				weight9 = request.POST.get("o-weight9")
+				weight10 = request.POST.get("o-weight10")
+				timer1 = request.POST.get("o-timer1")
+				timer2 = request.POST.get("o-timer2")
+				timer3 = request.POST.get("o-timer3")
+				timer4 = request.POST.get("o-timer4")
+				timer5 = request.POST.get("o-timer5")
+				timer6 = request.POST.get("o-timer6")
+				timer7 = request.POST.get("o-timer7")
+				timer8 = request.POST.get("o-timer8")
+				timer9 = request.POST.get("o-timer9")
+				timer10 = request.POST.get("o-timer10")
+				q1 = request.POST.get("o-qtn1")
+				q2 = request.POST.get("o-qtn2")
+				q3 = request.POST.get("o-qtn3")
+				q4 = request.POST.get("o-qtn4")
+				q5 = request.POST.get("o-qtn5")
+				q6 = request.POST.get("o-qtn6")
+				q7 = request.POST.get("o-qtn7")
+				q8 = request.POST.get("o-qtn8")
+				q9 = request.POST.get("o-qtn9")
+				q10 = request.POST.get("o-qtn10")
+
+				job = CreateJob.objects.filter(id=job_id).update(title=title, description=description,
+					question_1=q1, question_2=q2, question_3=q3, question_4=q4, question_5=q5, question_6=q6,
+					question_7=q7, question_8=q8, question_9=q9, question_10=q10,question_11=q11, question_12=q12, 
+					question_13=q13, question_14=q14, question_15=q15, question_16=q16, question_17=q17, 
+					question_18=q18, question_19=q19, question_20=q20, weight1=weight1, weight2=weight2, 
+					weight3=weight3, weight4=weight4, weight5=weight5, weight6=weight6, weight7=weight7, 
+					weight8=weight8, weight9=weight9, weight10=weight10, weight11=weight11, weight12=weight12,
+					weight13=weight13, weight14=weight14, weight15=weight15, weight16=weight16, weight17=weight17,
+					weight18=weight18, weight19=weight19, weight20=weight20, timer1=timer1, timer2=timer2, 
+					timer3=timer3, timer4=timer4, timer5=timer5, timer6=timer6, timer7=timer7, timer8=timer8,
+					timer9=timer9,timer10=timer10, timer11=timer11, timer12=timer12, timer13=timer13, timer14=timer14,
+					timer15=timer15, timer16=timer16, timer17=timer17, timer18=timer18, timer19=timer19, timer20=timer20)
+			messages.success(request, 'updated')
 			return redirect('administrator:job-lists_view')
 		elif 'btnAdd' in request.POST:
 			jobTitle = request.POST.get("name-title")
 			jobDescription = request.POST.get("name-description")
-			q11 = request.POST.get("qtn11")
-			q12 = request.POST.get("qtn12")
-			q13 = request.POST.get("qtn13")
-			q14 = request.POST.get("qtn14")
-			q15 = request.POST.get("qtn15")
-			q16 = request.POST.get("qtn16")
-			q17 = request.POST.get("qtn17")
-			q18 = request.POST.get("qtn18")
-			q19 = request.POST.get("qtn19")
-			q20 = request.POST.get("qtn20")
-			w1 = request.POST.get("weight1")
-			w2 = request.POST.get("weight2")
-			w3 = request.POST.get("weight3")
-			w4 = request.POST.get("weight4")
-			w5 = request.POST.get("weight5")
-			w6 = request.POST.get("weight6")
-			w7 = request.POST.get("weight7")
-			w8 = request.POST.get("weight8")
-			w9 = request.POST.get("weight9")
-			w10 = request.POST.get("weight10")
-			t1 = request.POST.get("timer1")
-			t2 = request.POST.get("timer2")
-			t3 = request.POST.get("timer3")
-			t4 = request.POST.get("timer4")
-			t5 = request.POST.get("timer5")
-			t6 = request.POST.get("timer6")
-			t7 = request.POST.get("timer7")
-			t8 = request.POST.get("timer8")
-			t9 = request.POST.get("timer9")
-			t10 = request.POST.get("timer10")
+			checkbox = request.POST.get("defaultQ")
+			
+			q11 = request.POST.get("create-o-qtn11")
+			q12 = request.POST.get("create-o-qtn12")
+			q13 = request.POST.get("create-o-qtn13")
+			q14 = request.POST.get("create-o-qtn14")
+			q15 = request.POST.get("create-o-qtn15")
+			q16 = request.POST.get("create-o-qtn16")
+			q17 = request.POST.get("create-o-qtn17")
+			q18 = request.POST.get("create-o-qtn18")
+			q19 = request.POST.get("create-o-qtn19")
+			q20 = request.POST.get("create-o-qtn20")
 
-			form = CreateJob(title = jobTitle, description = jobDescription,
-            question_11 = q11, question_12 = q12, question_13 = q13, question_14 = q14,
-            question_15 = q15, question_16 = q16, question_17 = q17, question_18 = q18,
-            question_19 = q19, question_20 = q20, weight1 = w1, weight2 = w2, weight3 = w3,
-            weight4 = w4, weight5 = w5, weight6 = w6, weight7 = w7, weight8 = w8, weight9 = w9,
-            weight10 = w10, timer1 = t1, timer2 = t2, timer3 = t3, timer4 = t4, timer5 = t5,
-            timer6 = t6, timer7 = t7, timer8 = t8, timer9 = t9, timer10 = t10, admin_id = user.id)
+			w11 = request.POST.get("create-o-weight11")
+			w12 = request.POST.get("create-o-weight12")
+			w13 = request.POST.get("create-o-weight13")
+			w14 = request.POST.get("create-o-weight14")
+			w15 = request.POST.get("create-o-weight15")
+			w16 = request.POST.get("create-o-weight16")
+			w17 = request.POST.get("create-o-weight17")
+			w18 = request.POST.get("create-o-weight18")
+			w19 = request.POST.get("create-o-weight19")
+			w20 = request.POST.get("create-o-weight20")
+			
+			t11 = request.POST.get("create-o-timer11")
+			t12 = request.POST.get("create-o-timer12")
+			t13 = request.POST.get("create-o-timer13")
+			t14 = request.POST.get("create-o-timer14")
+			t15 = request.POST.get("create-o-timer15")
+			t16 = request.POST.get("create-o-timer16")
+			t17 = request.POST.get("create-o-timer17")
+			t18 = request.POST.get("create-o-timer18")
+			t19 = request.POST.get("create-o-timer19")
+			t20 = request.POST.get("create-o-timer20")
 
+			if checkbox != 'defaultQ':
+				q1 = request.POST.get("create-o-qtn1")
+				q2 = request.POST.get("create-o-qtn2")
+				q3 = request.POST.get("create-o-qtn3")
+				q4 = request.POST.get("create-o-qtn4")
+				q5 = request.POST.get("create-o-qtn5")
+				q6 = request.POST.get("create-o-qtn6")
+				q7 = request.POST.get("create-o-qtn7")
+				q8 = request.POST.get("create-o-qtn8")
+				q9 = request.POST.get("create-o-qtn9")
+				q10 = request.POST.get("create-o-qtn10")
+				w1 = request.POST.get("create-o-weight1")
+				w2 = request.POST.get("create-o-weight2")
+				w3 = request.POST.get("create-o-weight3")
+				w4 = request.POST.get("create-o-weight4")
+				w5 = request.POST.get("create-o-weight5")
+				w6 = request.POST.get("create-o-weight6")
+				w7 = request.POST.get("create-o-weight7")
+				w8 = request.POST.get("create-o-weight8")
+				w9 = request.POST.get("create-o-weight9")
+				w10 = request.POST.get("create-o-weight10")
+				t1 = request.POST.get("create-o-timer1")
+				t2 = request.POST.get("create-o-timer2")
+				t3 = request.POST.get("create-o-timer3")
+				t4 = request.POST.get("create-o-timer4")
+				t5 = request.POST.get("create-o-timer5")
+				t6 = request.POST.get("create-o-timer6")
+				t7 = request.POST.get("create-o-timer7")
+				t8 = request.POST.get("create-o-timer8")
+				t9 = request.POST.get("create-o-timer9")
+				t10 = request.POST.get("create-o-timer10")
+
+				form = CreateJob(title=jobTitle, description=jobDescription, question_1=q1,question_2=q2, 
+					question_3=q3, question_4=q4, question_5=q5, question_6=q6, question_7=q7, question_8=q8,
+					question_9=q9, question_10=q10, question_11=q11, question_12=q12, question_13=q13, 
+					question_14=q14, question_15=q15, question_16=q16, question_17=q17, question_18=q18,
+		            question_19=q19, question_20=q20, weight1=w1, weight2=w2, weight3=w3, weight4=w4, 
+		            weight5=w5, weight6=w6, weight7=w7, weight8=w8, weight9=w9, weight10=w10, weight11=w11,
+		            weight12=w12, weight13=w13, weight14=w14, weight15=w15, weight16=w16, weight17=w17,
+		            weight18=w18, weight19=w19, weight20=w20, timer1=t1, timer2=t2, timer3=t3, timer4=t4,
+		            timer5=t5, timer6=t6, timer7=t7, timer8=t8, timer9=t9, timer10=t10, timer11=t11, 
+		            timer12=t12, timer13=t13, timer14=t14, timer15=t15, timer16=t16, timer17=t17, timer18=t18,
+		            timer19=t19, timer20=t20, is_default=0, admin_id=user.id)
+			else:
+				t1 = request.POST.get("create-d-timer1")
+				t2 = request.POST.get("create-d-timer2")
+				t3 = request.POST.get("create-d-timer3")
+				t4 = request.POST.get("create-d-timer4")
+				t5 = request.POST.get("create-d-timer5")
+				t6 = request.POST.get("create-d-timer6")
+				t7 = request.POST.get("create-d-timer7")
+				t8 = request.POST.get("create-d-timer8")
+				t9 = request.POST.get("create-d-timer9")
+				t10 = request.POST.get("create-d-timer10")
+				w1 = request.POST.get("create-d-weight1")
+				w2 = request.POST.get("create-d-weight2")
+				w3 = request.POST.get("create-d-weight3")
+				w4 = request.POST.get("create-d-weight4")
+				w5 = request.POST.get("create-d-weight5")
+				w6 = request.POST.get("create-d-weight6")
+				w7 = request.POST.get("create-d-weight7")
+				w8 = request.POST.get("create-d-weight8")
+				w9 = request.POST.get("create-d-weight9")
+				w10 = request.POST.get("create-d-weight10")
+
+				form = CreateJob(title=jobTitle, description=jobDescription, question_11=q11, question_12=q12,
+					question_13=q13, question_14=q14, question_15=q15, question_16=q16, question_17=q17, 
+					question_18=q18, question_19=q19, question_20=q20, weight1=w1, weight2=w2, weight3=w3, weight4=w4, 
+		            weight5=w5, weight6=w6, weight7=w7, weight8=w8, weight9=w9, weight10=w10, weight11=w11,
+		            weight12=w12, weight13=w13, weight14=w14, weight15=w15, weight16=w16, weight17=w17,
+		            weight18=w18, weight19=w19, weight20=w20, timer1=t1, timer2=t2, timer3=t3, timer4=t4,
+		            timer5=t5, timer6=t6, timer7=t7, timer8=t8, timer9=t9, timer10=t10, timer11=t11, timer12=t12, timer13=t13, timer14=t14, timer15=t15,
+					timer16=t16, timer17=t17, timer18=t18, timer19=t19, timer20=t20, is_default=1, admin_id=user.id)
 			form.save()
 			return redirect('administrator:job-lists_view')
 		elif 'viewApplicant' in request.POST:
@@ -356,48 +567,120 @@ class SettingsView(FormView):
 				login(request,loginUser)
 				update_account = Account.objects.filter(id = u.id).update(firstname = firstName, 
 					lastname = lastName, phone = phone)
+			messages.success(request, 'Account Information Updated')
 			return redirect('administrator:settings_view')
 		elif 'btnAdd' in request.POST:
 			jobTitle = request.POST.get("name-title")
 			jobDescription = request.POST.get("name-description")
-			q11 = request.POST.get("qtn11")
-			q12 = request.POST.get("qtn12")
-			q13 = request.POST.get("qtn13")
-			q14 = request.POST.get("qtn14")
-			q15 = request.POST.get("qtn15")
-			q16 = request.POST.get("qtn16")
-			q17 = request.POST.get("qtn17")
-			q18 = request.POST.get("qtn18")
-			q19 = request.POST.get("qtn19")
-			q20 = request.POST.get("qtn20")
-			w1 = request.POST.get("weight1")
-			w2 = request.POST.get("weight2")
-			w3 = request.POST.get("weight3")
-			w4 = request.POST.get("weight4")
-			w5 = request.POST.get("weight5")
-			w6 = request.POST.get("weight6")
-			w7 = request.POST.get("weight7")
-			w8 = request.POST.get("weight8")
-			w9 = request.POST.get("weight9")
-			w10 = request.POST.get("weight10")
-			t1 = request.POST.get("timer1")
-			t2 = request.POST.get("timer2")
-			t3 = request.POST.get("timer3")
-			t4 = request.POST.get("timer4")
-			t5 = request.POST.get("timer5")
-			t6 = request.POST.get("timer6")
-			t7 = request.POST.get("timer7")
-			t8 = request.POST.get("timer8")
-			t9 = request.POST.get("timer9")
-			t10 = request.POST.get("timer10")
+			checkbox = request.POST.get("defaultQ")
+			
+			q11 = request.POST.get("o-qtn11")
+			q12 = request.POST.get("o-qtn12")
+			q13 = request.POST.get("o-qtn13")
+			q14 = request.POST.get("o-qtn14")
+			q15 = request.POST.get("o-qtn15")
+			q16 = request.POST.get("o-qtn16")
+			q17 = request.POST.get("o-qtn17")
+			q18 = request.POST.get("o-qtn18")
+			q19 = request.POST.get("o-qtn19")
+			q20 = request.POST.get("o-qtn20")
 
-			form = CreateJob(title = jobTitle, description = jobDescription,
-            question_11 = q11, question_12 = q12, question_13 = q13, question_14 = q14,
-            question_15 = q15, question_16 = q16, question_17 = q17, question_18 = q18,
-            question_19 = q19, question_20 = q20, weight1 = w1, weight2 = w2, weight3 = w3,
-            weight4 = w4, weight5 = w5, weight6 = w6, weight7 = w7, weight8 = w8, weight9 = w9,
-            weight10 = w10, timer1 = t1, timer2 = t2, timer3 = t3, timer4 = t4, timer5 = t5,
-            timer6 = t6, timer7 = t7, timer8 = t8, timer9 = t9, timer10 = t10, admin_id = user.id)
+			w11 = request.POST.get("o-weight11")
+			w12 = request.POST.get("o-weight12")
+			w13 = request.POST.get("o-weight13")
+			w14 = request.POST.get("o-weight14")
+			w15 = request.POST.get("o-weight15")
+			w16 = request.POST.get("o-weight16")
+			w17 = request.POST.get("o-weight17")
+			w18 = request.POST.get("o-weight18")
+			w19 = request.POST.get("o-weight19")
+			w20 = request.POST.get("o-weight20")
+			
+			t11 = request.POST.get("o-timer11")
+			t12 = request.POST.get("o-timer12")
+			t13 = request.POST.get("o-timer13")
+			t14 = request.POST.get("o-timer14")
+			t15 = request.POST.get("o-timer15")
+			t16 = request.POST.get("o-timer16")
+			t17 = request.POST.get("o-timer17")
+			t18 = request.POST.get("o-timer18")
+			t19 = request.POST.get("o-timer19")
+			t20 = request.POST.get("o-timer20")
+
+			if checkbox != 'defaultQ':
+				q1 = request.POST.get("o-qtn1")
+				q2 = request.POST.get("o-qtn2")
+				q3 = request.POST.get("o-qtn3")
+				q4 = request.POST.get("o-qtn4")
+				q5 = request.POST.get("o-qtn5")
+				q6 = request.POST.get("o-qtn6")
+				q7 = request.POST.get("o-qtn7")
+				q8 = request.POST.get("o-qtn8")
+				q9 = request.POST.get("o-qtn9")
+				q10 = request.POST.get("o-qtn10")
+				w1 = request.POST.get("o-weight1")
+				w2 = request.POST.get("o-weight2")
+				w3 = request.POST.get("o-weight3")
+				w4 = request.POST.get("o-weight4")
+				w5 = request.POST.get("o-weight5")
+				w6 = request.POST.get("o-weight6")
+				w7 = request.POST.get("o-weight7")
+				w8 = request.POST.get("o-weight8")
+				w9 = request.POST.get("o-weight9")
+				w10 = request.POST.get("o-weight10")
+				t1 = request.POST.get("o-timer1")
+				t2 = request.POST.get("o-timer2")
+				t3 = request.POST.get("o-timer3")
+				t4 = request.POST.get("o-timer4")
+				t5 = request.POST.get("o-timer5")
+				t6 = request.POST.get("o-timer6")
+				t7 = request.POST.get("o-timer7")
+				t8 = request.POST.get("o-timer8")
+				t9 = request.POST.get("o-timer9")
+				t10 = request.POST.get("o-timer10")
+
+				form = CreateJob(title=jobTitle, description=jobDescription, question_1=q1,question_2=q2, 
+					question_3=q3, question_4=q4, question_5=q5, question_6=q6, question_7=q7, question_8=q8,
+					question_9=q9, question_10=q10, question_11=q11, question_12=q12, question_13=q13, 
+					question_14=q14, question_15=q15, question_16=q16, question_17=q17, question_18=q18,
+		            question_19=q19, question_20=q20, weight1=w1, weight2=w2, weight3=w3, weight4=w4, 
+		            weight5=w5, weight6=w6, weight7=w7, weight8=w8, weight9=w9, weight10=w10, weight11=w11,
+		            weight12=w12, weight13=w13, weight14=w14, weight15=w15, weight16=w16, weight17=w17,
+		            weight18=w18, weight19=w19, weight20=w20, timer1=t1, timer2=t2, timer3=t3, timer4=t4,
+		            timer5=t5, timer6=t6, timer7=t7, timer8=t8, timer9=t9, timer10=t10, timer11=t11, 
+		            timer12=t12, timer13=t13, timer14=t14, timer15=t15, timer16=t16, timer17=t17, timer18=t18,
+		            timer19=t19, timer20=t20, is_default=0, admin_id=user.id)
+			else:
+				t1 = request.POST.get("d-timer1")
+				t2 = request.POST.get("d-timer2")
+				t3 = request.POST.get("d-timer3")
+				t4 = request.POST.get("d-timer4")
+				t5 = request.POST.get("d-timer5")
+				t6 = request.POST.get("d-timer6")
+				t7 = request.POST.get("d-timer7")
+				t8 = request.POST.get("d-timer8")
+				t9 = request.POST.get("d-timer9")
+				t10 = request.POST.get("d-timer10")
+				w1 = request.POST.get("d-weight1")
+				w2 = request.POST.get("d-weight2")
+				w3 = request.POST.get("d-weight3")
+				w4 = request.POST.get("d-weight4")
+				w5 = request.POST.get("d-weight5")
+				w6 = request.POST.get("d-weight6")
+				w7 = request.POST.get("d-weight7")
+				w8 = request.POST.get("d-weight8")
+				w9 = request.POST.get("d-weight9")
+				w10 = request.POST.get("d-weight10")
+
+				form = CreateJob(title=jobTitle, description=jobDescription, question_11=q11, question_12=q12,
+					question_13=q13, question_14=q14, question_15=q15, question_16=q16, question_17=q17, 
+					question_18=q18, question_19=q19, question_20=q20, weight1=w1, weight2=w2, weight3=w3, weight4=w4, 
+		            weight5=w5, weight6=w6, weight7=w7, weight8=w8, weight9=w9, weight10=w10, weight11=w11,
+		            weight12=w12, weight13=w13, weight14=w14, weight15=w15, weight16=w16, weight17=w17,
+		            weight18=w18, weight19=w19, weight20=w20, timer1=t1, timer2=t2, timer3=t3, timer4=t4,
+		            timer5=t5, timer6=t6, timer7=t7, timer8=t8, timer9=t9, timer10=t10, timer11=t11, timer12=t12, timer13=t13, timer14=t14, timer15=t15,
+					timer16=t16, timer17=t17, timer18=t18, timer19=t19, timer20=t20, is_default=1, admin_id=user.id)
+
 			form.save()
 			return redirect('administrator:job-lists_view')
 

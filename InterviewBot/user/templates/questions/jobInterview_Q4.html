@@ -64,10 +64,48 @@
         response.onpaste = e => e.preventDefault();
       }
 
+      function checkSeconds(seconds) {
+        if (seconds < 10) 
+          return String(seconds).padStart(2, '0');
+        else
+          return seconds
+      }
+
       function onEnd(text) {
           document.getElementById("message").disabled=false;
           document.getElementById("send").disabled=false;
           document.getElementById("id-mic").disabled=false;
+
+          // Set the date we're counting down to
+          var countDownDate = new Date();
+          {% for job in job %}
+          countDownDate.setMinutes(countDownDate.getMinutes() + {{job.timer4}});
+          countDownDate.setSeconds(countDownDate.getSeconds() + 1);
+          {% endfor %}
+
+          var x = setInterval(function() {
+
+            // Get today's date and time
+            var now = new Date().getTime();
+              
+            // Find the distance between now and the count down date
+            var distance = countDownDate - now;
+              
+            // Time calculations for minutes and seconds
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            seconds = checkSeconds(seconds);
+              
+            // Output the result in an element with id="time"
+            document.getElementById("time").innerHTML = minutes + ":" + seconds; 
+
+            // If the count down is over, write some text 
+            if (distance < 0) {
+              clearInterval(x);
+              pageRedirect();
+            }
+          }, 1000);
       } 
 
       function pageRedirect(){
@@ -94,43 +132,12 @@
               final_text = text.charAt(0).toUpperCase() + text_slice;
               
               document.getElementById('message').value += final_text + " ";
-            }
-            
-            
+            } 
         }
 
       // Prevent users from pressing F5
       document.onkeydown = disableF5;   
       function disableF5(e) { if ((e.keyCode) == 116) e.preventDefault(); };
-
-      // Set the date we're counting down to
-      var countDownDate = new Date();
-      {% for job in job %}
-      countDownDate.setMinutes(countDownDate.getMinutes() + {{job.timer1}});
-      countDownDate.setSeconds(countDownDate.getSeconds() + 1);
-      {% endfor %}
-
-      var x = setInterval(function() {
-
-        // Get today's date and time
-        var now = new Date().getTime();
-          
-        // Find the distance between now and the count down date
-        var distance = countDownDate - now;
-          
-        // Time calculations for minutes and seconds
-        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-          
-        // Output the result in an element with id="time"
-        document.getElementById("time").innerHTML = minutes + ":" + seconds; 
-
-        // If the count down is over, write some text 
-        if (distance < 0) {
-          clearInterval(x);
-          pageRedirect();
-        }
-      }, 1000);
     </script>
   </div><br>
 
@@ -149,10 +156,11 @@
   <div class="message-box" style="position: fixed; bottom: 0%;">
     <form id="response" method="POST" autocomplete="off" enctype="multipart/form-data">
       {% csrf_token %}        
-        <!-- <br style="line-height: 10px">
+        <br style="line-height: 10px">
         {% for job in job %}
-        <span id="time">0{{job.timer1}}:00</span>
-        {% endfor %} -->
+        <input type="text" name="job-weight" value="{{job.weight4}}" hidden>
+        <span id="time">0{{job.timer4}}:00</span>
+        {% endfor %}
         <textarea class="message-input" id="message" name="message" placeholder="Type your answer here..." autofocus disabled></textarea>
         <button type="submit" id="send" class="message-submit sound-on-click" style="left: 92%; top: 17%; height: 40px; position: absolute; text-align: center;" disabled><i id="fa-send" class="fa fa-send-o"> Send</i></button>
     </form>

@@ -103,6 +103,7 @@ class CreateJob(models.Model):
     title = models.CharField(max_length = 50, null=True, blank=True)
     description = models.CharField(max_length = 500, null=True, blank=True)
     is_deleted = models.BooleanField(default=False)
+    is_default = models.BooleanField()
 
     # questions from https://bit.ly/3vGcAav
     question_1 = models.CharField(max_length = 250, null=True, blank=True, default='Please tell me about yourself.', editable=False)
@@ -135,6 +136,16 @@ class CreateJob(models.Model):
     weight8 = models.IntegerField(null=True, blank=True)
     weight9 = models.IntegerField(null=True, blank=True)
     weight10 = models.IntegerField(null=True, blank=True)
+    weight11 = models.IntegerField(null=True, blank=True)
+    weight12 = models.IntegerField(null=True, blank=True)
+    weight13 = models.IntegerField(null=True, blank=True)
+    weight14 = models.IntegerField(null=True, blank=True)
+    weight15 = models.IntegerField(null=True, blank=True)
+    weight16 = models.IntegerField(null=True, blank=True)
+    weight17 = models.IntegerField(null=True, blank=True)
+    weight18 = models.IntegerField(null=True, blank=True)
+    weight19 = models.IntegerField(null=True, blank=True)
+    weight20 = models.IntegerField(null=True, blank=True)
     timer1 = models.IntegerField(null=True, blank=True)
     timer2 = models.IntegerField(null=True, blank=True)
     timer3 = models.IntegerField(null=True, blank=True)
@@ -145,6 +156,16 @@ class CreateJob(models.Model):
     timer8 = models.IntegerField(null=True, blank=True)
     timer9 = models.IntegerField(null=True, blank=True)
     timer10 = models.IntegerField(null=True, blank=True)
+    timer11 = models.IntegerField(null=True, blank=True)
+    timer12 = models.IntegerField(null=True, blank=True)
+    timer13 = models.IntegerField(null=True, blank=True)
+    timer14 = models.IntegerField(null=True, blank=True)
+    timer15 = models.IntegerField(null=True, blank=True)
+    timer16 = models.IntegerField(null=True, blank=True)
+    timer17 = models.IntegerField(null=True, blank=True)
+    timer18 = models.IntegerField(null=True, blank=True)
+    timer19 = models.IntegerField(null=True, blank=True)
+    timer20 = models.IntegerField(null=True, blank=True)
 
     class Meta: 
         db_table = "JobOfferings"

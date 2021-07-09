@@ -57,6 +57,23 @@ hr {
 }
 
 /* ---------------------------------------------------
+    SWEET ALERT     source: https://sweetalert.js.org/docs/
+----------------------------------------------------- */
+
+.swal-modal {
+  border: 3px solid black;
+}
+
+.swal-title {
+    font-family: GothamBold;
+}
+
+.swal-text {
+    font-family: GothamBook;
+    color: black;
+}
+
+/* ---------------------------------------------------
     SIDEBAR STYLE
 ----------------------------------------------------- */
 
@@ -437,8 +454,8 @@ ul ul a {
 
 .note {
     color: red;
-    float: left;
-    margin-left: 10%;
+    float: right;
+    margin-right: 15%;
 }
 
 .questionTitle{
@@ -670,12 +687,17 @@ textarea{
     font-size: 16px;
 }
 
+.questionLabel {
+    font-weight: bold;
+    margin-bottom: -0.5%;
+}
+
 /* Question contents */
 .tabcontents {
   display: none;
   padding: 6px 12px;
   border-top: none;
-  height: 75%;
+  height: 80%;
 }
 
 /* Adjust height of the tabs here */

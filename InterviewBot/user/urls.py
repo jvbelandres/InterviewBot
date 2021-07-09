@@ -22,7 +22,6 @@ urlpatterns=[
     path('job-offers/', login_required(views.JobOffersView.as_view()), name="job-offers_view"),
     path('settings/', login_required(views.SettingsView.as_view()), name="settings_view"),
     path('logout/', login_required(views.LogOutView.as_view()), name="logout_view"),
-    path('mailsent/', login_required(views.MailSentView.as_view()), name="mailsent_view"),
     path('denied/', login_required(views.AccessDeniedView.as_view()), name="access_denied_view"),
     path('job-interview/', login_required(views.JobInterviewView.as_view()), name="job-interview_view"),
     path('job-interview/question-1', login_required(views.JobInterviewQ1View.as_view()), name="job-interview_q1"),
