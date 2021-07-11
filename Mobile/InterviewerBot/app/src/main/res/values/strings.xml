@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">InterviewerBot</string>
+
+    <string-array name="gender">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+</resources>
