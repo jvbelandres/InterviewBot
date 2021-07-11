@@ -141,7 +141,11 @@
                         </div>
                         <div class="column-status">
                             <br><br>
-                            <button type="submit" class="citButton" id="viewApplicant" name="viewApplicant" style="margin-top: 30px;font-size: smaller;">View Applicants</button>
+                            {% for appliedjob in appliedjobs %}
+                                {% if appliedjob.job_id == joblist.id %}
+                                <button type="submit" class="citButton" id="viewApplicant" name="viewApplicant" style="margin-top: 30px;font-size: smaller;">View Applicants</button>
+                                {% endif %}
+                            {% endfor %}
                         </div>
                     </div>
                 </form>    
@@ -844,7 +848,7 @@
                                             <input type="text" name="create-o-qtn20" id="id-question20" placeholder="Question 20*" title="Question 20" required>
                                         </div>
                                     </div>
-                                </div>
+                                </div><br><br style="line-height: 10px;">
                             </div></center>
                         </div>
                     </div>
@@ -857,8 +861,8 @@
     {% for message in messages %}
         {% if message.tags == 'success' %}
             swal(
-                "Success", // title
-                "UPDATE SUCCESSFUL", // text content
+                "UPDATE SUCCESFUL", // title
+                " ", // text content
                 "success", // icon
                 {
                     buttons: false, // remove the buttons
@@ -867,8 +871,8 @@
             );
         {% else %}
             swal(
-                "Success", // title
-                "DELETED SUCCESSFULLY",  // text content
+                "DELETED SUCCESSFULLY", // title
+                " ",  // text content
                 "success", // icon
                 {
                     buttons: false, // remove the buttons

@@ -110,7 +110,18 @@
                         </div>
 
                         <div class="form-group">
-                            <input type="number" id="phone" name="phone" class="form-control" placeholder="Phone Number" value="{{user.phone}}">
+                            <input type="number" id="phone" name="phone" class="form-control" placeholder="Phone Number" oninput="limit_input();" value="{{user.phone}}">
+
+                            <!-- Set phone maxlength to 11 -->
+                            <script type="text/javascript">
+                                function limit_input() {
+                                    var field = document.getElementById("phone");
+                                    var max_length = 11;
+                                    if (field.value.length > max_length) {
+                                        field.value = field.value.slice(0, max_length); 
+                                    }
+                                }
+                            </script>
                         </div>
                     </div>
 
@@ -165,6 +176,15 @@
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <button type="submit" id="update" name="update" class="btn btn-warning font-weight-bold text-dark" style="margin-top: -50px;">UPDATE</button>
+
+                     <script>
+                        document.getElementById("update").addEventListener("click", function(event){
+                            if (document.getElementById("phone").value.length != 11){
+                                alert("Please input a valid phone number.")
+                                event.preventDefault()
+                            }
+                        });
+                    </script>
                 </div>
             </div>
         </form>
