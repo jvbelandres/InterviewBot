@@ -107,7 +107,7 @@
                             </div>
 
                             <div class="form-group">
-                                <input type="number" id="phone" name="phone" class="form-control" placeholder="Phone Number" value="{{user.phone}}" step="0" minlength="11" oninput="limit_input();">
+                                <input type="number" id="phone" name="phone" class="form-control" placeholder="Phone Number" value="{{user.phone}}" step="0" oninput="limit_input();">
 
                                 <!-- Set phone maxlength to 11 -->
                                 <script type="text/javascript">
@@ -119,7 +119,6 @@
                                         }
                                     }
                                 </script>
-
                             </div>
                     </div>
 
@@ -174,6 +173,15 @@
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <button type="submit" id="update" name="btnUpdate" class="btn btn-warning font-weight-bold text-dark" style="margin-top: -50px;">UPDATE</button>
+
+                    <script>
+                        document.getElementById("update").addEventListener("click", function(event){
+                            if (document.getElementById("phone").value.length != 11){
+                                alert("Please input a valid phone number.")
+                                event.preventDefault()
+                            }
+                        });
+                    </script>
                 </div>
             </div>
             </form>
@@ -479,7 +487,7 @@
                                             <input type="text" name="o-qtn20" id="id-question20" placeholder="Question 20*" title="Question 20" required>
                                         </div>
                                     </div>
-                                </div>
+                                </div><br>
                             </div></center>
                         </div>
                     </div>

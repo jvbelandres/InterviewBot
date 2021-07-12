@@ -36,15 +36,12 @@
 {% block content %}
     {% for joblist in joblists %}
     <div class="containerColor" style="border-radius: 0%;min-height: 100%;width: 100%;">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
-            <span aria-hidden="true">&times;</span>
-        </button>
-
         <div class="modalHeader" style="border-radius: 0px;height: 80px;">
             <img src="{% static '/images/Notepad.png' %}" class="imgNotepad">
-            <a class="questionTitle">{{joblist.title}} </a><br><br>
-            <a href=  "{% url 'administrator:dashboard_view' %}"><b>Back</b></a>
-        </div>
+            <a class="questionTitle">{{joblist.title}}</a><br><br>
+            <a href=  "{% url 'administrator:dashboard_view' %}" class="back" title="Back to Dashboard"><b><i class="fas fa-chevron-circle-left"></i> Dashboard</b></a>
+            <a href=  "{% url 'administrator:job-lists_view' %}" class="back" title="Back to Job Lists"><b><i class="fas fa-chevron-circle-left"></i> Job Lists</b></a>
+        </div><br><br style="line-height: 10px;">
     {% endfor %}
 
         <div class="container">

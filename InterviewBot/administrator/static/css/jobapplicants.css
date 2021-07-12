@@ -230,6 +230,13 @@ ul ul a {
     border-top: 10px solid #2b353b;
 }
 
+.back {
+    float: left;
+    margin-right: 2%;
+    font-size: 16px;
+    font-weight: bold;
+}
+
 .addAdmin{
     text-align: left;
     margin-left: 22px;

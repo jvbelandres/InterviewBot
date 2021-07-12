@@ -173,6 +173,7 @@ class JobListsView(View):
 			return redirect('user:access_denied_view')
 
 		accounts = Account.objects.filter(staff=1, is_active=1)
+		appliedjobs = AppliedJob.objects.raw('SELECT * FROM appliedjob WHERE final_score IS NOT NULL')
 
 		admin_joblist = request.GET.get('job-list-filter')
 		if admin_joblist == None:
@@ -201,6 +202,7 @@ class JobListsView(View):
 			'page_number':int(page_number),
 			'accounts': accounts,
 			'admin_joblist': admin_joblist,
+			'appliedjobs': appliedjobs,
 		}
 
 		return render(request, 'adminjoblist.html', context)
