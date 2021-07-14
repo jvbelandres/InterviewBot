@@ -1,0 +1,328 @@
+    {% load static %}
+
+
+{% block headerinclude %}
+
+    <title>Interview BOT - Home</title>
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
+
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="{% static '/css/user/HomePage.css' %}">
+
+{% endblock headerinclude %}
+
+
+{% block footerinclude %}
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+{% endblock footerinclude %}
+
+
+{% block content %}
+
+    <div class="wrapper">
+        <!-- Sidebar  -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <img src="{% static '/images/logo.png' %}" width="100%">
+            </div>
+
+            <ul class="list-unstyled components">
+                <li class="active">
+                	<a href="{% url 'user:home_view' %}">
+                        <i class="fas fa-home"></i>
+                        &nbsp;&nbsp;Home
+                    </a>
+                </li>
+                <li >
+                    <a href="{% url 'user:job-offers_view' %}">
+                        <i class="fas fa-search"></i>
+                        &nbsp;&nbsp;Job Offers
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'user:about-us_view' %}">
+                        <i class="fas fa-info-circle"></i>
+                        &nbsp;&nbsp;About Us
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'user:contact-us_view' %}">
+                        <i class="fas fa-envelope"></i>
+                        &nbsp;&nbsp;Contact Us
+                    </a>
+                </li>
+                <li>
+                    <a href="#settings" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-user-circle"></i>&nbsp;&nbsp; {{user.email}}</a>
+                    <ul class="collapse list-unstyled" id="settings">
+                        <li>
+                            <a href="{% url 'user:settings_view' %}"><i class="fas fa-cog"></i>&nbsp;&nbsp; Settings</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'user:logout_view' %}"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp; Logout</a>
+                        </li>
+                    </ul>
+		        </li>
+            </ul>
+        </nav>
+
+        <!-- Page Content  -->
+        <div id="content">
+            <h1> Home </h1>
+            <hr><br><br>
+
+            <div class="container">
+                <div class="row" style="margin-top: 10px;">
+                    <div class="col-sm-3">
+                        <h2 id="totalSavedJobs"></h2>
+                        <script>
+                            var count = 0;
+                            {% for total in savedjobs %}
+                                count++;
+                            {% endfor %}
+                            document.getElementById("totalSavedJobs").innerHTML = ""+count;
+                        </script>
+                    </div>
+                    <div class="col-sm-1">
+                        <div class="verticalLine"></div>
+                    </div>
+                    <div class="col-sm-8">
+                        <h2 id="totalAppliedJobs"></h2>
+                        <script>
+                            var count = 0;
+                            {% for total in appliedjobs %}
+                                count++;
+                            {% endfor %}
+                            document.getElementById("totalAppliedJobs").innerHTML = ""+count;
+                        </script>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h5>Saved Jobs</h5>
+                    </div>
+                    <div class="col-sm-1">
+                        <div class="verticalLine"></div>
+                    </div>
+                    <div class="col-sm-8">
+                        <h5>Applied Jobs</h5>
+                    </div>
+                </div>
+            </div><br><br>
+
+            <button class="accordion">Saved Jobs</button>
+            <div class="panel">
+                <table width="100%" class="table-striped table-bordered table-sm">
+                    <tbody>
+                        {% for savedjob in savedjobs %}
+                        <tr>
+                            <td width="13%"> <img src="{% static '/images/citLogo.png' %}" class="imgJob"></td>
+                            <td width="60%">
+                                <div class="row jobTitle">
+                                    <div style="margin-left: -1%;">{{savedjob.title}}</div>
+                                </div><br style="line-height: 5px;">
+                                <div class="row jobDescription">{{savedjob.description}}</div>
+                            </td>
+                            <td width="15%" align="center">
+                                <button type="button" class="btnApply" data-toggle="modal" id="id-btnApply" data-target="#applyJobModal-{{savedjob.job_id}}">Apply</button> 
+                            </td>
+                            <td width="15%" align="center">
+                                <button type="button" class="btnUnsave" data-toggle="modal" data-target="#unsaveModal-{{savedjob.job_id}}"><i class="fa fa-bookmark"></i> UNSAVE</button>
+                            </td>
+                        </tr>
+
+                        <!---- APPLY MODAL ------->
+                        <div class="modal fade" id="applyJobModal-{{savedjob.job_id}}" tabindex="-1" role="dialog" aria-labelledby="applyJobModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header" style="background-color: #ffcc00;">
+                                        <img src="{% static '/images/citLogo.png' %}" class="applyJobImg">
+                                        <h4 class="modal-title" id="myLargeModalLabel" style="margin-top: 1.5%;"><b>&nbsp;{{savedjob.title}}</b></h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+
+                                    <form id="applyForm" action="" method="POST" autocomplete="off" enctype="multipart/form-data"><br>
+                                    {% csrf_token %}
+                                        <h5 class="modal_header">Job Owner</h5>
+                                        <div class=" row job-owner">
+                                            <div class="col-sm-6">
+                                                <b>Name:</b> {{savedjob.firstname}} {{savedjob.lastname}}
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <b>Email address:</b> {{savedjob.email}}
+                                            </div>
+                                        </div>
+
+                                        <h5 class="modal_header">Job Description</h5>
+                                        <div class="row job-description">{{savedjob.description}}</div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <h5 class="modal_header_req">Job Requirements</h5>
+                                                <input type="text" name="job-id" value="{{savedjob.job_id}}" hidden>
+
+                                                <center>
+                                                <input type="text" value="Resume (Optional)" class="jobRequirementName" disabled>
+                                                </center>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <h5 style="font-weight: bold; text-align: left;">Attach Files Here</h5>
+                                                <center>
+                                                <input type="file" id="myfile1" name="myfile1" accept="application/pdf" />
+                                                </center>
+                                            </div>
+                                    </div>
+
+                                    <br><div class="modal-footer">
+                                        <button type="submit" id="btnApply" name="btnApply" class="btn btn-primary">APPLY</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCEL</button>
+                                    </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <script type="text/javascript"> // Script to only accept .PDF format
+                            $(function(){
+                                $("#myfile1").on('change', function(event) {
+                                    var file = event.target.files[0];
+                                    if(file.type !== 'application/pdf') {
+                                        alert("This only accepts .PDF format.");
+                                        $("#applyForm").get(0).reset();
+                                        return;
+                                    }
+                                });
+                            });
+                        </script>
+
+                        <!-- UNSAVE MODAL -->
+                        <div class="modal fade" id="unsaveModal-{{savedjob.job_id}}" tabindex="-1" role="dialog" aria-labelledby="unsaveModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header" style="background-color:#933633; color: white">
+                                        <h5 class="modal-title" id="myLargeModalLabel"><b>UNSAVE JOB OFFERING</b></h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+
+                                    <form id="unsaveForm" method="POST">
+                                    {% csrf_token %}
+                                        <input type="text" name="job-id" value= {{savedjob.job_id}} hidden>
+                             
+                                        <div class="modal-body">
+                                            <center>
+                                            <p>Are you sure you want to unsave this job offering?</p>
+                                            <p style="text-align: center; font-weight: bold; font-size: 24px;">{{savedjob.title}}</p>
+                                            </center>
+                                        </div>
+
+                                <div class="modal-footer">
+                                  <button type="submit" id="btnUnsave" name="btnUnsave" class="btn btn-primary">UNSAVE</button>
+                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCEL</button>
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div><br><br>
+
+            <button class="accordion">Applied Jobs</button>
+            <div class="panel">
+                <table width="100%" class="table-striped table-bordered table-sm">
+                    <tbody>
+                        {% for appliedjob in appliedjobs %}
+                        <tr>
+                            <td width="11%"> <img src="{% static '/images/citLogo.png' %}" class="imgJob"></td>
+                            <td width="70%">
+                                <div class="row jobTitle">
+                                    <div class="col-sm-6">
+                                        <span style="margin-left: -5%;">{{appliedjob.title}}</span>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <span style="float: right;">Owner: {{appliedjob.email}}</span>
+                                    </div>
+                                </div><br style="line-height: 5px;">
+                                <div class="row jobDescription">{{appliedjob.description}}</div>
+                            </td>
+                            <td width="11%" align="center">
+                                <button type="button" title="Result" class="btnResult" data-toggle="modal" data-target="#resultModal-{{appliedjob.job_id}}"><i class="fas fa-trophy fa-2x" style="color:#933633"></i></button>
+                            </td>
+                        </tr>
+
+                        <!-- VIEW RESULT MODAL -->
+                        <div class="modal fade" id="resultModal-{{appliedjob.job_id}}" tabindex="-1" role="dialog" aria-labelledby="unsaveModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header" style="background-color:#933633; color: white">
+                                        <h5 class="modal-title" id="myLargeModalLabel"><b>{{appliedjob.title}} - INTERVIEW RESULT</b></h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <center>
+                                            <br>
+                                            {% if appliedjob.final_score == null %}
+                                            <h4> This interview has been</h4><h2><b style="color: red;">FORFEITED</b>.</h2>
+                                            {% else %}
+                                            <h5> OVERALL SCORE </h5>
+                                            <h2> {{appliedjob.final_score}}%</h2>
+                                            {% endif %}
+
+                                            {% if appliedjob.is_deleted == 1 %}
+                                            <br>
+                                            <p class="text-danger" style="font-size: 14px; margin-bottom: -5px;">Note: This job offering is currently deleted by the administrator.</p>
+                                            {% endif %}
+                                            <br><br>
+                                        </center>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div> <!-- end of content -->
+
+        <script>
+            var acc = document.getElementsByClassName("accordion");
+            var i;
+
+            for (i = 0; i < acc.length; i++) {
+              acc[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var panel = this.nextElementSibling;
+                if (panel.style.maxHeight) {
+                  panel.style.maxHeight = null;
+                } else {
+                  panel.style.maxHeight = panel.scrollHeight + "px";
+                } 
+              });
+            }
+        </script>
+        
+    </div>
+
+{% endblock content %}

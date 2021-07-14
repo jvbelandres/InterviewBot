@@ -460,7 +460,7 @@ class AdminRegistrationView(CreateView):
 		user.save() # If dili mag user.save() kay dili mu gana ang token
 		current_site = get_current_site(self.request)
 		mail_subject = 'Activate your administrator account.'
-		message = render_to_string('account_activation/spAcc_active_email.html', {
+		message = render_to_string('account_activation/administrator/spAcc_active_email.html', {
             'user': user,
             'domain': current_site.domain,
             'uid':urlsafe_base64_encode(force_bytes(user.pk)),
@@ -492,7 +492,7 @@ class StaffRegistrationView(CreateView):
 		user.save()
 		current_site = get_current_site(self.request)
 		mail_subject = 'Activate your staff account.'
-		message = render_to_string('account_activation/spAcc_active_email.html', {
+		message = render_to_string('account_activation/administrator/spAcc_active_email.html', {
             'user': user,
             'domain': current_site.domain,
             'uid':urlsafe_base64_encode(force_bytes(user.pk)),
@@ -531,17 +531,17 @@ class RegisterComplete(View): # After staff and administrator registration
 	def get(self, request):
 		try:
 			email = request.session['email']
-			return render(request, 'account_activation/account_register_done.html', {'email': email})
+			return render(request, 'account_activation/administrator/account_register_done.html', {'email': email})
 		except:
 			return redirect('administrator:dashboard_view')
 
 class SpActivationSuccess(View): # If account activation succeed
 	def get(self, request):
-		return render(request, 'account_activation/spAcc_activation_success.html')
+		return render(request, 'account_activation/administrator/spAcc_activation_success.html')
 
 class SpActivationFailed(View): # If account activation failed
 	def get(self, request):
-		return render(request, 'account_activation/spAcc_activation_failed.html')
+		return render(request, 'account_activation/administrator/spAcc_activation_failed.html')
 
 class SettingsView(FormView):
 	def get(self, request):

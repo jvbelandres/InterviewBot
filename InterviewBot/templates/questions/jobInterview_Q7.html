@@ -1,0 +1,172 @@
+{% load static %}
+
+{% block headerinclude %}
+
+    <title>Interview BOT - Job Offers Interview</title>
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.3/jquery.mCustomScrollbar.min.css'>
+
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <!-- ResponsiveVoice API -->
+    <script src="https://code.responsivevoice.org/responsivevoice.js?key=N9DRhuUu"></script>
+
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="{% static '/css/user/JobOffer_Interview.css' %}">
+    
+{% endblock headerinclude %}
+
+
+
+{% block footerinclude %}
+
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.3/jquery.mCustomScrollbar.concat.min.js'></script>
+     
+     <!-- Popper.JS -->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+     <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    
+
+    <!-- Font-awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+{% endblock footerinclude %}
+
+
+
+{% block content %}
+<body onload="talk()">
+<div class="chat">
+  <div class="chat-title">
+    {% for job in job %}
+    <b><h1>{{job.title}}</h1></b>
+    <h2>{{job.description}}</h2>
+    {% endfor %}
+    <figure class="avatar">
+      <img src="{% static '/images/red_bg.jpg' %}" />
+    </figure>
+
+    <script type="text/javascript">
+      function talk(){
+        {% for job in job %}
+        responsiveVoice.speak("{{job.question_7}}", "US English Female", {volume: 1, "onend": function() { onEnd();}});
+        {% endfor %}
+        // not letting applicants copy and paste their responses
+        const response = document.getElementById('message');
+        response.onpaste = e => e.preventDefault();
+      }
+
+      function checkSeconds(seconds) {
+        if (seconds < 10) 
+          return String(seconds).padStart(2, '0');
+        else
+          return seconds
+      }
+
+      function onEnd(text) {
+          document.getElementById("message").disabled=false;
+          document.getElementById("send").disabled=false;
+          document.getElementById("id-mic").disabled=false;
+
+          // Set the date we're counting down to
+          var countDownDate = new Date();
+          {% for job in job %}
+          countDownDate.setMinutes(countDownDate.getMinutes() + {{job.timer7}});
+          countDownDate.setSeconds(countDownDate.getSeconds() + 1);
+          {% endfor %}
+
+          var x = setInterval(function() {
+
+            // Get today's date and time
+            var now = new Date().getTime();
+              
+            // Find the distance between now and the count down date
+            var distance = countDownDate - now;
+              
+            // Time calculations for minutes and seconds
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            seconds = checkSeconds(seconds);
+              
+            // Output the result in an element with id="time"
+            document.getElementById("time").innerHTML = minutes + ":" + seconds; 
+
+            // If the count down is over, write some text 
+            if (distance < 0) {
+              clearInterval(x);
+              pageRedirect();
+            }
+          }, 1000);
+      } 
+
+      function pageRedirect(){
+        document.getElementById('send').click();
+      }
+  
+      function record(){
+            var recognition = new webkitSpeechRecognition();
+            recognition.lang  = "en-US";
+
+            recognition.start();
+
+            recognition.onstart = function(){
+              document.getElementById('id-mic').style.backgroundColor = '#F8C400';
+            }
+
+            recognition.onend = function(){
+              document.getElementById('id-mic').style.backgroundColor = '#781B1B';
+            }
+            
+            recognition.onresult = function(event){
+              text = event.results[0][0].transcript;
+              text_slice = text.slice(1)
+              final_text = text.charAt(0).toUpperCase() + text_slice;
+              
+              document.getElementById('message').value += final_text + " ";
+            }
+        }
+
+      // Prevent users from pressing F5
+      document.onkeydown = disableF5; 
+      function disableF5(e) { if ((e.keyCode) == 116) e.preventDefault(); };
+    </script>
+  </div><br>
+
+  <div class="messages">
+    <div class="messages-content">
+      <img id="paginate" src="{% static '/images/paginate2.png' %}">
+      <h2 class="paginator">Question 7 of 20</h2><br><br>
+      <h1 style="text-align: center; font-size: 75; margin: auto; width: 100%; padding: 25px;">
+      {% for job in job %}
+      {{job.question_7}}
+      {% endfor %}
+      <button onclick="talk();"><span style="color: #1D80FF;"><small><i class="fa fa-volume-up fa-fw"></i></small></span></button></h1>
+    </div>
+  </div>
+
+  <div class="message-box" style="position: fixed; bottom: 0%;">
+    <form id="response" method="POST" autocomplete="off" enctype="multipart/form-data">
+      {% csrf_token %}        
+        <br style="line-height: 10px">
+        {% for job in job %}
+        <input type="text" name="job-weight" value="{{job.weight7}}" hidden>
+        <span id="time">0{{job.timer7}}:00</span>
+        {% endfor %}
+        <textarea class="message-input" id="message" name="message" placeholder="Type your answer here..." autofocus disabled></textarea>
+        <button type="submit" id="send" class="message-submit sound-on-click" style="left: 92%; top: 17%; height: 40px; position: absolute; text-align: center;" disabled><i id="fa-send" class="fa fa-send-o"> Send</i></button>
+    </form>
+    <button name="mic" id="id-mic" style="left: 88%; top: 17%; position: absolute;" onclick=record();><i id="fa-mic" class="fa fa-microphone" disabled></i></button>
+  </div>
+
+</div>
+</body>
+{% endblock content %}

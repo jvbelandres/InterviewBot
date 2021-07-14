@@ -1,0 +1,592 @@
+{% load static %}
+
+
+{% block headerinclude %}
+
+    <title>Interview BOT - Dashboard</title>
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
+
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="{% static '/css/administrator/admindashboard.css' %}">
+
+{% endblock headerinclude %}
+
+
+
+{% block footerinclude %}
+
+    <!-- Font Awesome JS -->
+    <script src="{% static 'Automate/js/bootstrap.js' %}"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+    <!-- JQuery JS -->
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+
+{% endblock footerinclude %}
+
+
+
+{% block content %}
+<body onload="setDefault();">
+    <div class="wrapper">
+        <!-- Sidebar  -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <img src="{% static '/images/logo.png' %}" width="100%">
+            </div>
+            <center>
+                <button type="button" id="id-btnCreateJob" class="jobCreate" data-toggle="modal" data-target="#modalCreate" class="btn btn-warning">Create Job</button>
+            </center>
+            <br>
+            <ul class="list-unstyled components">
+                <li class="active">
+                	<a href="{% url 'administrator:dashboard_view' %}">
+                        <i class="fas fa-table"></i>
+                        &nbsp;&nbsp;Dashboard
+                    </a>
+                </li>
+                <li >
+                    <a href="{% url 'administrator:job-lists_view' %}">
+                        <i class="fas fa-search"></i>
+                        &nbsp;&nbsp;Job List
+                    </a>
+                </li>
+                <li>
+                    <a href="#settings" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-user-circle"></i>&nbsp;&nbsp; {{user.email}}</a>
+                    <ul class="collapse list-unstyled" id="settings">
+                        <li>
+                            <a href="{% url 'administrator:settings_view' %}"><i class="fas fa-cog"></i>&nbsp;&nbsp; Settings</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'administrator:logout_view' %}"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp; Logout</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="row">
+	            <div class="addStaff">
+	                <a href="{% url 'administrator:create-staff_view' %}">Add Staff Account</a>
+	            </div>
+
+	            {% if user.admin %}
+	            <div class="addAdmin">
+	                <a href="{% url 'administrator:create-admin_view' %}">Add Admin Account</a>
+	            </div>
+            	{% endif %}
+            </div>
+        </nav>
+    </div>
+    
+    <div id="content">
+        <div class="topBorder"></div>
+        <div class="contentWrapper">
+            {% if user.admin %}
+            <h2> Total Number of Applicants of <i>{{admin_joblist}}</i></h2>
+            <form method="GET">
+                <select id="job-list-filter-id" class="form-control selectFilter" name="job-list-filter" onchange="btnFilter.click();">
+                    <option value="All Job Offerings">All Job Offerings</option>
+                    {% for account in accounts %}
+                        <option value="{{account.email}}">{{account.email}}</option>
+                    {% endfor %}
+                </select>
+                <input type="submit" name="btnFilter" hidden>
+
+                <script> // SET OPTION TO SELECTED IF BEING FILTERED
+                    document.getElementById("job-list-filter-id").value = "{{admin_joblist}}";
+                </script>
+            </form>
+            {% else %}
+            <h2> Total Number of Applicants per Job </h2>
+            {% endif %}
+            <hr>
+            {% if not joblists %}
+            <center>
+            {% if user.staff and not user.admin %}
+                <h1 style="opacity: 80%">You do not have any job offerings owned</h1>
+            {% elif user.staff and admin_joblist == user.email %}
+                <h1 style="opacity: 80%">You do not have any job offerings owned</h1>
+            {% elif admin_joblist is None or admin_joblist == 'All Job Offerings' %}
+                <h1 style="opacity: 80%">There is no job offering at the moment.</h1>
+            {% else %}
+                <h1 style="opacity: 80%;">This staff does not have any job offerings owned.</h1>
+            {% endif %}
+            </center>
+            {% else %}
+            <canvas id="myChart" {% if user.admin %} style="position: relative; height: 300px;" {% else %} style="position: relative; height: 420px;" {% endif %}></canvas>
+            {% endif %}
+        </div>
+        <div class="footer">
+            <p>Copyright © InterviewBOT. All rights reserved.</p>
+        </div>  
+    </div>
+
+    <script>
+        var jobIds = []
+        var jobLabels = []
+        var backgroundColors = []
+        var applicantCount = []
+        var count = 0;
+
+        // Loop for jobLabels
+        {% for joblist in joblists %}
+            jobIds.push('{{joblist.id}}')
+            jobLabels.push('{{joblist.title}}');
+            // Loop for counting appliedjob
+            {% for appliedJob in appliedJobs %}
+                if ({{joblist.id}} == {{appliedJob.job_id}}){
+                    count++;
+                }
+            {% endfor %}
+            applicantCount.push(count);
+            count = 0;
+        {% endfor %}
+
+        // Loop for backgroundColor
+        for (i = 0; i < 500; i++){
+            backgroundColors.push('rgba(255, 99, 132, 0.6)')
+            backgroundColors.push('rgba(54, 162, 235, 0.6)')
+            backgroundColors.push('rgba(255, 206, 86, 0.6)')
+            backgroundColors.push('rgba(75, 192, 192, 0.6)')
+            backgroundColors.push('rgba(153, 102, 255, 0.6)')
+            backgroundColors.push('rgba(255, 159, 64, 0.6)')
+            backgroundColors.push('rgba(255, 99, 132, 0.6)')
+            backgroundColors.push('rgba(54, 162, 235, 0.6)')
+            backgroundColors.push('rgba(255, 206, 86, 0.6)')
+        }
+
+        let myChart = document.getElementById('myChart').getContext('2d');
+
+        // Global Options
+        Chart.defaults.global.defaultFontFamily = 'GothamLight';
+        Chart.defaults.global.defaultFontSize = 18;
+        Chart.defaults.global.defaultFontColor = '#FFF';
+
+        let massPopChart = new Chart(myChart, {
+          type:'bar', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+          data:{
+            labels: jobLabels,
+            datasets:[{
+              label:'Applicant(s)',
+              data: applicantCount,
+              //backgroundColor:'green',
+              backgroundColor: backgroundColors,
+              borderWidth:1,
+              borderColor:'#777',
+              hoverBorderWidth:3,
+              hoverBorderColor:'#FFF'
+            }]
+          },
+          options:{
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                yAxes: [{
+                    display: true,
+                    ticks: {
+                        beginAtZero: true,
+                        stepSize: 1
+                    }
+                }]
+            },
+            legend:{
+              display:false,
+            },
+            layout:{
+              padding:{
+                left:50,
+                right:0,
+                bottom:0,
+                top:0
+              }
+            },
+            tooltips:{
+              enabled:true
+            },
+            onClick: function (e) { //change request.session['job'] in views.py to the value of job_id based on the bar chart being clicked by the administrator.
+                debugger;
+                var activePointIndex = this.getElementsAtEvent(e)[0]._index;
+                var job_id = jobIds[activePointIndex];
+                document.getElementById("job-id").value = job_id;
+                document.getElementById("btnJobId").click();
+            }
+          }
+        });
+    </script>
+
+    <!-- CREATE JOB MODAL -->
+    <div id="createJobModal" class="jobCreateModal">
+        <div class="createJob-content">
+            <span class="close">&times</span>
+            <form id="post_question" method="POST" action="" autocomplete="off" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="containerColor">
+                    <div class="modalHeader">
+                        <img src="{% static '/images/Notepad.png' %}" class="imgNotepad">
+                        <a class="questionTitle">Create Job Offering</a>
+                        <img src="{% static '/images/citLogo.png' %}" class="imgProfile">
+                        <a href="#"><img src="{% static '/images/ellipsis.png' %}" class="imgEllipsis"></a>
+                        <button type="submit" class="btnPost" name="btnAdd" id="btnAdd">Post</button>
+                    </div>
+                    <div class="container">
+                        <div class="tab-pane active"><center>
+                            <div class="questionnaireTitle">
+                                <input type="text" name="name-title" id="id-title" style="border-color: #ccc; outline: none;" placeholder="Job Title" required>
+                                <!-- <select name="name-title" id="id-title" style="border-color: #ccc;" required>
+                                    <option style="display: none;">---Please select a job---</option>
+                                    <option value="Administrator">Administrator</option>
+                                    <option value="Office Staff">Office Staff</option>
+                                    <option value="Guidance Counselor">Guidance Counselor</option>
+                                    <option value="School Social Worker">School Social Worker</option>
+                                    <option value="School Nurse">School Nurse</option>
+                                    <option value="Librarian">Librarian</option>
+                                    <option value="Maintenance">Maintenance</option>
+                                    <option value="Custodial">Custodial</option>
+                                    <option value="Food Service">Food Service</option>
+                                    <option value="Transportation">Transportation</option>
+                                </select> -->
+                                <textarea type="text" name="name-description" id="id-description" rows="5" cols="50" maxlength="500" style="margin-top: 5px; border: none; outline: none;" placeholder="Job description" required></textarea>
+                            </div>
+                            <div class="questionContainer">
+                                <input type="checkbox" id="defaultQ" name="defaultQ" value="defaultQ"  onchange="checkBox();" checked>
+                                <label for="defaultQ">Use Default Questions 1 to 10</label>
+                                <p class="note">Note: You are required to input all the question fields.</p>
+
+                                <script type="text/javascript"> //Script to show and hide div
+                                    function setDefault(){
+                                        $('.ownQ1').hide();
+                                        $('.ownQ6').hide();
+                                    }
+
+                                    function checkBox(){
+                                        let q1 = document.querySelector('#id-question1');
+                                        let q2 = document.querySelector('#id-question2');
+                                        let q3 = document.querySelector('#id-question3');
+                                        let q4 = document.querySelector('#id-question4');
+                                        let q5 = document.querySelector('#id-question5');
+                                        let q6 = document.querySelector('#id-question6');
+                                        let q7 = document.querySelector('#id-question7');
+                                        let q8 = document.querySelector('#id-question8');
+                                        let q9 = document.querySelector('#id-question9');
+                                        let q10 = document.querySelector('#id-question10');
+
+                                        if ($('#defaultQ').is(":checked")){
+                                            $('.ownQ1').hide();
+                                            $('.ownQ6').hide();
+                                            $('.defQ1').show();
+                                            $('.defQ6').show();
+                                            q1.removeAttribute('required');
+                                            q2.removeAttribute('required');
+                                            q3.removeAttribute('required');
+                                            q4.removeAttribute('required');
+                                            q5.removeAttribute('required');
+                                            q6.removeAttribute('required');
+                                            q7.removeAttribute('required');
+                                            q8.removeAttribute('required');
+                                            q9.removeAttribute('required');
+                                            q10.removeAttribute('required');
+                                        }
+                                        else{
+                                            $('.ownQ1').show();
+                                            $('.ownQ6').show();
+                                            $('.defQ1').hide();
+                                            $('.defQ6').hide();
+                                            q1.setAttribute('required', '')
+                                            q2.setAttribute('required', '')
+                                            q3.setAttribute('required', '')
+                                            q4.setAttribute('required', '')
+                                            q5.setAttribute('required', '')
+                                            q6.setAttribute('required', '')
+                                            q7.setAttribute('required', '')
+                                            q8.setAttribute('required', '')
+                                            q9.setAttribute('required', '')
+                                            q10.setAttribute('required', '')
+                                        }
+                                    }
+                                </script>
+
+                                <div class="tabs" style="width: 80%; border-left: 5px solid #933633; border-radius: 10px 10px 0 0;">
+                                    <a class="tablink" onclick="numberQuestion(event, 'fiveQuest')" id="defaultQuestionOpen">5 QUESTIONS</a>
+                                    <a class="tablink" onclick="numberQuestion(event, 'tenQuest')">10 QUESTIONS</a>
+                                    <a class="tablink" onclick="numberQuestion(event, 'fifteenQuest')">15 QUESTIONS</a>
+                                    <a class="tablink" onclick="numberQuestion(event, 'twentyQuest')">20 QUESTIONS</a>
+                                </div>
+                                <div class="contentQuestion">
+                                    <div class="input_fields_wrap2">
+                                        <div id="fiveQuest" class="tabcontents">
+                                            <div class="defQ1">
+                                                <span class="text-dark" style="float: right; font-size: 14px; font-weight: bolder;">You can edit the timer and weight for each question.</span><br>
+                                                <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                                <input type="number" min="1" max="5" name="d-weight1" value="1" title="Weight" required>
+                                                <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                                <input type="number" min="2" max="5" name="d-timer1" value="2" title="Timer in minutes" required>
+                                                <input type="text" name="d-qtn1" placeholder="Please tell me about yourself." title="Question 1" disabled>
+
+                                                <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                                <input type="number" min="1" max="5" name="d-weight2" value="1" title="Weight" required>
+                                                <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                                <input type="number" min="2" max="5" name="d-timer2" value="2" title="Timer in minutes" required>
+                                                <input type="text" name="d-qtn2" placeholder="What does team spirit mean to you and how would you go about building it?" title="Question 2" disabled>
+
+                                                <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                                <input type="number" min="1" max="5" name="d-weight3" value="1" title="Weight" required>
+                                                <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                                <input type="number" min="2" max="5" name="d-timer3" value="2" title="Timer in minutes" required>
+                                                <input type="text" name="d-qtn3" placeholder="Your project fails miserably. How do you deal with it?" title="Question 3" disabled>
+
+                                                <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                                <input type="number" min="1" max="5" name="d-weight4" value="1" title="Weight" required>
+                                                <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                                <input type="number" min="2" max="5" name="d-timer4" value="2" title="Timer in minutes" required>
+                                                <input type="text" name="d-qtn4" placeholder="How do you go about rearranging your schedule if something unplanned occurs?" title="Question 4" disabled>
+
+                                                <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                                <input type="number" min="1" max="5" name="d-weight5" value="1" title="Weight" required>
+                                                <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                                <input type="number" min="2" max="5" name="d-timer5" value="2" title="Timer in minutes" required>
+                                                <input type="text" name="d-qtn5" placeholder="What can you do for us that other candidates cannot?" title="Question 5" disabled>
+                                            </div>
+
+                                            <div class="ownQ1">
+                                                <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                                <input type="number" min="1" max="5" name="o-weight1" value="1" title="Weight">
+                                                <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                                <input type="number" min="2" max="5" name="o-timer1" value="2" title="Timer in minutes">
+                                                <input type="text" name="o-qtn1" id="id-question1" placeholder="Question 1*">
+
+                                                <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                                <input type="number" min="1" max="5" name="o-weight2" value="1" title="Weight">
+                                                <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                                <input type="number" min="2" max="5" name="o-timer2" value="2" title="Timer in minutes">
+                                                <input type="text" name="o-qtn2" id="id-question2" placeholder="Question 2*">
+
+                                                <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                                <input type="number" min="1" max="5" name="o-weight3" value="1" title="Weight">
+                                                <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                                <input type="number" min="2" max="5" name="o-timer3" value="2" title="Timer in minutes">
+                                                <input type="text" name="o-qtn3" id="id-question3" placeholder="Question 3*">
+
+                                                <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                                <input type="number" min="1" max="5" name="o-weight4" value="1" title="Weight">
+                                                <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                                <input type="number" min="2" max="5" name="o-timer4" value="2" title="Timer in minutes">
+                                                <input type="text" name="o-qtn4" id="id-question4" placeholder="Question 4*">
+
+                                                <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                                <input type="number" min="1" max="5" name="o-weight5" value="1" title="Weight">
+                                                <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                                <input type="number" min="2" max="5" name="o-timer5" value="2" title="Timer in minutes">
+                                                <input type="text" name="o-qtn5" id="id-question5" placeholder="Question 5*">
+                                            </div>
+                                        </div>
+
+                                        <div id="tenQuest" class="tabcontents">
+                                            <div class="defQ6">
+                                                <span class="text-dark" style="float: right; font-size: 14px; font-weight: bolder;">You can edit the timer and weight for each question.</span><br>
+                                                <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                                <input type="number" min="1" max="5" name="d-weight6" value="1" title="Weight" required>
+                                                <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                                <input type="number" min="2" max="5" name="d-timer6" value="2" title="Timer in minutes" required>
+                                                <input type="text" name="d-qtn6" placeholder="Describe a situation where results went against expectations. How did you adapt to this change?" title="Question 6" disabled>
+
+                                                <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                                <input type="number" min="1" max="5" name="d-weight7" value="1" title="Weight" required>
+                                                <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                                <input type="number" min="2" max="5" name="d-timer7" value="2" title="Timer in minutes" required>
+                                                <input type="text" name="d-qtn7" placeholder="What are the key ingredients to building good relationships with others?" title="Question 7" disabled>
+
+                                                <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                                <input type="number" min="1" max="5" name="d-weight8" value="1" title="Weight" required>
+                                                <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                                <input type="number" min="2" max="5" name="d-timer8" value="2" title="Timer in minutes" required>
+                                                <input type="text" name="d-qtn8" placeholder="Tell me about a time when you’ve struggled to meet deadlines. What did you do?" title="Question 8" disabled>
+
+                                                <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                                <input type="number" min="1" max="5" name="d-weight9" value="1" title="Weight" required>
+                                                <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                                <input type="number" min="2" max="5" name="d-timer9" value="2" title="Timer in minutes" required>
+                                                <input type="text" name="d-qtn9" placeholder="What would you do if you discovered a manager was breaking company rules?" title="Question 9" disabled>
+
+                                                <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                                <input type="number" min="1" max="5" name="d-weight10" value="1" title="Weight" required>
+                                                <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                                <input type="number" min="2" max="5" name="d-timer10" value="2" title="Timer in minutes" required>
+                                                <input type="text" name="d-qtn10" placeholder="What steps do you take to gain a customer’s trust?" title="Question 10" disabled>
+                                            </div>
+
+                                            <div class="ownQ6">
+                                                <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                                <input type="number" min="1" max="5" name="o-weight6" value="1" title="Weight">
+                                                <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                                <input type="number" min="2" max="5" name="o-timer6" value="2" title="Timer in minutes">
+                                                <input type="text" name="o-qtn6" id="id-question6" placeholder="Question 6*" title="Question 6">
+
+                                                <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                                <input type="number" min="1" max="5" name="o-weight7" value="1" title="Weight">
+                                                <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                                <input type="number" min="2" max="5" name="o-timer7" value="2" title="Timer in minutes">
+                                                <input type="text" name="o-qtn7" id="id-question7" placeholder="Question 7*" title="Question 7">
+
+                                                <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                                <input type="number" min="1" max="5" name="o-weight8" value="1" title="Weight">
+                                                <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                                <input type="number" min="2" max="5" name="o-timer8" value="2" title="Timer in minutes">
+                                                <input type="text" name="o-qtn8" id="id-question8" placeholder="Question 8*" title="Question 8">
+
+                                                <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                                <input type="number" min="1" max="5" name="o-weight9" value="1" title="Weight">
+                                                <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                                <input type="number" min="2" max="5" name="o-timer9" value="2" title="Timer in minutes">
+                                                <input type="text" name="o-qtn9" id="id-question9" placeholder="Question 9*" title="Question 9">
+
+                                                <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                                <input type="number" min="1" max="5" name="o-weight10" value="1" title="Weight">
+                                                <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                                <input type="number" min="2" max="5" name="o-timer10" value="2" title="Timer in minutes">
+                                                <input type="text" name="o-qtn10" id="id-question10" placeholder="Question 10*" title="Question 10">
+                                            </div>
+                                        </div>
+
+                                        <div id="fifteenQuest" class="tabcontents">
+                                            <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                            <input type="number" min="1" max="5" name="o-weight11" value="1" title="Weight" required>
+                                            <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                            <input type="number" min="2" max="5" name="o-timer11" value="2" title="Timer in minutes" required>
+                                            <input type="text" name="o-qtn11" id="id-question11" placeholder="Question 11*" title="Question 11" required>
+
+                                            <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                            <input type="number" min="1" max="5" name="o-weight12" value="1" title="Weight" required>
+                                            <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                            <input type="number" min="2" max="5" name="o-timer12" value="2" title="Timer in minutes" required>
+                                            <input type="text" name="o-qtn12" id="id-question12" placeholder="Question 12*" title="Question 12" required>
+
+                                            <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                            <input type="number" min="1" max="5" name="o-weight13" value="1" title="Weight" required>
+                                            <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                            <input type="number" min="2" max="5" name="o-timer13" value="2" title="Timer in minutes" required>
+                                            <input type="text" name="o-qtn13" id="id-question13" placeholder="Question 13*" title="Question 13" required>
+
+                                            <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                            <input type="number" min="1" max="5" name="o-weight14" value="1" title="Weight" required>
+                                            <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                            <input type="number" min="2" max="5" name="o-timer14" value="2" title="Timer in minutes" required>
+                                            <input type="text" name="o-qtn14" id="id-question14" placeholder="Question 14*" title="Question 14" required>
+
+                                            <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                            <input type="number" min="1" max="5" name="o-weight15" value="1" title="Weight" required>
+                                            <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                            <input type="number" min="2" max="5" name="o-timer15" value="2" title="Timer in minutes" required>
+                                            <input type="text" name="o-qtn15" id="id-question15" placeholder="Question 15*" title="Question 15" required>
+                                        </div>
+
+                                        <div id="twentyQuest" class="tabcontents">
+                                            <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                            <input type="number" min="1" max="5" name="o-weight16" value="1" title="Weight" required>
+                                            <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                            <input type="number" min="2" max="5" name="o-timer16" value="2" title="Timer in minutes" required>
+                                            <input type="text" name="o-qtn16" id="id-question16" placeholder="Question 16*" title="Question 16" required>
+
+                                            <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                            <input type="number" min="1" max="5" name="o-weight17" value="1" title="Weight" required>
+                                            <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                            <input type="number" min="2" max="5" name="o-timer17" value="2" title="Timer in minutes" required>
+                                            <input type="text" name="o-qtn17" id="id-question17" placeholder="Question 17*" title="Question 17" required>
+
+                                            <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                            <input type="number" min="1" max="5" name="o-weight18" value="1" title="Weight" required>
+                                            <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                            <input type="number" min="2" max="5" name="o-timer18" value="2" title="Timer in minutes" required>
+                                            <input type="text" name="o-qtn18" id="id-question18" placeholder="Question 18*" title="Question 18" required>
+
+                                            <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                            <input type="number" min="1" max="5" name="o-weight19" value="1" title="Weight" required>
+                                            <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                            <input type="number" min="2" max="5" name="o-timer19" value="2" title="Timer in minutes" required>
+                                            <input type="text" name="o-qtn19" id="id-question19" placeholder="Question 19*" title="Question 19" required>
+
+                                            <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
+                                            <input type="number" min="1" max="5" name="o-weight20" value="1" title="Weight" required>
+                                            <label><i class="fas fa-clock"></i> &nbsp;</label>
+                                            <input type="number" min="2" max="5" name="o-timer20" value="2" title="Timer in minutes" required>
+                                            <input type="text" name="o-qtn20" id="id-question20" placeholder="Question 20*" title="Question 20" required>
+                                        </div>
+                                    </div>
+                                </div><br><br style="line-height: 10px;">
+                            </div></center>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div> <!-- END OF CREATE MODAL -->
+
+    <form id="setJobId" method="POST">
+        {% csrf_token %}
+        <input type="text" id="job-id" name="job-id" hidden>
+        <button type="submit" id="btnJobId" name="btnJobId" hidden></button>
+    </form>
+
+    <!-- script for Create Job Modal -->
+    <script type="text/javascript">
+        var modal = document.getElementById("createJobModal");
+        var btn = document.getElementById("id-btnCreateJob");
+        var span = document.getElementsByClassName("close")[0];
+        btn.onclick = function(){
+            modal.style.display = "block";
+        }
+        span.onclick = function(){
+            modal.style.display = "none";
+        }
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+
+    <!-- MODAL EXIT WHEN PRESSED ESCAPE -->
+    <script type="text/javascript">
+        $(document).keydown(function(event) { 
+            if (event.keyCode == 27) { 
+                $('#createJobModal').hide();
+            }
+        });
+    </script>
+
+    <!-- SHOW QUESTION BUTTONS -->
+    <script type="text/javascript">
+        function numberQuestion(evt, number) {
+          // Declare all variables
+          var i, tabcontent, tablinks;
+
+          // Get all elements with class="tabcontent" and hide them
+          tabcontent = document.getElementsByClassName("tabcontents");
+          for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+          }
+
+          // Get all elements with class="tablinks" and remove the class "active"
+          tablinks = document.getElementsByClassName("tablink");
+          for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+          }
+
+          // Show the current tab, and add an "active" class to the button that opened the tab
+          document.getElementById(number).style.display = "block";
+          evt.currentTarget.className += " active";
+        }
+
+        document.getElementById("defaultQuestionOpen").click();
+    </script>
+</body>
+
+{% endblock content %}

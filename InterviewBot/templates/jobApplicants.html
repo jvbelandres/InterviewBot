@@ -1,0 +1,164 @@
+{% load static %}
+
+
+{% block headerinclude %}
+    
+    <title>Interview BOT - Job List</title>
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
+    
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="{% static '/css/administrator/jobapplicants.css' %}">
+
+{% endblock headerinclude %}
+
+
+
+{% block footerinclude %}
+    
+    <!-- Font Awesome JS -->
+    <script src="{% static 'Automate/js/bootstrap.js' %}"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+{% endblock footerinclude %}
+
+
+
+{% block content %}
+    {% for joblist in joblists %}
+    <div class="containerColor" style="border-radius: 0%;min-height: 100%;width: 100%;">
+        <div class="modalHeader" style="border-radius: 0px;height: 80px;">
+            <img src="{% static '/images/Notepad.png' %}" class="imgNotepad">
+            <a class="questionTitle">{{joblist.title}}</a><br><br>
+            <a href=  "{% url 'administrator:dashboard_view' %}" class="back" title="Back to Dashboard"><b><i class="fas fa-chevron-circle-left"></i> Dashboard</b></a>
+            <a href=  "{% url 'administrator:job-lists_view' %}" class="back" title="Back to Job Lists"><b><i class="fas fa-chevron-circle-left"></i> Job Lists</b></a>
+        </div><br><br style="line-height: 10px;">
+    {% endfor %}
+
+        <div class="container">
+            <div class="tab-content" style="width: 150%;margin-left: -25%;" >
+                <center><header></header>
+                <div class="questionnaireTitle" style="height: 100px;">
+                    <h2><b>Applicants</b></h2>
+                    <h5>(Last Name, First Name)</h5>
+                </div>
+
+                <div class="questionContainer">
+                    <!-- SHOW THIS IF THERE IS AT LEAST ONE APPLICANT -->
+                    <div id="applicantList" class="contentQuestion" hidden>
+                        <center><p style="border-style: dotted; width: 40%;" class="text-info">&nbsp; Applicants are sorted from highest to lowest scorers &nbsp;</p></center>
+                        <span style="float: left; font-weight: bolder; margin-left: 6.5%;">Score</span><br style="line-height: 1px;">
+                        {% for applicant in applicants %}
+                            {% if applicant.final_score is not None %}
+                                <div class="input_fields_wrap2" style="display:flex ;margin-bottom: 10px; width: 87%;margin-top: 3%;">
+                                    <span id="final_score">{{applicant.final_score}}%</span>
+                                    <input type="text" placeholder="{{applicant.lastname}}, {{applicant.firstname}} " disabled>
+                                    <button type="button" class="citButton" data-toggle="modal" id="id-btnView" data-target="#viewModal-{{applicant.id}}">View</button>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+
+                    <!-- SHOW THIS IF THERE IS NO APPLICANT -->
+                    <div id="noApplicant" class="contentQuestion">
+                        <br><br>
+                        <h2 id="noApplicant">This job offer does not have any applicants.</h2>
+                        <br><br>
+                    </div>
+
+                    <script> // SCRIPT TO HIDE 
+                        var count = 0;
+                        {% for applicant in applicants %}
+                            if ({{applicant.final_score}} != null)
+                                count++;
+                        {% endfor %}
+
+                        if (count > 0){ 
+                            document.getElementById("applicantList").hidden = false; 
+                            document.getElementById("noApplicant").style.display = "none";
+                        }
+                        else{
+                            document.getElementById("noApplicant").style.display = "block";
+                        }
+                    </script>
+                </div>
+                <footer></footer>
+                </center>
+
+                <!-- VIEW MODAL -->
+                {% for applicant in applicants %}
+                <div class="modal fade" id="viewModal-{{applicant.id}}" tabindex="-1" role="dialog" aria-labelledby="unsaveModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header" style="background-color:#933633; color: white">
+                                <h5 class="modal-title" id="myLargeModalLabel"><b>VIEW APPLICANT</b></h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            
+                            <form id="answersTab" method="POST">
+                            {% csrf_token %}
+                                <div class="modal-body">
+                                    <br><p><b>Profile:</b></p>
+                                    <p class="tab">Name: {{applicant.firstname}} {{applicant.lastname}}</p>
+                                    <p class="tab">Gender: {{applicant.gender}}</p>
+                                    <br><p><b>Contact Details:</b></p>
+                                    <p class="tab">Email address: {{applicant.email}}</p>
+                                    <p class="tab">Phone: {{applicant.phone}}</p>
+                                </div>
+
+                                <input type="text" name="applicantID" value="{{applicant.id}}" hidden>
+
+                                <div class="modal-footer">
+                                    {% if applicant.final_score == None %}
+                                    <button type="submit" name="btnAnswers" class="btn btn-primary" disabled>RESPONSES</button>
+                                    {% else %}
+                                    <button type="submit" name="btnAnswers" class="btn btn-primary">RESPONSES</button>
+                                    {% endif %}
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">CLOSE</button>
+                                </div>
+                            </form>
+                        </div>
+                  </div>
+                </div> <!-- END OF VIEW APPLICANT MODAL -->
+                {% endfor %}
+                <footer></footer>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

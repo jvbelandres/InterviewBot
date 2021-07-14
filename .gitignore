@@ -1,9 +1,0 @@
-/InterviewerBot/administrator/__pycache__
-/InterviewerBot/administrator/migrations/__pycache__
-/InterviewerBot/InterviewerBot/__pycache__
-/InterviewerBot/user/__pycache__
-/InterviewerBot/user/migrations/__pycache__
-*.pyc
-*.pdf
-InterviewBot/user/migrations/0001_initial.py
-InterviewBot/user/migrations/0002_createjob_is_deleted.py

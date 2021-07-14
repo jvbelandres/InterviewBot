@@ -10,7 +10,6 @@ urlpatterns=[
     #path('api/data', views.get_data, name='api-data'),
 
     #TEST URL
-    path('login/', views.LoginView.as_view(), name="login_view"),
     path('about-us/', login_required(views.AboutUsView.as_view()), name="about-us_view"),
     path('contact-us/', login_required(views.ContactUsView.as_view()), name="contact-us_view"),
     path('home/', login_required(views.HomePageView.as_view()), name="home_view"),
@@ -47,6 +46,4 @@ urlpatterns=[
     path('job-interview/interview-success', login_required(views.InterviewSuccessView.as_view()), name="interview_success_view"),
     path('job-interview/interview-forfeited', login_required(views.InterviewForfeitView.as_view()), name="interview_forfeit_view"),
     path('job-interview/access-denied', login_required(views.JobInterviewAccessDenied.as_view()), name="interview_access_denied"),
-    
-    path('password_reset', views.password_reset_request, name="password_reset"),
 ]

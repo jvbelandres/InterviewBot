@@ -11,10 +11,14 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 import os
+from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = Path(__file__).resolve().parent.parent
 
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -25,7 +29,7 @@ SECRET_KEY = '=i52%+87u=&q3tzf=pzautc-#u!sipm5pr&0e3^spna)pavd#7'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -59,7 +63,7 @@ ROOT_URLCONF = 'InterviewBot.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -138,12 +142,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, STATIC_URL)
+
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
+    STATIC_DIR,
 ]
 
 # Media files (Uploaded files)
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 # Gmail Settings
@@ -155,4 +161,4 @@ EMAIL_HOST_USER='interviewbot.cit@gmail.com'
 EMAIL_HOST_PASSWORD='.Interviewbot1'
 
 # Decorator
-LOGIN_URL = '/user/login/'
+LOGIN_URL = '/'
