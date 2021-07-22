@@ -455,6 +455,7 @@ class AdminRegistrationView(CreateView):
 		user.is_active = False
 		user.admin = True
 		user.staff = True
+		user.is_active = False
 		pw = form.cleaned_data.get('password')
 		user.set_password(pw)
 		user.save() # If dili mag user.save() kay dili mu gana ang token

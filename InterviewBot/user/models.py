@@ -50,6 +50,7 @@ class AccountManager(BaseUserManager):
 		)
 		user.staff = True
 		user.admin = True
+		user.is_active = True
 		user.save(using=self._db)
 		return user
 
