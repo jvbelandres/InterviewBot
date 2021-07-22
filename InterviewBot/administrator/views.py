@@ -173,7 +173,8 @@ class JobListsView(View):
 			return redirect('user:access_denied_view')
 
 		accounts = Account.objects.filter(staff=1, is_active=1)
-		appliedjobs = AppliedJob.objects.raw('SELECT * FROM appliedjob WHERE final_score IS NOT NULL')
+		# Raw query to get DISTINCT job_id since required ang primary key if apilon siyas GROUP BY or DISTINCT
+		appliedjobs = AppliedJob.objects.raw('SELECT * FROM (SELECT id, job_id, ROW_NUMBER() OVER (PARTITION BY job_id) AS RowNumber FROM AppliedJob WHERE final_score IS NOT NULL) AS a WHERE a.RowNumber = 1;')
 
 		admin_joblist = request.GET.get('job-list-filter')
 		if admin_joblist == None:

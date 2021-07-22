@@ -38,8 +38,26 @@ def textProccessing(text):
 	return json.loads(response.text)
 
 # Scoring for each question
-def finalScoring(pos, weight):
-	return pos * float(weight)
+def finalScoring(pos, weight, minutes, seconds, timer):
+	if pos != 0:
+		seconds_remaining = (minutes * 60) + seconds
+		total_seconds_timer = timer * 60
+		add_points_timer = 0
+
+		if float(seconds_remaining) >= (float(total_seconds_timer) * .8):
+			add_points_timer = 0.20
+		elif float(seconds_remaining) < (float(total_seconds_timer) * .8) and float(seconds_remaining) >= (float(total_seconds_timer) * .6):
+			add_points_timer = 0.15
+		elif float(seconds_remaining) < (float(total_seconds_timer) * .6) and float(seconds_remaining) >= (float(total_seconds_timer) * .4):
+			add_points_timer = 0.10
+		elif float(seconds_remaining) < (float(total_seconds_timer) * .4) and float(seconds_remaining) >= (float(total_seconds_timer) * .2):
+			add_points_timer = 0.05
+		else:
+			add_points_timer = 0
+
+		return round(pos, 2) * float(weight) + float(add_points_timer)
+	else:
+		return 0
 
 class RegisterView(CreateView):
 	form_class = RegisterForm
@@ -339,7 +357,10 @@ class JobInterviewQ1View(View):
 		user = request.user
 		job_id = request.session['job']
 		job_weight = request.POST.get("job-weight")
+		job_timer = request.POST.get("job-timer")
 		response_1 = request.POST.get("message")
+		minutes = request.POST.get("minutes")
+		seconds = request.POST.get("seconds")
 		
 		if len(response_1) > 0:
 			# use Text-Proccessing API
@@ -351,8 +372,8 @@ class JobInterviewQ1View(View):
 		else:
 			positive = 0
 
-		# Score multiplied by weight
-		final_score = finalScoring(positive, job_weight)
+		# Calculate the final score
+		final_score = finalScoring(positive, job_weight, minutes, seconds, job_timer)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_1 = response_1, positive1 = positive, score1 = final_score)
@@ -381,7 +402,10 @@ class JobInterviewQ2View(View):
 		user = request.user
 		job_id = request.session['job']
 		job_weight = request.POST.get("job-weight")
+		job_timer = request.POST.get("job-timer")
 		response_2 = request.POST.get("message")
+		minutes = request.POST.get("minutes")
+		seconds = request.POST.get("seconds")
 		
 		if len(response_2) > 0:
 			# use Text-Proccessing API
@@ -393,8 +417,8 @@ class JobInterviewQ2View(View):
 		else:
 			positive = 0
 
-		# Score multiplied by weight
-		final_score = finalScoring(positive, job_weight)
+		# Calculate the final score
+		final_score = finalScoring(positive, job_weight, minutes, seconds, job_timer)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_2 = response_2, positive2 = positive, score2 = final_score)
@@ -423,7 +447,10 @@ class JobInterviewQ3View(View):
 		user = request.user
 		job_id = request.session['job']
 		job_weight = request.POST.get("job-weight")
+		job_timer = request.POST.get("job-timer")
 		response_3 = request.POST.get("message")
+		minutes = request.POST.get("minutes")
+		seconds = request.POST.get("seconds")
 
 		if len(response_3) > 0:
 			# use Text-Proccessing API
@@ -435,8 +462,8 @@ class JobInterviewQ3View(View):
 		else:
 			positive = 0
 
-		# Score multiplied by weight
-		final_score = finalScoring(positive, job_weight)
+		# Calculate the final score
+		final_score = finalScoring(positive, job_weight, minutes, seconds, job_timer)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_3 = response_3, positive3 = positive, score3 = final_score)
@@ -465,7 +492,10 @@ class JobInterviewQ4View(View):
 		user = request.user
 		job_id = request.session['job']
 		job_weight = request.POST.get("job-weight")
+		job_timer = request.POST.get("job-timer")
 		response_4 = request.POST.get("message")
+		minutes = request.POST.get("minutes")
+		seconds = request.POST.get("seconds")
 
 		if len(response_4) > 0:
 			# use Text-Proccessing API
@@ -477,8 +507,8 @@ class JobInterviewQ4View(View):
 		else:
 			positive = 0
 
-		# Score multiplied by weight
-		final_score = finalScoring(positive, job_weight)
+		# Calculate the final score
+		final_score = finalScoring(positive, job_weight, minutes, seconds, job_timer)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_4 = response_4, positive4 = positive, score4 = final_score)
@@ -507,7 +537,10 @@ class JobInterviewQ5View(View):
 		user = request.user
 		job_id = request.session['job']
 		job_weight = request.POST.get("job-weight")
+		job_timer = request.POST.get("job-timer")
 		response_5 = request.POST.get("message")
+		minutes = request.POST.get("minutes")
+		seconds = request.POST.get("seconds")
 		
 		if len(response_5) > 0:
 			# use Text-Proccessing API
@@ -519,8 +552,8 @@ class JobInterviewQ5View(View):
 		else:
 			positive = 0
 
-		# Score multiplied by weight
-		final_score = finalScoring(positive, job_weight)
+		# Calculate the final score
+		final_score = finalScoring(positive, job_weight, minutes, seconds, job_timer)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_5 = response_5, positive5 = positive, score5 = final_score)
@@ -549,7 +582,10 @@ class JobInterviewQ6View(View):
 		user = request.user
 		job_id = request.session['job']
 		job_weight = request.POST.get("job-weight")
+		job_timer = request.POST.get("job-timer")
 		response_6 = request.POST.get("message")
+		minutes = request.POST.get("minutes")
+		seconds = request.POST.get("seconds")
 
 		if len(response_6) > 0:
 			# use Text-Proccessing API
@@ -561,8 +597,8 @@ class JobInterviewQ6View(View):
 		else:
 			positive = 0
 
-		# Score multiplied by weight
-		final_score = finalScoring(positive, job_weight)
+		# Calculate the final score
+		final_score = finalScoring(positive, job_weight, minutes, seconds, job_timer)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_6 = response_6, positive6 = positive, score6 = final_score)
@@ -591,7 +627,10 @@ class JobInterviewQ7View(View):
 		user = request.user
 		job_id = request.session['job']
 		job_weight = request.POST.get("job-weight")
+		job_timer = request.POST.get("job-timer")
 		response_7 = request.POST.get("message")
+		minutes = request.POST.get("minutes")
+		seconds = request.POST.get("seconds")
 
 		if len(response_7) > 0:
 			# use Text-Proccessing API
@@ -603,8 +642,8 @@ class JobInterviewQ7View(View):
 		else:
 			positive = 0
 
-		# Score multiplied by weight
-		final_score = finalScoring(positive, job_weight)
+		# Calculate the final score
+		final_score = finalScoring(positive, job_weight, minutes, seconds, job_timer)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_7 = response_7, positive7 = positive, score7 = final_score)
@@ -633,7 +672,10 @@ class JobInterviewQ8View(View):
 		user = request.user
 		job_id = request.session['job']
 		job_weight = request.POST.get("job-weight")
+		job_timer = request.POST.get("job-timer")
 		response_8 = request.POST.get("message")
+		minutes = request.POST.get("minutes")
+		seconds = request.POST.get("seconds")
 
 		if len(response_8) > 0:
 			# use Text-Proccessing API
@@ -645,8 +687,8 @@ class JobInterviewQ8View(View):
 		else:
 			positive = 0
 
-		# Score multiplied by weight
-		final_score = finalScoring(positive, job_weight)
+		# Calculate the final score
+		final_score = finalScoring(positive, job_weight, minutes, seconds, job_timer)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_8 = response_8, positive8 = positive, score8 = final_score)
@@ -675,7 +717,10 @@ class JobInterviewQ9View(View):
 		user = request.user
 		job_id = request.session['job']
 		job_weight = request.POST.get("job-weight")
+		job_timer = request.POST.get("job-timer")
 		response_9 = request.POST.get("message")
+		minutes = request.POST.get("minutes")
+		seconds = request.POST.get("seconds")
 
 		if len(response_9) > 0:
 			# use Text-Proccessing API
@@ -687,8 +732,8 @@ class JobInterviewQ9View(View):
 		else:
 			positive = 0
 
-		# Score multiplied by weight
-		final_score = finalScoring(positive, job_weight)
+		# Calculate the final score
+		final_score = finalScoring(positive, job_weight, minutes, seconds, job_timer)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_9 = response_9, positive9 = positive, score9 = final_score)
@@ -717,7 +762,10 @@ class JobInterviewQ10View(View):
 		user = request.user
 		job_id = request.session['job']
 		job_weight = request.POST.get("job-weight")
+		job_timer = request.POST.get("job-timer")
 		response_10 = request.POST.get("message")
+		minutes = request.POST.get("minutes")
+		seconds = request.POST.get("seconds")
 
 		if len(response_10) > 0:
 			# use Text-Proccessing API
@@ -729,8 +777,8 @@ class JobInterviewQ10View(View):
 		else:
 			positive = 0
 
-		# Score multiplied by weight
-		final_score = finalScoring(positive, job_weight)
+		# Calculate the final score
+		final_score = finalScoring(positive, job_weight, minutes, seconds, job_timer)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_10 = response_10, positive10 = positive, score10 = final_score)
@@ -759,7 +807,10 @@ class JobInterviewQ11View(View):
 		user = request.user
 		job_id = request.session['job']
 		job_weight = request.POST.get("job-weight")
+		job_timer = request.POST.get("job-timer")
 		response_11 = request.POST.get("message")
+		minutes = request.POST.get("minutes")
+		seconds = request.POST.get("seconds")
 
 		if len(response_11) > 0:
 			# use Text-Proccessing API
@@ -771,8 +822,8 @@ class JobInterviewQ11View(View):
 		else:
 			positive = 0
 
-		# get final score
-		final_score = finalScoring(positive, job_weight)
+		# Calculate the final score
+		final_score = finalScoring(positive, job_weight, minutes, seconds, job_timer)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_11 = response_11, positive11 = positive, score11 = final_score)
@@ -801,7 +852,10 @@ class JobInterviewQ12View(View):
 		user = request.user
 		job_id = request.session['job']
 		job_weight = request.POST.get("job-weight")
+		job_timer = request.POST.get("job-timer")
 		response_12 = request.POST.get("message")
+		minutes = request.POST.get("minutes")
+		seconds = request.POST.get("seconds")
 
 		if len(response_12) > 0:
 			# use Text-Proccessing API
@@ -813,8 +867,8 @@ class JobInterviewQ12View(View):
 		else:
 			positive = 0
 
-		# get final score
-		final_score = finalScoring(positive, job_weight)
+		# Calculate the final score
+		final_score = finalScoring(positive, job_weight, minutes, seconds, job_timer)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_12 = response_12, positive12 = positive, score12 = final_score)
@@ -843,7 +897,10 @@ class JobInterviewQ13View(View):
 		user = request.user
 		job_id = request.session['job']
 		job_weight = request.POST.get("job-weight")
+		job_timer = request.POST.get("job-timer")
 		response_13 = request.POST.get("message")
+		minutes = request.POST.get("minutes")
+		seconds = request.POST.get("seconds")
 
 		if len(response_13) > 0:
 			# use Text-Proccessing API
@@ -855,8 +912,8 @@ class JobInterviewQ13View(View):
 		else:
 			positive = 0
 
-		# get final score
-		final_score = finalScoring(positive, job_weight)
+		# Calculate the final score
+		final_score = finalScoring(positive, job_weight, minutes, seconds, job_timer)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_13 = response_13, positive13 = positive, score13 = final_score)
@@ -885,7 +942,10 @@ class JobInterviewQ14View(View):
 		user = request.user
 		job_id = request.session['job']
 		job_weight = request.POST.get("job-weight")
+		job_timer = request.POST.get("job-timer")
 		response_14 = request.POST.get("message")
+		minutes = request.POST.get("minutes")
+		seconds = request.POST.get("seconds")
 
 		if len(response_14) > 0:
 			# use Text-Proccessing API
@@ -897,8 +957,8 @@ class JobInterviewQ14View(View):
 		else:
 			positive = 0
 
-		# get final score
-		final_score = finalScoring(positive, job_weight)
+		# Calculate the final score
+		final_score = finalScoring(positive, job_weight, minutes, seconds, job_timer)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_14 = response_14, positive14 = positive, score14 = final_score)
@@ -927,7 +987,10 @@ class JobInterviewQ15View(View):
 		user = request.user
 		job_id = request.session['job']
 		job_weight = request.POST.get("job-weight")
+		job_timer = request.POST.get("job-timer")
 		response_15 = request.POST.get("message")
+		minutes = request.POST.get("minutes")
+		seconds = request.POST.get("seconds")
 
 		if len(response_15) > 0:
 			# use Text-Proccessing API
@@ -939,8 +1002,8 @@ class JobInterviewQ15View(View):
 		else:
 			positive = 0
 
-		# get final score
-		final_score = finalScoring(positive, job_weight)
+		# Calculate the final score
+		final_score = finalScoring(positive, job_weight, minutes, seconds, job_timer)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_15 = response_15, positive15 = positive, score15 = final_score)
@@ -969,7 +1032,10 @@ class JobInterviewQ16View(View):
 		user = request.user
 		job_id = request.session['job']
 		job_weight = request.POST.get("job-weight")
+		job_timer = request.POST.get("job-timer")
 		response_16 = request.POST.get("message")
+		minutes = request.POST.get("minutes")
+		seconds = request.POST.get("seconds")
 
 		if len(response_16) > 0:
 			# use Text-Proccessing API
@@ -981,8 +1047,8 @@ class JobInterviewQ16View(View):
 		else:
 			positive = 0
 
-		# get final score
-		final_score = finalScoring(positive, job_weight)
+		# Calculate the final score
+		final_score = finalScoring(positive, job_weight, minutes, seconds, job_timer)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_16 = response_16, positive16 = positive, score16 = final_score)
@@ -1011,7 +1077,10 @@ class JobInterviewQ17View(View):
 		user = request.user
 		job_id = request.session['job']
 		job_weight = request.POST.get("job-weight")
+		job_timer = request.POST.get("job-timer")
 		response_17 = request.POST.get("message")
+		minutes = request.POST.get("minutes")
+		seconds = request.POST.get("seconds")
 		
 		if len(response_17) > 0:
 			# use Text-Proccessing API
@@ -1023,8 +1092,8 @@ class JobInterviewQ17View(View):
 		else:
 			positive = 0
 
-		# get final score
-		final_score = finalScoring(positive, job_weight)
+		# Calculate the final score
+		final_score = finalScoring(positive, job_weight, minutes, seconds, job_timer)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_17 = response_17, positive17 = positive, score17 = final_score)
@@ -1053,7 +1122,10 @@ class JobInterviewQ18View(View):
 		user = request.user
 		job_id = request.session['job']
 		job_weight = request.POST.get("job-weight")
+		job_timer = request.POST.get("job-timer")
 		response_18 = request.POST.get("message")
+		minutes = request.POST.get("minutes")
+		seconds = request.POST.get("seconds")
 
 		if len(response_18) > 0:
 			# use Text-Proccessing API
@@ -1065,8 +1137,8 @@ class JobInterviewQ18View(View):
 		else:
 			positive = 0
 
-		# get final score
-		final_score = finalScoring(positive, job_weight)
+		# Calculate the final score
+		final_score = finalScoring(positive, job_weight, minutes, seconds, job_timer)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_18 = response_18, positive18 = positive, score18 = final_score)
@@ -1095,7 +1167,10 @@ class JobInterviewQ19View(View):
 		user = request.user
 		job_id = request.session['job']
 		job_weight = request.POST.get("job-weight")
+		job_timer = request.POST.get("job-timer")
 		response_19 = request.POST.get("message")
+		minutes = request.POST.get("minutes")
+		seconds = request.POST.get("seconds")
 
 		if len(response_19) > 0:
 			# use Text-Proccessing API
@@ -1107,8 +1182,8 @@ class JobInterviewQ19View(View):
 		else:
 			positive = 0
 
-		# get final score
-		final_score = finalScoring(positive, job_weight)
+		# Calculate the final score
+		final_score = finalScoring(positive, job_weight, minutes, seconds, job_timer)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_19 = response_19, positive19 = positive, score19 = final_score)
@@ -1146,7 +1221,20 @@ class JobInterviewQ20View(View):
 		job_weight8 = request.POST.get("job-weight8")
 		job_weight9 = request.POST.get("job-weight9")
 		job_weight10 = request.POST.get("job-weight10")
+		job_weight11 = request.POST.get("job-weight11")
+		job_weight12 = request.POST.get("job-weight12")
+		job_weight13 = request.POST.get("job-weight13")
+		job_weight14 = request.POST.get("job-weight14")
+		job_weight15 = request.POST.get("job-weight15")
+		job_weight16 = request.POST.get("job-weight16")
+		job_weight17 = request.POST.get("job-weight17")
+		job_weight18 = request.POST.get("job-weight18")
+		job_weight19 = request.POST.get("job-weight19")
+		job_weight20 = request.POST.get("job-weight20")
+		job_timer = request.POST.get("job-timer")
 		response_20 = request.POST.get("message")
+		minutes = request.POST.get("minutes")
+		seconds = request.POST.get("seconds")
 
 		if len(response_20) > 0:
 			# use Text-Proccessing API
@@ -1158,8 +1246,8 @@ class JobInterviewQ20View(View):
 		else:
 			positive = 0
 
-		# get final score (question 20)
-		score20 = finalScoring(positive, job_weight10)
+		# Calculate the final score
+		score20 = finalScoring(positive, job_weight20, minutes, seconds, job_timer)
 
 		# get final score for the overall interview session
 		u = AppliedJob.objects.filter(job_id = job_id, user_id = user.id)

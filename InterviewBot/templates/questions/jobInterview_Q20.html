@@ -100,6 +100,10 @@
             // Output the result in an element with id="time"
             document.getElementById("time").innerHTML = minutes + ":" + seconds; 
 
+            // Passing the value of minutes and seconds for the final scoring
+            document.getElementById("minutes").value = minutes;
+            document.getElementById("seconds").value = seconds; 
+
             // If the count down is over, write some text 
             if (distance < 0) {
               clearInterval(x);
@@ -170,6 +174,19 @@
         <input type="text" name="job-weight8" value="{{job.weight8}}" hidden>
         <input type="text" name="job-weight9" value="{{job.weight9}}" hidden>
         <input type="text" name="job-weight10" value="{{job.weight10}}" hidden>
+        <input type="text" name="job-weight11" value="{{job.weight11}}" hidden>
+        <input type="text" name="job-weight12" value="{{job.weight12}}" hidden>
+        <input type="text" name="job-weight13" value="{{job.weight13}}" hidden>
+        <input type="text" name="job-weight14" value="{{job.weight14}}" hidden>
+        <input type="text" name="job-weight15" value="{{job.weight15}}" hidden>
+        <input type="text" name="job-weight16" value="{{job.weight16}}" hidden>
+        <input type="text" name="job-weight17" value="{{job.weight17}}" hidden>
+        <input type="text" name="job-weight18" value="{{job.weight18}}" hidden>
+        <input type="text" name="job-weight19" value="{{job.weight19}}" hidden>
+        <input type="text" name="job-weight20" value="{{job.weight20}}" hidden>
+        <input type="text" name="job-timer" value="{{job.timer20}}" hidden>
+        <input type="text" id="minutes" name="minutes" hidden>
+        <input type="text" id="seconds" name="seconds" hidden>
         <span id="time">0{{job.timer20}}:00</span>
         {% endfor %}
         <textarea class="message-input" id="message" name="message" placeholder="Type your answer here..." autofocus disabled></textarea>
