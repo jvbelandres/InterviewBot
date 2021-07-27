@@ -262,6 +262,7 @@ class JobOffersView(View):
 				apply_job = AppliedJob(requirement_1 = file_name, job_id = job_id, user_id = user.id)
 				apply_job.save()
 
+				request.session['instruction'] = False
 				request.session['q1'] = False
 				request.session['q2'] = False
 				request.session['q3'] = False
@@ -318,11 +319,16 @@ class JobInterviewView(View):
 		try:
 			if request.user.staff:
 				return redirect('administrator:access_denied_view')
-			interview_job = request.session['job']
-			job = CreateJob.objects.filter(id = interview_job)
-			context = {
-				'job': job
-			}
+
+			if request.session['instruction'] == False:
+				request.session['instruction'] = True
+				interview_job = request.session['job']
+				job = CreateJob.objects.filter(id = interview_job)
+				context = {
+					'job': job
+				}
+			else:
+				return redirect('user:interview_forfeit_view')
 		except KeyError:
 			return redirect('user:interview_access_denied')
 		return render(request, 'jobOffer_Interview.html', context)
@@ -331,6 +337,31 @@ class JobInterviewView(View):
 		if request.method == 'POST':
 			if 'btnCancel' in request.POST:
 				interview_job = request.session['job']
+				try:
+					del request.session['job']
+					del request.session['instruction']
+					del request.session['q1']
+					del request.session['q2']
+					del request.session['q3']
+					del request.session['q4']
+					del request.session['q5']
+					del request.session['q6']
+					del request.session['q7']
+					del request.session['q8']
+					del request.session['q9']
+					del request.session['q10']
+					del request.session['q11']
+					del request.session['q12']
+					del request.session['q13']
+					del request.session['q14']
+					del request.session['q15']
+					del request.session['q16']
+					del request.session['q17']
+					del request.session['q18']
+					del request.session['q19']
+					del request.session['q20']
+				except:
+					pass
 				delete_requirement = AppliedJob.objects.filter(job_id = interview_job).delete()
 				return redirect('user:job-offers_view')
 
@@ -1279,6 +1310,7 @@ class InterviewSuccessView(View):
 				return redirect('administrator:access_denied_view')
 
 			del request.session['job']
+			del request.session['instruction']
 			del request.session['q1']
 			del request.session['q2']
 			del request.session['q3']

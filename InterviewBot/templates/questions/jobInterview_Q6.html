@@ -5,9 +5,6 @@
     <title>Interview BOT - Job Offers Interview</title>
     <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
 
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
     <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.3/jquery.mCustomScrollbar.min.css'>
 
@@ -15,7 +12,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- ResponsiveVoice API -->
     <script src="https://code.responsivevoice.org/responsivevoice.js?key=N9DRhuUu"></script>
-
     <!-- Our Custom CSS -->
     <link rel="stylesheet" href="{% static '/css/user/JobOffer_Interview.css' %}">
     
@@ -32,8 +28,6 @@
      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
      <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
-    
-
     <!-- Font-awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -64,6 +58,22 @@
         response.onpaste = e => e.preventDefault();
       }
 
+      function startRepeater() { 
+        document.getElementById("repeater").disabled=true; 
+        document.getElementById("id-mic").disabled=true;
+      }
+
+      function endRepeater(){ 
+        document.getElementById("repeater").disabled=false; 
+        document.getElementById("id-mic").disabled=false;
+      }
+
+      function talkback(){
+        {% for job in job %}
+          responsiveVoice.speak("{{job.question_6}}", "US English Female", {volume: 1, "onstart": function() {startRepeater(); }, "onend": function() { endRepeater(); } });
+        {% endfor %}
+      }
+
       function checkSeconds(seconds) {
         if (seconds < 10) 
           return String(seconds).padStart(2, '0');
@@ -72,6 +82,7 @@
       }
 
       function onEnd(text) {
+          document.getElementById("repeater").disabled=false;
           document.getElementById("message").disabled=false;
           document.getElementById("send").disabled=false;
           document.getElementById("id-mic").disabled=false;
@@ -124,10 +135,12 @@
 
             recognition.onstart = function(){
               document.getElementById('id-mic').style.backgroundColor = '#F8C400';
+              document.getElementById("repeater").disabled=true;
             }
 
             recognition.onend = function(){
               document.getElementById('id-mic').style.backgroundColor = '#781B1B';
+              document.getElementById("repeater").disabled=false;
             }
             
             recognition.onresult = function(event){
@@ -155,7 +168,7 @@
       {% for job in job %}
       {{job.question_6}}
       {% endfor %}
-      <button onclick="talk();"><span style="color: #1D80FF;"><small><i class="fa fa-volume-up fa-fw"></i></small></span></button></h1>
+      <button onclick="talkback();" id="repeater" disabled><span style="color: #1D80FF;"><small><i class="fa fa-volume-up fa-fw"></i></small></span></button></h1>
     </div>
   </div>
 
@@ -166,14 +179,14 @@
         {% for job in job %}
         <input type="text" name="job-weight" value="{{job.weight6}}" hidden>
         <input type="text" name="job-timer" value="{{job.timer6}}" hidden>
-          <input type="text" id="minutes" name="minutes" hidden>
-          <input type="text" id="seconds" name="seconds" hidden>
+        <input type="text" id="minutes" name="minutes" hidden>
+        <input type="text" id="seconds" name="seconds" hidden>
         <span id="time">0{{job.timer6}}:00</span>
         {% endfor %}
         <textarea class="message-input" id="message" name="message" placeholder="Type your answer here..." autofocus disabled></textarea>
         <button type="submit" id="send" class="message-submit sound-on-click" style="left: 92%; top: 17%; height: 40px; position: absolute; text-align: center;" disabled><i id="fa-send" class="fa fa-send-o"> Send</i></button>
     </form>
-    <button name="mic" id="id-mic" style="left: 88%; top: 17%; position: absolute;" onclick=record();><i id="fa-mic" class="fa fa-microphone" disabled></i></button>
+    <button name="mic" id="id-mic" disabled onclick=record();><i id="fa-mic" class="fa fa-microphone"></i></button>
   </div>
 
 </div>
