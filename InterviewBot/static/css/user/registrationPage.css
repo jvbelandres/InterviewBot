@@ -203,3 +203,11 @@ select option {
 select{
 	color: #808080;
 }
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+	h3 { font-size: 18px; }
+    .register { font-size: 14px; margin-top: 5%; width: 100%; }
+    #emailAdd, #pass, #pass2 { width: 90%; text-align: center; background-color: #ffcc00; position: relative; }
+    #firstName, #lastName, #phone, #gender { width: 45%; text-align: center; background-color: #ffcc00; position: relative; }
+}

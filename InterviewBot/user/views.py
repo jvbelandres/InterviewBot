@@ -71,7 +71,7 @@ class RegisterView(CreateView):
 		user.save()
 		current_site = get_current_site(self.request)
 		mail_subject = 'Activate your account.'
-		message = render_to_string('account_activation/acc_active_email.html', {
+		message = render_to_string('account_activation/user/acc_active_email.html', {
             'user': user,
             'domain': current_site.domain,
             'uid':urlsafe_base64_encode(force_bytes(user.pk)),
@@ -109,17 +109,17 @@ class RegisterComplete(View): # After user registration
 	def get(self, request):
 		try:
 			email = request.session['email']
-			return render(request, 'account_activation/register_done.html', {'email': email})
+			return render(request, 'account_activation/user/register_done.html', {'email': email})
 		except:
-			return redirect('user:login_view')
+			return redirect('login_view')
 
 class ActivationSuccess(View): # If account activation succeed
 	def get(self, request):
-		return render(request, 'account_activation/activation_success.html')
+		return render(request, 'account_activation/user/activation_success.html')
 
 class ActivationFailed(View): # If account activation failed
 	def get(self, request):
-		return render(request, 'account_activation/activation_failed.html')
+		return render(request, 'account_activation/user/activation_failed.html')
 
 class HomePageView(View):
 	def get(self, request):
