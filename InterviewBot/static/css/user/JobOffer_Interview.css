@@ -412,3 +412,9 @@ Custom Srollbar
 .mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
   background-color: rgba(0, 0, 0, 0.5) !important;
 }
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    h5 { font-size: 18px; }
+    .do, .dont { font-size: 14px; }
+}

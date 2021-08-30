@@ -60,8 +60,23 @@ a {
 	text-align: center;
 }
 
+.invalid {
+	font-size: 54px; 
+	margin-top: -10%;
+}
+
+.success {
+	font-size: 48px;
+}
+
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
-	/* Logout */  
 	.logout { font-size: 14px; width: 100%; margin-top: 5%; }
+	.invalid { font-size: 30px; }
+	.success { font-size: 30px; }
+	p { font-size: 14px; }
+	h1 { font-size: 20px; }
+	h3 { font-size: 16px; }
+	h5 { font-size: 14px; }
+	img { width: 75%; }
 }

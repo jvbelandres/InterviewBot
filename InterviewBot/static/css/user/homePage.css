@@ -166,10 +166,10 @@ ul ul a {
 
 #content {
 	width: 65%;
-    padding: 20px;
-    margin-left: 26%;
-    min-height: 100vh;
-    transition: all 0.3s;
+  padding: 20px;
+  margin-left: 26%;
+  min-height: 100vh;
+  transition: all 0.3s;
 }
 
 .container {
@@ -340,7 +340,7 @@ td {
 @media (min-width: 768px) {
   .modal-xl {
     width: 90%;
-   max-width:1200px;
+    max-width:1200px;
   }
 }
 
@@ -363,3 +363,12 @@ td {
   display: table;
   clear: both;
 }
+
+/* Extra small devices (phones, 600px and down) */
+/*@media only screen and (max-width: 600px) {
+  img { width: 100%; }
+  li a { font-size: 14px; }
+  #totalSavedJobs, #totalAppliedJobs{ font-size: 20px; }
+  #savedJobs, #appliedJobs { font-size: 20px; }
+  .verticalLine { border-left: 2px solid grey; height: 25px; }
+}*/
