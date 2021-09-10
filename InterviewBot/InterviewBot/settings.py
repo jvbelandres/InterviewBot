@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'crispy_forms',
+    'rest_framework',
     'user',
     'administrator',
 ]
@@ -84,6 +85,7 @@ WSGI_APPLICATION = 'InterviewBot.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+# SQLITE3
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
@@ -91,6 +93,7 @@ WSGI_APPLICATION = 'InterviewBot.wsgi.application'
 #     }
 # }
 
+# XAMPP MYSQL
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
