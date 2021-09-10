@@ -404,7 +404,7 @@ class JobInterviewQ1View(View):
 			positive = 0
 
 		# Calculate the final score
-		final_score = finalScoring(positive, job_weight, minutes, seconds, job_timer)
+		final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_1 = response_1, positive1 = positive, score1 = final_score)
@@ -449,7 +449,7 @@ class JobInterviewQ2View(View):
 			positive = 0
 
 		# Calculate the final score
-		final_score = finalScoring(positive, job_weight, minutes, seconds, job_timer)
+		final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_2 = response_2, positive2 = positive, score2 = final_score)
@@ -494,7 +494,7 @@ class JobInterviewQ3View(View):
 			positive = 0
 
 		# Calculate the final score
-		final_score = finalScoring(positive, job_weight, minutes, seconds, job_timer)
+		final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_3 = response_3, positive3 = positive, score3 = final_score)
@@ -539,7 +539,7 @@ class JobInterviewQ4View(View):
 			positive = 0
 
 		# Calculate the final score
-		final_score = finalScoring(positive, job_weight, minutes, seconds, job_timer)
+		final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_4 = response_4, positive4 = positive, score4 = final_score)
@@ -584,7 +584,7 @@ class JobInterviewQ5View(View):
 			positive = 0
 
 		# Calculate the final score
-		final_score = finalScoring(positive, job_weight, minutes, seconds, job_timer)
+		final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_5 = response_5, positive5 = positive, score5 = final_score)
@@ -629,7 +629,7 @@ class JobInterviewQ6View(View):
 			positive = 0
 
 		# Calculate the final score
-		final_score = finalScoring(positive, job_weight, minutes, seconds, job_timer)
+		final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_6 = response_6, positive6 = positive, score6 = final_score)
@@ -674,7 +674,7 @@ class JobInterviewQ7View(View):
 			positive = 0
 
 		# Calculate the final score
-		final_score = finalScoring(positive, job_weight, minutes, seconds, job_timer)
+		final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_7 = response_7, positive7 = positive, score7 = final_score)
@@ -719,7 +719,7 @@ class JobInterviewQ8View(View):
 			positive = 0
 
 		# Calculate the final score
-		final_score = finalScoring(positive, job_weight, minutes, seconds, job_timer)
+		final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_8 = response_8, positive8 = positive, score8 = final_score)
@@ -764,7 +764,7 @@ class JobInterviewQ9View(View):
 			positive = 0
 
 		# Calculate the final score
-		final_score = finalScoring(positive, job_weight, minutes, seconds, job_timer)
+		final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_9 = response_9, positive9 = positive, score9 = final_score)
@@ -809,7 +809,7 @@ class JobInterviewQ10View(View):
 			positive = 0
 
 		# Calculate the final score
-		final_score = finalScoring(positive, job_weight, minutes, seconds, job_timer)
+		final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_10 = response_10, positive10 = positive, score10 = final_score)
@@ -854,7 +854,7 @@ class JobInterviewQ11View(View):
 			positive = 0
 
 		# Calculate the final score
-		final_score = finalScoring(positive, job_weight, minutes, seconds, job_timer)
+		final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_11 = response_11, positive11 = positive, score11 = final_score)
@@ -899,7 +899,7 @@ class JobInterviewQ12View(View):
 			positive = 0
 
 		# Calculate the final score
-		final_score = finalScoring(positive, job_weight, minutes, seconds, job_timer)
+		final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_12 = response_12, positive12 = positive, score12 = final_score)
@@ -944,7 +944,7 @@ class JobInterviewQ13View(View):
 			positive = 0
 
 		# Calculate the final score
-		final_score = finalScoring(positive, job_weight, minutes, seconds, job_timer)
+		final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_13 = response_13, positive13 = positive, score13 = final_score)
@@ -989,7 +989,7 @@ class JobInterviewQ14View(View):
 			positive = 0
 
 		# Calculate the final score
-		final_score = finalScoring(positive, job_weight, minutes, seconds, job_timer)
+		final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_14 = response_14, positive14 = positive, score14 = final_score)
@@ -1034,7 +1034,7 @@ class JobInterviewQ15View(View):
 			positive = 0
 
 		# Calculate the final score
-		final_score = finalScoring(positive, job_weight, minutes, seconds, job_timer)
+		final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_15 = response_15, positive15 = positive, score15 = final_score)
@@ -1079,7 +1079,7 @@ class JobInterviewQ16View(View):
 			positive = 0
 
 		# Calculate the final score
-		final_score = finalScoring(positive, job_weight, minutes, seconds, job_timer)
+		final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_16 = response_16, positive16 = positive, score16 = final_score)
@@ -1124,7 +1124,7 @@ class JobInterviewQ17View(View):
 			positive = 0
 
 		# Calculate the final score
-		final_score = finalScoring(positive, job_weight, minutes, seconds, job_timer)
+		final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_17 = response_17, positive17 = positive, score17 = final_score)
@@ -1169,7 +1169,7 @@ class JobInterviewQ18View(View):
 			positive = 0
 
 		# Calculate the final score
-		final_score = finalScoring(positive, job_weight, minutes, seconds, job_timer)
+		final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_18 = response_18, positive18 = positive, score18 = final_score)
@@ -1214,7 +1214,7 @@ class JobInterviewQ19View(View):
 			positive = 0
 
 		# Calculate the final score
-		final_score = finalScoring(positive, job_weight, minutes, seconds, job_timer)
+		final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 			response_19 = response_19, positive19 = positive, score19 = final_score)
@@ -1278,7 +1278,7 @@ class JobInterviewQ20View(View):
 			positive = 0
 
 		# Calculate the final score
-		score20 = finalScoring(positive, job_weight20, minutes, seconds, job_timer)
+		score20 = finalScoring(positive, job_weight20, float(minutes), float(seconds), job_timer)
 
 		# get final score for the overall interview session
 		u = AppliedJob.objects.filter(job_id = job_id, user_id = user.id)

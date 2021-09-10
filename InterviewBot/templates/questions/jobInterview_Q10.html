@@ -46,7 +46,7 @@
     <h2>{{job.description}}</h2>
     {% endfor %}
     <figure class="avatar">
-      <img src="{% static '/images/red_bg.jpg' %}" />
+      <img src="{% static '/images/citLogo.png' %}" />
     </figure>
 
     <script type="text/javascript">
@@ -113,7 +113,8 @@
 
             // Passing the value of minutes and seconds for the final scoring
             document.getElementById("minutes").value = minutes;
-            document.getElementById("seconds").value = seconds; 
+            if (seconds != "-1"){ document.getElementById("seconds").value = seconds; }
+            else { document.getElementById("seconds").value = "00"; }
 
             // If the count down is over, write some text 
             if (distance < 0) {
