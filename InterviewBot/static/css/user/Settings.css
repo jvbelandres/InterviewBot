@@ -7,6 +7,7 @@ body {
     font-family: 'GothamBook';
     background-image: url('/static/images/red_bg.jpg');
     background-size: cover;
+    background-repeat: no-repeat;
 }
 
 button {
@@ -30,6 +31,8 @@ h1 {
     font-family: 'GothamBold';
     color: white; 
     font-size: 48px; 
+    position: relative;
+    margin-right: 50%;
     margin-top: 5%;
 }
 
@@ -39,7 +42,7 @@ h3{
 
 hr {
     border-color: white; 
-    width: 100%;  
+    width: 100%; 
     float: left;
 }
 
@@ -56,6 +59,8 @@ hr {
 }
 
 #update{
+    position: relative;
+    right: 30%;
     border-radius: 100px;
     padding: 10px; 
     border: none;
@@ -224,6 +229,11 @@ ul ul a {
     margin-left: 26%;
     min-height: 100vh;
     transition: all 0.3s;
+}
+#informations{
+    margin: 10%;
+    display: flex;
+    justify-content: center;
 }
 
 .row {
