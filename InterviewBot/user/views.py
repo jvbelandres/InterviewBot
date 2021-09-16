@@ -1,12 +1,9 @@
-from django.http import HttpResponse
-from django.db.models.query_utils import Q
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.views.generic import View, CreateView, FormView
 
 from django.core.files.storage import FileSystemStorage
-from django.core.mail import send_mail, BadHeaderError, EmailMessage
-from django.core.paginator import Paginator
+from django.core.mail import send_mail, EmailMessage
 
 from django.utils.datastructures import MultiValueDictKeyError
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -14,8 +11,6 @@ from django.utils.encoding import force_bytes, force_text
 
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.forms import PasswordResetForm
-from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.shortcuts import get_current_site
 
 import json, requests 
@@ -125,8 +120,13 @@ class HomePageView(View):
 	def get(self, request):
 		if request.user.staff:
 			return redirect('administrator:access_denied_view')
-		appliedjobs = AppliedJob.objects.raw('SELECT * FROM appliedjob, jobofferings, account WHERE account.id = jobofferings.admin_id AND jobofferings.id = appliedjob.job_id AND appliedjob.user_id = '+str(self.request.user.id))
-		savedjobs = SavedJob.objects.raw('SELECT * FROM savedjob, jobofferings, account WHERE account.id = jobofferings.admin_id AND jobofferings.id = savedjob.job_id AND savedjob.user_id = '+str(self.request.user.id))
+		
+		try: # To only show the applied jobs that are done taking the interview session.
+			appliedjobs = AppliedJob.objects.raw('SELECT * FROM appliedjob, jobofferings, account WHERE account.id = jobofferings.admin_id AND jobofferings.id = appliedjob.job_id AND appliedjob.job_id <> '+str(request.session['job'])+' AND appliedjob.user_id = '+str(self.request.user.id)+' ORDER BY appliedjob.id DESC')
+		except:
+			appliedjobs = AppliedJob.objects.raw('SELECT * FROM appliedjob, jobofferings, account WHERE account.id = jobofferings.admin_id AND jobofferings.id = appliedjob.job_id AND appliedjob.user_id = '+str(self.request.user.id)+' ORDER BY appliedjob.id DESC')
+		
+		savedjobs = SavedJob.objects.raw('SELECT * FROM savedjob, jobofferings, account WHERE account.id = jobofferings.admin_id AND jobofferings.id = savedjob.job_id AND savedjob.user_id = '+str(self.request.user.id)+' ORDER BY savedjob.id DESC')
 		context = {
 			'appliedjobs': appliedjobs,
 			'savedjobs': savedjobs
@@ -141,6 +141,12 @@ class HomePageView(View):
 				savedjobs = SavedJob.objects.filter(job_id = job_id).delete()
 				return redirect('user:home_view')
 			elif 'btnApply' in request.POST:
+				try: # To check if the user is in another interview session
+					if request.session['on-interview'] == True:
+						return redirect('user:interview_access_denied')
+				except:
+					pass
+
 				user = request.user
 				job_id = request.POST.get("job-id")
 				request.session['job'] = job_id
@@ -159,6 +165,8 @@ class HomePageView(View):
 				apply_job = AppliedJob(requirement_1 = file_name, job_id = job_id, user_id = user.id)
 				apply_job.save()
 
+				request.session['instruction'] = False
+				request.session['on-interview'] = False
 				request.session['q1'] = False
 				request.session['q2'] = False
 				request.session['q3'] = False
@@ -244,6 +252,12 @@ class JobOffersView(View):
 
 				return redirect('user:job-offers_view')
 			elif 'btnApply' in request.POST:
+				try: # To check if the user is in another interview session
+					if request.session['on-interview'] == True:
+						return redirect('user:interview_access_denied')
+				except:
+					pass
+
 				user = request.user
 				job_id = request.POST.get("job-id")
 				request.session['job'] = job_id
@@ -263,6 +277,7 @@ class JobOffersView(View):
 				apply_job.save()
 
 				request.session['instruction'] = False
+				request.session['on-interview'] = False
 				request.session['q1'] = False
 				request.session['q2'] = False
 				request.session['q3'] = False
@@ -320,6 +335,12 @@ class JobInterviewView(View):
 			if request.user.staff:
 				return redirect('administrator:access_denied_view')
 
+			try: # To check if the user is in another interview session
+				if request.session['on-interview'] == True:
+					return redirect('user:interview_access_denied')
+			except:
+				pass
+
 			if request.session['instruction'] == False:
 				request.session['instruction'] = True
 				interview_job = request.session['job']
@@ -340,6 +361,7 @@ class JobInterviewView(View):
 				try:
 					del request.session['job']
 					del request.session['instruction']
+					del request.session['on-interview']
 					del request.session['q1']
 					del request.session['q2']
 					del request.session['q3']
@@ -364,6 +386,9 @@ class JobInterviewView(View):
 					pass
 				delete_requirement = AppliedJob.objects.filter(job_id = interview_job).delete()
 				return redirect('user:job-offers_view')
+			elif 'btnProceed' in request.POST:
+				request.session['on-interview'] = True
+				return redirect('user:job-interview_q1')
 
 class JobInterviewQ1View(View):
 	def get(self, request):
@@ -1311,6 +1336,7 @@ class InterviewSuccessView(View):
 
 			del request.session['job']
 			del request.session['instruction']
+			del request.session['on-interview']
 			del request.session['q1']
 			del request.session['q2']
 			del request.session['q3']
@@ -1342,6 +1368,30 @@ class InterviewForfeitView(View):
 		try:
 			if request.user.staff:
 				return redirect('administrator:access_denied_view')
+
+			del request.session['job']
+			del request.session['instruction']
+			del request.session['on-interview']
+			del request.session['q1']
+			del request.session['q2']
+			del request.session['q3']
+			del request.session['q4']
+			del request.session['q5']
+			del request.session['q6']
+			del request.session['q7']
+			del request.session['q8']
+			del request.session['q9']
+			del request.session['q10']
+			del request.session['q11']
+			del request.session['q12']
+			del request.session['q13']
+			del request.session['q14']
+			del request.session['q15']
+			del request.session['q16']
+			del request.session['q17']
+			del request.session['q18']
+			del request.session['q19']
+			del request.session['q20']
 		except KeyError:
 			return redirect('user:interview_access_denied')
 		return render(request, 'interviewForfeit.html')

@@ -2,7 +2,7 @@
 
 {% block headerinclude %}
 
-    <title>Logging out</title>
+    <title>Interview Access Denied</title>
     <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
 
     <!-- Bootstrap CSS CDN -->
@@ -18,7 +18,7 @@
        window.location.href = "/user/job-offers/";
     }
 
-    setTimeout(redirect, 3000); //2000 is equivalent to 2 seconds
+    setTimeout(redirect, 5000); //2000 is equivalent to 2 seconds
 </script>
 
 {% block body %}
@@ -29,10 +29,13 @@
          </div>            
         <center><form>
         	<div class="pt-5 pb-5">
-        	<h1>Job Interview Session<br>ACCESS DENIED</h1>
+        	    <h1>Job Interview Session<br>ACCESS DENIED</h1>
         	</div>
+            <div class="pt-2">
+                <p>You may have accessed this page without applying, or you are currently taking another interview session.</p>
+            </div>
         	<div class="pt-3">
-            <p>Redirecting to job offers page in a few seconds...</p>
+                <p>Redirecting to job offers page in a few seconds...</p>
         	</div>
         </form>
     </center>
