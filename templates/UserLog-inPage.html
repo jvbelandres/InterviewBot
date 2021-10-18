@@ -11,6 +11,9 @@
 
     <!-- Our Custom CSS -->
     <link rel="stylesheet" href="{% static '/css/user/userLog-inPage.css' %}">
+
+    <!-- JQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     
 {% endblock headerinclude %}
 
@@ -65,10 +68,20 @@
             </div>
 
             {% for message in messages %}
-                <div {% if 'error' in message.tags %} class="alert alert-danger" {% else %} class="alert alert-{{message.tags}}" {% endif %} role="alert" style="font-size: 13px; width: 50%;">
+                <div {% if 'error' in message.tags %} class="error_message alert alert-danger" {% else %} class="error_message alert alert-{{message.tags}}" {% endif %} role="alert" style="font-size: 13px; width: 50%;">
                     {{ message }}
                 </div>
             {% endfor %}
+
+            <script>
+                $('#login input[type="email"]').on("input", function(){
+                    $('.error_message').hide();
+                });
+
+                $('#login input[type="password"]').on("input", function() {
+                  $(".error_message").hide();
+                });
+            </script>
 
              <div class="pb-3">
                 <hr style="width: 50% ;text-align:center;">

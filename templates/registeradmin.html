@@ -13,18 +13,10 @@
     <!-- Our Custom CSS -->
     <link rel="stylesheet" type="text/css" href="{% static '/css/administrator/adminregistration.css' %}">
 
+    <!-- JQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
 {% endblock headerinclude %}
-
-
-
-{% block footerinclude %}
-    <!-- Font Awesome JS -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/solid.css">
-    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="    sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
-
-{% endblock footerinclude %}
-
 
 
 {% block content %}
@@ -46,17 +38,6 @@
                 {{form.firstname}}
                 {{form.lastname}}
             </div>
-
-            <!-- Set phone maxlength to 11 -->
-            <script type="text/javascript">
-                function limit_input() {
-                    var field = document.getElementById("phone");
-                    var max_length = 11;
-                    if (field.value.length > max_length) {
-                        field.value = field.value.slice(0, max_length); 
-                    }
-                }
-            </script>
 
             <div class="form-group">
                 {{form.phone}}
@@ -81,41 +62,18 @@
                 {{form.password_2}}
             </div>
 
-            <!-- JS for confirm password -->
-            <script type="text/javascript">
-                var password = document.getElementById("pass")
-                  , confirm_password = document.getElementById("pass2");
-
-                function validatePassword(){
-                  if(password.value != confirm_password.value) {
-                    confirm_password.setCustomValidity("Your password must match.");
-                  } else {
-                    confirm_password.setCustomValidity('');
-                  }
-                }
-
-                password.onchange = validatePassword;
-                confirm_password.onkeyup = validatePassword;
-            </script>
-
             <div class="py-3">
                 <hr style="width: 50%; text-align:center;">
             </div>
 
             <div>
                 <button type="submit" id="btnRegister" class="btn_register" name="register">REGISTER</button><br><br>
-                <script>
-                    document.getElementById("btnRegister").addEventListener("click", function(event){
-                        if (document.getElementById("phone").value.length != 11){
-                            alert("Please input a valid phone number.")
-                            event.preventDefault()
-                        }
-                    });
-                </script>
-
                 <a href="{% url 'administrator:dashboard_view' %}" class="btn_cancel">CANCEL</a>
             </div>
         </form>
-    </div>             
+    </div>    
+    
+    <script src="{% static 'js/error_message.js' %}"></script>
+    <script src="{% static 'js/registration_validation.js' %}"></script>
 
 {% endblock content %}
