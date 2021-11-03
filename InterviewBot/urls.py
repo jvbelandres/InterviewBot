@@ -18,12 +18,14 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
+
 from .router import router
 from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    path('api/login/', views.LoginViewAPI.as_view()),
     path('administrator/', include('administrator.urls', namespace='administrator')),
     path('user/', include('user.urls', namespace="user")),
 

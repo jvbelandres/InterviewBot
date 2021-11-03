@@ -1,17 +1,52 @@
+from django.http.response import BadHeaderError, HttpResponse
 from django.shortcuts import render, redirect
 from django.views.generic import FormView
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, logout, authenticate
 from django.db.models.query_utils import Q
 from django.template.loader import render_to_string
-from django.contrib.auth.forms import PasswordResetForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.contrib import messages
 
+from rest_framework.views import APIView
+from rest_framework.exceptions import AuthenticationFailed
+from rest_framework.response import Response
+
 from user.models import Account
 from .forms import *
+import jwt, datetime
+
+class LoginViewAPI(APIView):
+	def post(self, request):
+		email = request.data['email']
+		password = request.data['password']
+
+		user = authenticate(request, username=email, password=password)
+
+		if user is None:
+			raise AuthenticationFailed('Email or password is incorrect')
+		else:
+			payload = {
+				'id': user.id,
+				'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
+				'iat': datetime.datetime.utcnow()
+			}
+
+			token = jwt.encode(payload, 'secret', algorithm='HS256')
+			return Response({
+					'message': 'success',
+					'is_admin': user.admin,
+					'is_staff': user.staff,
+					'is_active': user.is_active,
+					'email': email,
+					'firstname': user.firstname,
+					'lastname': user.lastname,
+					'gender': user.gender,
+					'phone': user.phone,
+					'token': token})
 
 class LoginView(FormView):
 	form_class = LoginForm
