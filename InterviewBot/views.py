@@ -1,23 +1,34 @@
+from django.db.models import query
+from django.db.models.query import QuerySet
 from django.http.response import BadHeaderError, HttpResponse
-from django.shortcuts import render, redirect
 from django.views.generic import FormView
-from django.contrib.auth import login, logout, authenticate
+from django.shortcuts import render, redirect
+from django.contrib.auth import login, authenticate
 from django.db.models.query_utils import Q
 from django.template.loader import render_to_string
-from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm
+from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.contrib import messages
+from rest_framework import serializers
 
 from rest_framework.views import APIView
 from rest_framework.exceptions import AuthenticationFailed
+from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
+from rest_framework.generics import ListAPIView, RetrieveAPIView, UpdateAPIView
 
-from user.models import Account
+from user.models import Account, CreateJob, SavedJob, AppliedJob
+from .serializers import(
+	AccountSerializer, 
+	JobOfferingListSerializer, 
+	JobOfferingDetailedSerializer,
+	SavedJobSerializer,
+	AppliedJobSerializer
+)
 from .forms import *
-import jwt, datetime
 
 class LoginViewAPI(APIView):
 	def post(self, request):
@@ -29,15 +40,10 @@ class LoginViewAPI(APIView):
 		if user is None:
 			raise AuthenticationFailed('Email or password is incorrect')
 		else:
-			payload = {
-				'id': user.id,
-				'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
-				'iat': datetime.datetime.utcnow()
-			}
-
-			token = jwt.encode(payload, 'secret', algorithm='HS256')
+			token = Token.objects.create(user=user)
 			return Response({
 					'message': 'success',
+					'user_id': user.id,
 					'is_admin': user.admin,
 					'is_staff': user.staff,
 					'is_active': user.is_active,
@@ -46,7 +52,75 @@ class LoginViewAPI(APIView):
 					'lastname': user.lastname,
 					'gender': user.gender,
 					'phone': user.phone,
-					'token': token})
+					'token': token.key})
+
+class UpdateAccountViewAPI(APIView):
+	def post(self, request):
+		id = request.data['id']
+		firstname = request.data['firstname']
+		lastname = request.data['lastname']
+		phone = request.data['phone']
+		password = request.data['password']
+
+		if password != "":
+			u = Account.objects.get(id=id)
+			u.set_password(password)
+			u.save()
+
+		Account.objects.filter(id=id).update(
+			firstname=firstname, 
+			lastname=lastname,
+			phone=phone)
+
+		return Response({'success': 'Successfully updated'})
+
+					
+class LogoutViewAPI(APIView):
+	def post(self, request):
+		key = request.data['key']
+		Token.objects.filter(key = key).delete()
+		return Response({"success": "Successfully logged out."})
+
+class AccountDetailsViewAPI(RetrieveAPIView):
+	queryset = Account.objects.all()
+	serializer_class = AccountSerializer
+	lookup_field = 'email'
+
+class JobOfferingsListViewAPI(ListAPIView):
+	queryset = CreateJob.objects.all()
+	serializer_class = JobOfferingListSerializer
+
+class JobOfferingsDetailedViewAPI(RetrieveAPIView):
+	queryset = CreateJob.objects.all()
+	serializer_class = JobOfferingDetailedSerializer
+	lookup_field = 'admin_id'
+
+class SavedJobListViewAPI(ListAPIView):
+	queryset = SavedJob.objects.all()
+	serializer_class = SavedJobSerializer
+
+class SavedJobDetailedViewAPI(RetrieveAPIView):
+	queryset = SavedJob.objects.all()
+	serializer_class = SavedJobSerializer
+	lookup_field = 'user_id'
+
+class AppliedJobListViewAPI(ListAPIView):
+	queryset = AppliedJob.objects.all()
+	serializer_class = AppliedJobSerializer
+
+class AppliedJobDetailedUserViewAPI(RetrieveAPIView):
+	queryset = SavedJob.objects.all()
+	serializer_class = SavedJobSerializer
+	lookup_field = 'user_id'
+
+class AppliedJobDetailedAdminViewAPI(RetrieveAPIView):
+	queryset = SavedJob.objects.all()
+	serializer_class = SavedJobSerializer
+	lookup_field = 'job_id'
+
+
+
+
 
 class LoginView(FormView):
 	form_class = LoginForm
