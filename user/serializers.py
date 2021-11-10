@@ -8,7 +8,7 @@ from django.core.mail import EmailMessage
 from .tokens import account_activation_token
 from .models import Account, AppliedJob, Contact, CreateJob, SavedJob
 
-class AccountSerializer(serializers.ModelSerializer):
+class AccountRegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account
         fields = ('email', 'is_active', 'staff', 'admin', 'firstname', 'lastname', 'phone', 'password', 'gender')
