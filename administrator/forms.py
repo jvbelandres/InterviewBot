@@ -16,7 +16,7 @@ class AdminRegisterForm(forms.ModelForm):
     phone = forms.CharField(widget=forms.NumberInput(attrs={'id':'phone', 'oninput':'limit_input()','placeholder':'Phone*'}),required=True)
     gender = forms.CharField(widget=forms.Select(choices=choices, attrs={'id':'gender'}),required=True)
     email = forms.CharField(widget=forms.EmailInput(attrs={'id':'emailAdd','placeholder':'Email Address*'}),required=True)
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'id':'pass','pattern':'(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}',
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'id':'pass','pattern':'(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{6,20}',
                                 'title':'Must contain at least one number and one uppercase and lowercase letter and at least 6 not greater than 20 characters.','placeholder':'Password*'}),required=True)
     password_2 = forms.CharField(widget=forms.PasswordInput(attrs={'id':'pass2','placeholder':'Confirm Password*'}),required=True)
 
