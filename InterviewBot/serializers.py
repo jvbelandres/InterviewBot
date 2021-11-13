@@ -13,17 +13,22 @@ class JobOfferingListSerializer(serializers.ModelSerializer):
         model = CreateJob
         fields = ('admin_id', 'title', 'description')
 
-class JobOfferingDetailedSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CreateJob
-        fields = '__all__'
-
 class SavedJobSerializer(serializers.ModelSerializer):
     class Meta:
         model = SavedJob
-        fields = '__all__'
+        fields = ['user', 'job']
 
 class AppliedJobSerializer(serializers.ModelSerializer):
     class Meta:
         model = AppliedJob
         fields = ('user_id', 'job_id', 'final_score')
+
+class CreateJobSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CreateJob
+        fields = ['title', 'description']
+
+class SavedJobUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CreateJob
+        fields = ['title', 'description']

@@ -172,11 +172,13 @@ class CreateJob(models.Model):
         db_table = "JobOfferings"
 		
 class SavedJob(models.Model):
-	user = models.ForeignKey(Account, null=False, blank=False, on_delete=models.CASCADE)
-	job = models.ForeignKey(CreateJob, null=False, blank=False, on_delete=models.CASCADE)
+	user = models.ForeignKey(Account, null=False, blank=False, related_name="user_savedjob", on_delete=models.CASCADE)
+	job = models.ForeignKey(CreateJob, null=False, blank=False, related_name="job_savedjob", on_delete=models.CASCADE)
 
 	class Meta:
+		unique_together = ['user', 'id']
 		db_table ="SavedJob"
+
 
 class AppliedJob(models.Model):
 	user = models.ForeignKey(Account, null = False, blank = False, on_delete = models.CASCADE, related_name = "Applicant")

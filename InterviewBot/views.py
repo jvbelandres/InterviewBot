@@ -1,5 +1,3 @@
-from django.db.models import query
-from django.db.models.query import QuerySet
 from django.http.response import BadHeaderError, HttpResponse
 from django.views.generic import FormView
 from django.shortcuts import render, redirect
@@ -12,24 +10,25 @@ from django.core.mail import send_mail
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.contrib import messages
-from rest_framework import serializers
 
 from rest_framework.views import APIView
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
-from rest_framework.generics import ListAPIView, RetrieveAPIView, UpdateAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView
 
 from user.models import Account, CreateJob, SavedJob, AppliedJob
 from .serializers import(
 	AccountSerializer, 
-	JobOfferingListSerializer, 
-	JobOfferingDetailedSerializer,
+	JobOfferingListSerializer,
 	SavedJobSerializer,
-	AppliedJobSerializer
+	AppliedJobSerializer,
+	CreateJobSerializer,
+	SavedJobUserSerializer,
 )
 from .forms import *
 
+# used - for login
 class LoginViewAPI(APIView):
 	def post(self, request):
 		email = request.data['email']
@@ -54,6 +53,7 @@ class LoginViewAPI(APIView):
 					'phone': user.phone,
 					'token': token.key})
 
+# used - to update account settings
 class UpdateAccountViewAPI(APIView):
 	def post(self, request):
 		id = request.data['id']
@@ -74,54 +74,107 @@ class UpdateAccountViewAPI(APIView):
 
 		return Response({'success': 'Successfully updated'})
 
-					
+# used - for logout
 class LogoutViewAPI(APIView):
 	def post(self, request):
 		key = request.data['key']
 		Token.objects.filter(key = key).delete()
 		return Response({"success": "Successfully logged out."})
 
+# used - to get the saved jobs of a certain user
+class SavedJobDetailedViewAPI(ListAPIView):
+	queryset = SavedJob.objects.all()
+	serializer_class = SavedJobSerializer
+	lookup_field = 'user_id'
+
+	def get_queryset(self):
+		user_id = self.kwargs['user_id']
+		return SavedJob.objects.filter(user_id=user_id)
+
+# used - to get the applied jobs of a certain user
+class AppliedJobDetailedUserViewAPI(ListAPIView):
+	queryset = AppliedJob.objects.all()
+	serializer_class = AppliedJobSerializer
+	lookup_field = 'user_id'
+
+	def get_queryset(self):
+		user_id = self.kwargs['user_id']
+		return AppliedJob.objects.filter(user_id=user_id)
+
+# for saved job viewing (USER)
+class SavedJobUserViewAPI(ListAPIView):
+	queryset = CreateJob.objects.all()
+	serializer_class = SavedJobUserSerializer
+	lookup_field = 'user_id'
+
+	def get_queryset(self):
+		return SavedJob.objects.raw('SELECT * FROM savedjob, jobofferings, account ' +
+		'WHERE account.id = jobofferings.admin_id AND jobofferings.id = savedjob.job_id ' +
+		'AND savedjob.user_id = '+self.kwargs['user_id']+' ORDER BY savedjob.id DESC')
+
+# for applied job viewing (USER)
+class AppliedJobUserViewAPI(ListAPIView):
+	query = AppliedJob.objects.all()
+	serializer_class = AppliedJobSerializer
+	lookup_field = 'user_id'
+
+	def get_queryset(self):
+		return AppliedJob.objects.raw('SELECT * FROM appliedjob, jobofferings, account ' +
+		'WHERE account.id = jobofferings.admin_id AND jobofferings.id = appliedjob.job_id ' +
+		'AND appliedjob.user_id = '+self.kwargs['user_id']+ ' ORDER BY appliedjob.id DESC')
+
+# for job offerings (USER)
+class JobOfferingsViewAPI(ListAPIView):
+	query = CreateJob.objects.all()
+	serializer_class = CreateJobSerializer
+	lookup_field = 'user_id'
+
+	def get_queryset(self):
+		user_id = self.kwargs['user_id']
+		return CreateJob.objects.raw('SELECT jobofferings.id, jobofferings.title, jobofferings.description, account.email, account.firstname, account.lastname ' +
+		'FROM jobofferings, account WHERE jobofferings.admin_id = account.id AND jobofferings.id NOT IN ' +
+		'(SELECT savedjob.job_id FROM savedjob WHERE '+user_id+' = savedjob.user_id UNION ALL ' +
+		'SELECT appliedjob.job_id FROM appliedjob WHERE appliedjob.user_id = '+user_id+') AND jobofferings.is_deleted=0')
+
 class AccountDetailsViewAPI(RetrieveAPIView):
 	queryset = Account.objects.all()
 	serializer_class = AccountSerializer
 	lookup_field = 'email'
 
-class JobOfferingsListViewAPI(ListAPIView):
+class JobOfferingsAdminListViewAPI(ListAPIView):
 	queryset = CreateJob.objects.all()
 	serializer_class = JobOfferingListSerializer
-
-class JobOfferingsDetailedViewAPI(RetrieveAPIView):
-	queryset = CreateJob.objects.all()
-	serializer_class = JobOfferingDetailedSerializer
 	lookup_field = 'admin_id'
+
+	def get_queryset(self):
+		admin_id = self.kwargs['admin_id']
+		return CreateJob.objects.filter(admin_id=admin_id)
 
 class SavedJobListViewAPI(ListAPIView):
 	queryset = SavedJob.objects.all()
 	serializer_class = SavedJobSerializer
 
-class SavedJobDetailedViewAPI(RetrieveAPIView):
-	queryset = SavedJob.objects.all()
-	serializer_class = SavedJobSerializer
-	lookup_field = 'user_id'
-
 class AppliedJobListViewAPI(ListAPIView):
 	queryset = AppliedJob.objects.all()
 	serializer_class = AppliedJobSerializer
-
-class AppliedJobDetailedUserViewAPI(RetrieveAPIView):
-	queryset = SavedJob.objects.all()
-	serializer_class = SavedJobSerializer
-	lookup_field = 'user_id'
 
 class AppliedJobDetailedAdminViewAPI(RetrieveAPIView):
 	queryset = SavedJob.objects.all()
 	serializer_class = SavedJobSerializer
 	lookup_field = 'job_id'
 
+class CreateJobDetailedViewAPI(ListAPIView):
+	queryset = CreateJob.objects.all()
+	serializer_class = CreateJobSerializer
+	lookup_field = "job_id"
+
+	def get_queryset(self):
+		job_id = self.kwargs['job_id']
+		return CreateJob.objects.filter(id=job_id)
 
 
 
-
+############################################################################################################
 class LoginView(FormView):
 	form_class = LoginForm
 	template_name = 'UserLog-inPage.html'

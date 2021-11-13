@@ -1320,7 +1320,7 @@ class JobInterviewQ20View(View):
 			else:
 				# if one question was not answered
 				update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
-					response_20 = response_20, positive20 = positive, score20 = score20, final_score = None)
+					response_20 = response_20, positive20 = positive, score20 = score20, final_score = 0)
 				return redirect('user:interview_forfeit_view')
 
 		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(

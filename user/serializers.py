@@ -40,23 +40,3 @@ class AccountRegisterSerializer(serializers.ModelSerializer):
         )
         email.send()
         return newUser
-
-class ContactSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Contact
-        fields = '__all__'
-
-class CreateJobSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CreateJob
-        fields = '__all__'
-
-class SavedJobSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = SavedJob
-        fields = '__all__'
-
-class AppliedJobSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = AppliedJob
-        fields = '__all__'

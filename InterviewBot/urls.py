@@ -25,13 +25,16 @@ from .views import(
     LogoutViewAPI,
     UpdateAccountViewAPI,
     AccountDetailsViewAPI,
-    JobOfferingsListViewAPI,
-    JobOfferingsDetailedViewAPI,
+    JobOfferingsAdminListViewAPI,
     SavedJobListViewAPI,
     SavedJobDetailedViewAPI,
     AppliedJobListViewAPI,
     AppliedJobDetailedUserViewAPI,
     AppliedJobDetailedAdminViewAPI,
+    CreateJobDetailedViewAPI,
+    SavedJobUserViewAPI,
+    AppliedJobUserViewAPI,
+    JobOfferingsViewAPI,
 
     LoginView,
     password_reset_request
@@ -43,18 +46,24 @@ urlpatterns = [
     path('user/', include('user.urls', namespace="user")),
 
     # API
-    path('api/', include(router.urls)),
-    path('api/login/', LoginViewAPI.as_view()),
-    path('api/logout/', LogoutViewAPI.as_view()),
-    path('api/update-account/', UpdateAccountViewAPI.as_view()),
-    path('api/<email>/account-details/', AccountDetailsViewAPI.as_view()),
-    path('api/job-offerings/', JobOfferingsListViewAPI.as_view()),
-    path('api/<admin_id>/job-offerings/', JobOfferingsDetailedViewAPI.as_view()),
-    path('api/saved-jobs/', SavedJobListViewAPI.as_view()),
-    path('api/<user_id>/saved-jobs/', SavedJobDetailedViewAPI.as_view()),
-    path('api/applied-jobs/', AppliedJobListViewAPI.as_view()),
-    path('api/user/<user_id>/applied-jobs/', AppliedJobDetailedUserViewAPI.as_view()),
-    path('api/job/<job_id>/applied-jobs/', AppliedJobDetailedAdminViewAPI.as_view()),
+    path('api/', include(router.urls)), #used - for user registration
+    path('api/login/', LoginViewAPI.as_view()), #used - for login
+    path('api/logout/', LogoutViewAPI.as_view()), #used - for logout
+    path('api/update-account/', UpdateAccountViewAPI.as_view()), #used - to update account settings
+    path('api/<user_id>/saved-jobs/', SavedJobDetailedViewAPI.as_view()), #used - to get the saved jobs of a certain user
+    path('api/user/<user_id>/applied-jobs/', AppliedJobDetailedUserViewAPI.as_view()), #used - to get the applied jobs of a certain user
+
+    path('api/<email>/account-details/', AccountDetailsViewAPI.as_view()), #can be used to get the account details of a certain email
+    path('api/admin/<admin_id>/job-offerings/', JobOfferingsAdminListViewAPI.as_view()), #can be used to get the job offerings of an admin
+    path('api/saved-jobs/', SavedJobListViewAPI.as_view()), #get all the saved jobs
+    path('api/applied-jobs/', AppliedJobListViewAPI.as_view()), #get all the applied jobs
+    path('api/job/<job_id>/applied-jobs/', AppliedJobDetailedAdminViewAPI.as_view()), #can be used to check if who applied a certain job
+    path('api/<job_id>/joboffering/', CreateJobDetailedViewAPI.as_view()), #can be used for single job viewing
+
+
+    path('api/<user_id>/saved-jobs/details/', SavedJobUserViewAPI.as_view()), # for saved job viewing
+    path('api/<user_id>/applied-jobs/details/', AppliedJobUserViewAPI.as_view()), # for applied job viewing
+    path('api/<user_id>/job-offerings/details/', JobOfferingsViewAPI.as_view()),
 
     # Login
     path('', LoginView.as_view(), name="login_view"),

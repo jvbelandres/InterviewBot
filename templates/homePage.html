@@ -283,7 +283,7 @@
                                     <div class="modal-body">
                                         <center>
                                             <br>
-                                            {% if appliedjob.final_score == null %}
+                                            {% if appliedjob.final_score == null or appliedjob.final_score == 0 %}
                                             <h4> This interview has been</h4><h2><b style="color: red;">FORFEITED</b>.</h2>
                                             {% else %}
                                             <h5> OVERALL SCORE </h5>
