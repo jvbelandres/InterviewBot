@@ -39,7 +39,7 @@ class LoginViewAPI(APIView):
 		if user is None:
 			raise AuthenticationFailed('Email or password is incorrect')
 		else:
-			token = Token.objects.create(user=user)
+			token, created = Token.objects.get_or_create(user=user)
 			return Response({
 					'message': 'success',
 					'user_id': user.id,
