@@ -10,12 +10,13 @@ from django.core.mail import send_mail
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.contrib import messages
+from django.views.generic.edit import DeleteView
 
 from rest_framework.views import APIView
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
-from rest_framework.generics import ListAPIView, RetrieveAPIView
+from rest_framework.generics import DestroyAPIView, ListAPIView, RetrieveAPIView
 
 from user.models import Account, CreateJob, SavedJob, AppliedJob
 from .serializers import(
@@ -101,7 +102,7 @@ class AppliedJobDetailedUserViewAPI(ListAPIView):
 		user_id = self.kwargs['user_id']
 		return AppliedJob.objects.filter(user_id=user_id)
 
-# for saved job viewing (USER)
+# used - for saved job viewing (USER)
 class SavedJobUserViewAPI(ListAPIView):
 	queryset = CreateJob.objects.all()
 	serializer_class = SavedJobUserSerializer
@@ -112,7 +113,7 @@ class SavedJobUserViewAPI(ListAPIView):
 		'WHERE account.id = jobofferings.admin_id AND jobofferings.id = savedjob.job_id ' +
 		'AND savedjob.user_id = '+self.kwargs['user_id']+' ORDER BY savedjob.id DESC')
 
-# for applied job viewing (USER)
+# used - for applied job viewing (USER)
 class AppliedJobUserViewAPI(ListAPIView):
 	query = AppliedJob.objects.all()
 	serializer_class = AppliedJobSerializer
@@ -135,6 +136,10 @@ class JobOfferingsViewAPI(ListAPIView):
 		'FROM jobofferings, account WHERE jobofferings.admin_id = account.id AND jobofferings.id NOT IN ' +
 		'(SELECT savedjob.job_id FROM savedjob WHERE '+user_id+' = savedjob.user_id UNION ALL ' +
 		'SELECT appliedjob.job_id FROM appliedjob WHERE appliedjob.user_id = '+user_id+') AND jobofferings.is_deleted=0')
+
+# to UNSAVE job offering
+class UnsaveJobOfferingDestroyView(DestroyAPIView):
+	queryset = SavedJob.objects.all()
 
 class AccountDetailsViewAPI(RetrieveAPIView):
 	queryset = Account.objects.all()

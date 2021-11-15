@@ -35,6 +35,7 @@ from .views import(
     SavedJobUserViewAPI,
     AppliedJobUserViewAPI,
     JobOfferingsViewAPI,
+    UnsaveJobOfferingDestroyView,
 
     LoginView,
     password_reset_request
@@ -61,9 +62,11 @@ urlpatterns = [
     path('api/<job_id>/joboffering/', CreateJobDetailedViewAPI.as_view()), #can be used for single job viewing
 
 
-    path('api/<user_id>/saved-jobs/details/', SavedJobUserViewAPI.as_view()), # for saved job viewing
-    path('api/<user_id>/applied-jobs/details/', AppliedJobUserViewAPI.as_view()), # for applied job viewing
+    path('api/<user_id>/saved-jobs/details/', SavedJobUserViewAPI.as_view()), #used - for saved job viewing
+    path('api/<user_id>/applied-jobs/details/', AppliedJobUserViewAPI.as_view()), #used -  for applied job viewing
     path('api/<user_id>/job-offerings/details/', JobOfferingsViewAPI.as_view()),
+
+    path('api/saved-jobs/<int:pk>/delete/', UnsaveJobOfferingDestroyView.as_view()), # to UNSAVE job offerings
 
     # Login
     path('', LoginView.as_view(), name="login_view"),

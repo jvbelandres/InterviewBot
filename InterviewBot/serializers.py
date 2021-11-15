@@ -31,4 +31,4 @@ class CreateJobSerializer(serializers.ModelSerializer):
 class SavedJobUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CreateJob
-        fields = ['title', 'description']
+        fields = ['id', 'title', 'description']
