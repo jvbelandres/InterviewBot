@@ -10,7 +10,6 @@ from django.core.mail import send_mail
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.contrib import messages
-from django.views.generic.edit import DeleteView
 
 from rest_framework.views import APIView
 from rest_framework.exceptions import AuthenticationFailed
@@ -27,6 +26,7 @@ from .serializers import(
 	CreateJobSerializer,
 	SavedJobUserSerializer,
 )
+
 from .forms import *
 
 # used - for login
