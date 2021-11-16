@@ -42,7 +42,9 @@
                 <img src="{% static '/images/logo.png' %}" width="100%">
             </div>
             <center>
-                <button type="button" id="id-btnCreateJob" class="jobCreate" data-toggle="modal" data-target="#modalCreate" class="btn btn-warning">Create Job</button>
+                <a class ="jobCreate" href="{% url 'administrator:create-job-one_view' %}">
+                    Create Job
+                </a>
             </center>
             <br>
             <ul class="list-unstyled components">
@@ -551,7 +553,7 @@
         </div>
     </div>
 
-    <!-- CREATE JOB MODAL -->
+    <!-- 
     <div id="createJobModal" class="jobCreateModal">
         <div class="createJob-content">
             <span class="close">&times</span>
@@ -569,6 +571,7 @@
                         <div class="tab-pane active"><center>
                             <div class="questionnaireTitle">
                                 <input type="text" name="name-title" id="id-title" style="border-color: #ccc; outline: none;" placeholder="Job Title" required>
+                            -->
                                 <!-- <select name="name-title" id="id-title" style="border-color: #ccc;" required>
                                     <option style="display: none;">---Please select a job---</option>
                                     <option value="Administrator">Administrator</option>
@@ -582,6 +585,7 @@
                                     <option value="Food Service">Food Service</option>
                                     <option value="Transportation">Transportation</option>
                                 </select> -->
+                                <!--
                                 <textarea type="text" name="name-description" id="id-description" rows="5" cols="50" maxlength="500" style="margin-top: 5px; border: none; outline: none;" placeholder="Job description" required></textarea>
                             </div><br>
                             <div class="questionContainer">
@@ -855,7 +859,7 @@
                 </div>
             </form>
         </div>
-    </div> <!-- END OF CREATE MODAL -->
+    </div> END OF CREATE MODAL -->
 
     <script> // SCRIPT FOR ALERT MESSAGES USING SWEET ALERT JS 
     {% for message in messages %}

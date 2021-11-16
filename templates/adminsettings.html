@@ -44,7 +44,9 @@
                 <img src="{% static '/images/logo.png' %}" width="100%">
             </div>
             <center>
-                <button type="button" id="id-btnCreateJob" class="jobCreate" data-toggle="modal" data-target="#modalCreate" class="btn btn-warning">Create Job</button>
+                <a class ="jobCreate" href="{% url 'administrator:create-job-one_view' %}">
+                    Create Job
+                </a>
             </center>
             <br>
             <ul class="list-unstyled components">

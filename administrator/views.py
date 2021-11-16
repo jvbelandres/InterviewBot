@@ -720,3 +720,7 @@ class LogOutView(View):
 class AdminAccessDeniedView(View):
 	def get(self, request):
 		return render(request, 'admin_accessDenied.html')
+
+class CreateJobOneView(View):
+	def get(self, request):
+		return render(request, 'createJobFirstPage.html')
