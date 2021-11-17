@@ -75,26 +75,6 @@ class LogoutViewAPI(APIView):
 		Token.objects.filter(key = key).delete()
 		return Response({"success": "Successfully logged out."})
 
-# used - to get the saved jobs of a certain user
-class SavedJobDetailedViewAPI(ListAPIView):
-	queryset = SavedJob.objects.all()
-	serializer_class = SavedJobSerializer
-	lookup_field = 'user_id'
-
-	def get_queryset(self):
-		user_id = self.kwargs['user_id']
-		return SavedJob.objects.filter(user_id=user_id)
-
-# used - to get the applied jobs of a certain user
-class AppliedJobDetailedUserViewAPI(ListAPIView):
-	queryset = AppliedJob.objects.all()
-	serializer_class = AppliedJobSerializer
-	lookup_field = 'user_id'
-
-	def get_queryset(self):
-		user_id = self.kwargs['user_id']
-		return AppliedJob.objects.filter(user_id=user_id)
-
 # used - for saved job viewing (USER)
 class SavedJobUserViewAPI(ListAPIView):
 	queryset = CreateJob.objects.all()
@@ -124,11 +104,10 @@ class JobOfferingsViewAPI(ListAPIView):
 	lookup_field = 'user_id'
 
 	def get_queryset(self):
-		user_id = self.kwargs['user_id']
 		return CreateJob.objects.raw('SELECT jobofferings.id, jobofferings.title, jobofferings.description, account.email, account.firstname, account.lastname ' +
 		'FROM jobofferings, account WHERE jobofferings.admin_id = account.id AND jobofferings.id NOT IN ' +
-		'(SELECT savedjob.job_id FROM savedjob WHERE '+user_id+' = savedjob.user_id UNION ALL ' +
-		'SELECT appliedjob.job_id FROM appliedjob WHERE appliedjob.user_id = '+user_id+') AND jobofferings.is_deleted=0')
+		'(SELECT savedjob.job_id FROM savedjob WHERE ' + self.kwargs['user_id'] + ' = savedjob.user_id UNION ALL ' +
+		'SELECT appliedjob.job_id FROM appliedjob WHERE appliedjob.user_id = ' + self.kwargs['user_id'] + ') AND jobofferings.is_deleted=0')
 
 # to UNSAVE job offering
 class UnsaveJobOfferingDestroyView(DestroyAPIView):

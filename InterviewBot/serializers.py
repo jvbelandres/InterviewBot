@@ -8,6 +8,11 @@ class AccountSerializer(serializers.ModelSerializer):
         model = Account
         fields = ('is_active', 'staff', 'admin', 'email', 'firstname', 'lastname', 'gender', 'phone', 'password')
 
+class FewAccountDetailsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Account
+        fields = ('email', 'firstname', 'lastname')
+
 class JobOfferingListSerializer(serializers.ModelSerializer):
     class Meta:
         model = CreateJob
@@ -18,15 +23,11 @@ class SavedJobSerializer(serializers.ModelSerializer):
         model = SavedJob
         fields = ['user', 'job']
 
-# class AppliedJobSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = AppliedJob
-#         fields = ('user_id', 'job_id',  'final_score')
-
 class CreateJobSerializer(serializers.ModelSerializer):
+    admin = FewAccountDetailsSerializer()
     class Meta:
         model = CreateJob
-        fields = ['title', 'description']
+        fields = ['title', 'description', 'admin']
 
 class AppliedJobSerializer(serializers.ModelSerializer):
     job = CreateJobSerializer()

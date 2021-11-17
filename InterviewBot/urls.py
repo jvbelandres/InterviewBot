@@ -27,9 +27,7 @@ from .views import(
     AccountDetailsViewAPI,
     JobOfferingsAdminListViewAPI,
     SavedJobListViewAPI,
-    SavedJobDetailedViewAPI,
     AppliedJobListViewAPI,
-    AppliedJobDetailedUserViewAPI,
     AppliedJobDetailedAdminViewAPI,
     CreateJobDetailedViewAPI,
     SavedJobUserViewAPI,
@@ -51,8 +49,6 @@ urlpatterns = [
     path('api/login/', LoginViewAPI.as_view()), #used - for login
     path('api/logout/', LogoutViewAPI.as_view()), #used - for logout
     path('api/update-account/', UpdateAccountViewAPI.as_view()), #used - to update account settings
-    path('api/<user_id>/saved-jobs/', SavedJobDetailedViewAPI.as_view()), #used - to get the saved jobs of a certain user
-    path('api/user/<user_id>/applied-jobs/', AppliedJobDetailedUserViewAPI.as_view()), #used - to get the applied jobs of a certain user
 
     path('api/<email>/account-details/', AccountDetailsViewAPI.as_view()), #can be used to get the account details of a certain email
     path('api/admin/<admin_id>/job-offerings/', JobOfferingsAdminListViewAPI.as_view()), #can be used to get the job offerings of an admin
@@ -62,11 +58,11 @@ urlpatterns = [
     path('api/<job_id>/joboffering/', CreateJobDetailedViewAPI.as_view()), #can be used for single job viewing
 
 
-    path('api/<user_id>/saved-jobs/details/', SavedJobUserViewAPI.as_view()), #used - for saved job viewing
-    path('api/<user_id>/applied-jobs/details/', AppliedJobUserViewAPI.as_view()), #used -  for applied job viewing
+    path('api/<user_id>/saved-jobs/details/', SavedJobUserViewAPI.as_view()), #used - for saved job viewing (USER)
+    path('api/<user_id>/applied-jobs/details/', AppliedJobUserViewAPI.as_view()), #used -  for applied job viewing (USER)
     path('api/<user_id>/job-offerings/details/', JobOfferingsViewAPI.as_view()),
 
-    path('api/saved-jobs/<int:pk>/delete/', UnsaveJobOfferingDestroyView.as_view()), # to UNSAVE job offerings
+    path('api/saved-jobs/<int:pk>/delete/', UnsaveJobOfferingDestroyView.as_view()), #to UNSAVE job offerings
 
     # Login
     path('', LoginView.as_view(), name="login_view"),
