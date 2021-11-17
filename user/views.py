@@ -399,7 +399,7 @@ class JobInterviewQ1View(View):
 			if request.session['q1'] == False:
 				request.session['q1'] = True
 				interview_job = request.session['job']
-				job = CreateJob.objects.filter(id = interview_job)
+				job = CreateJob.objects.raw("SELECT * FROM jobofferings, job_questions WHERE jobofferings.id = job_questions.job_id AND jobofferings.id = " + str(interview_job))
 				context = {
 					'job': job
 				}
@@ -431,8 +431,8 @@ class JobInterviewQ1View(View):
 		# Calculate the final score
 		final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
-		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
-			response_1 = response_1, positive1 = positive, score1 = final_score)
+		AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+			response_1 = response_1, score1 = final_score)
 		return redirect('user:job-interview_q2')
 
 class JobInterviewQ2View(View):
@@ -444,7 +444,7 @@ class JobInterviewQ2View(View):
 			if request.session['q2'] == False:
 				request.session['q2'] = True
 				interview_job = request.session['job']
-				job = CreateJob.objects.filter(id = interview_job)
+				job = CreateJob.objects.raw("SELECT * FROM jobofferings, job_questions WHERE jobofferings.id = job_questions.job_id AND jobofferings.id = " + str(interview_job))
 				context = {
 					'job': job
 				}
@@ -476,8 +476,8 @@ class JobInterviewQ2View(View):
 		# Calculate the final score
 		final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
-		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
-			response_2 = response_2, positive2 = positive, score2 = final_score)
+		AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+			response_2 = response_2, score2 = final_score)
 		return redirect('user:job-interview_q3')
 
 class JobInterviewQ3View(View):
@@ -489,7 +489,7 @@ class JobInterviewQ3View(View):
 			if request.session['q3'] == False:
 				request.session['q3'] = True
 				interview_job = request.session['job']
-				job = CreateJob.objects.filter(id = interview_job)
+				job = CreateJob.objects.raw("SELECT * FROM jobofferings, job_questions WHERE jobofferings.id = job_questions.job_id AND jobofferings.id = " + str(interview_job))
 				context = {
 					'job': job
 				}
@@ -521,8 +521,8 @@ class JobInterviewQ3View(View):
 		# Calculate the final score
 		final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
-		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
-			response_3 = response_3, positive3 = positive, score3 = final_score)
+		AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+			response_3 = response_3, score3 = final_score)
 		return redirect('user:job-interview_q4')
 
 class JobInterviewQ4View(View):
@@ -534,7 +534,7 @@ class JobInterviewQ4View(View):
 			if request.session['q4'] == False:
 				request.session['q4'] = True
 				interview_job = request.session['job']
-				job = CreateJob.objects.filter(id = interview_job)
+				job = CreateJob.objects.raw("SELECT * FROM jobofferings, job_questions WHERE jobofferings.id = job_questions.job_id AND jobofferings.id = " + str(interview_job))
 				context = {
 					'job': job
 				}
@@ -566,8 +566,8 @@ class JobInterviewQ4View(View):
 		# Calculate the final score
 		final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
-		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
-			response_4 = response_4, positive4 = positive, score4 = final_score)
+		AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+			response_4 = response_4, score4 = final_score)
 		return redirect('user:job-interview_q5')
 
 class JobInterviewQ5View(View):
@@ -579,7 +579,7 @@ class JobInterviewQ5View(View):
 			if request.session['q5'] == False:
 				request.session['q5'] = True
 				interview_job = request.session['job']
-				job = CreateJob.objects.filter(id = interview_job)
+				job = CreateJob.objects.raw("SELECT * FROM jobofferings, job_questions WHERE jobofferings.id = job_questions.job_id AND jobofferings.id = " + str(interview_job))
 				context = {
 					'job': job
 				}
@@ -611,8 +611,8 @@ class JobInterviewQ5View(View):
 		# Calculate the final score
 		final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
-		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
-			response_5 = response_5, positive5 = positive, score5 = final_score)
+		AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+			response_5 = response_5, score5 = final_score)
 		return redirect('user:job-interview_q6')
 
 class JobInterviewQ6View(View):
@@ -624,7 +624,7 @@ class JobInterviewQ6View(View):
 			if request.session['q6'] == False:
 				request.session['q6'] = True
 				interview_job = request.session['job']
-				job = CreateJob.objects.filter(id = interview_job)
+				job = CreateJob.objects.raw("SELECT * FROM jobofferings, job_questions WHERE jobofferings.id = job_questions.job_id AND jobofferings.id = " + str(interview_job))
 				context = {
 					'job': job
 				}
@@ -656,8 +656,8 @@ class JobInterviewQ6View(View):
 		# Calculate the final score
 		final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
-		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
-			response_6 = response_6, positive6 = positive, score6 = final_score)
+		AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+			response_6 = response_6, score6 = final_score)
 		return redirect('user:job-interview_q7')
 
 class JobInterviewQ7View(View):
@@ -669,7 +669,7 @@ class JobInterviewQ7View(View):
 			if request.session['q7'] == False:
 				request.session['q7'] = True
 				interview_job = request.session['job']
-				job = CreateJob.objects.filter(id = interview_job)
+				job = CreateJob.objects.raw("SELECT * FROM jobofferings, job_questions WHERE jobofferings.id = job_questions.job_id AND jobofferings.id = " + str(interview_job))
 				context = {
 					'job': job
 				}
@@ -701,8 +701,8 @@ class JobInterviewQ7View(View):
 		# Calculate the final score
 		final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
-		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
-			response_7 = response_7, positive7 = positive, score7 = final_score)
+		AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+			response_7 = response_7, score7 = final_score)
 		return redirect('user:job-interview_q8')
 
 class JobInterviewQ8View(View):
@@ -714,7 +714,7 @@ class JobInterviewQ8View(View):
 			if request.session['q8'] == False:
 				request.session['q8'] = True
 				interview_job = request.session['job']
-				job = CreateJob.objects.filter(id = interview_job)
+				job = CreateJob.objects.raw("SELECT * FROM jobofferings, job_questions WHERE jobofferings.id = job_questions.job_id AND jobofferings.id = " + str(interview_job))
 				context = {
 					'job': job
 				}
@@ -746,8 +746,8 @@ class JobInterviewQ8View(View):
 		# Calculate the final score
 		final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
-		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
-			response_8 = response_8, positive8 = positive, score8 = final_score)
+		AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+			response_8 = response_8, score8 = final_score)
 		return redirect('user:job-interview_q9')
 
 class JobInterviewQ9View(View):
@@ -759,7 +759,7 @@ class JobInterviewQ9View(View):
 			if request.session['q9'] == False:
 				request.session['q9'] = True
 				interview_job = request.session['job']
-				job = CreateJob.objects.filter(id = interview_job)
+				job = CreateJob.objects.raw("SELECT * FROM jobofferings, job_questions WHERE jobofferings.id = job_questions.job_id AND jobofferings.id = " + str(interview_job))
 				context = {
 					'job': job
 				}
@@ -791,8 +791,8 @@ class JobInterviewQ9View(View):
 		# Calculate the final score
 		final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
-		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
-			response_9 = response_9, positive9 = positive, score9 = final_score)
+		AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+			response_9 = response_9, score9 = final_score)
 		return redirect('user:job-interview_q10')
 
 class JobInterviewQ10View(View):
@@ -804,7 +804,7 @@ class JobInterviewQ10View(View):
 			if request.session['q10'] == False:
 				request.session['q10'] = True
 				interview_job = request.session['job']
-				job = CreateJob.objects.filter(id = interview_job)
+				job = CreateJob.objects.raw("SELECT * FROM jobofferings, job_questions WHERE jobofferings.id = job_questions.job_id AND jobofferings.id = " + str(interview_job))
 				context = {
 					'job': job
 				}
@@ -836,8 +836,8 @@ class JobInterviewQ10View(View):
 		# Calculate the final score
 		final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
-		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
-			response_10 = response_10, positive10 = positive, score10 = final_score)
+		AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+			response_10 = response_10, score10 = final_score)
 		return redirect('user:job-interview_q11')
 
 class JobInterviewQ11View(View):
@@ -849,7 +849,7 @@ class JobInterviewQ11View(View):
 			if request.session['q11'] == False:
 				request.session['q11'] = True
 				interview_job = request.session['job']
-				job = CreateJob.objects.filter(id = interview_job)
+				job = CreateJob.objects.raw("SELECT * FROM jobofferings, job_questions WHERE jobofferings.id = job_questions.job_id AND jobofferings.id = " + str(interview_job))
 				context = {
 					'job': job
 				}
@@ -881,8 +881,8 @@ class JobInterviewQ11View(View):
 		# Calculate the final score
 		final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
-		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
-			response_11 = response_11, positive11 = positive, score11 = final_score)
+		AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+			response_11 = response_11, score11 = final_score)
 		return redirect('user:job-interview_q12')
 
 class JobInterviewQ12View(View):
@@ -894,7 +894,7 @@ class JobInterviewQ12View(View):
 			if request.session['q12'] == False:
 				request.session['q12'] = True
 				interview_job = request.session['job']
-				job = CreateJob.objects.filter(id = interview_job)
+				job = CreateJob.objects.raw("SELECT * FROM jobofferings, job_questions WHERE jobofferings.id = job_questions.job_id AND jobofferings.id = " + str(interview_job))
 				context = {
 					'job': job
 				}
@@ -926,8 +926,8 @@ class JobInterviewQ12View(View):
 		# Calculate the final score
 		final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
-		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
-			response_12 = response_12, positive12 = positive, score12 = final_score)
+		AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+			response_12 = response_12, score12 = final_score)
 		return redirect('user:job-interview_q13')
 
 class JobInterviewQ13View(View):
@@ -939,7 +939,7 @@ class JobInterviewQ13View(View):
 			if request.session['q13'] == False:
 				request.session['q13'] = True
 				interview_job = request.session['job']
-				job = CreateJob.objects.filter(id = interview_job)
+				job = CreateJob.objects.raw("SELECT * FROM jobofferings, job_questions WHERE jobofferings.id = job_questions.job_id AND jobofferings.id = " + str(interview_job))
 				context = {
 					'job': job
 				}
@@ -971,8 +971,8 @@ class JobInterviewQ13View(View):
 		# Calculate the final score
 		final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
-		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
-			response_13 = response_13, positive13 = positive, score13 = final_score)
+		AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+			response_13 = response_13, score13 = final_score)
 		return redirect('user:job-interview_q14')
 
 class JobInterviewQ14View(View):
@@ -984,7 +984,7 @@ class JobInterviewQ14View(View):
 			if request.session['q14'] == False:
 				request.session['q14'] = True
 				interview_job = request.session['job']
-				job = CreateJob.objects.filter(id = interview_job)
+				job = CreateJob.objects.raw("SELECT * FROM jobofferings, job_questions WHERE jobofferings.id = job_questions.job_id AND jobofferings.id = " + str(interview_job))
 				context = {
 					'job': job
 				}
@@ -1016,8 +1016,8 @@ class JobInterviewQ14View(View):
 		# Calculate the final score
 		final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
-		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
-			response_14 = response_14, positive14 = positive, score14 = final_score)
+		AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+			response_14 = response_14, score14 = final_score)
 		return redirect('user:job-interview_q15')
 
 class JobInterviewQ15View(View):
@@ -1029,7 +1029,7 @@ class JobInterviewQ15View(View):
 			if request.session['q15'] == False:
 				request.session['q15'] = True
 				interview_job = request.session['job']
-				job = CreateJob.objects.filter(id = interview_job)
+				job = CreateJob.objects.raw("SELECT * FROM jobofferings, job_questions WHERE jobofferings.id = job_questions.job_id AND jobofferings.id = " + str(interview_job))
 				context = {
 					'job': job
 				}
@@ -1061,8 +1061,8 @@ class JobInterviewQ15View(View):
 		# Calculate the final score
 		final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
-		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
-			response_15 = response_15, positive15 = positive, score15 = final_score)
+		AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+			response_15 = response_15, score15 = final_score)
 		return redirect('user:job-interview_q16')
 
 class JobInterviewQ16View(View):
@@ -1074,7 +1074,7 @@ class JobInterviewQ16View(View):
 			if request.session['q16'] == False:
 				request.session['q16'] = True
 				interview_job = request.session['job']
-				job = CreateJob.objects.filter(id = interview_job)
+				job = CreateJob.objects.raw("SELECT * FROM jobofferings, job_questions WHERE jobofferings.id = job_questions.job_id AND jobofferings.id = " + str(interview_job))
 				context = {
 					'job': job
 				}
@@ -1106,8 +1106,8 @@ class JobInterviewQ16View(View):
 		# Calculate the final score
 		final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
-		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
-			response_16 = response_16, positive16 = positive, score16 = final_score)
+		AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+			response_16 = response_16, score16 = final_score)
 		return redirect('user:job-interview_q17')
 
 class JobInterviewQ17View(View):
@@ -1119,7 +1119,7 @@ class JobInterviewQ17View(View):
 			if request.session['q17'] == False:
 				request.session['q17'] = True
 				interview_job = request.session['job']
-				job = CreateJob.objects.filter(id = interview_job)
+				job = CreateJob.objects.raw("SELECT * FROM jobofferings, job_questions WHERE jobofferings.id = job_questions.job_id AND jobofferings.id = " + str(interview_job))
 				context = {
 					'job': job
 				}
@@ -1151,8 +1151,8 @@ class JobInterviewQ17View(View):
 		# Calculate the final score
 		final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
-		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
-			response_17 = response_17, positive17 = positive, score17 = final_score)
+		AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+			response_17 = response_17, score17 = final_score)
 		return redirect('user:job-interview_q18')
 
 class JobInterviewQ18View(View):
@@ -1164,7 +1164,7 @@ class JobInterviewQ18View(View):
 			if request.session['q18'] == False:
 				request.session['q18'] = True
 				interview_job = request.session['job']
-				job = CreateJob.objects.filter(id = interview_job)
+				job = CreateJob.objects.raw("SELECT * FROM jobofferings, job_questions WHERE jobofferings.id = job_questions.job_id AND jobofferings.id = " + str(interview_job))
 				context = {
 					'job': job
 				}
@@ -1196,8 +1196,8 @@ class JobInterviewQ18View(View):
 		# Calculate the final score
 		final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
-		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
-			response_18 = response_18, positive18 = positive, score18 = final_score)
+		AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+			response_18 = response_18, score18 = final_score)
 		return redirect('user:job-interview_q19')
 
 class JobInterviewQ19View(View):
@@ -1209,7 +1209,7 @@ class JobInterviewQ19View(View):
 			if request.session['q19'] == False:
 				request.session['q19'] = True
 				interview_job = request.session['job']
-				job = CreateJob.objects.filter(id = interview_job)
+				job = CreateJob.objects.raw("SELECT * FROM jobofferings, job_questions WHERE jobofferings.id = job_questions.job_id AND jobofferings.id = " + str(interview_job))
 				context = {
 					'job': job
 				}
@@ -1241,8 +1241,8 @@ class JobInterviewQ19View(View):
 		# Calculate the final score
 		final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
-		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
-			response_19 = response_19, positive19 = positive, score19 = final_score)
+		AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+			response_19 = response_19, score19 = final_score)
 		return redirect('user:job-interview_q20')
 
 class JobInterviewQ20View(View):
@@ -1254,7 +1254,7 @@ class JobInterviewQ20View(View):
 			if request.session['q20'] == False:
 				request.session['q20'] = True
 				interview_job = request.session['job']
-				job = CreateJob.objects.filter(id = interview_job)
+				job = CreateJob.objects.raw("SELECT * FROM jobofferings, job_questions WHERE jobofferings.id = job_questions.job_id AND jobofferings.id = " + str(interview_job))
 				context = {
 					'job': job
 				}
@@ -1308,23 +1308,26 @@ class JobInterviewQ20View(View):
 		# get final score for the overall interview session
 		u = AppliedJob.objects.filter(job_id = job_id, user_id = user.id)
 		for u in u:
-			if u.score1 != None or u.score2 != None or u.score3 != None or u.score4 != None or u.score5 != None or u.score6 != None or u.score7 != None or u.score8 != None or u.score9 != None or u.score10 != None or u.score11 != None or u.score12 != None or u.score13 != None or u.score14 != None or u.score15 != None or u.score16 != None or u.score17 != None or u.score18 != None or u.score19 != None or u.score20 != None:
+			if u.score1 != None and u.score2 != None and u.score3 != None and u.score4 != None and u.score5 != None and u.score6 != None and u.score7 != None and u.score8 != None and u.score9 != None and u.score10 != None and u.score11 != None and u.score12 != None and u.score13 != None and u.score14 != None and u.score15 != None and u.score16 != None and u.score17 != None and u.score18 != None and u.score19 != None and u.score20 != None:
 				final_score = ((u.score1 + u.score2 + u.score3 + u.score4 + u.score5 + u.score6 +
 					u.score7 + u.score8 + u.score9 + u.score10 + u.score11 + u.score12 + u.score13 +
 					u.score14 + u.score15 + u.score15 + u.score16 + u.score17 + u.score18 + u.score19 +
 					score20) / (10 + float(job_weight1) + float(job_weight2) + float(job_weight3) + 
 					float(job_weight4) + float(job_weight5) +float(job_weight6) + float(job_weight7) + 
-					float(job_weight8) + float(job_weight9) + float(job_weight10)))
+					float(job_weight8) + float(job_weight9) + float(job_weight10) + float(job_weight11) +
+					float(job_weight12) + float(job_weight13) + float(job_weight14) + float(job_weight15) +
+					float(job_weight16) + float(job_weight17) + float(job_weight18) + float(job_weight19) +
+					float(job_weight20)))
 				final_score_decimal = round(final_score, 4)
 				final_score_percent = final_score_decimal * 100
 			else:
 				# if one question was not answered
-				update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
-					response_20 = response_20, positive20 = positive, score20 = score20, final_score = 0)
+				AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+					response_20 = response_20, score20 = score20, final_score = 0)
 				return redirect('user:interview_forfeit_view')
 
-		update_applyJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
-			response_20 = response_20, positive20 = positive, score20 = score20, final_score = final_score_percent)
+		AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+			response_20 = response_20, score20 = score20, final_score = final_score_percent)
 
 		return redirect('user:interview_success_view')
 

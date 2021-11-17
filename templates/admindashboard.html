@@ -44,9 +44,7 @@
                 <img src="{% static '/images/logo.png' %}" width="100%">
             </div>
             <center>
-                     <a class ="jobCreate" href="{% url 'administrator:create-job-one_view' %}">
-                        Create Job
-                    </a>
+                <button type="button" id="id-btnCreateJob" class="jobCreate" data-toggle="modal" data-target="#modalCreate" class="btn btn-warning">Create Job</button>
             </center>
             <br>
             <ul class="list-unstyled components">
@@ -56,7 +54,6 @@
                         &nbsp;&nbsp;Dashboard
                     </a>
                 </li>
-
                 <li >
                     <a href="{% url 'administrator:job-lists_view' %}">
                         <i class="fas fa-search"></i>
@@ -81,7 +78,6 @@
 	            </div>
 
 	            {% if user.admin %}
-
 	            <div class="addAdmin">
 	                <a href="{% url 'administrator:create-admin_view' %}">Add Admin Account</a>
 	            </div>
@@ -226,7 +222,7 @@
         });
     </script>
 
-    <!-- CREATE JOB MODAL 
+    <!-- CREATE JOB MODAL -->
     <div id="createJobModal" class="jobCreateModal">
         <div class="createJob-content">
             <span class="close">&times</span>
@@ -243,21 +239,8 @@
                     <div class="container">
                         <div class="tab-pane active"><center>
                             <div class="questionnaireTitle">
-                                <input type="text" name="name-title" id="id-title" style="border-color: #ccc; outline: none;" placeholder="Job Title" required>-->
-                                <!-- <select name="name-title" id="id-title" style="border-color: #ccc;" required>
-                                    <option style="display: none;">---Please select a job---</option>
-                                    <option value="Administrator">Administrator</option>
-                                    <option value="Office Staff">Office Staff</option>
-                                    <option value="Guidance Counselor">Guidance Counselor</option>
-                                    <option value="School Social Worker">School Social Worker</option>
-                                    <option value="School Nurse">School Nurse</option>
-                                    <option value="Librarian">Librarian</option>
-                                    <option value="Maintenance">Maintenance</option>
-                                    <option value="Custodial">Custodial</option>
-                                    <option value="Food Service">Food Service</option>
-                                    <option value="Transportation">Transportation</option>
-                                </select> -->
-                                <!--<textarea type="text" name="name-description" id="id-description" rows="5" cols="50" maxlength="500" style="margin-top: 5px; border: none; outline: none;" placeholder="Job description" required></textarea>
+                                <input type="text" name="name-title" id="id-title" style="border-color: #ccc; outline: none;" placeholder="Job Title" required>
+                                <textarea type="text" name="name-description" id="id-description" rows="5" cols="50" maxlength="500" style="margin-top: 5px; border: none; outline: none;" placeholder="Job description" required></textarea>
                             </div>
                             <div class="questionContainer">
                                 <input type="checkbox" id="defaultQ" name="defaultQ" value="defaultQ"  onchange="checkBox();" checked>
@@ -329,66 +312,66 @@
                                             <div class="defQ1">
                                                 <span class="text-dark" style="float: right; font-size: 14px; font-weight: bolder;">You can edit the timer and weight for each question.</span><br>
                                                 <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
-                                                <input type="number" min="1" max="5" name="d-weight1" value="1" title="Weight" required>
+                                                <input type="number" min="1" max="5" name="create-d-weight1" value="1" title="Weight" required>
                                                 <label><i class="fas fa-clock"></i> &nbsp;</label>
-                                                <input type="number" min="2" max="5" name="d-timer1" value="2" title="Timer in minutes" required>
-                                                <input type="text" name="d-qtn1" placeholder="Please tell me about yourself." title="Question 1" disabled>
+                                                <input type="number" min="2" max="5" name="create-d-timer1" value="2" title="Timer in minutes" required>
+                                                <input type="text" name="create-d-qtn1" placeholder="Please tell me about yourself." title="Question 1" disabled>
 
                                                 <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
-                                                <input type="number" min="1" max="5" name="d-weight2" value="1" title="Weight" required>
+                                                <input type="number" min="1" max="5" name="create-d-weight2" value="1" title="Weight" required>
                                                 <label><i class="fas fa-clock"></i> &nbsp;</label>
-                                                <input type="number" min="2" max="5" name="d-timer2" value="2" title="Timer in minutes" required>
-                                                <input type="text" name="d-qtn2" placeholder="What does team spirit mean to you and how would you go about building it?" title="Question 2" disabled>
+                                                <input type="number" min="2" max="5" name="create-d-timer2" value="2" title="Timer in minutes" required>
+                                                <input type="text" name="create-d-qtn2" placeholder="What does team spirit mean to you and how would you go about building it?" title="Question 2" disabled>
 
                                                 <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
-                                                <input type="number" min="1" max="5" name="d-weight3" value="1" title="Weight" required>
+                                                <input type="number" min="1" max="5" name="create-d-weight3" value="1" title="Weight" required>
                                                 <label><i class="fas fa-clock"></i> &nbsp;</label>
-                                                <input type="number" min="2" max="5" name="d-timer3" value="2" title="Timer in minutes" required>
-                                                <input type="text" name="d-qtn3" placeholder="Your project fails miserably. How do you deal with it?" title="Question 3" disabled>
+                                                <input type="number" min="2" max="5" name="create-d-timer3" value="2" title="Timer in minutes" required>
+                                                <input type="text" name="create-d-qtn3" placeholder="Your project fails miserably. How do you deal with it?" title="Question 3" disabled>
 
                                                 <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
-                                                <input type="number" min="1" max="5" name="d-weight4" value="1" title="Weight" required>
+                                                <input type="number" min="1" max="5" name="create-d-weight4" value="1" title="Weight" required>
                                                 <label><i class="fas fa-clock"></i> &nbsp;</label>
-                                                <input type="number" min="2" max="5" name="d-timer4" value="2" title="Timer in minutes" required>
-                                                <input type="text" name="d-qtn4" placeholder="How do you go about rearranging your schedule if something unplanned occurs?" title="Question 4" disabled>
+                                                <input type="number" min="2" max="5" name="create-d-timer4" value="2" title="Timer in minutes" required>
+                                                <input type="text" name="create-d-qtn4" placeholder="How do you go about rearranging your schedule if something unplanned occurs?" title="Question 4" disabled>
 
                                                 <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
-                                                <input type="number" min="1" max="5" name="d-weight5" value="1" title="Weight" required>
+                                                <input type="number" min="1" max="5" name="create-d-weight5" value="1" title="Weight" required>
                                                 <label><i class="fas fa-clock"></i> &nbsp;</label>
-                                                <input type="number" min="2" max="5" name="d-timer5" value="2" title="Timer in minutes" required>
-                                                <input type="text" name="d-qtn5" placeholder="What can you do for us that other candidates cannot?" title="Question 5" disabled>
+                                                <input type="number" min="2" max="5" name="create-d-timer5" value="2" title="Timer in minutes" required>
+                                                <input type="text" name="create-d-qtn5" placeholder="What can you do for us that other candidates cannot?" title="Question 5" disabled>
                                             </div>
 
                                             <div class="ownQ1">
                                                 <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
-                                                <input type="number" min="1" max="5" name="o-weight1" value="1" title="Weight">
+                                                <input type="number" min="1" max="5" name="create-o-weight1" value="1" title="Weight">
                                                 <label><i class="fas fa-clock"></i> &nbsp;</label>
-                                                <input type="number" min="2" max="5" name="o-timer1" value="2" title="Timer in minutes">
-                                                <input type="text" name="o-qtn1" id="id-question1" placeholder="Question 1*">
+                                                <input type="number" min="2" max="5" name="create-o-timer1" value="2" title="Timer in minutes">
+                                                <input type="text" name="create-o-qtn1" id="id-question1" placeholder="Question 1*">
 
                                                 <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
-                                                <input type="number" min="1" max="5" name="o-weight2" value="1" title="Weight">
+                                                <input type="number" min="1" max="5" name="create-o-weight2" value="1" title="Weight">
                                                 <label><i class="fas fa-clock"></i> &nbsp;</label>
-                                                <input type="number" min="2" max="5" name="o-timer2" value="2" title="Timer in minutes">
-                                                <input type="text" name="o-qtn2" id="id-question2" placeholder="Question 2*">
+                                                <input type="number" min="2" max="5" name="create-o-timer2" value="2" title="Timer in minutes">
+                                                <input type="text" name="create-o-qtn2" id="id-question2" placeholder="Question 2*">
 
                                                 <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
-                                                <input type="number" min="1" max="5" name="o-weight3" value="1" title="Weight">
+                                                <input type="number" min="1" max="5" name="create-o-weight3" value="1" title="Weight">
                                                 <label><i class="fas fa-clock"></i> &nbsp;</label>
-                                                <input type="number" min="2" max="5" name="o-timer3" value="2" title="Timer in minutes">
-                                                <input type="text" name="o-qtn3" id="id-question3" placeholder="Question 3*">
+                                                <input type="number" min="2" max="5" name="create-o-timer3" value="2" title="Timer in minutes">
+                                                <input type="text" name="create-o-qtn3" id="id-question3" placeholder="Question 3*">
 
                                                 <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
-                                                <input type="number" min="1" max="5" name="o-weight4" value="1" title="Weight">
+                                                <input type="number" min="1" max="5" name="create-o-weight4" value="1" title="Weight">
                                                 <label><i class="fas fa-clock"></i> &nbsp;</label>
-                                                <input type="number" min="2" max="5" name="o-timer4" value="2" title="Timer in minutes">
-                                                <input type="text" name="o-qtn4" id="id-question4" placeholder="Question 4*">
+                                                <input type="number" min="2" max="5" name="create-o-timer4" value="2" title="Timer in minutes">
+                                                <input type="text" name="create-o-qtn4" id="id-question4" placeholder="Question 4*">
 
                                                 <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
-                                                <input type="number" min="1" max="5" name="o-weight5" value="1" title="Weight">
+                                                <input type="number" min="1" max="5" name="create-o-weight5" value="1" title="Weight">
                                                 <label><i class="fas fa-clock"></i> &nbsp;</label>
-                                                <input type="number" min="2" max="5" name="o-timer5" value="2" title="Timer in minutes">
-                                                <input type="text" name="o-qtn5" id="id-question5" placeholder="Question 5*">
+                                                <input type="number" min="2" max="5" name="create-o-timer5" value="2" title="Timer in minutes">
+                                                <input type="text" name="create-o-qtn5" id="id-question5" placeholder="Question 5*">
                                             </div>
                                         </div>
 
@@ -396,131 +379,131 @@
                                             <div class="defQ6">
                                                 <span class="text-dark" style="float: right; font-size: 14px; font-weight: bolder;">You can edit the timer and weight for each question.</span><br>
                                                 <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
-                                                <input type="number" min="1" max="5" name="d-weight6" value="1" title="Weight" required>
+                                                <input type="number" min="1" max="5" name="create-d-weight6" value="1" title="Weight" required>
                                                 <label><i class="fas fa-clock"></i> &nbsp;</label>
-                                                <input type="number" min="2" max="5" name="d-timer6" value="2" title="Timer in minutes" required>
-                                                <input type="text" name="d-qtn6" placeholder="Describe a situation where results went against expectations. How did you adapt to this change?" title="Question 6" disabled>
+                                                <input type="number" min="2" max="5" name="create-d-timer6" value="2" title="Timer in minutes" required>
+                                                <input type="text" name="create-d-qtn6" placeholder="Describe a situation where results went against expectations. How did you adapt to this change?" title="Question 6" disabled>
 
                                                 <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
-                                                <input type="number" min="1" max="5" name="d-weight7" value="1" title="Weight" required>
+                                                <input type="number" min="1" max="5" name="create-d-weight7" value="1" title="Weight" required>
                                                 <label><i class="fas fa-clock"></i> &nbsp;</label>
-                                                <input type="number" min="2" max="5" name="d-timer7" value="2" title="Timer in minutes" required>
-                                                <input type="text" name="d-qtn7" placeholder="What are the key ingredients to building good relationships with others?" title="Question 7" disabled>
+                                                <input type="number" min="2" max="5" name="create-d-timer7" value="2" title="Timer in minutes" required>
+                                                <input type="text" name="create-d-qtn7" placeholder="What are the key ingredients to building good relationships with others?" title="Question 7" disabled>
 
                                                 <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
-                                                <input type="number" min="1" max="5" name="d-weight8" value="1" title="Weight" required>
+                                                <input type="number" min="1" max="5" name="create-d-weight8" value="1" title="Weight" required>
                                                 <label><i class="fas fa-clock"></i> &nbsp;</label>
-                                                <input type="number" min="2" max="5" name="d-timer8" value="2" title="Timer in minutes" required>
-                                                <input type="text" name="d-qtn8" placeholder="Tell me about a time when you’ve struggled to meet deadlines. What did you do?" title="Question 8" disabled>
+                                                <input type="number" min="2" max="5" name="create-d-timer8" value="2" title="Timer in minutes" required>
+                                                <input type="text" name="create-d-qtn8" placeholder="Tell me about a time when you’ve struggled to meet deadlines. What did you do?" title="Question 8" disabled>
 
                                                 <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
-                                                <input type="number" min="1" max="5" name="d-weight9" value="1" title="Weight" required>
+                                                <input type="number" min="1" max="5" name="create-d-weight9" value="1" title="Weight" required>
                                                 <label><i class="fas fa-clock"></i> &nbsp;</label>
-                                                <input type="number" min="2" max="5" name="d-timer9" value="2" title="Timer in minutes" required>
-                                                <input type="text" name="d-qtn9" placeholder="What would you do if you discovered a manager was breaking company rules?" title="Question 9" disabled>
+                                                <input type="number" min="2" max="5" name="create-d-timer9" value="2" title="Timer in minutes" required>
+                                                <input type="text" name="create-d-qtn9" placeholder="What would you do if you discovered a manager was breaking company rules?" title="Question 9" disabled>
 
                                                 <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
-                                                <input type="number" min="1" max="5" name="d-weight10" value="1" title="Weight" required>
+                                                <input type="number" min="1" max="5" name="create-d-weight10" value="1" title="Weight" required>
                                                 <label><i class="fas fa-clock"></i> &nbsp;</label>
-                                                <input type="number" min="2" max="5" name="d-timer10" value="2" title="Timer in minutes" required>
-                                                <input type="text" name="d-qtn10" placeholder="What steps do you take to gain a customer’s trust?" title="Question 10" disabled>
+                                                <input type="number" min="2" max="5" name="create-d-timer10" value="2" title="Timer in minutes" required>
+                                                <input type="text" name="create-d-qtn10" placeholder="What steps do you take to gain a customer’s trust?" title="Question 10" disabled>
                                             </div>
 
                                             <div class="ownQ6">
                                                 <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
-                                                <input type="number" min="1" max="5" name="o-weight6" value="1" title="Weight">
+                                                <input type="number" min="1" max="5" name="create-o-weight6" value="1" title="Weight">
                                                 <label><i class="fas fa-clock"></i> &nbsp;</label>
-                                                <input type="number" min="2" max="5" name="o-timer6" value="2" title="Timer in minutes">
-                                                <input type="text" name="o-qtn6" id="id-question6" placeholder="Question 6*" title="Question 6">
+                                                <input type="number" min="2" max="5" name="create-o-timer6" value="2" title="Timer in minutes">
+                                                <input type="text" name="create-o-qtn6" id="id-question6" placeholder="Question 6*" title="Question 6">
 
                                                 <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
-                                                <input type="number" min="1" max="5" name="o-weight7" value="1" title="Weight">
+                                                <input type="number" min="1" max="5" name="create-o-weight7" value="1" title="Weight">
                                                 <label><i class="fas fa-clock"></i> &nbsp;</label>
-                                                <input type="number" min="2" max="5" name="o-timer7" value="2" title="Timer in minutes">
-                                                <input type="text" name="o-qtn7" id="id-question7" placeholder="Question 7*" title="Question 7">
+                                                <input type="number" min="2" max="5" name="create-o-timer7" value="2" title="Timer in minutes">
+                                                <input type="text" name="create-o-qtn7" id="id-question7" placeholder="Question 7*" title="Question 7">
 
                                                 <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
-                                                <input type="number" min="1" max="5" name="o-weight8" value="1" title="Weight">
+                                                <input type="number" min="1" max="5" name="create-o-weight8" value="1" title="Weight">
                                                 <label><i class="fas fa-clock"></i> &nbsp;</label>
-                                                <input type="number" min="2" max="5" name="o-timer8" value="2" title="Timer in minutes">
-                                                <input type="text" name="o-qtn8" id="id-question8" placeholder="Question 8*" title="Question 8">
+                                                <input type="number" min="2" max="5" name="create-o-timer8" value="2" title="Timer in minutes">
+                                                <input type="text" name="create-o-qtn8" id="id-question8" placeholder="Question 8*" title="Question 8">
 
                                                 <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
-                                                <input type="number" min="1" max="5" name="o-weight9" value="1" title="Weight">
+                                                <input type="number" min="1" max="5" name="create-o-weight9" value="1" title="Weight">
                                                 <label><i class="fas fa-clock"></i> &nbsp;</label>
-                                                <input type="number" min="2" max="5" name="o-timer9" value="2" title="Timer in minutes">
-                                                <input type="text" name="o-qtn9" id="id-question9" placeholder="Question 9*" title="Question 9">
+                                                <input type="number" min="2" max="5" name="create-o-timer9" value="2" title="Timer in minutes">
+                                                <input type="text" name="create-o-qtn9" id="id-question9" placeholder="Question 9*" title="Question 9">
 
                                                 <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
-                                                <input type="number" min="1" max="5" name="o-weight10" value="1" title="Weight">
+                                                <input type="number" min="1" max="5" name="create-o-weight10" value="1" title="Weight">
                                                 <label><i class="fas fa-clock"></i> &nbsp;</label>
-                                                <input type="number" min="2" max="5" name="o-timer10" value="2" title="Timer in minutes">
-                                                <input type="text" name="o-qtn10" id="id-question10" placeholder="Question 10*" title="Question 10">
+                                                <input type="number" min="2" max="5" name="create-o-timer10" value="2" title="Timer in minutes">
+                                                <input type="text" name="create-o-qtn10" id="id-question10" placeholder="Question 10*" title="Question 10">
                                             </div>
                                         </div>
 
                                         <div id="fifteenQuest" class="tabcontents">
                                             <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
-                                            <input type="number" min="1" max="5" name="o-weight11" value="1" title="Weight" required>
+                                            <input type="number" min="1" max="5" name="create-o-weight11" value="1" title="Weight" required>
                                             <label><i class="fas fa-clock"></i> &nbsp;</label>
-                                            <input type="number" min="2" max="5" name="o-timer11" value="2" title="Timer in minutes" required>
-                                            <input type="text" name="o-qtn11" id="id-question11" placeholder="Question 11*" title="Question 11" required>
+                                            <input type="number" min="2" max="5" name="create-o-timer11" value="2" title="Timer in minutes" required>
+                                            <input type="text" name="create-o-qtn11" id="id-question11" placeholder="Question 11*" title="Question 11" required>
 
                                             <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
-                                            <input type="number" min="1" max="5" name="o-weight12" value="1" title="Weight" required>
+                                            <input type="number" min="1" max="5" name="create-o-weight12" value="1" title="Weight" required>
                                             <label><i class="fas fa-clock"></i> &nbsp;</label>
-                                            <input type="number" min="2" max="5" name="o-timer12" value="2" title="Timer in minutes" required>
-                                            <input type="text" name="o-qtn12" id="id-question12" placeholder="Question 12*" title="Question 12" required>
+                                            <input type="number" min="2" max="5" name="create-o-timer12" value="2" title="Timer in minutes" required>
+                                            <input type="text" name="create-o-qtn12" id="id-question12" placeholder="Question 12*" title="Question 12" required>
 
                                             <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
-                                            <input type="number" min="1" max="5" name="o-weight13" value="1" title="Weight" required>
+                                            <input type="number" min="1" max="5" name="create-o-weight13" value="1" title="Weight" required>
                                             <label><i class="fas fa-clock"></i> &nbsp;</label>
-                                            <input type="number" min="2" max="5" name="o-timer13" value="2" title="Timer in minutes" required>
-                                            <input type="text" name="o-qtn13" id="id-question13" placeholder="Question 13*" title="Question 13" required>
+                                            <input type="number" min="2" max="5" name="create-o-timer13" value="2" title="Timer in minutes" required>
+                                            <input type="text" name="create-o-qtn13" id="id-question13" placeholder="Question 13*" title="Question 13" required>
 
                                             <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
-                                            <input type="number" min="1" max="5" name="o-weight14" value="1" title="Weight" required>
+                                            <input type="number" min="1" max="5" name="create-o-weight14" value="1" title="Weight" required>
                                             <label><i class="fas fa-clock"></i> &nbsp;</label>
-                                            <input type="number" min="2" max="5" name="o-timer14" value="2" title="Timer in minutes" required>
-                                            <input type="text" name="o-qtn14" id="id-question14" placeholder="Question 14*" title="Question 14" required>
+                                            <input type="number" min="2" max="5" name="create-o-timer14" value="2" title="Timer in minutes" required>
+                                            <input type="text" name="create-o-qtn14" id="id-question14" placeholder="Question 14*" title="Question 14" required>
 
                                             <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
-                                            <input type="number" min="1" max="5" name="o-weight15" value="1" title="Weight" required>
+                                            <input type="number" min="1" max="5" name="create-o-weight15" value="1" title="Weight" required>
                                             <label><i class="fas fa-clock"></i> &nbsp;</label>
-                                            <input type="number" min="2" max="5" name="o-timer15" value="2" title="Timer in minutes" required>
-                                            <input type="text" name="o-qtn15" id="id-question15" placeholder="Question 15*" title="Question 15" required>
+                                            <input type="number" min="2" max="5" name="create-o-timer15" value="2" title="Timer in minutes" required>
+                                            <input type="text" name="create-o-qtn15" id="id-question15" placeholder="Question 15*" title="Question 15" required>
                                         </div>
 
                                         <div id="twentyQuest" class="tabcontents">
                                             <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
-                                            <input type="number" min="1" max="5" name="o-weight16" value="1" title="Weight" required>
+                                            <input type="number" min="1" max="5" name="create-o-weight16" value="1" title="Weight" required>
                                             <label><i class="fas fa-clock"></i> &nbsp;</label>
-                                            <input type="number" min="2" max="5" name="o-timer16" value="2" title="Timer in minutes" required>
-                                            <input type="text" name="o-qtn16" id="id-question16" placeholder="Question 16*" title="Question 16" required>
+                                            <input type="number" min="2" max="5" name="create-o-timer16" value="2" title="Timer in minutes" required>
+                                            <input type="text" name="create-o-qtn16" id="id-question16" placeholder="Question 16*" title="Question 16" required>
 
                                             <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
-                                            <input type="number" min="1" max="5" name="o-weight17" value="1" title="Weight" required>
+                                            <input type="number" min="1" max="5" name="create-o-weight17" value="1" title="Weight" required>
                                             <label><i class="fas fa-clock"></i> &nbsp;</label>
-                                            <input type="number" min="2" max="5" name="o-timer17" value="2" title="Timer in minutes" required>
-                                            <input type="text" name="o-qtn17" id="id-question17" placeholder="Question 17*" title="Question 17" required>
+                                            <input type="number" min="2" max="5" name="create-o-timer17" value="2" title="Timer in minutes" required>
+                                            <input type="text" name="create-o-qtn17" id="id-question17" placeholder="Question 17*" title="Question 17" required>
 
                                             <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
-                                            <input type="number" min="1" max="5" name="o-weight18" value="1" title="Weight" required>
+                                            <input type="number" min="1" max="5" name="create-o-weight18" value="1" title="Weight" required>
                                             <label><i class="fas fa-clock"></i> &nbsp;</label>
-                                            <input type="number" min="2" max="5" name="o-timer18" value="2" title="Timer in minutes" required>
-                                            <input type="text" name="o-qtn18" id="id-question18" placeholder="Question 18*" title="Question 18" required>
+                                            <input type="number" min="2" max="5" name="create-o-timer18" value="2" title="Timer in minutes" required>
+                                            <input type="text" name="create-o-qtn18" id="id-question18" placeholder="Question 18*" title="Question 18" required>
 
                                             <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
-                                            <input type="number" min="1" max="5" name="o-weight19" value="1" title="Weight" required>
+                                            <input type="number" min="1" max="5" name="create-o-weight19" value="1" title="Weight" required>
                                             <label><i class="fas fa-clock"></i> &nbsp;</label>
-                                            <input type="number" min="2" max="5" name="o-timer19" value="2" title="Timer in minutes" required>
-                                            <input type="text" name="o-qtn19" id="id-question19" placeholder="Question 19*" title="Question 19" required>
+                                            <input type="number" min="2" max="5" name="create-o-timer19" value="2" title="Timer in minutes" required>
+                                            <input type="text" name="create-o-qtn19" id="id-question19" placeholder="Question 19*" title="Question 19" required>
 
                                             <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
-                                            <input type="number" min="1" max="5" name="o-weight20" value="1" title="Weight" required>
+                                            <input type="number" min="1" max="5" name="create-o-weight20" value="1" title="Weight" required>
                                             <label><i class="fas fa-clock"></i> &nbsp;</label>
-                                            <input type="number" min="2" max="5" name="o-timer20" value="2" title="Timer in minutes" required>
-                                            <input type="text" name="o-qtn20" id="id-question20" placeholder="Question 20*" title="Question 20" required>
+                                            <input type="number" min="2" max="5" name="create-o-timer20" value="2" title="Timer in minutes" required>
+                                            <input type="text" name="create-o-qtn20" id="id-question20" placeholder="Question 20*" title="Question 20" required>
                                         </div>
                                     </div>
                                 </div><br><br style="line-height: 10px;">
@@ -530,7 +513,7 @@
                 </div>
             </form>
         </div>
-    </div> END OF MODAL -->
+    </div> <!-- END OF CREATE MODAL -->
 
     <form id="setJobId" method="POST">
         {% csrf_token %}
