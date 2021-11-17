@@ -18,14 +18,7 @@ from rest_framework.response import Response
 from rest_framework.generics import DestroyAPIView, ListAPIView, RetrieveAPIView
 
 from user.models import Account, CreateJob, SavedJob, AppliedJob
-from .serializers import(
-	AccountSerializer, 
-	JobOfferingListSerializer,
-	SavedJobSerializer,
-	AppliedJobSerializer,
-	CreateJobSerializer,
-	SavedJobUserSerializer,
-)
+from .serializers import *
 
 from .forms import *
 

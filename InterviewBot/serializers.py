@@ -18,15 +18,21 @@ class SavedJobSerializer(serializers.ModelSerializer):
         model = SavedJob
         fields = ['user', 'job']
 
-class AppliedJobSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = AppliedJob
-        fields = ('user_id', 'job_id', 'final_score')
+# class AppliedJobSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = AppliedJob
+#         fields = ('user_id', 'job_id',  'final_score')
 
 class CreateJobSerializer(serializers.ModelSerializer):
     class Meta:
         model = CreateJob
         fields = ['title', 'description']
+
+class AppliedJobSerializer(serializers.ModelSerializer):
+    job = CreateJobSerializer()
+    class Meta:
+        model = AppliedJob
+        fields = ('final_score', 'job')
 
 class SavedJobUserSerializer(serializers.ModelSerializer):
     class Meta:

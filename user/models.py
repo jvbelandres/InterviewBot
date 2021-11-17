@@ -154,17 +154,20 @@ class Questions(models.Model):
 	timer18 = models.IntegerField(null=True, blank=True)
 	timer19 = models.IntegerField(null=True, blank=True)
 	timer20 = models.IntegerField(null=True, blank=True)
+
+	class Meta:
+		db_table = "job_questions"
 		
 class SavedJob(models.Model):
 	user = models.ForeignKey(Account, null=False, blank=False, related_name="user_savedjob", on_delete=models.CASCADE)
 	job = models.ForeignKey(CreateJob, null=False, blank=False, related_name="job_savedjob", on_delete=models.CASCADE)
 
 	class Meta:
-		db_table ="SavedJob"
+		db_table = "SavedJob"
 
 class AppliedJob(models.Model):
-	user = models.ForeignKey(Account, null = False, blank = False, on_delete = models.CASCADE, related_name = "Applicant")
-	job = models.ForeignKey(CreateJob, null = False, blank = False, on_delete = models.CASCADE, related_name = "CreateJob")
+	user = models.ForeignKey(Account, null = False, blank = False, on_delete = models.CASCADE, related_name = "applicant")
+	job = models.ForeignKey(CreateJob, null = False, blank = False, on_delete = models.CASCADE, related_name = "applied_job")
 	response_1 = models.TextField(null = True)
 	response_2 = models.TextField(null = True)
 	response_3 = models.TextField(null = True)
