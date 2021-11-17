@@ -12,6 +12,7 @@ urlpatterns=[
     path('dashboard/', login_required(views.DashboardView.as_view()), name="dashboard_view"),
     path('job-lists/', login_required(views.JobListsView.as_view()), name="job-lists_view"),
     path('create-job-one/', login_required(views.CreateJobOneView.as_view()), name="create-job-one_view"),
+    path('create-job-questions/', login_required(views.CreateJobQuestionsView.as_view()), name="create-job-questions_view"),
     path('create-admin/', login_required(views.AdminRegistrationView.as_view()), name="create-admin_view"),
     path('create-staff/', login_required(views.StaffRegistrationView.as_view()), name="create-staff_view"),
     path('registration/complete/', views.RegisterComplete.as_view(), name="registration_complete"),

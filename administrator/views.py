@@ -724,3 +724,7 @@ class AdminAccessDeniedView(View):
 class CreateJobOneView(View):
 	def get(self, request):
 		return render(request, 'createJobFirstPage.html')
+
+class CreateJobQuestionsView(View):
+	def get(self, request):
+		return render(request, 'createJobQuestions.html')
