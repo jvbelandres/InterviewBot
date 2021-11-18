@@ -15,7 +15,7 @@ from rest_framework.views import APIView
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
-from rest_framework.generics import DestroyAPIView, ListAPIView, RetrieveAPIView
+from rest_framework.generics import CreateAPIView, DestroyAPIView, ListAPIView, RetrieveAPIView
 
 from user.models import Account, CreateJob, SavedJob, AppliedJob
 from .serializers import *
@@ -108,6 +108,10 @@ class JobOfferingsViewAPI(ListAPIView):
 		'FROM jobofferings, account WHERE jobofferings.admin_id = account.id AND jobofferings.id NOT IN ' +
 		'(SELECT savedjob.job_id FROM savedjob WHERE ' + self.kwargs['user_id'] + ' = savedjob.user_id UNION ALL ' +
 		'SELECT appliedjob.job_id FROM appliedjob WHERE appliedjob.user_id = ' + self.kwargs['user_id'] + ') AND jobofferings.is_deleted=0')
+
+# to SAVE job offering
+class SaveJobOfferingCreateViewAPI(CreateAPIView):
+	serializer_class = SavedJobSerializer
 
 # to UNSAVE job offering
 class UnsaveJobOfferingDestroyView(DestroyAPIView):

@@ -1,3 +1,4 @@
+from django.db.models import fields
 from rest_framework import serializers
 
 from django.utils.http import urlsafe_base64_encode
@@ -6,7 +7,7 @@ from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 
 from .tokens import account_activation_token
-from .models import Account, AppliedJob, Contact, CreateJob, SavedJob
+from .models import Account
 
 class AccountRegisterSerializer(serializers.ModelSerializer):
     class Meta:

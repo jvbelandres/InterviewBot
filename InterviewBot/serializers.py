@@ -27,7 +27,7 @@ class CreateJobSerializer(serializers.ModelSerializer):
     admin = FewAccountDetailsSerializer()
     class Meta:
         model = CreateJob
-        fields = ['title', 'description', 'admin']
+        fields = ['id', 'title', 'description', 'admin']
 
 class AppliedJobSerializer(serializers.ModelSerializer):
     job = CreateJobSerializer()
