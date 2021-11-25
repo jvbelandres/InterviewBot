@@ -97,7 +97,7 @@ class AppliedJobUserViewAPI(ListAPIView):
 		'WHERE account.id = jobofferings.admin_id AND jobofferings.id = appliedjob.job_id ' +
 		'AND appliedjob.user_id = '+self.kwargs['user_id']+ ' ORDER BY appliedjob.id DESC')
 
-# for job offerings (USER)
+# used - for job offerings (USER)
 class JobOfferingsViewAPI(ListAPIView):
 	query = CreateJob.objects.all()
 	serializer_class = CreateJobSerializer
@@ -109,11 +109,11 @@ class JobOfferingsViewAPI(ListAPIView):
 		'(SELECT savedjob.job_id FROM savedjob WHERE ' + self.kwargs['user_id'] + ' = savedjob.user_id UNION ALL ' +
 		'SELECT appliedjob.job_id FROM appliedjob WHERE appliedjob.user_id = ' + self.kwargs['user_id'] + ') AND jobofferings.is_deleted=0')
 
-# to SAVE job offering
+# used - to SAVE job offering
 class SaveJobOfferingCreateViewAPI(CreateAPIView):
 	serializer_class = SavedJobSerializer
 
-# to UNSAVE job offering
+# used - to UNSAVE job offering
 class UnsaveJobOfferingDestroyView(DestroyAPIView):
 	queryset = SavedJob.objects.all()
 
@@ -131,27 +131,10 @@ class JobOfferingsAdminListViewAPI(ListAPIView):
 		admin_id = self.kwargs['admin_id']
 		return CreateJob.objects.filter(admin_id=admin_id)
 
-class SavedJobListViewAPI(ListAPIView):
-	queryset = SavedJob.objects.all()
-	serializer_class = SavedJobSerializer
-
-class AppliedJobListViewAPI(ListAPIView):
-	queryset = AppliedJob.objects.all()
-	serializer_class = AppliedJobSerializer
-
 class AppliedJobDetailedAdminViewAPI(RetrieveAPIView):
 	queryset = SavedJob.objects.all()
 	serializer_class = SavedJobSerializer
 	lookup_field = 'job_id'
-
-class CreateJobDetailedViewAPI(ListAPIView):
-	queryset = CreateJob.objects.all()
-	serializer_class = CreateJobSerializer
-	lookup_field = "job_id"
-
-	def get_queryset(self):
-		job_id = self.kwargs['job_id']
-		return CreateJob.objects.filter(id=job_id)
 
 
 

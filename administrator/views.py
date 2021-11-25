@@ -180,7 +180,8 @@ class JobListsView(View):
 			else:
 				joblists = CreateJob.objects.raw('SELECT account.email, jobofferings.*, job_questions.* FROM jobofferings, account, job_questions WHERE jobofferings.is_deleted = 0 AND account.email = \''+ str(admin_joblist) + '\' AND jobofferings.admin_id = account.id AND job_questions.job_id = jobofferings.id')
 		elif user.staff:
-			joblists = CreateJob.objects.filter(admin_id = user.id, is_deleted=0)
+			joblists = CreateJob.objects.raw("SELECT account.email, jobofferings.*, job_questions.* FROM jobofferings, account, job_questions WHERE jobofferings.is_deleted = 0 AND jobofferings.admin_id = " + str(user.id) + " AND job_questions.job_id = jobofferings.id AND jobofferings.admin_id = account.id;")
+			
 
 		p = Paginator(joblists,2)
 		page_number = request.GET.get('page',1)
@@ -206,7 +207,7 @@ class JobListsView(View):
 		user = request.user
 		if 'btnDelete' in request.POST:
 			job_id = request.POST.get("id-job")
-			job = CreateJob.objects.filter(id=job_id).update(is_deleted=1)
+			CreateJob.objects.filter(id=job_id).update(is_deleted=1)
 			messages.error(request, 'deleted')
 			return redirect('administrator:job-lists_view')
 		elif 'btnUpdate' in request.POST:
