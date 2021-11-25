@@ -117,10 +117,9 @@ class SaveJobOfferingCreateViewAPI(CreateAPIView):
 class UnsaveJobOfferingDestroyView(DestroyAPIView):
 	queryset = SavedJob.objects.all()
 
-class AccountDetailsViewAPI(RetrieveAPIView):
+class AccountDetailsViewAPI(ListAPIView):
 	queryset = Account.objects.all()
 	serializer_class = AccountSerializer
-	lookup_field = 'email'
 
 class JobOfferingsAdminListViewAPI(ListAPIView):
 	queryset = CreateJob.objects.all()
