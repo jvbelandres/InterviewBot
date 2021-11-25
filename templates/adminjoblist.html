@@ -186,13 +186,13 @@
                                                     <div class="tab-content" id="nav-tabContents">
                                                         <div class="tab-pane fade show active" id="q1to5-{{joblist.id}}" role="tabpanel" aria-labelledby="nav-home-tab">
                                                             <br>
-                                                            {% if joblist.is_default == 1 %}
+                                                            {% if joblist.is_default == 1 %} <!-- DEFAULT QUESTIONS FOR QUESTIONS 1 TO 5 (QUESTIONS NOT EDITABLE) -->
                                                             <h6 class="questionLabel">Question 1:</h6>
                                                             <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
                                                             <input type="number" min="1" max="5" name="d-weight1" value="{{joblist.weight1}}" title="Weight" required>
                                                             <label><i class="fas fa-clock"></i> &nbsp;</label>
                                                             <input type="number" min="2" max="5" name="d-timer1" value="{{joblist.timer1}}" title="Timer" required>
-                                                            <input type="text" name="d-qtn1" id="id-question1" value="{{joblist.question_1}}" placeholder="Question 1" disabled>
+                                                            <input type="text" name="d-qtn1" id="id-question1" value="{{joblist.question_1}}" placeholder="Question 1" readonly>
                                                             <br><br>
 
                                                             <h6 class="questionLabel">Question 2:</h6>
@@ -200,7 +200,7 @@
                                                             <input type="number" min="1" max="5" name="d-weight2" value="{{joblist.weight2}}" title="Weight" required>
                                                             <label><i class="fas fa-clock"></i> &nbsp;</label>
                                                             <input type="number" min="2" max="5" name="d-timer2" value="{{joblist.timer2}}" title="Timer" required>
-                                                            <input type="text" name="d-qtn2" id="id-question2" value="{{joblist.question_2}}" placeholder="Question 2" disabled>
+                                                            <input type="text" name="d-qtn2" id="id-question2" value="{{joblist.question_2}}" placeholder="Question 2" readonly>
                                                             <br><br>
 
                                                             <h6 class="questionLabel">Question 3:</h6>
@@ -208,7 +208,7 @@
                                                             <input type="number" min="1" max="5" name="d-weight3" value="{{joblist.weight3}}" title="Weight" required>
                                                             <label><i class="fas fa-clock"></i> &nbsp;</label>
                                                             <input type="number" min="2" max="5" name="d-timer3" value="{{joblist.timer3}}" title="Timer" required>
-                                                            <input type="text" name="d-qtn3" id="id-question3" value="{{joblist.question_3}}" placeholder="Question 3" disabled>
+                                                            <input type="text" name="d-qtn3" id="id-question3" value="{{joblist.question_3}}" placeholder="Question 3" readonly>
                                                             <br><br>
 
                                                             <h6 class="questionLabel">Question 4:</h6>
@@ -216,7 +216,7 @@
                                                             <input type="number" min="1" max="5" name="d-weight4" value="{{joblist.weight4}}" title="Weight" required>
                                                             <label><i class="fas fa-clock"></i> &nbsp;</label>
                                                             <input type="number" min="2" max="5" name="d-timer4" value="{{joblist.timer4}}" title="Timer" required>
-                                                            <input type="text" name="d-qtn4" id="id-question4" value="{{joblist.question_4}}" placeholder="Question 4" disabled>
+                                                            <input type="text" name="d-qtn4" id="id-question4" value="{{joblist.question_4}}" placeholder="Question 4" readonly>
                                                             <br><br>
 
                                                             <h6 class="questionLabel">Question 5:</h6>
@@ -224,11 +224,11 @@
                                                             <input type="number" min="1" max="5" name="d-weight5" value="{{joblist.weight5}}" title="Weight" required>
                                                             <label><i class="fas fa-clock"></i> &nbsp;</label>
                                                             <input type="number" min="2" max="5" name="d-timer5" value="{{joblist.timer5}}" title="Timer" required>
-                                                            <input type="text" name="d-qtn5" id="id-question5" value="{{joblist.question_5}}" placeholder="Question 5" disabled>
+                                                            <input type="text" name="d-qtn5" id="id-question5" value="{{joblist.question_5}}" placeholder="Question 5" readonly>
                                                             <br><br>
 
                                                             <p style="font-size: 16px; color: red; float: right;">Note: Default questions used. You can only edit timer and weight.</p>
-                                                            {% else %}
+                                                            {% else %} <!-- OWN QUESTIONS FOR QUESTIONS 1 TO 5 (EDITABLE)-->
                                                             <h6 class="questionLabel">Question 1:</h6>
                                                             <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
                                                             <input type="number" min="1" max="5" name="o-weight1" value="{{joblist.weight1}}" title="Weight" required>
@@ -272,13 +272,13 @@
                                                         </div>
                                                         <div class="tab-pane fade" id="q6to10-{{joblist.id}}" role="tabpanel" aria-labelledby="nav-profile-tab">
                                                             <br>
-                                                            {% if joblist.is_default == 1 %}
+                                                            {% if joblist.is_default == 1 %} <!-- DEFAULT QUESTIONS FOR QUESTIONS 6 TO 10 (QUESTIONS NOT EDITABLE)-->
                                                             <h6 class="questionLabel">Question 6:</h6>
                                                             <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
                                                             <input type="number" min="1" max="5" name="d-weight6" value="{{joblist.weight6}}" title="Weight" required>
                                                             <label><i class="fas fa-clock"></i> &nbsp;</label>
                                                             <input type="number" min="2" max="5" name="d-timer6" value="{{joblist.timer6}}" title="Timer" required>
-                                                            <input type="text" name="d-qtn6" id="id-question6" value="{{joblist.question_6}}" placeholder="Question 6" disabled>
+                                                            <input type="text" name="d-qtn6" id="id-question6" value="{{joblist.question_6}}" placeholder="Question 6" readonly>
                                                             <br><br>
 
                                                             <h6 class="questionLabel">Question 7:</h6>
@@ -286,7 +286,7 @@
                                                             <input type="number" min="1" max="5" name="d-weight7" value="{{joblist.weight7}}" title="Weight" required>
                                                             <label><i class="fas fa-clock"></i> &nbsp;</label>
                                                             <input type="number" min="2" max="5" name="d-timer7" value="{{joblist.timer7}}" title="Timer" required>
-                                                            <input type="text" name="d-qtn7" id="id-question7" value="{{joblist.question_7}}" placeholder="Question 7" disabled>
+                                                            <input type="text" name="d-qtn7" id="id-question7" value="{{joblist.question_7}}" placeholder="Question 7" readonly>
                                                             <br><br>
 
                                                             <h6 class="questionLabel">Question 8:</h6>
@@ -294,7 +294,7 @@
                                                             <input type="number" min="1" max="5" name="d-weight8" value="{{joblist.weight8}}" title="Weight" required>
                                                             <label><i class="fas fa-clock"></i> &nbsp;</label>
                                                             <input type="number" min="2" max="5" name="d-timer8" value="{{joblist.timer8}}" title="Timer" required>
-                                                            <input type="text" name="d-qtn8" id="id-question8" value="{{joblist.question_8}}" placeholder="Question 8" disabled>
+                                                            <input type="text" name="d-qtn8" id="id-question8" value="{{joblist.question_8}}" placeholder="Question 8" readonly>
                                                             <br><br>
 
                                                             <h6 class="questionLabel">Question 9:</h6>
@@ -302,7 +302,7 @@
                                                             <input type="number" min="1" max="5" name="d-weight9" value="{{joblist.weight9}}" title="Weight" required>
                                                             <label><i class="fas fa-clock"></i> &nbsp;</label>
                                                             <input type="number" min="2" max="5" name="d-timer9" value="{{joblist.timer9}}" title="Timer" required>
-                                                            <input type="text" name="d-qtn9" id="id-question9" value="{{joblist.question_9}}" placeholder="Question 9" disabled>
+                                                            <input type="text" name="d-qtn9" id="id-question9" value="{{joblist.question_9}}" placeholder="Question 9" readonly>
                                                             <br><br>
 
                                                             <h6 class="questionLabel">Question 10:</h6>
@@ -310,11 +310,11 @@
                                                             <input type="number" min="1" max="5" name="d-weight10" value="{{joblist.weight10}}" title="Weight" required>
                                                             <label><i class="fas fa-clock"></i> &nbsp;</label>
                                                             <input type="number" min="2" max="5" name="d-timer10" value="{{joblist.timer10}}" title="Timer" required>
-                                                            <input type="text" name="d-qtn10" id="id-question10" value="{{joblist.question_10}}" placeholder="Question 10" disabled>
+                                                            <input type="text" name="d-qtn10" id="id-question10" value="{{joblist.question_10}}" placeholder="Question 10" readonly>
                                                             <br><br>
 
                                                             <p style="font-size: 16px; color: red; float: right;">Note: Default questions used. You can only edit timer and weight.</p>
-                                                            {% else %}
+                                                            {% else %} <!-- OWN QUESTIONS FOR QUESTIONS 6 TO 10 (EDITABLE)-->
                                                             <h6 class="questionLabel">Question 6:</h6>
                                                             <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
                                                             <input type="number" min="1" max="5" name="o-weight6" value="{{joblist.weight6}}" title="Weight" required>
@@ -638,7 +638,7 @@
                                 <div class="contentQuestion">
                                     <div class="input_fields_wrap2">
                                         <div id="fiveQuest" class="tabcontents">
-                                            <div class="defQ1">
+                                            <div class="defQ1"> <!-- DEFAULT QUESTIONS FOR QUESTIONS 1 TO 5 -->
                                                 <span class="text-dark" style="float: right; font-size: 14px; font-weight: bolder;">You can edit the timer and weight for each question.</span><br>
                                                 <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
                                                 <input type="number" min="1" max="5" name="create-d-weight1" value="1" title="Weight" required>
@@ -671,7 +671,7 @@
                                                 <input type="text" name="create-d-qtn5" placeholder="What can you do for us that other candidates cannot?" title="Question 5" disabled>
                                             </div>
 
-                                            <div class="ownQ1">
+                                            <div class="ownQ1"> <!-- OWN REQUESTIONS FOR QUESTIONS 1 TO 5 -->
                                                 <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
                                                 <input type="number" min="1" max="5" name="create-o-weight1" value="1" title="Weight">
                                                 <label><i class="fas fa-clock"></i> &nbsp;</label>
@@ -705,7 +705,7 @@
                                         </div>
 
                                         <div id="tenQuest" class="tabcontents">
-                                            <div class="defQ6">
+                                            <div class="defQ6"> <!-- DEFAULT QUESTIONS FOR QUESTIONS 6 TO 10-->
                                                 <span class="text-dark" style="float: right; font-size: 14px; font-weight: bolder;">You can edit the timer and weight for each question.</span><br>
                                                 <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
                                                 <input type="number" min="1" max="5" name="create-d-weight6" value="1" title="Weight" required>
@@ -738,7 +738,7 @@
                                                 <input type="text" name="create-d-qtn10" placeholder="What steps do you take to gain a customer’s trust?" title="Question 10" disabled>
                                             </div>
 
-                                            <div class="ownQ6">
+                                            <div class="ownQ6"> <!-- OWN QUESTIONS FOR QUESTIONS 6 TO 10-->
                                                 <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
                                                 <input type="number" min="1" max="5" name="create-o-weight6" value="1" title="Weight">
                                                 <label><i class="fas fa-clock"></i> &nbsp;</label>
@@ -771,7 +771,8 @@
                                             </div>
                                         </div>
 
-                                        <div id="fifteenQuest" class="tabcontents">
+                                        <!-- OWN QUESTIONS FOR QUESTIONS 11 TO 20 -->
+                                        <div id="fifteenQuest" class="tabcontents"> 
                                             <label><i class="fas fa-balance-scale"></i> &nbsp;</label>
                                             <input type="number" min="1" max="5" name="create-o-weight11" value="1" title="Weight" required>
                                             <label><i class="fas fa-clock"></i> &nbsp;</label>
