@@ -746,6 +746,7 @@ class ResponseView(View):
 			return redirect('user:access_denied_view')
 		job_id = request.session['job']
 		applicant_id = request.session['applicant']
+		# TODO
 		# SELECT * FROM (SELECT id, job_id, ROW_NUMBER() OVER (PARTITION BY job_id) AS RowNumber FROM "AppliedJob" WHERE final_score IS NOT NULL) AS a WHERE a.RowNumber = 1;
 		response = AppliedJob.objects.raw('SELECT * FROM "AppliedJob","JobOfferings","Account" WHERE "AppliedJob".job_id = "JobOfferings".id AND "AppliedJob".user_id = "Account".id AND "JobOfferings".id = '+str(job_id)+' AND "Account".id = '+str(applicant_id)+' GROUP BY "Account".id')
 		job = CreateJob.objects.filter(id = job_id)
