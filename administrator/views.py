@@ -32,7 +32,7 @@ class DashboardView(View):
 				joblists = CreateJob.objects.raw('SELECT jobofferings.* FROM jobofferings, account WHERE jobofferings.is_deleted = 0 AND account.email = \''+ str(admin_joblist) + '\' AND jobofferings.admin_id = account.id')
 		else:
 			joblists = CreateJob.objects.filter(admin_id=request.user.id, is_deleted=0)
-		appliedJobs = AppliedJob.objects.raw('SELECT * FROM appliedjob WHERE final_score IS NOT NULL')
+		appliedJobs = AppliedJob.objects.raw('SELECT * FROM appliedjob WHERE final_score <> 0')
 
 		accounts = Account.objects.filter(staff=1, is_active=1)
 

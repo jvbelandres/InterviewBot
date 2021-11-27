@@ -55,7 +55,7 @@ urlpatterns = [
     path('api/saved-jobs/<int:pk>/delete/', UnsaveJobOfferingDestroyView.as_view()), #used - to UNSAVE job offerings (USER)
 
     path('api/accounts/', AccountDetailsViewAPI.as_view()), #can be used to get the account details of a certain email
-    path('api/admin/<admin_id>/job-offerings/', JobOfferingsAdminListViewAPI.as_view()), #can be used to get the job offerings of an admin
+    path('api/admin/<admin_id>/job-offerings/', JobOfferingsAdminListViewAPI.as_view()), # used - to get the job offerings of an admin
     path('api/job/<job_id>/applied-jobs/', AppliedJobDetailedAdminViewAPI.as_view()), #can be used to check if who applied a certain job
 
 

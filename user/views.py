@@ -1372,6 +1372,8 @@ class InterviewForfeitView(View):
 			if request.user.staff:
 				return redirect('administrator:access_denied_view')
 
+			AppliedJob.objects.filter(job_id = request.session['job'], user_id = request.user.id).update(final_score = 0)
+
 			del request.session['job']
 			del request.session['instruction']
 			del request.session['on-interview']
