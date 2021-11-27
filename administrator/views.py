@@ -729,7 +729,7 @@ class Applicants(View):
 			'joblists': joblists,
 			'applicants': applicants
 		}
-		return render(request, 'jobApplicants.html', context)
+		return render(request, 'job_applicants.html', context)
 
 	def post(self, request):
 		if request.method == 'POST':
@@ -758,7 +758,7 @@ class ResponseView(View):
 class LogOutView(View):
 	def get(self, request):
 		logout(request)
-		return render(request, 'LogOut.html')
+		return render(request, 'log_out.html')
 
 class AdminAccessDeniedView(View):
 	def get(self, request):
