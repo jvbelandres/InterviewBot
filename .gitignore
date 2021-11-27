@@ -25,6 +25,8 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+*.sqlite3
+.idea/
 
 # migrations
 migrations/
@@ -139,3 +141,6 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+# Editor directories and files
+.idea
