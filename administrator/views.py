@@ -746,7 +746,7 @@ class ResponseView(View):
 			return redirect('user:access_denied_view')
 		job_id = request.session['job']
 		applicant_id = request.session['applicant']
-		response = AppliedJob.objects.raw('SELECT * FROM "AppliedJob","JobOfferings","Account" WHERE "AppliedJob".job_id = "JobOfferings".id AND "AppliedJob".user_id = "Account".id AND "JobOfferings".id = '+str(job_id)+' AND "Account".id = '+str(applicant_id)+' GROUP BY "Account".email')
+		response = AppliedJob.objects.raw('SELECT "AppliedJob".*, "JobOfferings".*, "Account".* FROM "AppliedJob","JobOfferings","Account" WHERE "AppliedJob".job_id = "JobOfferings".id AND "AppliedJob".user_id = "Account".id AND "JobOfferings".id = '+str(job_id)+' AND "Account".id = '+str(applicant_id)+' GROUP BY "Account".email')
 		job = CreateJob.objects.filter(id = job_id)
 
 		context = {
