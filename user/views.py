@@ -199,13 +199,13 @@ class AboutUsView(View):
 	def get(self, request):
 		if request.user.staff:
 			return redirect('administrator:access_denied_view')
-		return render(request, 'aboutUs.html')
+		return render(request, 'about_us.html')
 
 class ContactUsView(View):
 	def get(self, request):
 		if request.user.staff:
 			return redirect('administrator:access_denied_view')
-		return render(request, 'contactUs.html')
+		return render(request, 'contact_us.html')
 
 	def post(self, request):
 		form = ContactForm(request.POST)
