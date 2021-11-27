@@ -352,7 +352,7 @@ class JobInterviewView(View):
 				return redirect('user:interview_forfeit_view')
 		except KeyError:
 			return redirect('user:interview_access_denied')
-		return render(request, 'jobOffer_Interview.html', context)
+		return render(request, 'jobOfferInterview.html', context)
 
 	def post(self, request):
 		if request.method == 'POST':
