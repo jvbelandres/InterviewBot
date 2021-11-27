@@ -56,7 +56,7 @@ def finalScoring(pos, weight, minutes, seconds, timer):
 
 class RegisterView(CreateView):
 	form_class = RegisterForm
-	template_name = 'RegistrationPage.html'
+	template_name = 'registration_page.html'
 	
 	def form_valid(self, form):
 		user = form.save(commit=False)
@@ -131,7 +131,7 @@ class HomePageView(View):
 			'appliedjobs': appliedjobs,
 			'savedjobs': savedjobs
 		}
-		return render(request, 'homePage.html', context)
+		return render(request, 'home_page.html', context)
 
 	def post(self, request):
 		if request.method == "POST":
@@ -225,7 +225,7 @@ class ContactUsView(View):
 
 class AccessDeniedView(View):
 	def get(self, request):
-		return render(request, 'accessDenied.html')
+		return render(request, 'access_denied.html')
 
 class JobOffersView(View):
 	def get(self, request):
@@ -240,7 +240,7 @@ class JobOffersView(View):
 			'joblists': joblists,
 			'saved_jobs': saved_jobs,
 		}
-		return render(request, 'jobOffers.html', context)
+		return render(request, 'job_offers.html', context)
 
 	def post(self, request):
 		if request.method == 'POST':
@@ -305,7 +305,7 @@ class SettingsView(FormView):
 	def get(self, request):
 		if request.user.staff:
 			return redirect('administrator:access_denied_view')
-		return render(request, 'Settings.html')
+		return render(request, 'settings.html')
 
 	def post(self, request):
 		user = request.user
@@ -352,7 +352,7 @@ class JobInterviewView(View):
 				return redirect('user:interview_forfeit_view')
 		except KeyError:
 			return redirect('user:interview_access_denied')
-		return render(request, 'interviewInstructions.html', context)
+		return render(request, 'interview_instructions.html', context)
 
 	def post(self, request):
 		if request.method == 'POST':
@@ -1364,7 +1364,7 @@ class InterviewSuccessView(View):
 			return redirect('user:interview_access_denied')
 		except: 
 			pass
-		return render(request, 'interviewSuccess.html')
+		return render(request, 'interview_success.html')
 
 class InterviewForfeitView(View):
 	def get(self, request):
@@ -1399,10 +1399,10 @@ class InterviewForfeitView(View):
 			del request.session['q20']
 		except KeyError:
 			return redirect('user:interview_access_denied')
-		return render(request, 'interviewForfeit.html')
+		return render(request, 'interview_forfeit.html')
 
 class JobInterviewAccessDenied(View):
 	def get(self, request):
 		if request.user.staff:
 			return redirect('administrator:access_denied_view')
-		return render(request, 'jobInterviewAccessDenied.html')
+		return render(request, 'job_interview_access_denied.html')

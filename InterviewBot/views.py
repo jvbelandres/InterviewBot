@@ -140,7 +140,7 @@ class AppliedJobDetailedAdminViewAPI(RetrieveAPIView):
 ############################################################################################################
 class LoginView(FormView):
 	form_class = LoginForm
-	template_name = 'UserLog-inPage.html'
+	template_name = 'log_in.html'
 
 	def form_valid(self, form):
 		request = self.request
