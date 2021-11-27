@@ -189,7 +189,7 @@ class JobListsView(View):
 
 		if user.admin:
 			if admin_joblist == 'All Job Offerings':
-				joblists = CreateJob.objects.raw('SELECT "Account".email, "JobOfferings".*, "job_questions".* FROM "Account", "JobOfferings", "job_questions" WHERE "JobOfferings".admin_id = "Account".id AND "JobOfferings".is_deleted = 0 AND "job_questions".job_id = "JobOfferings".id')
+				joblists = CreateJob.objects.raw('SELECT "Account".email, "JobOfferings".*, "job_questions".* FROM "Account", "JobOfferings", "job_questions" WHERE "JobOfferings".admin_id = "Account".id AND "JobOfferings".is_deleted = False AND "job_questions".job_id = "JobOfferings".id')
 			else:
 				joblists = CreateJob.objects.raw('SELECT "Account".email, "JobOfferings".*, "job_questions".* FROM "JobOfferings", "Account", "job_questions" WHERE "JobOfferings".is_deleted = False AND "Account".email = \''+ str(admin_joblist) + '\' AND "JobOfferings".admin_id = "Account".id AND "job_questions".job_id = "JobOfferings".id')
 		elif user.staff:
