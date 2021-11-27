@@ -42,7 +42,7 @@ class DashboardView(View):
 			'accounts': accounts,
 			'admin_joblist': admin_joblist,
 		}
-		return render(request, 'admindashboard.html', context)
+		return render(request, 'admin_dashboard.html', context)
 
 	def post(self, request):
 		if request.method == 'POST':
@@ -214,7 +214,7 @@ class JobListsView(View):
 			'appliedjobs': appliedjobs,
 		}
 
-		return render(request, 'adminjoblist.html', context)
+		return render(request, 'admin_joblist.html', context)
 
 	def post(self, request):
 		user = request.user
@@ -470,7 +470,7 @@ class JobListsView(View):
 
 class AdminRegistrationView(CreateView):
 	form_class = AdminRegisterForm
-	template_name = 'registeradmin.html'
+	template_name = 'register_admin.html'
 
 	def form_valid(self, form):
 		user = form.save(commit=False)
@@ -504,7 +504,7 @@ class AdminRegistrationView(CreateView):
 
 class StaffRegistrationView(CreateView):
 	form_class = StaffRegisterForm
-	template_name = 'registerStaff.html'
+	template_name = 'register_staff.html'
 	
 	def form_valid(self, form):
 		user = form.save(commit=False)
@@ -570,7 +570,7 @@ class SettingsView(FormView):
 	def get(self, request):
 		if not request.user.staff:
 			return redirect('user:access_denied_view')
-		return render(request, 'adminsettings.html')
+		return render(request, 'admin_settings.html')
 
 	def post(self, request):
 		user = request.user
@@ -738,7 +738,7 @@ class Applicants(View):
 				job_id = request.session['job']
 				return redirect('administrator:response_view')
 		else:
-			return render(request, 'jobApplicants.html')
+			return render(request, 'job_applicants.html')
 
 class ResponseView(View):
 	def get(self, request):
@@ -753,7 +753,7 @@ class ResponseView(View):
 			'responses': response,
 			'job': job,
 		}
-		return render(request, 'individualApplicant.html', context)
+		return render(request, 'individual_applicant.html', context)
 
 class LogOutView(View):
 	def get(self, request):
@@ -762,4 +762,4 @@ class LogOutView(View):
 
 class AdminAccessDeniedView(View):
 	def get(self, request):
-		return render(request, 'admin_accessDenied.html')
+		return render(request, 'admin_access_denied.html')

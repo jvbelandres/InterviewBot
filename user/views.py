@@ -221,7 +221,7 @@ class ContactUsView(View):
 			messages.success(request, 'sent')
 			return redirect('user:contact-us_view')
 
-		return render(request, 'ContactUs.html')
+		return render(request, 'contact_us.html')
 
 class AccessDeniedView(View):
 	def get(self, request):
@@ -305,7 +305,7 @@ class SettingsView(FormView):
 	def get(self, request):
 		if request.user.staff:
 			return redirect('administrator:access_denied_view')
-		return render(request, 'settings.html')
+		return render(request, 'user_settings.html')
 
 	def post(self, request):
 		user = request.user
