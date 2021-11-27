@@ -161,9 +161,6 @@ STATICFILES_DIRS = [
     STATIC_DIR,
 ]
 
-# Media files (Uploaded files)
-MEDIA_URL = '/media/'
-
 # Gmail Settings
 EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST='smtp.gmail.com'
@@ -178,6 +175,7 @@ LOGIN_URL = '/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
+
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 django_heroku.settings(locals())
