@@ -29,7 +29,7 @@ class DashboardView(View):
 			if admin_joblist == 'All Job Offerings':
 				joblists = CreateJob.objects.filter(is_deleted=0)
 			else:
-				joblists = CreateJob.objects.raw('SELECT "JobOfferings".* FROM "JobOfferings", "Account" WHERE "JobOfferings".is_deleted = 0 AND "Account".email = \''+ str(admin_joblist) + '\' AND "JobOfferings".admin_id = "Account".id')
+				joblists = CreateJob.objects.raw('SELECT "JobOfferings".* FROM "JobOfferings", "Account" WHERE "JobOfferings".is_deleted = false AND "Account".email = \''+ str(admin_joblist) + '\' AND "JobOfferings".admin_id = "Account".id')
 		else:
 			joblists = CreateJob.objects.filter(admin_id=request.user.id, is_deleted=0)
 		appliedJobs = AppliedJob.objects.raw('SELECT * FROM "AppliedJob" WHERE final_score <> 0')
@@ -191,9 +191,9 @@ class JobListsView(View):
 			if admin_joblist == 'All Job Offerings':
 				joblists = CreateJob.objects.raw('SELECT "Account".email, "JobOfferings".*, "job_questions".* FROM "Account", "JobOfferings", "job_questions" WHERE "JobOfferings".admin_id = "Account".id AND "JobOfferings".is_deleted = 0 AND "job_questions".job_id = "JobOfferings".id')
 			else:
-				joblists = CreateJob.objects.raw('SELECT "Account".email, "JobOfferings".*, "job_questions".* FROM "JobOfferings", "Account", "job_questions" WHERE "JobOfferings".is_deleted = 0 AND "Account".email = \''+ str(admin_joblist) + '\' AND "JobOfferings".admin_id = "Account".id AND "job_questions".job_id = "JobOfferings".id')
+				joblists = CreateJob.objects.raw('SELECT "Account".email, "JobOfferings".*, "job_questions".* FROM "JobOfferings", "Account", "job_questions" WHERE "JobOfferings".is_deleted = false AND "Account".email = \''+ str(admin_joblist) + '\' AND "JobOfferings".admin_id = "Account".id AND "job_questions".job_id = "JobOfferings".id')
 		elif user.staff:
-			joblists = CreateJob.objects.raw('SELECT "Account".email, "JobOfferings".*, "job_questions".* FROM "JobOfferings", "Account", "job_questions" WHERE "JobOfferings".is_deleted = 0 AND "JobOfferings".admin_id = " + str(user.id) + " AND "job_questions".job_id = "JobOfferings".id AND "JobOfferings".admin_id = "Account".id')
+			joblists = CreateJob.objects.raw('SELECT "Account".email, "JobOfferings".*, "job_questions".* FROM "JobOfferings", "Account", "job_questions" WHERE "JobOfferings".is_deleted = false AND "JobOfferings".admin_id = " + str(user.id) + " AND "job_questions".job_id = "JobOfferings".id AND "JobOfferings".admin_id = "Account".id')
 			
 
 		p = Paginator(joblists,2)
