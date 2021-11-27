@@ -193,7 +193,7 @@ class HomePageView(View):
 class LogOutView(View):
 	def get(self, request):
 		logout(request)
-		return render(request, 'Logout.html')
+		return render(request, 'LogOut.html')
 
 class AboutUsView(View):
 	def get(self, request):
