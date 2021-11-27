@@ -29,10 +29,10 @@ class DashboardView(View):
 			if admin_joblist == 'All Job Offerings':
 				joblists = CreateJob.objects.filter(is_deleted=0)
 			else:
-				joblists = CreateJob.objects.raw('SELECT jobofferings.* FROM jobofferings, account WHERE jobofferings.is_deleted = 0 AND account.email = \''+ str(admin_joblist) + '\' AND jobofferings.admin_id = account.id')
+				joblists = CreateJob.objects.raw('SELECT "JobOfferings".* FROM "JobOfferings", "Account" WHERE "JobOfferings".is_deleted = 0 AND "Account".email = \''+ str(admin_joblist) + '\' AND "JobOfferings".admin_id = "Account".id')
 		else:
 			joblists = CreateJob.objects.filter(admin_id=request.user.id, is_deleted=0)
-		appliedJobs = AppliedJob.objects.raw('SELECT * FROM appliedjob WHERE final_score <> 0')
+		appliedJobs = AppliedJob.objects.raw('SELECT * FROM "AppliedJob" WHERE final_score <> 0')
 
 		accounts = Account.objects.filter(staff=1, is_active=1)
 
@@ -181,7 +181,7 @@ class JobListsView(View):
 
 		accounts = Account.objects.filter(staff=1, is_active=1)
 		# Raw query to get DISTINCT job_id since required ang primary key if apilon siyas GROUP BY or DISTINCT
-		appliedjobs = AppliedJob.objects.raw('SELECT * FROM (SELECT id, job_id, ROW_NUMBER() OVER (PARTITION BY job_id) AS RowNumber FROM AppliedJob WHERE final_score IS NOT NULL) AS a WHERE a.RowNumber = 1;')
+		appliedjobs = AppliedJob.objects.raw('SELECT * FROM (SELECT id, job_id, ROW_NUMBER() OVER (PARTITION BY job_id) AS RowNumber FROM "AppliedJob" WHERE final_score IS NOT NULL) AS a WHERE a.RowNumber = 1;')
 
 		admin_joblist = request.GET.get('job-list-filter')
 		if admin_joblist == None:
@@ -189,11 +189,11 @@ class JobListsView(View):
 
 		if user.admin:
 			if admin_joblist == 'All Job Offerings':
-				joblists = CreateJob.objects.raw('SELECT account.email, jobofferings.*, job_questions.* FROM account, jobofferings, job_questions WHERE jobofferings.admin_id = account.id AND jobofferings.is_deleted = 0 AND job_questions.job_id = jobofferings.id')
+				joblists = CreateJob.objects.raw('SELECT "Account".email, "JobOfferings".*, "job_questions".* FROM "Account", "JobOfferings", "job_questions" WHERE "JobOfferings".admin_id = "Account".id AND "JobOfferings".is_deleted = 0 AND "job_questions".job_id = "JobOfferings".id')
 			else:
-				joblists = CreateJob.objects.raw('SELECT account.email, jobofferings.*, job_questions.* FROM jobofferings, account, job_questions WHERE jobofferings.is_deleted = 0 AND account.email = \''+ str(admin_joblist) + '\' AND jobofferings.admin_id = account.id AND job_questions.job_id = jobofferings.id')
+				joblists = CreateJob.objects.raw('SELECT "Account".email, "JobOfferings".*, "job_questions".* FROM "JobOfferings", "Account", "job_questions" WHERE "JobOfferings".is_deleted = 0 AND "Account".email = \''+ str(admin_joblist) + '\' AND "JobOfferings".admin_id = "Account".id AND "job_questions".job_id = "JobOfferings".id')
 		elif user.staff:
-			joblists = CreateJob.objects.raw("SELECT account.email, jobofferings.*, job_questions.* FROM jobofferings, account, job_questions WHERE jobofferings.is_deleted = 0 AND jobofferings.admin_id = " + str(user.id) + " AND job_questions.job_id = jobofferings.id AND jobofferings.admin_id = account.id")
+			joblists = CreateJob.objects.raw('SELECT "Account".email, "JobOfferings".*, "job_questions".* FROM "JobOfferings", "Account", "job_questions" WHERE "JobOfferings".is_deleted = 0 AND "JobOfferings".admin_id = " + str(user.id) + " AND "job_questions".job_id = "JobOfferings".id AND "JobOfferings".admin_id = "Account".id')
 			
 
 		p = Paginator(joblists,2)
@@ -723,7 +723,7 @@ class Applicants(View):
 			return redirect('user:access_denied_view')
 		job_id = request.session['job']
 		joblists = CreateJob.objects.filter(id = job_id)
-		applicants = Account.objects.raw('SELECT DISTINCT account.id,firstname,lastname,appliedjob.final_score FROM account,jobofferings,appliedjob WHERE appliedjob.job_id =' + str(job_id) +' AND account.id = appliedjob.user_id ORDER BY appliedjob.final_score DESC')
+		applicants = Account.objects.raw('SELECT DISTINCT "Account".id,firstname,lastname,"AppliedJob".final_score FROM "Account","JobOfferings","AppliedJob" WHERE "AppliedJob".job_id =' + str(job_id) +' AND "Account".id = "AppliedJob".user_id ORDER BY "AppliedJob".final_score DESC')
 		
 		context = {
 			'joblists': joblists,
@@ -746,7 +746,7 @@ class ResponseView(View):
 			return redirect('user:access_denied_view')
 		job_id = request.session['job']
 		applicant_id = request.session['applicant']
-		response = AppliedJob.objects.raw('SELECT * FROM appliedjob,jobofferings,account WHERE appliedjob.job_id = jobofferings.id AND appliedjob.user_id = account.id AND jobofferings.id = '+str(job_id)+' AND account.id = '+str(applicant_id)+' GROUP BY account.email')
+		response = AppliedJob.objects.raw('SELECT * FROM "AppliedJob","JobOfferings","Account" WHERE "AppliedJob".job_id = "JobOfferings".id AND "AppliedJob".user_id = "Account".id AND "JobOfferings".id = '+str(job_id)+' AND "Account".id = '+str(applicant_id)+' GROUP BY "Account".email')
 		job = CreateJob.objects.filter(id = job_id)
 
 		context = {
