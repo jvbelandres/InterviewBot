@@ -153,7 +153,7 @@ class HomePageView(View):
 				savedjobs = SavedJob.objects.filter(job_id = job_id).delete()
 
 				# To store the files in the media dir
-				fs = FileSystemStorage();
+				fs = FileSystemStorage()
 
 				try:
 					r1 = request.FILES['myfile1']
@@ -193,19 +193,19 @@ class HomePageView(View):
 class LogOutView(View):
 	def get(self, request):
 		logout(request)
-		return render(request, 'LogOut.html')
+		return render(request, 'logout.html')
 
 class AboutUsView(View):
 	def get(self, request):
 		if request.user.staff:
 			return redirect('administrator:access_denied_view')
-		return render(request, 'AboutUs.html')
+		return render(request, 'aboutUs.html')
 
 class ContactUsView(View):
 	def get(self, request):
 		if request.user.staff:
 			return redirect('administrator:access_denied_view')
-		return render(request, 'ContactUs.html')
+		return render(request, 'contactUs.html')
 
 	def post(self, request):
 		form = ContactForm(request.POST)
@@ -264,7 +264,7 @@ class JobOffersView(View):
 				savedjobs = SavedJob.objects.filter(job_id = job_id).delete()
 
 				# To store the files in the media dir
-				fs = FileSystemStorage();
+				fs = FileSystemStorage()
 
 				try:
 					r1 = request.FILES['myfile1']
@@ -352,7 +352,7 @@ class JobInterviewView(View):
 				return redirect('user:interview_forfeit_view')
 		except KeyError:
 			return redirect('user:interview_access_denied')
-		return render(request, 'jobOfferInterview.html', context)
+		return render(request, 'interviewInstructions.html', context)
 
 	def post(self, request):
 		if request.method == 'POST':
@@ -384,7 +384,7 @@ class JobInterviewView(View):
 					del request.session['q20']
 				except:
 					pass
-				delete_requirement = AppliedJob.objects.filter(job_id = interview_job).delete()
+				AppliedJob.objects.filter(job_id = interview_job).delete()
 				return redirect('user:job-offers_view')
 			elif 'btnProceed' in request.POST:
 				request.session['on-interview'] = True
