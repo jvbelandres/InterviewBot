@@ -505,7 +505,12 @@ class AdminRegistrationView(CreateView):
 		return redirect('administrator:registration_complete')
 
 	def form_invalid(self, form):
-		messages.error(self.request, 'Invalid email. Please try another.')
+		json_error = form.errors.as_json()
+		phoneError = "phone" in json_error
+		if phoneError:
+			messages.warning(self.request, form.errors['phone'])
+		else:
+			messages.error(self.request, 'Invalid email. Please try another.')
 		return super().form_invalid(form)
 
 class StaffRegistrationView(CreateView):
@@ -537,7 +542,12 @@ class StaffRegistrationView(CreateView):
 		return redirect('administrator:registration_complete')
 
 	def form_invalid(self, form):
-		messages.error(self.request, 'Invalid email. Please try another.')
+		json_error = form.errors.as_json()
+		phoneError = "phone" in json_error
+		if phoneError:
+			messages.warning(self.request, form.errors['phone'])
+		else:
+			messages.error(self.request, 'Invalid email. Please try another.')
 		return super().form_invalid(form)
 
 # Method for account activation

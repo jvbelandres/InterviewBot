@@ -21,10 +21,3 @@ function limit_input() {
         field.value = field.value.slice(0, max_length); 
     }
 }
-
-document.getElementById("btnRegister").addEventListener("click", function(event){
-    if (document.getElementById("phone").value.length != 11){
-        alert("Please input a valid phone number.")
-        event.preventDefault()
-    }
-});

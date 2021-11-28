@@ -1,4 +1,5 @@
 from django import forms
+from django.core import validators
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
@@ -13,7 +14,8 @@ choices = [
 class RegisterForm(forms.ModelForm):
     firstname = forms.CharField(widget=forms.TextInput(attrs={'id':'firstName','placeholder':'First Name*'}),required=True)
     lastname = forms.CharField(widget=forms.TextInput(attrs={'id':'lastName','placeholder': 'Last Name*'}),required=True)
-    phone = forms.CharField(widget=forms.NumberInput(attrs={'id':'phone', 'oninput':'limit_input()','placeholder':'Phone*'}),required=True)
+    phone = forms.CharField(widget=forms.NumberInput(attrs={'id':'phone', 'oninput':'limit_input()','placeholder':'Phone*', 'title':'Must be 11 digits','placeholder':'Password*'}), validators=[validators.RegexValidator(r'\d{11,11}',
+            'Invalid Phone Number', 'Invalid number')], required=True)
     gender = forms.CharField(widget=forms.Select(choices=choices, attrs={'id':'gender'}),required=True)
     email = forms.CharField(widget=forms.EmailInput(attrs={'id':'emailAdd','placeholder':'Email Address*'}),required=True)
     password = forms.CharField(widget=forms.PasswordInput(attrs={'id':'pass','pattern':'(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{6,20}',
@@ -28,8 +30,14 @@ class RegisterForm(forms.ModelForm):
         email = self.cleaned_data.get('email')
         qs = User.objects.filter(email=email)
         if qs.exists():
-            raise forms.ValidationError('Invalid email.')
+            raise forms.ValidationError('Invalid email')
         return email
+
+    def clean_phone(self):
+        phone = self.cleaned_data.get('phone')
+        if (len(phone) != 11):
+            raise forms.ValidationError('Invalid phone number')
+        return phone
 
     def save(self, commit=True):
         # Save the provided password in hashed format
@@ -41,7 +49,7 @@ class RegisterForm(forms.ModelForm):
         email = self.cleaned_data["email"]
         password = self.cleaned_data["password"]
         if commit:
-            u = Account.objects.create_user(firstname=firstname, lastname=lastname, 
+            Account.objects.create_user(firstname=firstname, lastname=lastname, 
                 gender=gender, phone=phone, email=email, password=password)
         return user
 

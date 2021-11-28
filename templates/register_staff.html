@@ -43,15 +43,23 @@
                 {{form.phone}}
                 {{form.gender}}
             </div>
+            {% for message in messages %}
+                {% if message.tags == 'warning' %}
+                <div class="error_message alert" role="alert" style="margin-top: -3%; margin-bottom: -2%; margin-left: 13%; font-size: 14px; width: 50%; color: red;">
+                    {{ message }}
+                </div>
+                {% endif %}
+            {% endfor %}
 
             <div class="form-group">   
                 {{form.email}}
             </div>
-
             {% for message in messages %}
-                <div class="alert" role="alert" style="margin-top: -4%; margin-bottom: -1%; margin-left: 20%; font-size: 14px; width: 50%; color: red;">
-                    {{ message }}
-                </div>
+                {% if message.tags == 'error' %}
+                    <div class="error_message alert" role="alert" style="margin-top: -3%; margin-bottom: -1%; margin-left: 20%; font-size: 14px; width: 50%; color: red;">
+                        {{ message }}
+                    </div>
+                {% endif %}
             {% endfor %}
 
             <div class="pb-2">                

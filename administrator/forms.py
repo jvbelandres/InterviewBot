@@ -1,4 +1,5 @@
 from django import forms
+from django.core import validators
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
@@ -13,7 +14,8 @@ choices = [
 class AdminRegisterForm(forms.ModelForm):
     firstname = forms.CharField(widget=forms.TextInput(attrs={'id':'firstName','placeholder':'First Name*'}),required=True)
     lastname = forms.CharField(widget=forms.TextInput(attrs={'id':'lastName','placeholder':'Last Name*'}),required=True)
-    phone = forms.CharField(widget=forms.NumberInput(attrs={'id':'phone', 'oninput':'limit_input()','placeholder':'Phone*'}),required=True)
+    phone = forms.CharField(widget=forms.NumberInput(attrs={'id':'phone', 'oninput':'limit_input()','placeholder':'Phone*', 'title':'Must be 11 digits','placeholder':'Password*'}), validators=[validators.RegexValidator(r'\d{11,11}',
+            'Invalid Phone Number', 'Invalid number')], required=True)
     gender = forms.CharField(widget=forms.Select(choices=choices, attrs={'id':'gender'}),required=True)
     email = forms.CharField(widget=forms.EmailInput(attrs={'id':'emailAdd','placeholder':'Email Address*'}),required=True)
     password = forms.CharField(widget=forms.PasswordInput(attrs={'id':'pass','pattern':'(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{6,20}',
@@ -49,7 +51,8 @@ class AdminRegisterForm(forms.ModelForm):
 class StaffRegisterForm(forms.ModelForm):
     firstname = forms.CharField(widget=forms.TextInput(attrs={'id':'firstName','placeholder':'First Name*'}),required=True)
     lastname = forms.CharField(widget=forms.TextInput(attrs={'id':'lastName','placeholder':'Last Name*'}),required=True)
-    phone = forms.CharField(widget=forms.NumberInput(attrs={'id':'phone', 'oninput':'limit_input()','placeholder':'Phone*'}),required=True)
+    phone = forms.CharField(widget=forms.NumberInput(attrs={'id':'phone', 'oninput':'limit_input()','placeholder':'Phone*', 'title':'Must be 11 digits','placeholder':'Password*'}), validators=[validators.RegexValidator(r'\d{11,11}',
+            'Invalid Phone Number', 'Invalid number')], required=True)
     gender = forms.CharField(widget=forms.Select(choices=choices, attrs={'id':'gender'}),required=True)
     email = forms.CharField(widget=forms.EmailInput(attrs={'id':'emailAdd','placeholder':'Email Address*'}),required=True)
     password = forms.CharField(widget=forms.PasswordInput(attrs={'id':'pass','pattern':'(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}',
