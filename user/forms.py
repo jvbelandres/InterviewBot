@@ -14,7 +14,7 @@ choices = [
 class RegisterForm(forms.ModelForm):
     firstname = forms.CharField(widget=forms.TextInput(attrs={'id':'firstName','placeholder':'First Name*'}),required=True)
     lastname = forms.CharField(widget=forms.TextInput(attrs={'id':'lastName','placeholder': 'Last Name*'}),required=True)
-    phone = forms.CharField(widget=forms.NumberInput(attrs={'id':'phone', 'oninput':'limit_input()','placeholder':'Phone*', 'title':'Must be 11 digits','placeholder':'Password*'}), validators=[validators.RegexValidator(r'\d{11,11}',
+    phone = forms.CharField(widget=forms.NumberInput(attrs={'id':'phone', 'oninput':'limit_input()','placeholder':'Phone*', 'title':'Must be 11 digits'}), validators=[validators.RegexValidator(r'\d{11,11}',
             'Invalid Phone Number', 'Invalid number')], required=True)
     gender = forms.CharField(widget=forms.Select(choices=choices, attrs={'id':'gender'}),required=True)
     email = forms.CharField(widget=forms.EmailInput(attrs={'id':'emailAdd','placeholder':'Email Address*'}),required=True)
