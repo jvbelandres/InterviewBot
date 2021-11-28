@@ -72,6 +72,10 @@ h3 {
 
 }
 
+.errorlist {
+	list-style-type: none;
+}
+
 .register {
 	width: 55%;
 	overflow: hidden;
