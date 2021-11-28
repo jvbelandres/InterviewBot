@@ -199,7 +199,7 @@ class JobListsView(View):
 				joblists = CreateJob.objects.raw('SELECT "Account".email, "JobOfferings".*, "job_questions".* FROM "JobOfferings", "Account", "job_questions" WHERE "JobOfferings".is_deleted = False AND "Account".email = \''+ str(admin_joblist) + '\' AND "JobOfferings".admin_id = "Account".id AND "job_questions".job_id = "JobOfferings".id')
 		elif user.staff:
 			#joblists = CreateJob.objects.raw("SELECT account.email, jobofferings.*, job_questions.* FROM jobofferings, account, job_questions WHERE jobofferings.is_deleted = 0 AND jobofferings.admin_id = " + str(user.id) + " AND job_questions.job_id = jobofferings.id AND jobofferings.admin_id = account.id")
-			joblists = CreateJob.objects.raw('SELECT "Account".email, "JobOfferings".*, "job_questions".* FROM "JobOfferings", "Account", "job_questions" WHERE "JobOfferings".is_deleted = False AND "JobOfferings".admin_id = " + str(user.id) + " AND "job_questions".job_id = "JobOfferings".id AND "JobOfferings".admin_id = "Account".id')
+			joblists = CreateJob.objects.raw('SELECT "Account".email, "JobOfferings".*, "job_questions".* FROM "JobOfferings", "Account", "job_questions" WHERE "JobOfferings".is_deleted = False AND "JobOfferings".admin_id = "' + str(user.id) + '" AND "job_questions".job_id = "JobOfferings".id AND "JobOfferings".admin_id = "Account".id')
 			
 
 		p = Paginator(joblists,2)
