@@ -12,7 +12,7 @@ urlpatterns=[
     #TEST URL
     path('about-us/', login_required(views.AboutUsView.as_view()), name="about-us_view"),
     path('contact-us/', login_required(views.ContactUsView.as_view()), name="contact-us_view"),
-    path('home/', login_required(views.HomePageView.as_view()), name="home_view"),
+    path('home', login_required(views.HomePageView.as_view()), name="home_view"),
     path('registration/', views.RegisterView.as_view(), name="registration_view"),
     path('registration/complete/', views.RegisterComplete.as_view(), name="registration_complete"),
     path('activate/<uidb64>/<token>/', views.activate, name="activate"),
