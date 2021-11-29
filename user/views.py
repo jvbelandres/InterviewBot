@@ -1348,26 +1348,26 @@ class JobInterviewQ20View(View):
 				# 	float(job_weight16) + float(job_weight17) + float(job_weight18) + float(job_weight19) +
 				# 	float(job_weight20)))
 				final_score = (
-					(u.score1 * float(job_weight1)) + 
-					(u.score2 * float(job_weight2)) +
-					(u.score3 * float(job_weight3)) +
-					(u.score4 * float(job_weight4)) +
-					(u.score5 * float(job_weight5)) +
-					(u.score6 * float(job_weight6)) +
-					(u.score7 * float(job_weight7)) +
-					(u.score8 * float(job_weight8)) +
-					(u.score9 * float(job_weight9)) +
-					(u.score10 * float(job_weight10)) +
-					(u.score11 * float(job_weight11)) +
-					(u.score12 * float(job_weight12)) +
-					(u.score13 * float(job_weight13)) +
-					(u.score14 * float(job_weight14)) +
-					(u.score15 * float(job_weight15)) +
-					(u.score16 * float(job_weight16)) +
-					(u.score17 * float(job_weight17)) +
-					(u.score18 * float(job_weight18)) +
-					(u.score19 * float(job_weight19)) +
-					(u.score20 * float(job_weight20))) / 20
+					(float(u.score1) * float(job_weight1)) + 
+					(float(u.score2) * float(job_weight2)) +
+					(float(u.score3) * float(job_weight3)) +
+					(float(u.score4) * float(job_weight4)) +
+					(float(u.score5) * float(job_weight5)) +
+					(float(u.score6) * float(job_weight6)) +
+					(float(u.score7) * float(job_weight7)) +
+					(float(u.score8) * float(job_weight8)) +
+					(float(u.score9) * float(job_weight9)) +
+					(float(u.score10) * float(job_weight10)) +
+					(float(u.score11) * float(job_weight11)) +
+					(float(u.score12) * float(job_weight12)) +
+					(float(u.score13) * float(job_weight13)) +
+					(float(u.score14) * float(job_weight14)) +
+					(float(u.score15) * float(job_weight15)) +
+					(float(u.score16) * float(job_weight16)) +
+					(float(u.score17) * float(job_weight17)) +
+					(float(u.score18) * float(job_weight18)) +
+					(float(u.score19) * float(job_weight19)) +
+					(float(u.score20) * float(job_weight20))) / 20.0
 
 				final_score_decimal = round(final_score, 4)
 				final_score_percent = final_score_decimal * 100
