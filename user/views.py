@@ -128,10 +128,10 @@ class HomePageView(View):
 		
 		try: # To only show the applied jobs that are done taking the interview session.
 			#appliedjobs = AppliedJob.objects.raw('SELECT * FROM appliedjob, jobofferings, account WHERE account.id = jobofferings.admin_id AND jobofferings.id = appliedjob.job_id AND appliedjob.job_id <> '+str(request.session['job'])+' AND appliedjob.user_id = '+str(self.request.user.id)+' ORDER BY appliedjob.id DESC')
-			appliedjobs = AppliedJob.objects.raw('SELECT * FROM "AppliedJob", "JobOfferings", "Account" WHERE "Account".id = "JobOfferings".admin_id AND "JobOfferings".id = "AppliedJob".job_id AND "AppliedJob".job_id <> '+str(request.session['job'])+' AND "AppliedJob".user_id = '+str(self.request.user.id)+' ORDER BY "AppliedJob".id DESC')
+			appliedjobs = AppliedJob.objects.raw('SELECT * FROM "AppliedJob", "JobOfferings", "Account" WHERE "Account".id = "JobOfferings".admin_id AND "JobOfferings".id = "AppliedJob".job_id AND "AppliedJob".job_id <> '+str(request.session['job'])+' AND "AppliedJob".user_id = '+str(self.request.user.id)+' AND "AppliedJob".final_score <> 0 ORDER BY "AppliedJob".id DESC')
 		except:
 			#appliedjobs = AppliedJob.objects.raw('SELECT * FROM appliedjob, jobofferings, account WHERE account.id = jobofferings.admin_id AND jobofferings.id = appliedjob.job_id AND appliedjob.user_id = '+str(self.request.user.id)+' ORDER BY appliedjob.id DESC')
-			appliedjobs = AppliedJob.objects.raw('SELECT * FROM "AppliedJob", "JobOfferings", "Account" WHERE "Account".id = "JobOfferings".admin_id AND "JobOfferings".id = "AppliedJob".job_id AND "AppliedJob".user_id = '+str(self.request.user.id)+' ORDER BY "AppliedJob".id DESC')
+			appliedjobs = AppliedJob.objects.raw('SELECT * FROM "AppliedJob", "JobOfferings", "Account" WHERE "Account".id = "JobOfferings".admin_id AND "JobOfferings".id = "AppliedJob".job_id AND "AppliedJob".user_id = '+str(self.request.user.id)+' AND "AppliedJob".final_score <> 0 ORDER BY "AppliedJob".id DESC')
 		
 		#savedjobs = SavedJob.objects.raw('SELECT * FROM savedjob, jobofferings, account WHERE account.id = jobofferings.admin_id AND jobofferings.id = savedjob.job_id AND savedjob.user_id = '+str(self.request.user.id)+' ORDER BY savedjob.id DESC')
 		savedjobs = SavedJob.objects.raw('SELECT * FROM "SavedJob", "JobOfferings", "Account" WHERE "Account".id = "JobOfferings".admin_id AND "JobOfferings".id = "SavedJob".job_id AND "SavedJob".user_id = '+str(self.request.user.id)+' ORDER BY "SavedJob".id DESC')
@@ -146,7 +146,7 @@ class HomePageView(View):
 			if 'btnUnsave' in request.POST:
 				user = request.user
 				job_id = request.POST.get("job-id")
-				savedjobs = SavedJob.objects.filter(job_id = job_id).delete()
+				SavedJob.objects.filter(job_id = job_id).delete()
 				return redirect('user:home_view')
 			elif 'btnApply' in request.POST:
 				try: # To check if the user is in another interview session
