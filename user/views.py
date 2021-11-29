@@ -1335,22 +1335,45 @@ class JobInterviewQ20View(View):
 		score20 = finalScoring(positive, job_weight20, float(minutes), float(seconds), job_timer)
 
 		# get final score for the overall interview session
-		u = AppliedJob.objects.filter(job_id = job_id, user_id = user.id)
-		for u in u:
-			if u.score1 != None and u.score2 != None and u.score3 != None and u.score4 != None and u.score5 != None and u.score6 != None and u.score7 != None and u.score8 != None and u.score9 != None and u.score10 != None and u.score11 != None and u.score12 != None and u.score13 != None and u.score14 != None and u.score15 != None and u.score16 != None and u.score17 != None and u.score18 != None and u.score19 != None and u.score20 != None:
-				final_score = ((u.score1 + u.score2 + u.score3 + u.score4 + u.score5 + u.score6 +
-					u.score7 + u.score8 + u.score9 + u.score10 + u.score11 + u.score12 + u.score13 +
-					u.score14 + u.score15 + u.score15 + u.score16 + u.score17 + u.score18 + u.score19 +
-					score20) / (10 + float(job_weight1) + float(job_weight2) + float(job_weight3) + 
-					float(job_weight4) + float(job_weight5) +float(job_weight6) + float(job_weight7) + 
-					float(job_weight8) + float(job_weight9) + float(job_weight10) + float(job_weight11) +
-					float(job_weight12) + float(job_weight13) + float(job_weight14) + float(job_weight15) +
-					float(job_weight16) + float(job_weight17) + float(job_weight18) + float(job_weight19) +
-					float(job_weight20)))
+		user_appliedJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id)
+		for u in user_appliedJob:
+			if u.score1 != None and u.score2 != None and u.score3 != None and u.score4 != None and u.score5 != None and u.score6 != None and u.score7 != None and u.score8 != None and u.score9 != None and u.score10 != None and u.score11 != None and u.score12 != None and u.score13 != None and u.score14 != None and u.score15 != None and u.score16 != None and u.score17 != None and u.score18 != None and u.score19 != None and score20 != 0:
+				# final_score = ((u.score1 + u.score2 + u.score3 + u.score4 + u.score5 + u.score6 +
+				# 	u.score7 + u.score8 + u.score9 + u.score10 + u.score11 + u.score12 + u.score13 +
+				# 	u.score14 + u.score15 + u.score15 + u.score16 + u.score17 + u.score18 + u.score19 +
+				# 	score20) / (10 + float(job_weight1) + float(job_weight2) + float(job_weight3) + 
+				# 	float(job_weight4) + float(job_weight5) +float(job_weight6) + float(job_weight7) + 
+				# 	float(job_weight8) + float(job_weight9) + float(job_weight10) + float(job_weight11) +
+				# 	float(job_weight12) + float(job_weight13) + float(job_weight14) + float(job_weight15) +
+				# 	float(job_weight16) + float(job_weight17) + float(job_weight18) + float(job_weight19) +
+				# 	float(job_weight20)))
+				final_score = (
+					(u.score1 * float(job_weight1)) + 
+					(u.score2 * float(job_weight2)) +
+					(u.score3 * float(job_weight3)) +
+					(u.score4 * float(job_weight4)) +
+					(u.score5 * float(job_weight5)) +
+					(u.score6 * float(job_weight6)) +
+					(u.score7 * float(job_weight7)) +
+					(u.score8 * float(job_weight8)) +
+					(u.score9 * float(job_weight9)) +
+					(u.score10 * float(job_weight10)) +
+					(u.score11 * float(job_weight11)) +
+					(u.score12 * float(job_weight12)) +
+					(u.score13 * float(job_weight13)) +
+					(u.score14 * float(job_weight14)) +
+					(u.score15 * float(job_weight15)) +
+					(u.score16 * float(job_weight16)) +
+					(u.score17 * float(job_weight17)) +
+					(u.score18 * float(job_weight18)) +
+					(u.score19 * float(job_weight19)) +
+					(u.score20 * float(job_weight20))) / 20
+
 				final_score_decimal = round(final_score, 4)
 				final_score_percent = final_score_decimal * 100
+				break
 			else:
-				# if one question was not answered
+				# if one score is null
 				AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 					response_20 = response_20, score20 = score20, final_score = 0)
 				return redirect('user:interview_forfeit_view')
