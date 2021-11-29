@@ -431,13 +431,24 @@ class JobListsView(View):
 
 				form_joboffering = CreateJob(title=jobTitle, description=jobDescription, admin_id=user.id)
 				form_joboffering.save()
-				form_questions = Questions(job_id=form_joboffering.id, is_default=0, question_1=q1,question_2=q2, question_3=q3, question_4=q4, question_5=q5, question_6=q6, question_7=q7, question_8=q8,
-				question_9=q9, question_10=q10, question_11=q11, question_12=q12, question_13=q13, question_14=q14, question_15=q15, question_16=q16, 
-				question_17=q17, question_18=q18, question_19=q19, question_20=q20, weight1=w1, weight2=w2, weight3=w3, weight4=w4, weight5=w5, weight6=w6, 
-				weight7=w7, weight8=w8, weight9=w9, weight10=w10, weight11=w11, weight12=w12, weight13=w13, weight14=w14, weight15=w15, weight16=w16, weight17=w17,
-	            weight18=w18, weight19=w19, weight20=w20, timer1=t1, timer2=t2, timer3=t3, timer4=t4, timer5=t5, timer6=t6, timer7=t7, timer8=t8, timer9=t9, timer10=t10, 
-				timer11=t11, timer12=t12, timer13=t13, timer14=t14, timer15=t15, timer16=t16, timer17=t17, timer18=t18, timer19=t19, timer20=t20)
+				form_questions = Questions(
+					job_id=form_joboffering.id, is_default=0, question_1=q1,question_2=q2, question_3=q3, question_4=q4, question_5=q5, question_6=q6, question_7=q7, question_8=q8,
+					question_9=q9, question_10=q10, question_11=q11, question_12=q12, question_13=q13, question_14=q14, question_15=q15, question_16=q16, 
+					question_17=q17, question_18=q18, question_19=q19, question_20=q20, weight1=w1, weight2=w2, weight3=w3, weight4=w4, weight5=w5, weight6=w6, 
+					weight7=w7, weight8=w8, weight9=w9, weight10=w10, weight11=w11, weight12=w12, weight13=w13, weight14=w14, weight15=w15, weight16=w16, weight17=w17,
+					weight18=w18, weight19=w19, weight20=w20, timer1=t1, timer2=t2, timer3=t3, timer4=t4, timer5=t5, timer6=t6, timer7=t7, timer8=t8, timer9=t9, timer10=t10, 
+					timer11=t11, timer12=t12, timer13=t13, timer14=t14, timer15=t15, timer16=t16, timer17=t17, timer18=t18, timer19=t19, timer20=t20)
 			else:
+				q1 = request.POST.get("create-d-qtn1")
+				q2 = request.POST.get("create-d-qtn2")
+				q3 = request.POST.get("create-d-qtn3")
+				q4 = request.POST.get("create-d-qtn4")
+				q5 = request.POST.get("create-d-qtn5")
+				q6 = request.POST.get("create-d-qtn6")
+				q7 = request.POST.get("create-d-qtn7")
+				q8 = request.POST.get("create-d-qtn8")
+				q9 = request.POST.get("create-d-qtn9")
+				q10 = request.POST.get("create-d-qtn10")
 				t1 = request.POST.get("create-d-timer1")
 				t2 = request.POST.get("create-d-timer2")
 				t3 = request.POST.get("create-d-timer3")
@@ -461,11 +472,13 @@ class JobListsView(View):
 
 				form_joboffering = CreateJob(title=jobTitle, description=jobDescription, admin_id=user.id)
 				form_joboffering.save()
-				form_questions = Questions(job_id=form_joboffering.id, is_default=1, question_11=q11, question_12=q12, question_13=q13, question_14=q14, question_15=q15, question_16=q16, question_17=q17, 
-					question_18=q18, question_19=q19, question_20=q20, weight1=w1, weight2=w2, weight3=w3, weight4=w4, weight5=w5, weight6=w6, weight7=w7, weight8=w8, 
-					weight9=w9, weight10=w10, weight11=w11, weight12=w12, weight13=w13, weight14=w14, weight15=w15, weight16=w16, weight17=w17, weight18=w18, weight19=w19, 
-					weight20=w20, timer1=t1, timer2=t2, timer3=t3, timer4=t4, timer5=t5, timer6=t6, timer7=t7, timer8=t8, timer9=t9, timer10=t10, timer11=t11, timer12=t12, 
-					timer13=t13, timer14=t14, timer15=t15, timer16=t16, timer17=t17, timer18=t18, timer19=t19, timer20=t20,)
+				form_questions = Questions(
+					job_id=form_joboffering.id, is_default=0, question_1=q1,question_2=q2, question_3=q3, question_4=q4, question_5=q5, question_6=q6, question_7=q7, question_8=q8,
+					question_9=q9, question_10=q10, question_11=q11, question_12=q12, question_13=q13, question_14=q14, question_15=q15, question_16=q16, 
+					question_17=q17, question_18=q18, question_19=q19, question_20=q20, weight1=w1, weight2=w2, weight3=w3, weight4=w4, weight5=w5, weight6=w6, 
+					weight7=w7, weight8=w8, weight9=w9, weight10=w10, weight11=w11, weight12=w12, weight13=w13, weight14=w14, weight15=w15, weight16=w16, weight17=w17,
+					weight18=w18, weight19=w19, weight20=w20, timer1=t1, timer2=t2, timer3=t3, timer4=t4, timer5=t5, timer6=t6, timer7=t7, timer8=t8, timer9=t9, timer10=t10, 
+					timer11=t11, timer12=t12, timer13=t13, timer14=t14, timer15=t15, timer16=t16, timer17=t17, timer18=t18, timer19=t19, timer20=t20)
 			form_questions.save()
 			return redirect('administrator:job-lists_view')
 
