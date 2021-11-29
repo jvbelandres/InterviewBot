@@ -473,7 +473,7 @@ class JobListsView(View):
 				form_joboffering = CreateJob(title=jobTitle, description=jobDescription, admin_id=user.id)
 				form_joboffering.save()
 				form_questions = Questions(
-					job_id=form_joboffering.id, is_default=0, question_1=q1,question_2=q2, question_3=q3, question_4=q4, question_5=q5, question_6=q6, question_7=q7, question_8=q8,
+					job_id=form_joboffering.id, is_default=1, question_1=q1,question_2=q2, question_3=q3, question_4=q4, question_5=q5, question_6=q6, question_7=q7, question_8=q8,
 					question_9=q9, question_10=q10, question_11=q11, question_12=q12, question_13=q13, question_14=q14, question_15=q15, question_16=q16, 
 					question_17=q17, question_18=q18, question_19=q19, question_20=q20, weight1=w1, weight2=w2, weight3=w3, weight4=w4, weight5=w5, weight6=w6, 
 					weight7=w7, weight8=w8, weight9=w9, weight10=w10, weight11=w11, weight12=w12, weight13=w13, weight14=w14, weight15=w15, weight16=w16, weight17=w17,

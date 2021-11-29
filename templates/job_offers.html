@@ -140,7 +140,7 @@
                         </td>
                     </tr>
 
-                    <!---- APPLY MODAL ------->
+                    <!-- APPLY MODAL -->
                     <div class="modal fade" id="applyJobModal-{{joblist.id}}" tabindex="-1" role="dialog" aria-labelledby="applyJobModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg" role="document">
                             <div class="modal-content">
@@ -205,7 +205,7 @@
                         });
                     </script>
 
-                    <!---- SAVE MODAL ------->
+                    <!-- SAVE MODAL -->
                     <div class="modal fade saveModal" id="jobdetailsModal-{{joblist.id}}" tabindex="-1" role="dialog" aria-labelledby="jobdetailsModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -246,7 +246,11 @@
             {% endfor %}
 
             if (count >= 5){
-                alert('You can only save at most 5 job offerings.')
+                swal(
+                    "Failed", // title
+                    "You can only save at most 5 job offers!",  // text content
+                    "failed", // icon
+                );
                 event.preventDefault();
             }
         }
