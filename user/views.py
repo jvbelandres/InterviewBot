@@ -69,7 +69,7 @@ def deleteInterviewSessions(request):
 		# request.session['q1'] or request.session['q2'] or request.session['q3'] or request.session['q4'] or request.session['q5'] or request.session['q6'] or request.session['q7'] or request.session['q8'] or request.session['q9'] or request.session['q10'] or request.session['q11'] or request.session['q12'] or request.session['q13'] or request.session['q14'] or request.session['q15'] or request.session['q16'] or request.session['q17'] or request.session['q18'] or request.session['q19'] or request.session['q20']:
 		else:
 			AppliedJob.objects.filter(job_id = request.session['job'], user_id = request.user.id).update(final_score = 0)
-			
+
 			del request.session['job']
 			del request.session['instruction']
 			del request.session['on-interview']
@@ -174,10 +174,10 @@ class HomePageView(View):
 		
 		try: # To only show the applied jobs that are done taking the interview session.
 			#appliedjobs = AppliedJob.objects.raw('SELECT * FROM appliedjob, jobofferings, account WHERE account.id = jobofferings.admin_id AND jobofferings.id = appliedjob.job_id AND appliedjob.job_id <> '+str(request.session['job'])+' AND appliedjob.user_id = '+str(self.request.user.id)+' ORDER BY appliedjob.id DESC')
-			appliedjobs = AppliedJob.objects.raw('SELECT * FROM "AppliedJob", "JobOfferings", "Account" WHERE "Account".id = "JobOfferings".admin_id AND "JobOfferings".id = "AppliedJob".job_id AND "AppliedJob".job_id <> '+str(request.session['job'])+' AND "AppliedJob".user_id = '+str(self.request.user.id)+' AND "AppliedJob".final_score <> 0 ORDER BY "AppliedJob".id DESC')
+			appliedjobs = AppliedJob.objects.raw('SELECT * FROM "AppliedJob", "JobOfferings", "Account" WHERE "Account".id = "JobOfferings".admin_id AND "JobOfferings".id = "AppliedJob".job_id AND "AppliedJob".job_id <> '+str(request.session['job'])+' AND "AppliedJob".user_id = '+str(self.request.user.id)+' AND "AppliedJob".final_score > 0 ORDER BY "AppliedJob".id DESC')
 		except:
 			#appliedjobs = AppliedJob.objects.raw('SELECT * FROM appliedjob, jobofferings, account WHERE account.id = jobofferings.admin_id AND jobofferings.id = appliedjob.job_id AND appliedjob.user_id = '+str(self.request.user.id)+' ORDER BY appliedjob.id DESC')
-			appliedjobs = AppliedJob.objects.raw('SELECT * FROM "AppliedJob", "JobOfferings", "Account" WHERE "Account".id = "JobOfferings".admin_id AND "JobOfferings".id = "AppliedJob".job_id AND "AppliedJob".user_id = '+str(self.request.user.id)+' AND "AppliedJob".final_score <> 0 ORDER BY "AppliedJob".id DESC')
+			appliedjobs = AppliedJob.objects.raw('SELECT * FROM "AppliedJob", "JobOfferings", "Account" WHERE "Account".id = "JobOfferings".admin_id AND "JobOfferings".id = "AppliedJob".job_id AND "AppliedJob".user_id = '+str(self.request.user.id)+' AND "AppliedJob".final_score > 0 ORDER BY "AppliedJob".id DESC')
 		
 		#savedjobs = SavedJob.objects.raw('SELECT * FROM savedjob, jobofferings, account WHERE account.id = jobofferings.admin_id AND jobofferings.id = savedjob.job_id AND savedjob.user_id = '+str(self.request.user.id)+' ORDER BY savedjob.id DESC')
 		savedjobs = SavedJob.objects.raw('SELECT * FROM "SavedJob", "JobOfferings", "Account" WHERE "Account".id = "JobOfferings".admin_id AND "JobOfferings".id = "SavedJob".job_id AND "SavedJob".user_id = '+str(self.request.user.id)+' ORDER BY "SavedJob".id DESC')
