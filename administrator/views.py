@@ -265,7 +265,8 @@ class JobListsView(View):
 			q19 = request.POST.get("o-qtn19")
 			q20 = request.POST.get("o-qtn20")
 
-			if is_default == "1":
+			#if is_default == "1":
+			if is_default == "True" or is_default == "true":
 				print("NOW IN DEFAULT >>>>>>>>>> ")
 				weight1 = request.POST.get("d-weight1")
 				weight2 = request.POST.get("d-weight2")
