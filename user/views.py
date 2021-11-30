@@ -68,6 +68,8 @@ def deleteInterviewSessions(request):
 			AppliedJob.objects.filter(job_id=request.session['job'], user_id=request.user.id).delete()
 		# request.session['q1'] or request.session['q2'] or request.session['q3'] or request.session['q4'] or request.session['q5'] or request.session['q6'] or request.session['q7'] or request.session['q8'] or request.session['q9'] or request.session['q10'] or request.session['q11'] or request.session['q12'] or request.session['q13'] or request.session['q14'] or request.session['q15'] or request.session['q16'] or request.session['q17'] or request.session['q18'] or request.session['q19'] or request.session['q20']:
 		else:
+			AppliedJob.objects.filter(job_id = request.session['job'], user_id = request.user.id).update(final_score = 0)
+			
 			del request.session['job']
 			del request.session['instruction']
 			del request.session['on-interview']
