@@ -60,6 +60,42 @@ def calculateSentimentScore(positive, negative, neutral):
 		return 0
 	return round((positive * 0.6) + (neutral * 0.3) + (negative * 0.1), 2)
 
+# Delete sessions if user skip or did not continue the job interview session
+def deleteInterviewSessions(request):
+	# in case user will skip or not continue the job interview session
+	try:
+		if request.session['instruction'] and not request.session['q1']:
+			AppliedJob.objects.filter(job_id=request.session['job'], user_id=request.user.id).delete()
+		# request.session['q1'] or request.session['q2'] or request.session['q3'] or request.session['q4'] or request.session['q5'] or request.session['q6'] or request.session['q7'] or request.session['q8'] or request.session['q9'] or request.session['q10'] or request.session['q11'] or request.session['q12'] or request.session['q13'] or request.session['q14'] or request.session['q15'] or request.session['q16'] or request.session['q17'] or request.session['q18'] or request.session['q19'] or request.session['q20']:
+		else:
+			del request.session['job']
+			del request.session['instruction']
+			del request.session['on-interview']
+			del request.session['q1']
+			del request.session['q2']
+			del request.session['q3']
+			del request.session['q4']
+			del request.session['q5']
+			del request.session['q6']
+			del request.session['q7']
+			del request.session['q8']
+			del request.session['q9']
+			del request.session['q10']
+			del request.session['q11']
+			del request.session['q12']
+			del request.session['q13']
+			del request.session['q14']
+			del request.session['q15']
+			del request.session['q16']
+			del request.session['q17']
+			del request.session['q18']
+			del request.session['q19']
+			del request.session['q20']
+			
+			return redirect('user:interview_forfeit_view')	
+	except:
+		pass
+
 class RegisterView(CreateView):
 	form_class = RegisterForm
 	template_name = 'registration_page.html'
@@ -129,6 +165,8 @@ class ActivationFailed(View): # If account activation failed
 
 class HomePageView(View):
 	def get(self, request):
+		deleteInterviewSessions(request)
+
 		if request.user.staff:
 			return redirect('administrator:access_denied_view')
 		
@@ -155,16 +193,10 @@ class HomePageView(View):
 				SavedJob.objects.filter(job_id = job_id).delete()
 				return redirect('user:home_view')
 			elif 'btnApply' in request.POST:
-				try: # To check if the user is in another interview session
-					if request.session['on-interview'] == True:
-						return redirect('user:interview_access_denied')
-				except:
-					pass
-
 				user = request.user
 				job_id = request.POST.get("job-id")
 				request.session['job'] = job_id
-				savedjobs = SavedJob.objects.filter(job_id = job_id).delete()
+				SavedJob.objects.filter(job_id = job_id).delete()
 
 				# To store the files in the media dir
 				fs = FileSystemStorage()
@@ -206,17 +238,20 @@ class HomePageView(View):
 
 class LogOutView(View):
 	def get(self, request):
+		deleteInterviewSessions(request)
 		logout(request)
 		return render(request, 'log_out.html')
 
 class AboutUsView(View):
 	def get(self, request):
+		deleteInterviewSessions(request)
 		if request.user.staff:
 			return redirect('administrator:access_denied_view')
 		return render(request, 'about_us.html')
 
 class ContactUsView(View):
 	def get(self, request):
+		deleteInterviewSessions(request)
 		if request.user.staff:
 			return redirect('administrator:access_denied_view')
 		return render(request, 'contact_us.html')
@@ -243,6 +278,7 @@ class AccessDeniedView(View):
 
 class JobOffersView(View):
 	def get(self, request):
+		deleteInterviewSessions(request)
 		user = request.user
 		if user.staff:
 			return redirect('administrator:access_denied_view')
@@ -267,12 +303,6 @@ class JobOffersView(View):
 
 				return redirect('user:job-offers_view')
 			elif 'btnApply' in request.POST:
-				try: # To check if the user is in another interview session
-					if request.session['on-interview'] == True:
-						return redirect('user:interview_access_denied')
-				except:
-					pass
-
 				user = request.user
 				job_id = request.POST.get("job-id")
 				request.session['job'] = job_id
@@ -318,6 +348,7 @@ class JobOffersView(View):
 
 class SettingsView(FormView):
 	def get(self, request):
+		deleteInterviewSessions(request)
 		if request.user.staff:
 			return redirect('administrator:access_denied_view')
 		return render(request, 'user_settings.html')
@@ -330,7 +361,7 @@ class SettingsView(FormView):
 		password = request.POST.get("password")
 
 		if password == "":
-			update_account = Account.objects.filter(id = user.id).update(firstname = firstName, 
+			Account.objects.filter(id = user.id).update(firstname = firstName, 
 				lastname = lastName, phone = phone)
 		else:
 			u = Account.objects.get(email=user.email)
@@ -339,7 +370,7 @@ class SettingsView(FormView):
 			# relogin since after saving, the user is logged-out
 			loginUser = authenticate(request,username=user.email,password=password)
 			login(request,loginUser)
-			update_account = Account.objects.filter(id = u.id).update(firstname = firstName, 
+			Account.objects.filter(id = u.id).update(firstname = firstName, 
 				lastname = lastName, phone = phone)
 		messages.success(request, 'updated')
 		return redirect('user:settings_view')
@@ -349,12 +380,6 @@ class JobInterviewView(View):
 		try:
 			if request.user.staff:
 				return redirect('administrator:access_denied_view')
-
-			try: # To check if the user is in another interview session
-				if request.session['on-interview'] == True:
-					return redirect('user:interview_access_denied')
-			except:
-				pass
 
 			if request.session['instruction'] == False:
 				request.session['instruction'] = True
@@ -366,7 +391,7 @@ class JobInterviewView(View):
 			else:
 				return redirect('user:interview_forfeit_view')
 		except KeyError:
-			return redirect('user:interview_access_denied')
+			return redirect('user:interview_forfeit_view')
 		return render(request, 'interview_instructions.html', context)
 
 	def post(self, request):
@@ -414,7 +439,7 @@ class JobInterviewQ1View(View):
 			if request.session['q1'] == False:
 				request.session['q1'] = True
 				interview_job = request.session['job']
-				#ob = CreateJob.objects.raw("SELECT * FROM jobofferings, job_questions WHERE jobofferings.id = job_questions.job_id AND jobofferings.id = " + str(interview_job))
+				#job = CreateJob.objects.raw("SELECT * FROM jobofferings, job_questions WHERE jobofferings.id = job_questions.job_id AND jobofferings.id = " + str(interview_job))
 				job = CreateJob.objects.raw('SELECT * FROM "JobOfferings", "job_questions" WHERE "JobOfferings".id = "job_questions".job_id AND "JobOfferings".id = ' + str(interview_job))
 				context = {
 					'job': job
@@ -422,40 +447,43 @@ class JobInterviewQ1View(View):
 			else:
 				return redirect('user:interview_forfeit_view')
 		except KeyError:
-			return redirect('user:interview_access_denied')
+			return redirect('user:interview_forfeit_view')
 		return render(request, 'questions/jobInterview_Q1.html', context)
 
 	def post(self, request):
-		user = request.user
-		job_id = request.session['job']
-		job_weight = request.POST.get("job-weight")
-		job_timer = request.POST.get("job-timer")
-		response_1 = request.POST.get("message")
-		minutes = request.POST.get("minutes")
-		seconds = request.POST.get("seconds")
-		
-		if len(response_1) > 0:
-			# use Text-Proccessing API
-			json_object = textProccessing(response_1)
+		try:
+			user = request.user
+			job_id = request.session['job']
+			job_weight = request.POST.get("job-weight")
+			job_timer = request.POST.get("job-timer")
+			response_1 = request.POST.get("message")
+			minutes = request.POST.get("minutes")
+			seconds = request.POST.get("seconds")
+			
+			if len(response_1) > 0:
+				# use Text-Proccessing API
+				json_object = textProccessing(response_1)
 
-			# getting the sentiment scores
-			dict_response = json_object.get('probability')
-			positive = dict_response.get('pos')
-			negative = dict_response.get('neg')
-			neutral = dict_response.get('neutral')
-		else:
-			positive = 0
-			negative = 0
-			neutral = 0
+				# getting the sentiment scores
+				dict_response = json_object.get('probability')
+				positive = dict_response.get('pos')
+				negative = dict_response.get('neg')
+				neutral = dict_response.get('neutral')
+			else:
+				positive = 0
+				negative = 0
+				neutral = 0
 
-		sentimentScore = calculateSentimentScore(positive, negative, neutral)
+			sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
-		# Calculate the final score
-		final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
+			# Calculate the final score
+			final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
 
-		AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
-			response_1 = response_1, score1 = math.ceil(final_score))
-		return redirect('user:job-interview_q2')
+			AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+				response_1 = response_1, score1 = math.ceil(final_score))
+			return redirect('user:job-interview_q2')
+		except KeyError:
+			return redirect('user:interview_forfeit_view')
 
 class JobInterviewQ2View(View):
 	def get(self, request):
@@ -474,40 +502,43 @@ class JobInterviewQ2View(View):
 			else:
 				return redirect('user:interview_forfeit_view')
 		except KeyError:
-			return redirect('user:interview_access_denied')
+			return redirect('user:interview_forfeit_view')
 		return render(request, 'questions/jobInterview_Q2.html', context)
 
 	def post(self, request):
-		user = request.user
-		job_id = request.session['job']
-		job_weight = request.POST.get("job-weight")
-		job_timer = request.POST.get("job-timer")
-		response_2 = request.POST.get("message")
-		minutes = request.POST.get("minutes")
-		seconds = request.POST.get("seconds")
-		
-		if len(response_2) > 0:
-			# use Text-Proccessing API
-			json_object = textProccessing(response_2)
+		try:
+			user = request.user
+			job_id = request.session['job']
+			job_weight = request.POST.get("job-weight")
+			job_timer = request.POST.get("job-timer")
+			response_2 = request.POST.get("message")
+			minutes = request.POST.get("minutes")
+			seconds = request.POST.get("seconds")
+			
+			if len(response_2) > 0:
+				# use Text-Proccessing API
+				json_object = textProccessing(response_2)
 
-			# getting the sentiment scores
-			dict_response = json_object.get('probability')
-			positive = dict_response.get('pos')
-			negative = dict_response.get('neg')
-			neutral = dict_response.get('neutral')
-		else:
-			positive = 0
-			negative = 0
-			neutral = 0
+				# getting the sentiment scores
+				dict_response = json_object.get('probability')
+				positive = dict_response.get('pos')
+				negative = dict_response.get('neg')
+				neutral = dict_response.get('neutral')
+			else:
+				positive = 0
+				negative = 0
+				neutral = 0
 
-		sentimentScore = calculateSentimentScore(positive, negative, neutral)
+			sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
-		# Calculate the final score
-		final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
+			# Calculate the final score
+			final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
 
-		AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
-			response_2 = response_2, score2 = math.ceil(final_score))
-		return redirect('user:job-interview_q3')
+			AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+				response_2 = response_2, score2 = math.ceil(final_score))
+			return redirect('user:job-interview_q3')
+		except KeyError:
+			return redirect('user:interview_forfeit_view')
 
 class JobInterviewQ3View(View):
 	def get(self, request):
@@ -526,40 +557,43 @@ class JobInterviewQ3View(View):
 			else:
 				return redirect('user:interview_forfeit_view')
 		except KeyError:
-			return redirect('user:interview_access_denied')	
+			return redirect('user:interview_forfeit_view')	
 		return render(request, 'questions/jobInterview_Q3.html', context)
 
 	def post(self, request):
-		user = request.user
-		job_id = request.session['job']
-		job_weight = request.POST.get("job-weight")
-		job_timer = request.POST.get("job-timer")
-		response_3 = request.POST.get("message")
-		minutes = request.POST.get("minutes")
-		seconds = request.POST.get("seconds")
+		try:
+			user = request.user
+			job_id = request.session['job']
+			job_weight = request.POST.get("job-weight")
+			job_timer = request.POST.get("job-timer")
+			response_3 = request.POST.get("message")
+			minutes = request.POST.get("minutes")
+			seconds = request.POST.get("seconds")
 
-		if len(response_3) > 0:
-			# use Text-Proccessing API
-			json_object = textProccessing(response_3)
+			if len(response_3) > 0:
+				# use Text-Proccessing API
+				json_object = textProccessing(response_3)
 
-			# getting the sentiment scores
-			dict_response = json_object.get('probability')
-			positive = dict_response.get('pos')
-			negative = dict_response.get('neg')
-			neutral = dict_response.get('neutral')
-		else:
-			positive = 0
-			negative = 0
-			neutral = 0
+				# getting the sentiment scores
+				dict_response = json_object.get('probability')
+				positive = dict_response.get('pos')
+				negative = dict_response.get('neg')
+				neutral = dict_response.get('neutral')
+			else:
+				positive = 0
+				negative = 0
+				neutral = 0
 
-		sentimentScore = calculateSentimentScore(positive, negative, neutral)
+			sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
-		# Calculate the final score
-		final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
+			# Calculate the final score
+			final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
 
-		AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
-			response_3 = response_3, score3 = math.ceil(final_score))
-		return redirect('user:job-interview_q4')
+			AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+				response_3 = response_3, score3 = math.ceil(final_score))
+			return redirect('user:job-interview_q4')
+		except KeyError:
+			return redirect('user:interview_forfeit_view')
 
 class JobInterviewQ4View(View):
 	def get(self, request):
@@ -578,40 +612,43 @@ class JobInterviewQ4View(View):
 			else:
 				return redirect('user:interview_forfeit_view')
 		except KeyError:
-			return redirect('user:interview_access_denied')
+			return redirect('user:interview_forfeit_view')
 		return render(request, 'questions/jobInterview_Q4.html', context)
 
 	def post(self, request):
-		user = request.user
-		job_id = request.session['job']
-		job_weight = request.POST.get("job-weight")
-		job_timer = request.POST.get("job-timer")
-		response_4 = request.POST.get("message")
-		minutes = request.POST.get("minutes")
-		seconds = request.POST.get("seconds")
+		try:
+			user = request.user
+			job_id = request.session['job']
+			job_weight = request.POST.get("job-weight")
+			job_timer = request.POST.get("job-timer")
+			response_4 = request.POST.get("message")
+			minutes = request.POST.get("minutes")
+			seconds = request.POST.get("seconds")
 
-		if len(response_4) > 0:
-			# use Text-Proccessing API
-			json_object = textProccessing(response_4)
+			if len(response_4) > 0:
+				# use Text-Proccessing API
+				json_object = textProccessing(response_4)
 
-			# getting the sentiment scores
-			dict_response = json_object.get('probability')
-			positive = dict_response.get('pos')
-			negative = dict_response.get('neg')
-			neutral = dict_response.get('neutral')
-		else:
-			positive = 0
-			negative = 0
-			neutral = 0
+				# getting the sentiment scores
+				dict_response = json_object.get('probability')
+				positive = dict_response.get('pos')
+				negative = dict_response.get('neg')
+				neutral = dict_response.get('neutral')
+			else:
+				positive = 0
+				negative = 0
+				neutral = 0
 
-		sentimentScore = calculateSentimentScore(positive, negative, neutral)
+			sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
-		# Calculate the final score
-		final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
+			# Calculate the final score
+			final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
 
-		AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
-			response_4 = response_4, score4 = math.ceil(final_score))
-		return redirect('user:job-interview_q5')
+			AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+				response_4 = response_4, score4 = math.ceil(final_score))
+			return redirect('user:job-interview_q5')
+		except KeyError:
+			return redirect('user:interview_forfeit_view')
 
 class JobInterviewQ5View(View):
 	def get(self, request):
@@ -630,40 +667,43 @@ class JobInterviewQ5View(View):
 			else:
 				return redirect('user:interview_forfeit_view')
 		except KeyError:
-			return redirect('user:interview_access_denied')
+			return redirect('user:interview_forfeit_view')
 		return render(request, 'questions/jobInterview_Q5.html', context)
 
 	def post(self, request):
-		user = request.user
-		job_id = request.session['job']
-		job_weight = request.POST.get("job-weight")
-		job_timer = request.POST.get("job-timer")
-		response_5 = request.POST.get("message")
-		minutes = request.POST.get("minutes")
-		seconds = request.POST.get("seconds")
-		
-		if len(response_5) > 0:
-			# use Text-Proccessing API
-			json_object = textProccessing(response_5)
+		try:
+			user = request.user
+			job_id = request.session['job']
+			job_weight = request.POST.get("job-weight")
+			job_timer = request.POST.get("job-timer")
+			response_5 = request.POST.get("message")
+			minutes = request.POST.get("minutes")
+			seconds = request.POST.get("seconds")
+			
+			if len(response_5) > 0:
+				# use Text-Proccessing API
+				json_object = textProccessing(response_5)
 
-			# getting the sentiment scores
-			dict_response = json_object.get('probability')
-			positive = dict_response.get('pos')
-			negative = dict_response.get('neg')
-			neutral = dict_response.get('neutral')
-		else:
-			positive = 0
-			negative = 0
-			neutral = 0
+				# getting the sentiment scores
+				dict_response = json_object.get('probability')
+				positive = dict_response.get('pos')
+				negative = dict_response.get('neg')
+				neutral = dict_response.get('neutral')
+			else:
+				positive = 0
+				negative = 0
+				neutral = 0
 
-		sentimentScore = calculateSentimentScore(positive, negative, neutral)
+			sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
-		# Calculate the final score
-		final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
+			# Calculate the final score
+			final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
 
-		AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
-			response_5 = response_5, score5 = math.ceil(final_score))
-		return redirect('user:job-interview_q6')
+			AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+				response_5 = response_5, score5 = math.ceil(final_score))
+			return redirect('user:job-interview_q6')
+		except KeyError:
+			return redirect('user:interview_forfeit_view')
 
 class JobInterviewQ6View(View):
 	def get(self, request):
@@ -682,40 +722,43 @@ class JobInterviewQ6View(View):
 			else:
 				return redirect('user:interview_forfeit_view')
 		except KeyError:
-			return redirect('user:interview_access_denied')
+			return redirect('user:interview_forfeit_view')
 		return render(request, 'questions/jobInterview_Q6.html', context)
 
 	def post(self, request):
-		user = request.user
-		job_id = request.session['job']
-		job_weight = request.POST.get("job-weight")
-		job_timer = request.POST.get("job-timer")
-		response_6 = request.POST.get("message")
-		minutes = request.POST.get("minutes")
-		seconds = request.POST.get("seconds")
+		try:
+			user = request.user
+			job_id = request.session['job']
+			job_weight = request.POST.get("job-weight")
+			job_timer = request.POST.get("job-timer")
+			response_6 = request.POST.get("message")
+			minutes = request.POST.get("minutes")
+			seconds = request.POST.get("seconds")
 
-		if len(response_6) > 0:
-			# use Text-Proccessing API
-			json_object = textProccessing(response_6)
+			if len(response_6) > 0:
+				# use Text-Proccessing API
+				json_object = textProccessing(response_6)
 
-			# getting the sentiment scores
-			dict_response = json_object.get('probability')
-			positive = dict_response.get('pos')
-			negative = dict_response.get('neg')
-			neutral = dict_response.get('neutral')
-		else:
-			positive = 0
-			negative = 0
-			neutral = 0
+				# getting the sentiment scores
+				dict_response = json_object.get('probability')
+				positive = dict_response.get('pos')
+				negative = dict_response.get('neg')
+				neutral = dict_response.get('neutral')
+			else:
+				positive = 0
+				negative = 0
+				neutral = 0
 
-		sentimentScore = calculateSentimentScore(positive, negative, neutral)
+			sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
-		# Calculate the final score
-		final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
+			# Calculate the final score
+			final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
 
-		AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
-			response_6 = response_6, score6 = math.ceil(final_score))
-		return redirect('user:job-interview_q7')
+			AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+				response_6 = response_6, score6 = math.ceil(final_score))
+			return redirect('user:job-interview_q7')
+		except KeyError:
+			return redirect('user:interview_forfeit_view')
 
 class JobInterviewQ7View(View):
 	def get(self, request):
@@ -734,40 +777,43 @@ class JobInterviewQ7View(View):
 			else:
 				return redirect('user:interview_forfeit_view')
 		except KeyError:
-			return redirect('user:interview_access_denied')
+			return redirect('user:interview_forfeit_view')
 		return render(request, 'questions/jobInterview_Q7.html', context)
 
 	def post(self, request):
-		user = request.user
-		job_id = request.session['job']
-		job_weight = request.POST.get("job-weight")
-		job_timer = request.POST.get("job-timer")
-		response_7 = request.POST.get("message")
-		minutes = request.POST.get("minutes")
-		seconds = request.POST.get("seconds")
+		try:
+			user = request.user
+			job_id = request.session['job']
+			job_weight = request.POST.get("job-weight")
+			job_timer = request.POST.get("job-timer")
+			response_7 = request.POST.get("message")
+			minutes = request.POST.get("minutes")
+			seconds = request.POST.get("seconds")
 
-		if len(response_7) > 0:
-			# use Text-Proccessing API
-			json_object = textProccessing(response_7)
+			if len(response_7) > 0:
+				# use Text-Proccessing API
+				json_object = textProccessing(response_7)
 
-			# getting the sentiment scores
-			dict_response = json_object.get('probability')
-			positive = dict_response.get('pos')
-			negative = dict_response.get('neg')
-			neutral = dict_response.get('neutral')
-		else:
-			positive = 0
-			negative = 0
-			neutral = 0
+				# getting the sentiment scores
+				dict_response = json_object.get('probability')
+				positive = dict_response.get('pos')
+				negative = dict_response.get('neg')
+				neutral = dict_response.get('neutral')
+			else:
+				positive = 0
+				negative = 0
+				neutral = 0
 
-		sentimentScore = calculateSentimentScore(positive, negative, neutral)
+			sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
-		# Calculate the final score
-		final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
+			# Calculate the final score
+			final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
 
-		AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
-			response_7 = response_7, score7 = math.ceil(final_score))
-		return redirect('user:job-interview_q8')
+			AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+				response_7 = response_7, score7 = math.ceil(final_score))
+			return redirect('user:job-interview_q8')
+		except KeyError:
+			return redirect('user:interview_forfeit_view')
 
 class JobInterviewQ8View(View):
 	def get(self, request):
@@ -786,40 +832,43 @@ class JobInterviewQ8View(View):
 			else:
 				return redirect('user:interview_forfeit_view')
 		except KeyError:
-			return redirect('user:interview_access_denied')
+			return redirect('user:interview_forfeit_view')
 		return render(request, 'questions/jobInterview_Q8.html', context)
 
 	def post(self, request):
-		user = request.user
-		job_id = request.session['job']
-		job_weight = request.POST.get("job-weight")
-		job_timer = request.POST.get("job-timer")
-		response_8 = request.POST.get("message")
-		minutes = request.POST.get("minutes")
-		seconds = request.POST.get("seconds")
+		try:
+			user = request.user
+			job_id = request.session['job']
+			job_weight = request.POST.get("job-weight")
+			job_timer = request.POST.get("job-timer")
+			response_8 = request.POST.get("message")
+			minutes = request.POST.get("minutes")
+			seconds = request.POST.get("seconds")
 
-		if len(response_8) > 0:
-			# use Text-Proccessing API
-			json_object = textProccessing(response_8)
+			if len(response_8) > 0:
+				# use Text-Proccessing API
+				json_object = textProccessing(response_8)
 
-			# getting the sentiment scores
-			dict_response = json_object.get('probability')
-			positive = dict_response.get('pos')
-			negative = dict_response.get('neg')
-			neutral = dict_response.get('neutral')
-		else:
-			positive = 0
-			negative = 0
-			neutral = 0
+				# getting the sentiment scores
+				dict_response = json_object.get('probability')
+				positive = dict_response.get('pos')
+				negative = dict_response.get('neg')
+				neutral = dict_response.get('neutral')
+			else:
+				positive = 0
+				negative = 0
+				neutral = 0
 
-		sentimentScore = calculateSentimentScore(positive, negative, neutral)
+			sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
-		# Calculate the final score
-		final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
+			# Calculate the final score
+			final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
 
-		AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
-			response_8 = response_8, score8 = math.ceil(final_score))
-		return redirect('user:job-interview_q9')
+			AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+				response_8 = response_8, score8 = math.ceil(final_score))
+			return redirect('user:job-interview_q9')
+		except KeyError:
+			return redirect('user:interview_forfeit_view')
 
 class JobInterviewQ9View(View):
 	def get(self, request):
@@ -838,40 +887,43 @@ class JobInterviewQ9View(View):
 			else:
 				return redirect('user:interview_forfeit_view')
 		except KeyError:
-			return redirect('user:interview_access_denied')
+			return redirect('user:interview_forfeit_view')
 		return render(request, 'questions/jobInterview_Q9.html', context)
 
 	def post(self, request):
-		user = request.user
-		job_id = request.session['job']
-		job_weight = request.POST.get("job-weight")
-		job_timer = request.POST.get("job-timer")
-		response_9 = request.POST.get("message")
-		minutes = request.POST.get("minutes")
-		seconds = request.POST.get("seconds")
+		try:
+			user = request.user
+			job_id = request.session['job']
+			job_weight = request.POST.get("job-weight")
+			job_timer = request.POST.get("job-timer")
+			response_9 = request.POST.get("message")
+			minutes = request.POST.get("minutes")
+			seconds = request.POST.get("seconds")
 
-		if len(response_9) > 0:
-			# use Text-Proccessing API
-			json_object = textProccessing(response_9)
+			if len(response_9) > 0:
+				# use Text-Proccessing API
+				json_object = textProccessing(response_9)
 
-			# getting the sentiment scores
-			dict_response = json_object.get('probability')
-			positive = dict_response.get('pos')
-			negative = dict_response.get('neg')
-			neutral = dict_response.get('neutral')
-		else:
-			positive = 0
-			negative = 0
-			neutral = 0
+				# getting the sentiment scores
+				dict_response = json_object.get('probability')
+				positive = dict_response.get('pos')
+				negative = dict_response.get('neg')
+				neutral = dict_response.get('neutral')
+			else:
+				positive = 0
+				negative = 0
+				neutral = 0
 
-		sentimentScore = calculateSentimentScore(positive, negative, neutral)
+			sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
-		# Calculate the final score
-		final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
+			# Calculate the final score
+			final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
 
-		AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
-			response_9 = response_9, score9 = math.ceil(final_score))
-		return redirect('user:job-interview_q10')
+			AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+				response_9 = response_9, score9 = math.ceil(final_score))
+			return redirect('user:job-interview_q10')
+		except KeyError:
+			return redirect('user:interview_forfeit_view')
 
 class JobInterviewQ10View(View):
 	def get(self, request):
@@ -890,40 +942,43 @@ class JobInterviewQ10View(View):
 			else:
 				return redirect('user:interview_forfeit_view')
 		except KeyError:
-			return redirect('user:interview_access_denied')
+			return redirect('user:interview_forfeit_view')
 		return render(request, 'questions/jobInterview_Q10.html', context)
 
 	def post(self, request):
-		user = request.user
-		job_id = request.session['job']
-		job_weight = request.POST.get("job-weight")
-		job_timer = request.POST.get("job-timer")
-		response_10 = request.POST.get("message")
-		minutes = request.POST.get("minutes")
-		seconds = request.POST.get("seconds")
+		try:
+			user = request.user
+			job_id = request.session['job']
+			job_weight = request.POST.get("job-weight")
+			job_timer = request.POST.get("job-timer")
+			response_10 = request.POST.get("message")
+			minutes = request.POST.get("minutes")
+			seconds = request.POST.get("seconds")
 
-		if len(response_10) > 0:
-			# use Text-Proccessing API
-			json_object = textProccessing(response_10)
+			if len(response_10) > 0:
+				# use Text-Proccessing API
+				json_object = textProccessing(response_10)
 
-			# getting the sentiment scores
-			dict_response = json_object.get('probability')
-			positive = dict_response.get('pos')
-			negative = dict_response.get('neg')
-			neutral = dict_response.get('neutral')
-		else:
-			positive = 0
-			negative = 0
-			neutral = 0
+				# getting the sentiment scores
+				dict_response = json_object.get('probability')
+				positive = dict_response.get('pos')
+				negative = dict_response.get('neg')
+				neutral = dict_response.get('neutral')
+			else:
+				positive = 0
+				negative = 0
+				neutral = 0
 
-		sentimentScore = calculateSentimentScore(positive, negative, neutral)
+			sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
-		# Calculate the final score
-		final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
+			# Calculate the final score
+			final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
 
-		AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
-			response_10 = response_10, score10 = math.ceil(final_score))
-		return redirect('user:job-interview_q11')
+			AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+				response_10 = response_10, score10 = math.ceil(final_score))
+			return redirect('user:job-interview_q11')
+		except KeyError:
+			return redirect('user:interview_forfeit_view')
 
 class JobInterviewQ11View(View):
 	def get(self, request):
@@ -942,40 +997,43 @@ class JobInterviewQ11View(View):
 			else:
 				return redirect('user:interview_forfeit_view')
 		except KeyError:
-			return redirect('user:interview_access_denied')
+			return redirect('user:interview_forfeit_view')
 		return render(request, 'questions/jobInterview_Q11.html', context)
 
 	def post(self, request):
-		user = request.user
-		job_id = request.session['job']
-		job_weight = request.POST.get("job-weight")
-		job_timer = request.POST.get("job-timer")
-		response_11 = request.POST.get("message")
-		minutes = request.POST.get("minutes")
-		seconds = request.POST.get("seconds")
+		try:
+			user = request.user
+			job_id = request.session['job']
+			job_weight = request.POST.get("job-weight")
+			job_timer = request.POST.get("job-timer")
+			response_11 = request.POST.get("message")
+			minutes = request.POST.get("minutes")
+			seconds = request.POST.get("seconds")
 
-		if len(response_11) > 0:
-			# use Text-Proccessing API
-			json_object = textProccessing(response_11)
+			if len(response_11) > 0:
+				# use Text-Proccessing API
+				json_object = textProccessing(response_11)
 
-			# getting the sentiment scores
-			dict_response = json_object.get('probability')
-			positive = dict_response.get('pos')
-			negative = dict_response.get('neg')
-			neutral = dict_response.get('neutral')
-		else:
-			positive = 0
-			negative = 0
-			neutral = 0
+				# getting the sentiment scores
+				dict_response = json_object.get('probability')
+				positive = dict_response.get('pos')
+				negative = dict_response.get('neg')
+				neutral = dict_response.get('neutral')
+			else:
+				positive = 0
+				negative = 0
+				neutral = 0
 
-		sentimentScore = calculateSentimentScore(positive, negative, neutral)
+			sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
-		# Calculate the final score
-		final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
+			# Calculate the final score
+			final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
 
-		AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
-			response_11 = response_11, score11 = math.ceil(final_score))
-		return redirect('user:job-interview_q12')
+			AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+				response_11 = response_11, score11 = math.ceil(final_score))
+			return redirect('user:job-interview_q12')
+		except KeyError:
+			return redirect('user:interview_forfeit_view')
 
 class JobInterviewQ12View(View):
 	def get(self, request):
@@ -994,40 +1052,43 @@ class JobInterviewQ12View(View):
 			else:
 				return redirect('user:interview_forfeit_view')
 		except KeyError:
-			return redirect('user:interview_access_denied')
+			return redirect('user:interview_forfeit_view')
 		return render(request, 'questions/jobInterview_Q12.html', context)
 
 	def post(self, request):
-		user = request.user
-		job_id = request.session['job']
-		job_weight = request.POST.get("job-weight")
-		job_timer = request.POST.get("job-timer")
-		response_12 = request.POST.get("message")
-		minutes = request.POST.get("minutes")
-		seconds = request.POST.get("seconds")
+		try:
+			user = request.user
+			job_id = request.session['job']
+			job_weight = request.POST.get("job-weight")
+			job_timer = request.POST.get("job-timer")
+			response_12 = request.POST.get("message")
+			minutes = request.POST.get("minutes")
+			seconds = request.POST.get("seconds")
 
-		if len(response_12) > 0:
-			# use Text-Proccessing API
-			json_object = textProccessing(response_12)
+			if len(response_12) > 0:
+				# use Text-Proccessing API
+				json_object = textProccessing(response_12)
 
-			# getting the sentiment scores
-			dict_response = json_object.get('probability')
-			positive = dict_response.get('pos')
-			negative = dict_response.get('neg')
-			neutral = dict_response.get('neutral')
-		else:
-			positive = 0
-			negative = 0
-			neutral = 0
+				# getting the sentiment scores
+				dict_response = json_object.get('probability')
+				positive = dict_response.get('pos')
+				negative = dict_response.get('neg')
+				neutral = dict_response.get('neutral')
+			else:
+				positive = 0
+				negative = 0
+				neutral = 0
 
-		sentimentScore = calculateSentimentScore(positive, negative, neutral)
+			sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
-		# Calculate the final score
-		final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
+			# Calculate the final score
+			final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
 
-		AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
-			response_12 = response_12, score12 = math.ceil(final_score))
-		return redirect('user:job-interview_q13')
+			AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+				response_12 = response_12, score12 = math.ceil(final_score))
+			return redirect('user:job-interview_q13')
+		except KeyError:
+			return redirect('user:interview_forfeit_view')
 
 class JobInterviewQ13View(View):
 	def get(self, request):
@@ -1046,40 +1107,43 @@ class JobInterviewQ13View(View):
 			else:
 				return redirect('user:interview_forfeit_view')
 		except KeyError:
-			return redirect('user:interview_access_denied')
+			return redirect('user:interview_forfeit_view')
 		return render(request, 'questions/jobInterview_Q13.html', context)
 
 	def post(self, request):
-		user = request.user
-		job_id = request.session['job']
-		job_weight = request.POST.get("job-weight")
-		job_timer = request.POST.get("job-timer")
-		response_13 = request.POST.get("message")
-		minutes = request.POST.get("minutes")
-		seconds = request.POST.get("seconds")
+		try:
+			user = request.user
+			job_id = request.session['job']
+			job_weight = request.POST.get("job-weight")
+			job_timer = request.POST.get("job-timer")
+			response_13 = request.POST.get("message")
+			minutes = request.POST.get("minutes")
+			seconds = request.POST.get("seconds")
 
-		if len(response_13) > 0:
-			# use Text-Proccessing API
-			json_object = textProccessing(response_13)
+			if len(response_13) > 0:
+				# use Text-Proccessing API
+				json_object = textProccessing(response_13)
 
-			# getting the sentiment scores
-			dict_response = json_object.get('probability')
-			positive = dict_response.get('pos')
-			negative = dict_response.get('neg')
-			neutral = dict_response.get('neutral')
-		else:
-			positive = 0
-			negative = 0
-			neutral = 0
+				# getting the sentiment scores
+				dict_response = json_object.get('probability')
+				positive = dict_response.get('pos')
+				negative = dict_response.get('neg')
+				neutral = dict_response.get('neutral')
+			else:
+				positive = 0
+				negative = 0
+				neutral = 0
 
-		sentimentScore = calculateSentimentScore(positive, negative, neutral)
+			sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
-		# Calculate the final score
-		final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
+			# Calculate the final score
+			final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
 
-		AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
-			response_13 = response_13, score13 = math.ceil(final_score))
-		return redirect('user:job-interview_q14')
+			AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+				response_13 = response_13, score13 = math.ceil(final_score))
+			return redirect('user:job-interview_q14')
+		except KeyError:
+			return redirect('user:interview_forfeit_view')
 
 class JobInterviewQ14View(View):
 	def get(self, request):
@@ -1098,40 +1162,43 @@ class JobInterviewQ14View(View):
 			else:
 				return redirect('user:interview_forfeit_view')
 		except KeyError:
-			return redirect('user:interview_access_denied')
+			return redirect('user:interview_forfeit_view')
 		return render(request, 'questions/jobInterview_Q14.html', context)
 
 	def post(self, request):
-		user = request.user
-		job_id = request.session['job']
-		job_weight = request.POST.get("job-weight")
-		job_timer = request.POST.get("job-timer")
-		response_14 = request.POST.get("message")
-		minutes = request.POST.get("minutes")
-		seconds = request.POST.get("seconds")
+		try:
+			user = request.user
+			job_id = request.session['job']
+			job_weight = request.POST.get("job-weight")
+			job_timer = request.POST.get("job-timer")
+			response_14 = request.POST.get("message")
+			minutes = request.POST.get("minutes")
+			seconds = request.POST.get("seconds")
 
-		if len(response_14) > 0:
-			# use Text-Proccessing API
-			json_object = textProccessing(response_14)
+			if len(response_14) > 0:
+				# use Text-Proccessing API
+				json_object = textProccessing(response_14)
 
-			# getting the sentiment scores
-			dict_response = json_object.get('probability')
-			positive = dict_response.get('pos')
-			negative = dict_response.get('neg')
-			neutral = dict_response.get('neutral')
-		else:
-			positive = 0
-			negative = 0
-			neutral = 0
+				# getting the sentiment scores
+				dict_response = json_object.get('probability')
+				positive = dict_response.get('pos')
+				negative = dict_response.get('neg')
+				neutral = dict_response.get('neutral')
+			else:
+				positive = 0
+				negative = 0
+				neutral = 0
 
-		sentimentScore = calculateSentimentScore(positive, negative, neutral)
+			sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
-		# Calculate the final score
-		final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
+			# Calculate the final score
+			final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
 
-		AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
-			response_14 = response_14, score14 = math.ceil(final_score))
-		return redirect('user:job-interview_q15')
+			AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+				response_14 = response_14, score14 = math.ceil(final_score))
+			return redirect('user:job-interview_q15')
+		except KeyError:
+			return redirect('user:interview_forfeit_view')
 
 class JobInterviewQ15View(View):
 	def get(self, request):
@@ -1150,40 +1217,43 @@ class JobInterviewQ15View(View):
 			else:
 				return redirect('user:interview_forfeit_view')
 		except KeyError:
-			return redirect('user:interview_access_denied')
+			return redirect('user:interview_forfeit_view')
 		return render(request, 'questions/jobInterview_Q15.html', context)
 
 	def post(self, request):
-		user = request.user
-		job_id = request.session['job']
-		job_weight = request.POST.get("job-weight")
-		job_timer = request.POST.get("job-timer")
-		response_15 = request.POST.get("message")
-		minutes = request.POST.get("minutes")
-		seconds = request.POST.get("seconds")
+		try:
+			user = request.user
+			job_id = request.session['job']
+			job_weight = request.POST.get("job-weight")
+			job_timer = request.POST.get("job-timer")
+			response_15 = request.POST.get("message")
+			minutes = request.POST.get("minutes")
+			seconds = request.POST.get("seconds")
 
-		if len(response_15) > 0:
-			# use Text-Proccessing API
-			json_object = textProccessing(response_15)
+			if len(response_15) > 0:
+				# use Text-Proccessing API
+				json_object = textProccessing(response_15)
 
-			# getting the sentiment scores
-			dict_response = json_object.get('probability')
-			positive = dict_response.get('pos')
-			negative = dict_response.get('neg')
-			neutral = dict_response.get('neutral')
-		else:
-			positive = 0
-			negative = 0
-			neutral = 0
+				# getting the sentiment scores
+				dict_response = json_object.get('probability')
+				positive = dict_response.get('pos')
+				negative = dict_response.get('neg')
+				neutral = dict_response.get('neutral')
+			else:
+				positive = 0
+				negative = 0
+				neutral = 0
 
-		sentimentScore = calculateSentimentScore(positive, negative, neutral)
+			sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
-		# Calculate the final score
-		final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
+			# Calculate the final score
+			final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
 
-		AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
-			response_15 = response_15, score15 = math.ceil(final_score))
-		return redirect('user:job-interview_q16')
+			AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+				response_15 = response_15, score15 = math.ceil(final_score))
+			return redirect('user:job-interview_q16')
+		except KeyError:
+			return redirect('user:interview_forfeit_view')
 
 class JobInterviewQ16View(View):
 	def get(self, request):
@@ -1202,40 +1272,43 @@ class JobInterviewQ16View(View):
 			else:
 				return redirect('user:interview_forfeit_view')
 		except KeyError:
-			return redirect('user:interview_access_denied')
+			return redirect('user:interview_forfeit_view')
 		return render(request, 'questions/jobInterview_Q16.html', context)
 
 	def post(self, request):
-		user = request.user
-		job_id = request.session['job']
-		job_weight = request.POST.get("job-weight")
-		job_timer = request.POST.get("job-timer")
-		response_16 = request.POST.get("message")
-		minutes = request.POST.get("minutes")
-		seconds = request.POST.get("seconds")
+		try:
+			user = request.user
+			job_id = request.session['job']
+			job_weight = request.POST.get("job-weight")
+			job_timer = request.POST.get("job-timer")
+			response_16 = request.POST.get("message")
+			minutes = request.POST.get("minutes")
+			seconds = request.POST.get("seconds")
 
-		if len(response_16) > 0:
-			# use Text-Proccessing API
-			json_object = textProccessing(response_16)
+			if len(response_16) > 0:
+				# use Text-Proccessing API
+				json_object = textProccessing(response_16)
 
-			# getting the sentiment scores
-			dict_response = json_object.get('probability')
-			positive = dict_response.get('pos')
-			negative = dict_response.get('neg')
-			neutral = dict_response.get('neutral')
-		else:
-			positive = 0
-			negative = 0
-			neutral = 0
+				# getting the sentiment scores
+				dict_response = json_object.get('probability')
+				positive = dict_response.get('pos')
+				negative = dict_response.get('neg')
+				neutral = dict_response.get('neutral')
+			else:
+				positive = 0
+				negative = 0
+				neutral = 0
 
-		sentimentScore = calculateSentimentScore(positive, negative, neutral)
+			sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
-		# Calculate the final score
-		final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
+			# Calculate the final score
+			final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
 
-		AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
-			response_16 = response_16, score16 = math.ceil(final_score))
-		return redirect('user:job-interview_q17')
+			AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+				response_16 = response_16, score16 = math.ceil(final_score))
+			return redirect('user:job-interview_q17')
+		except KeyError:
+			return redirect('user:interview_forfeit_view')
 
 class JobInterviewQ17View(View):
 	def get(self, request):
@@ -1254,40 +1327,43 @@ class JobInterviewQ17View(View):
 			else:
 				return redirect('user:interview_forfeit_view')
 		except KeyError:
-			return redirect('user:interview_access_denied')
+			return redirect('user:interview_forfeit_view')
 		return render(request, 'questions/jobInterview_Q17.html', context)
 
 	def post(self, request):
-		user = request.user
-		job_id = request.session['job']
-		job_weight = request.POST.get("job-weight")
-		job_timer = request.POST.get("job-timer")
-		response_17 = request.POST.get("message")
-		minutes = request.POST.get("minutes")
-		seconds = request.POST.get("seconds")
-		
-		if len(response_17) > 0:
-			# use Text-Proccessing API
-			json_object = textProccessing(response_17)
+		try:
+			user = request.user
+			job_id = request.session['job']
+			job_weight = request.POST.get("job-weight")
+			job_timer = request.POST.get("job-timer")
+			response_17 = request.POST.get("message")
+			minutes = request.POST.get("minutes")
+			seconds = request.POST.get("seconds")
+			
+			if len(response_17) > 0:
+				# use Text-Proccessing API
+				json_object = textProccessing(response_17)
 
-			# getting the sentiment scores
-			dict_response = json_object.get('probability')
-			positive = dict_response.get('pos')
-			negative = dict_response.get('neg')
-			neutral = dict_response.get('neutral')
-		else:
-			positive = 0
-			negative = 0
-			neutral = 0
+				# getting the sentiment scores
+				dict_response = json_object.get('probability')
+				positive = dict_response.get('pos')
+				negative = dict_response.get('neg')
+				neutral = dict_response.get('neutral')
+			else:
+				positive = 0
+				negative = 0
+				neutral = 0
 
-		sentimentScore = calculateSentimentScore(positive, negative, neutral)
+			sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
-		# Calculate the final score
-		final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
+			# Calculate the final score
+			final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
 
-		AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
-			response_17 = response_17, score17 = math.ceil(final_score))
-		return redirect('user:job-interview_q18')
+			AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+				response_17 = response_17, score17 = math.ceil(final_score))
+			return redirect('user:job-interview_q18')
+		except KeyError:
+			return redirect('user:interview_forfeit_view')
 
 class JobInterviewQ18View(View):
 	def get(self, request):
@@ -1306,40 +1382,43 @@ class JobInterviewQ18View(View):
 			else:
 				return redirect('user:interview_forfeit_view')
 		except KeyError:
-			return redirect('user:interview_access_denied')
+			return redirect('user:interview_forfeit_view')
 		return render(request, 'questions/jobInterview_Q18.html', context)
 
 	def post(self, request):
-		user = request.user
-		job_id = request.session['job']
-		job_weight = request.POST.get("job-weight")
-		job_timer = request.POST.get("job-timer")
-		response_18 = request.POST.get("message")
-		minutes = request.POST.get("minutes")
-		seconds = request.POST.get("seconds")
+		try:
+			user = request.user
+			job_id = request.session['job']
+			job_weight = request.POST.get("job-weight")
+			job_timer = request.POST.get("job-timer")
+			response_18 = request.POST.get("message")
+			minutes = request.POST.get("minutes")
+			seconds = request.POST.get("seconds")
 
-		if len(response_18) > 0:
-			# use Text-Proccessing API
-			json_object = textProccessing(response_18)
+			if len(response_18) > 0:
+				# use Text-Proccessing API
+				json_object = textProccessing(response_18)
 
-			# getting the sentiment scores
-			dict_response = json_object.get('probability')
-			positive = dict_response.get('pos')
-			negative = dict_response.get('neg')
-			neutral = dict_response.get('neutral')
-		else:
-			positive = 0
-			negative = 0
-			neutral = 0
+				# getting the sentiment scores
+				dict_response = json_object.get('probability')
+				positive = dict_response.get('pos')
+				negative = dict_response.get('neg')
+				neutral = dict_response.get('neutral')
+			else:
+				positive = 0
+				negative = 0
+				neutral = 0
 
-		sentimentScore = calculateSentimentScore(positive, negative, neutral)
+			sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
-		# Calculate the final score
-		final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
+			# Calculate the final score
+			final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
 
-		AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
-			response_18 = response_18, score18 = math.ceil(final_score))
-		return redirect('user:job-interview_q19')
+			AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+				response_18 = response_18, score18 = math.ceil(final_score))
+			return redirect('user:job-interview_q19')
+		except KeyError:
+			return redirect('user:interview_forfeit_view')
 
 class JobInterviewQ19View(View):
 	def get(self, request):
@@ -1358,40 +1437,43 @@ class JobInterviewQ19View(View):
 			else:
 				return redirect('user:interview_forfeit_view')
 		except KeyError:
-			return redirect('user:interview_access_denied')
+			return redirect('user:interview_forfeit_view')
 		return render(request, 'questions/jobInterview_Q19.html', context)
 
 	def post(self, request):
-		user = request.user
-		job_id = request.session['job']
-		job_weight = request.POST.get("job-weight")
-		job_timer = request.POST.get("job-timer")
-		response_19 = request.POST.get("message")
-		minutes = request.POST.get("minutes")
-		seconds = request.POST.get("seconds")
+		try:
+			user = request.user
+			job_id = request.session['job']
+			job_weight = request.POST.get("job-weight")
+			job_timer = request.POST.get("job-timer")
+			response_19 = request.POST.get("message")
+			minutes = request.POST.get("minutes")
+			seconds = request.POST.get("seconds")
 
-		if len(response_19) > 0:
-			# use Text-Proccessing API
-			json_object = textProccessing(response_19)
+			if len(response_19) > 0:
+				# use Text-Proccessing API
+				json_object = textProccessing(response_19)
 
-			# getting the sentiment scores
-			dict_response = json_object.get('probability')
-			positive = dict_response.get('pos')
-			negative = dict_response.get('neg')
-			neutral = dict_response.get('neutral')
-		else:
-			positive = 0
-			negative = 0
-			neutral = 0
+				# getting the sentiment scores
+				dict_response = json_object.get('probability')
+				positive = dict_response.get('pos')
+				negative = dict_response.get('neg')
+				neutral = dict_response.get('neutral')
+			else:
+				positive = 0
+				negative = 0
+				neutral = 0
 
-		sentimentScore = calculateSentimentScore(positive, negative, neutral)
+			sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
-		# Calculate the final score
-		final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
+			# Calculate the final score
+			final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
 
-		AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
-			response_19 = response_19, score19 = math.ceil(final_score))
-		return redirect('user:job-interview_q20')
+			AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+				response_19 = response_19, score19 = math.ceil(final_score))
+			return redirect('user:job-interview_q20')
+		except KeyError:
+			return redirect('user:interview_forfeit_view')
 
 class JobInterviewQ20View(View):
 	def get(self, request):
@@ -1410,134 +1492,137 @@ class JobInterviewQ20View(View):
 			else:
 				return redirect('user:interview_forfeit_view')
 		except KeyError:
-			return redirect('user:interview_access_denied')
+			return redirect('user:interview_forfeit_view')
 		return render(request, 'questions/jobInterview_Q20.html', context)
 
 	def post(self, request):
-		user = request.user
-		job_id = request.session['job']
-		job_weight1 = request.POST.get("job-weight1")
-		job_weight2 = request.POST.get("job-weight2")
-		job_weight3 = request.POST.get("job-weight3")
-		job_weight4 = request.POST.get("job-weight4")
-		job_weight5 = request.POST.get("job-weight5")
-		job_weight6 = request.POST.get("job-weight6")
-		job_weight7 = request.POST.get("job-weight7")
-		job_weight8 = request.POST.get("job-weight8")
-		job_weight9 = request.POST.get("job-weight9")
-		job_weight10 = request.POST.get("job-weight10")
-		job_weight11 = request.POST.get("job-weight11")
-		job_weight12 = request.POST.get("job-weight12")
-		job_weight13 = request.POST.get("job-weight13")
-		job_weight14 = request.POST.get("job-weight14")
-		job_weight15 = request.POST.get("job-weight15")
-		job_weight16 = request.POST.get("job-weight16")
-		job_weight17 = request.POST.get("job-weight17")
-		job_weight18 = request.POST.get("job-weight18")
-		job_weight19 = request.POST.get("job-weight19")
-		job_weight20 = request.POST.get("job-weight20")
-		job_timer = request.POST.get("job-timer")
-		response_20 = request.POST.get("message")
-		minutes = request.POST.get("minutes")
-		seconds = request.POST.get("seconds")
+		try:
+			user = request.user
+			job_id = request.session['job']
+			job_weight1 = request.POST.get("job-weight1")
+			job_weight2 = request.POST.get("job-weight2")
+			job_weight3 = request.POST.get("job-weight3")
+			job_weight4 = request.POST.get("job-weight4")
+			job_weight5 = request.POST.get("job-weight5")
+			job_weight6 = request.POST.get("job-weight6")
+			job_weight7 = request.POST.get("job-weight7")
+			job_weight8 = request.POST.get("job-weight8")
+			job_weight9 = request.POST.get("job-weight9")
+			job_weight10 = request.POST.get("job-weight10")
+			job_weight11 = request.POST.get("job-weight11")
+			job_weight12 = request.POST.get("job-weight12")
+			job_weight13 = request.POST.get("job-weight13")
+			job_weight14 = request.POST.get("job-weight14")
+			job_weight15 = request.POST.get("job-weight15")
+			job_weight16 = request.POST.get("job-weight16")
+			job_weight17 = request.POST.get("job-weight17")
+			job_weight18 = request.POST.get("job-weight18")
+			job_weight19 = request.POST.get("job-weight19")
+			job_weight20 = request.POST.get("job-weight20")
+			job_timer = request.POST.get("job-timer")
+			response_20 = request.POST.get("message")
+			minutes = request.POST.get("minutes")
+			seconds = request.POST.get("seconds")
 
-		if len(response_20) > 0:
-			# use Text-Proccessing API
-			json_object = textProccessing(response_20)
+			if len(response_20) > 0:
+				# use Text-Proccessing API
+				json_object = textProccessing(response_20)
 
-			# getting the sentiment scores
-			dict_response = json_object.get('probability')
-			positive = dict_response.get('pos')
-			negative = dict_response.get('neg')
-			neutral = dict_response.get('neutral')
-		else:
-			positive = 0
-			negative = 0
-			neutral = 0
-
-		sentimentScore = calculateSentimentScore(positive, negative, neutral)
-
-		# Calculate the final score
-		score20 = finalScoring(sentimentScore, job_weight20, float(minutes), float(seconds), job_timer)
-
-		# get final score for the overall interview session
-		user_appliedJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id)
-		for u in user_appliedJob:
-			print(u.score1)
-			print(u.score2)
-			print(u.score3)
-			print(u.score4)
-			print(u.score5)
-			print(u.score6)
-			print(u.score7)
-			print(u.score8)
-			print(u.score9)
-			print(u.score10)
-			print(u.score11)
-			print(u.score12)
-			print(u.score13)
-			print(u.score14)
-			print(u.score15)
-			print(u.score16)
-			print(u.score17)
-			print(u.score18)
-			print(u.score19)
-			print(score20)
-
-
-			if u.score1 != None and u.score2 != None and u.score3 != None and u.score4 != None and u.score5 != None and u.score6 != None and u.score7 != None and u.score8 != None and u.score9 != None and u.score10 != None and u.score11 != None and u.score12 != None and u.score13 != None and u.score14 != None and u.score15 != None and u.score16 != None and u.score17 != None and u.score18 != None and u.score19 != None and score20 != 0:	
-				final_score = (
-					(float(u.score1) * float(job_weight1)) + 
-					(float(u.score2) * float(job_weight2)) +
-					(float(u.score3) * float(job_weight3)) +
-					(float(u.score4) * float(job_weight4)) +
-					(float(u.score5) * float(job_weight5)) +
-					(float(u.score6) * float(job_weight6)) +
-					(float(u.score7) * float(job_weight7)) +
-					(float(u.score8) * float(job_weight8)) +
-					(float(u.score9) * float(job_weight9)) +
-					(float(u.score10) * float(job_weight10)) +
-					(float(u.score11) * float(job_weight11)) +
-					(float(u.score12) * float(job_weight12)) +
-					(float(u.score13) * float(job_weight13)) +
-					(float(u.score14) * float(job_weight14)) +
-					(float(u.score15) * float(job_weight15)) +
-					(float(u.score16) * float(job_weight16)) +
-					(float(u.score17) * float(job_weight17)) +
-					(float(u.score18) * float(job_weight18)) +
-					(float(u.score19) * float(job_weight19)) +
-					(float(score20) * float(job_weight20))) / (
-					float(job_weight1) + 
-					float(job_weight2) + 
-					float(job_weight3) + 
-					float(job_weight4) + 
-					float(job_weight5) + 
-					float(job_weight6) + 
-					float(job_weight7) + 
-					float(job_weight8) + 
-					float(job_weight9) + 
-					float(job_weight10) + 
-					float(job_weight11) + 
-					float(job_weight12) + 
-					float(job_weight13) + 
-					float(job_weight14) + 
-					float(job_weight15) + 
-					float(job_weight16) + 
-					float(job_weight17) + 
-					float(job_weight18) + 
-					float(job_weight19) + 
-					float(job_weight20))
-				break
+				# getting the sentiment scores
+				dict_response = json_object.get('probability')
+				positive = dict_response.get('pos')
+				negative = dict_response.get('neg')
+				neutral = dict_response.get('neutral')
 			else:
-				# if one score is null
-				AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
-					response_20 = response_20, score20 = score20, final_score = 0)
-				return redirect('user:interview_forfeit_view')
+				positive = 0
+				negative = 0
+				neutral = 0
 
-		AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
-			response_20 = response_20, score20 = math.ceil(score20), final_score = final_score)
+			sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
-		return redirect('user:interview_success_view')
+			# Calculate the final score
+			score20 = finalScoring(sentimentScore, job_weight20, float(minutes), float(seconds), job_timer)
+
+			# get final score for the overall interview session
+			user_appliedJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id)
+			for u in user_appliedJob:
+				print(u.score1)
+				print(u.score2)
+				print(u.score3)
+				print(u.score4)
+				print(u.score5)
+				print(u.score6)
+				print(u.score7)
+				print(u.score8)
+				print(u.score9)
+				print(u.score10)
+				print(u.score11)
+				print(u.score12)
+				print(u.score13)
+				print(u.score14)
+				print(u.score15)
+				print(u.score16)
+				print(u.score17)
+				print(u.score18)
+				print(u.score19)
+				print(score20)
+
+
+				if u.score1 != None and u.score2 != None and u.score3 != None and u.score4 != None and u.score5 != None and u.score6 != None and u.score7 != None and u.score8 != None and u.score9 != None and u.score10 != None and u.score11 != None and u.score12 != None and u.score13 != None and u.score14 != None and u.score15 != None and u.score16 != None and u.score17 != None and u.score18 != None and u.score19 != None and score20 != 0:	
+					final_score = (
+						(float(u.score1) * float(job_weight1)) + 
+						(float(u.score2) * float(job_weight2)) +
+						(float(u.score3) * float(job_weight3)) +
+						(float(u.score4) * float(job_weight4)) +
+						(float(u.score5) * float(job_weight5)) +
+						(float(u.score6) * float(job_weight6)) +
+						(float(u.score7) * float(job_weight7)) +
+						(float(u.score8) * float(job_weight8)) +
+						(float(u.score9) * float(job_weight9)) +
+						(float(u.score10) * float(job_weight10)) +
+						(float(u.score11) * float(job_weight11)) +
+						(float(u.score12) * float(job_weight12)) +
+						(float(u.score13) * float(job_weight13)) +
+						(float(u.score14) * float(job_weight14)) +
+						(float(u.score15) * float(job_weight15)) +
+						(float(u.score16) * float(job_weight16)) +
+						(float(u.score17) * float(job_weight17)) +
+						(float(u.score18) * float(job_weight18)) +
+						(float(u.score19) * float(job_weight19)) +
+						(float(score20) * float(job_weight20))) / (
+						float(job_weight1) + 
+						float(job_weight2) + 
+						float(job_weight3) + 
+						float(job_weight4) + 
+						float(job_weight5) + 
+						float(job_weight6) + 
+						float(job_weight7) + 
+						float(job_weight8) + 
+						float(job_weight9) + 
+						float(job_weight10) + 
+						float(job_weight11) + 
+						float(job_weight12) + 
+						float(job_weight13) + 
+						float(job_weight14) + 
+						float(job_weight15) + 
+						float(job_weight16) + 
+						float(job_weight17) + 
+						float(job_weight18) + 
+						float(job_weight19) + 
+						float(job_weight20))
+					break
+				else:
+					# if one score is null
+					AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+						response_20 = response_20, score20 = score20, final_score = 0)
+					return redirect('user:interview_forfeit_view')
+
+			AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
+				response_20 = response_20, score20 = math.ceil(score20), final_score = final_score)
+
+			return redirect('user:interview_success_view')
+		except KeyError:
+			return redirect('user:interview_forfeit_view')
 
 class InterviewSuccessView(View):
 	def get(self, request):
@@ -1569,7 +1654,7 @@ class InterviewSuccessView(View):
 			del request.session['q19']
 			del request.session['q20']
 		except KeyError:
-			return redirect('user:interview_access_denied')
+			return redirect('user:interview_forfeit_view')
 		except: 
 			pass
 		return render(request, 'interview_success.html')
@@ -1606,11 +1691,5 @@ class InterviewForfeitView(View):
 			del request.session['q19']
 			del request.session['q20']
 		except KeyError:
-			return redirect('user:interview_access_denied')
+			pass
 		return render(request, 'interview_forfeit.html')
-
-class JobInterviewAccessDenied(View):
-	def get(self, request):
-		if request.user.staff:
-			return redirect('administrator:access_denied_view')
-		return render(request, 'job_interview_access_denied.html')

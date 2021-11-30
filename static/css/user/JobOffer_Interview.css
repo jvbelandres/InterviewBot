@@ -374,7 +374,7 @@ textarea {
   top: 17%;
   color: #fff;
   border: none;
-  left: 20%;
+  left: 92%;
   background-color: #781B1B;
   font-size: 15px;
   text-align: center;
@@ -382,6 +382,7 @@ textarea {
   padding: 10px 15px;
   border-radius: 50px;
   outline: none !important;
+  height: 40px;
 }
 
 /*---------------------

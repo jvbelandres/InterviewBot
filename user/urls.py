@@ -45,5 +45,4 @@ urlpatterns=[
     path('job-interview/question-20', login_required(views.JobInterviewQ20View.as_view()), name="job-interview_q20"),
     path('job-interview/interview-success', login_required(views.InterviewSuccessView.as_view()), name="interview_success_view"),
     path('job-interview/interview-forfeited', login_required(views.InterviewForfeitView.as_view()), name="interview_forfeit_view"),
-    path('job-interview/access-denied', login_required(views.JobInterviewAccessDenied.as_view()), name="interview_access_denied"),
 ]
