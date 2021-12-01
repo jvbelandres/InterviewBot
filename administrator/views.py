@@ -766,7 +766,6 @@ class Applicants(View):
 		if request.method == 'POST':
 			if 'btnAnswers' in request.POST:
 				request.session['applicant'] = request.POST.get("applicantID")
-				job_id = request.session['job']
 				return redirect('administrator:response_view')
 		else:
 			return render(request, 'job_applicants.html')
