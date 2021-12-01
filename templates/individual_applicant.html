@@ -54,9 +54,11 @@
             <center>
             <div class="questionnaireTitle" style="height: 100px;">
                 <h2><b>{{response.firstname}} {{response.lastname}}</b></h2>
+                {% if response.requirement_1 == None %}
                 <div class="column-form" style="margin-left: -49%;">
                     <a type="button" class="btnView" data-toggle="modal" id="id-btnView" data-target="#viewModal-{{response.user_id}}" style="margin-right: 125px; cursor: pointer;"><i>View Resume</i></a>
                 </div>
+                {% endif %}
             </div>
 
             <div class="questionContainer">
