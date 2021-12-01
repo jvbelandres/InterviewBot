@@ -54,11 +54,6 @@
             <center>
             <div class="questionnaireTitle" style="height: 100px;">
                 <h2><b>{{response.firstname}} {{response.lastname}}</b></h2>
-                {% if response.requirement_1 is not None %}
-                <div class="column-form" style="margin-left: -49%;">
-                    <a type="button" class="btnView" data-toggle="modal" id="id-btnView" data-target="#viewModal-{{response.user_id}}" style="margin-right: 125px; cursor: pointer;"><i>View Resume</i></a>
-                </div>
-                {% endif %}
             </div>
 
             <div class="questionContainer">
@@ -218,32 +213,6 @@
                     </center>
                 </div>
             </div><br><br>
-        </div>
-    </div>
-
-    <!-- VIEW REQUIREMENTS MODAL -->
-    <div class="modal fade" id="viewModal-{{response.user_id}}" tabindex="-1" role="dialog" aria-labelledby="viewModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl" role="document">
-            <div class="modal-content">
-                <div class="modal-header" style="background-color: #933633; color: #FFF;">
-                    <h5 class="modal-title" id="myLargeModalLabel"><b>FILE SUBMITTED</b></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-                <div class="modal-content"><br>
-                    {% if response.requirement_1 != None %}
-                        <a href="https://citu-interviewbot.herokuapp.com/media/{{response.requirement_1}}" class="btn btn-primary btn-sm" target="_blank">Resume</a>
-                    {% else %}
-                        <strong style="text-align: center;">No file submitted.</strong>
-                    {% endif %}
-                </div>
-
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">CLOSE</button>
-                </div>
-            </div>
         </div>
     </div></center> 
     {% endfor %}                  

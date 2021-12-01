@@ -188,7 +188,6 @@ class AppliedJob(models.Model):
 	response_18 = models.TextField(null = True)
 	response_19 = models.TextField(null = True)
 	response_20 = models.TextField(null = True)
-	requirement_1 = models.CharField(max_length = 250, null=True, blank=True)
 	score1 = models.FloatField(null=True, blank=True)
 	score2 = models.FloatField(null=True, blank=True)
 	score3 = models.FloatField(null=True, blank=True)

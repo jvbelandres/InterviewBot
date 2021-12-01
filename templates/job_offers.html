@@ -168,22 +168,6 @@
                                     <h5 class="modal_header">Job Description</h5>
                                     <div class="row job-description">{{joblist.description}}</div>
                                     
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <h5 class="modal_header_req">Job Requirements</h5>
-                                            <input type="text" name="job-id" value="{{joblist.id}}" hidden>
-
-                                            <center>
-                                                <input type="text" value="Resume (Optional)" class="jobRequirementName" disabled>
-                                            </center>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <h5 style="font-weight: bold; text-align: justify;">Attach Files Here</h5>
-                                            <center>
-                                                <input type="file" id="myfile1" name="myfile1" accept="application/pdf" />
-                                            </center>
-                                        </div>
-                                    </div>
                                     <br><div class="modal-footer">
                                         <button type="submit" id="btnApply" name="btnApply" class="btn btn-primary">APPLY</button>
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCEL</button>
@@ -192,19 +176,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <script type="text/javascript"> // Script to only accept .PDF format
-                        $(function(){
-                            $("#myfile1").on('change', function(event) {
-                                var file = event.target.files[0];
-                                if(file.type !== 'application/pdf') {
-                                    alert("This only accepts .PDF format.");
-                                    $("#applyForm").get(0).reset();
-                                    return;
-                                }
-                            });
-                        });
-                    </script>
 
                     <!-- SAVE MODAL -->
                     <div class="modal fade saveModal" id="jobdetailsModal-{{joblist.id}}" tabindex="-1" role="dialog" aria-labelledby="jobdetailsModalLabel" aria-hidden="true">
@@ -253,24 +224,6 @@
                     "error", // icon
                 );
                 event.preventDefault();
-            }
-        }
-    </script>
-
-    <!-- script for Job Requirements Modal -->
-    <script type="text/javascript">
-        var modal = document.getElementById("jobReqModal");
-        var btn = document.getElementById("id-btnApply");
-        var span = document.getElementsByClassName("close")[0];
-        btn.onclick = function(){
-            modal.style.display = "block";
-        }
-        span.onclick = function(){
-            modal.style.display = "none";
-        }
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
             }
         }
     </script>

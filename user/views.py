@@ -66,7 +66,6 @@ def deleteInterviewSessions(request):
 	try:
 		if request.session['instruction'] and not request.session['q1']:
 			AppliedJob.objects.filter(job_id=request.session['job'], user_id=request.user.id).delete()
-		# request.session['q1'] or request.session['q2'] or request.session['q3'] or request.session['q4'] or request.session['q5'] or request.session['q6'] or request.session['q7'] or request.session['q8'] or request.session['q9'] or request.session['q10'] or request.session['q11'] or request.session['q12'] or request.session['q13'] or request.session['q14'] or request.session['q15'] or request.session['q16'] or request.session['q17'] or request.session['q18'] or request.session['q19'] or request.session['q20']:
 		else:
 			AppliedJob.objects.filter(job_id = request.session['job'], user_id = request.user.id).update(final_score = 0)
 
@@ -200,17 +199,7 @@ class HomePageView(View):
 				request.session['job'] = job_id
 				SavedJob.objects.filter(job_id = job_id).delete()
 
-				# To store the files in the media dir
-				fs = FileSystemStorage()
-
-				try:
-					r1 = request.FILES['myfile1']
-					resume = user.lastname+"_"+user.firstname+"_resume.pdf"
-					file_name = fs.save(resume, r1)
-				except MultiValueDictKeyError:
-					file_name = None
-
-				apply_job = AppliedJob(requirement_1 = file_name, job_id = job_id, user_id = user.id)
+				apply_job = AppliedJob(job_id = job_id, user_id = user.id)
 				apply_job.save()
 
 				request.session['instruction'] = False
@@ -310,17 +299,7 @@ class JobOffersView(View):
 				request.session['job'] = job_id
 				SavedJob.objects.filter(job_id = job_id).delete()
 
-				# To store the files in the media dir
-				fs = FileSystemStorage()
-
-				try:
-					r1 = request.FILES['myfile1']
-					resume = user.lastname+"_"+user.firstname+"_resume.pdf"
-					file_name = fs.save(resume, r1)
-				except MultiValueDictKeyError:
-					file_name = None
-
-				apply_job = AppliedJob(requirement_1 = file_name, job_id = job_id, user_id = user.id)
+				apply_job = AppliedJob(job_id = job_id, user_id = user.id)
 				apply_job.save()
 
 				request.session['instruction'] = False
