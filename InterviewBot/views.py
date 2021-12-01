@@ -15,6 +15,7 @@ from rest_framework.views import APIView
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.generics import CreateAPIView, DestroyAPIView, ListAPIView, RetrieveAPIView
 
 from user.models import Account, CreateJob, SavedJob, AppliedJob
@@ -49,6 +50,7 @@ class LoginViewAPI(APIView):
 
 # used - to update account settings
 class UpdateAccountViewAPI(APIView):
+	permission_classes = (IsAuthenticated,)
 	def post(self, request):
 		id = request.data['id']
 		firstname = request.data['firstname']
@@ -70,6 +72,7 @@ class UpdateAccountViewAPI(APIView):
 
 # used - for logout
 class LogoutViewAPI(APIView):
+	permission_classes = (IsAuthenticated,)
 	def post(self, request):
 		key = request.data['key']
 		Token.objects.filter(key = key).delete()
@@ -77,6 +80,7 @@ class LogoutViewAPI(APIView):
 
 # used - for saved job viewing (USER)
 class SavedJobUserViewAPI(ListAPIView):
+	permission_classes = (IsAuthenticated,)
 	queryset = CreateJob.objects.all()
 	serializer_class = SavedJobUserSerializer
 	lookup_field = 'user_id'
@@ -91,6 +95,7 @@ class SavedJobUserViewAPI(ListAPIView):
 
 # used - for applied job viewing (USER)
 class AppliedJobUserViewAPI(ListAPIView):
+	permission_classes = (IsAuthenticated,)
 	query = AppliedJob.objects.all()
 	serializer_class = AppliedJobSerializer
 	lookup_field = 'user_id'
@@ -105,6 +110,7 @@ class AppliedJobUserViewAPI(ListAPIView):
 
 # used - for job offerings (USER)
 class JobOfferingsViewAPI(ListAPIView):
+	permission_classes = (IsAuthenticated,)
 	query = CreateJob.objects.all()
 	serializer_class = CreateJobSerializer
 	lookup_field = 'user_id'
@@ -121,17 +127,21 @@ class JobOfferingsViewAPI(ListAPIView):
 
 # used - to SAVE job offering
 class SaveJobOfferingCreateViewAPI(CreateAPIView):
+	permission_classes = (IsAuthenticated,)
 	serializer_class = SavedJobSerializer
 
 # used - to UNSAVE job offering
 class UnsaveJobOfferingDestroyView(DestroyAPIView):
+	permission_classes = (IsAuthenticated,)
 	queryset = SavedJob.objects.all()
 
 class AccountDetailsViewAPI(ListAPIView):
+	permission_classes = (IsAuthenticated,)
 	queryset = Account.objects.all()
 	serializer_class = AccountSerializer
 
 class JobOfferingsAdminListViewAPI(ListAPIView):
+	permission_classes = (IsAuthenticated,)
 	queryset = CreateJob.objects.all()
 	serializer_class = JobOfferingListSerializer
 	lookup_field = 'admin_id'
@@ -141,6 +151,8 @@ class JobOfferingsAdminListViewAPI(ListAPIView):
 		return CreateJob.objects.filter(admin_id=admin_id)
 
 class AppliedJobDetailedAdminViewAPI(RetrieveAPIView):
+	permission_classes = (IsAuthenticated,)
+
 	queryset = SavedJob.objects.all()
 	serializer_class = SavedJobSerializer
 	lookup_field = 'job_id'

@@ -30,6 +30,7 @@ SECRET_KEY = '=i52%+87u=&q3tzf=pzautc-#u!sipm5pr&0e3^spna)pavd#7'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+#ALLOWED_HOSTS = []
 ALLOWED_HOSTS = ['https://citu-interviewbot.herokuapp.com/']
 
 
@@ -48,6 +49,12 @@ INSTALLED_APPS = [
     'user',
     'administrator',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4' 
 
