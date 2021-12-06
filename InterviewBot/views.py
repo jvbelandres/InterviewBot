@@ -159,9 +159,9 @@ class AppliedJobApplicantsListViewAPI(ListAPIView):
 
 	def get_queryset(self):
 		# return AppliedJob.objects.raw('SELECT * FROM account, jobofferings, appliedjob WHERE appliedjob.job_id = ' + self.kwargs['job_id'] +
-		# 	' AND appliedjob.job_id = jobofferings.id AND account.id = appliedjob.user_id ORDER BY appliedjob.final_score DESC')
+		# 	' AND appliedjob.job_id = jobofferings.id AND account.id = appliedjob.user_id AND appliedjob.final_score != 0 ORDER BY appliedjob.final_score DESC')
 		return AppliedJob.objects.raw('SELECT * FROM "Account", "JobOfferings", "AppliedJob" WHERE "AppliedJob".job_id = ' + self.kwargs['job_id'] +
-			' AND "AppliedJob".job_id = "JobOfferings".id AND "Account".id = "AppliedJob".user_id ORDER BY "AppliedJob".final_score DESC')
+			' AND "AppliedJob".job_id = "JobOfferings".id AND "Account".id = "AppliedJob".user_id AND "AppliedJob".final_score != 0 ORDER BY "AppliedJob".final_score DESC')
 
 
 
