@@ -15,7 +15,7 @@ from rest_framework.views import APIView
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.generics import CreateAPIView, DestroyAPIView, ListAPIView
 
 from user.models import Account, CreateJob, SavedJob, AppliedJob
@@ -136,9 +136,9 @@ class UnsaveJobOfferingDestroyView(DestroyAPIView):
 	queryset = SavedJob.objects.all()
 
 class AccountDetailsViewAPI(ListAPIView):
-	permission_classes = (IsAuthenticated,)
+	permission_classes = (AllowAny,)
 	queryset = Account.objects.all()
-	serializer_class = AccountSerializer
+	serializer_class = FewAccountDetailsSerializer
 
 # used - to get the job offerings of an admin
 class JobOfferingsAdminListViewAPI(ListAPIView):
