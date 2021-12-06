@@ -26,7 +26,7 @@ from .views import(
     UpdateAccountViewAPI,
     AccountDetailsViewAPI,
     JobOfferingsAdminListViewAPI,
-    AppliedJobDetailedAdminViewAPI,
+    AppliedJobApplicantsListViewAPI,
     SavedJobUserViewAPI,
     AppliedJobUserViewAPI,
     JobOfferingsViewAPI,
@@ -54,9 +54,9 @@ urlpatterns = [
     path('api/saved-jobs/create/', SaveJobOfferingCreateViewAPI.as_view()), #used - to SAVE job offerings (USER)
     path('api/saved-jobs/<int:pk>/delete/', UnsaveJobOfferingDestroyView.as_view()), #used - to UNSAVE job offerings (USER)
 
-    path('api/accounts/', AccountDetailsViewAPI.as_view()), #can be used to get the account details of a certain email
+    path('api/accounts/', AccountDetailsViewAPI.as_view()), #used - to get the email of all registered accounts
     path('api/admin/<admin_id>/job-offerings/', JobOfferingsAdminListViewAPI.as_view()), # used - to get the job offerings of an admin
-    path('api/job/<job_id>/applied-jobs/', AppliedJobDetailedAdminViewAPI.as_view()), #can be used to check if who applied a certain job
+    path('api/applied-jobs/applicants/<job_id>/', AppliedJobApplicantsListViewAPI.as_view()), #used - can be used to check if who applied a certain job
 
 
 

@@ -16,7 +16,7 @@ from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.generics import CreateAPIView, DestroyAPIView, ListAPIView, RetrieveAPIView
+from rest_framework.generics import CreateAPIView, DestroyAPIView, ListAPIView
 
 from user.models import Account, CreateJob, SavedJob, AppliedJob
 from .serializers import *
@@ -87,11 +87,11 @@ class SavedJobUserViewAPI(ListAPIView):
 
 	def get_queryset(self):
 		# return SavedJob.objects.raw('SELECT * FROM savedjob, jobofferings, account ' +
-		#'WHERE account.id = jobofferings.admin_id AND jobofferings.id = savedjob.job_id ' +
-		#'AND savedjob.user_id = '+self.kwargs['user_id']+' AND jobofferings.is_deleted = 0 ORDER BY savedjob.id DESC')
+		# 	'WHERE account.id = jobofferings.admin_id AND jobofferings.id = savedjob.job_id ' +
+		# 	'AND savedjob.user_id = '+self.kwargs['user_id']+' AND jobofferings.is_deleted = 0 ORDER BY savedjob.id DESC')
 		return SavedJob.objects.raw('SELECT * FROM "SavedJob", "JobOfferings", "Account" ' +
-		'WHERE "Account".id = "JobOfferings".admin_id AND "JobOfferings".id = "SavedJob".job_id ' +
-		'AND "SavedJob".user_id = '+self.kwargs['user_id']+' AND "JobOfferings".is_deleted = False ORDER BY "SavedJob".id DESC')
+			'WHERE "Account".id = "JobOfferings".admin_id AND "JobOfferings".id = "SavedJob".job_id ' +
+			'AND "SavedJob".user_id = '+self.kwargs['user_id']+' AND "JobOfferings".is_deleted = False ORDER BY "SavedJob".id DESC')
 
 # used - for applied job viewing (USER)
 class AppliedJobUserViewAPI(ListAPIView):
@@ -105,8 +105,8 @@ class AppliedJobUserViewAPI(ListAPIView):
 		# 'WHERE account.id = jobofferings.admin_id AND jobofferings.id = appliedjob.job_id ' +
 		# 'AND appliedjob.user_id = '+self.kwargs['user_id']+ ' ORDER BY appliedjob.id DESC')
 		return AppliedJob.objects.raw('SELECT * FROM "AppliedJob", "JobOfferings", "Account" ' +
-		'WHERE "Account".id = "JobOfferings".admin_id AND "JobOfferings".id = "AppliedJob".job_id ' +
-		'AND "AppliedJob".user_id = '+self.kwargs['user_id']+ ' ORDER BY "AppliedJob".id DESC')
+			'WHERE "Account".id = "JobOfferings".admin_id AND "JobOfferings".id = "AppliedJob".job_id ' +
+			'AND "AppliedJob".user_id = '+self.kwargs['user_id']+ ' ORDER BY "AppliedJob".id DESC')
 
 # used - for job offerings (USER)
 class JobOfferingsViewAPI(ListAPIView):
@@ -121,9 +121,9 @@ class JobOfferingsViewAPI(ListAPIView):
 		# '(SELECT savedjob.job_id FROM savedjob WHERE ' + self.kwargs['user_id'] + ' = savedjob.user_id UNION ALL ' +
 		# 'SELECT appliedjob.job_id FROM appliedjob WHERE appliedjob.user_id = ' + self.kwargs['user_id'] + ') AND jobofferings.is_deleted=0')
 		return CreateJob.objects.raw('SELECT "JobOfferings".id, "JobOfferings".title, "JobOfferings".description, "Account".email, "Account".firstname, "Account".lastname ' +
-		'FROM "JobOfferings", "Account" WHERE "JobOfferings".admin_id = "Account".id AND "JobOfferings".id NOT IN ' +
-		'(SELECT "SavedJob".job_id FROM "SavedJob" WHERE ' + self.kwargs['user_id'] + ' = "SavedJob".user_id UNION ALL ' +
-		'SELECT "AppliedJob".job_id FROM "AppliedJob" WHERE "AppliedJob".user_id = ' + self.kwargs['user_id'] + ') AND "JobOfferings".is_deleted=False')
+			'FROM "JobOfferings", "Account" WHERE "JobOfferings".admin_id = "Account".id AND "JobOfferings".id NOT IN ' +
+			'(SELECT "SavedJob".job_id FROM "SavedJob" WHERE ' + self.kwargs['user_id'] + ' = "SavedJob".user_id UNION ALL ' +
+			'SELECT "AppliedJob".job_id FROM "AppliedJob" WHERE "AppliedJob".user_id = ' + self.kwargs['user_id'] + ') AND "JobOfferings".is_deleted=False')
 
 # used - to SAVE job offering
 class SaveJobOfferingCreateViewAPI(CreateAPIView):
@@ -140,6 +140,7 @@ class AccountDetailsViewAPI(ListAPIView):
 	queryset = Account.objects.all()
 	serializer_class = AccountSerializer
 
+# used - to get the job offerings of an admin
 class JobOfferingsAdminListViewAPI(ListAPIView):
 	permission_classes = (IsAuthenticated,)
 	queryset = CreateJob.objects.all()
@@ -150,12 +151,17 @@ class JobOfferingsAdminListViewAPI(ListAPIView):
 		admin_id = self.kwargs['admin_id']
 		return CreateJob.objects.filter(admin_id=admin_id)
 
-class AppliedJobDetailedAdminViewAPI(RetrieveAPIView):
+class AppliedJobApplicantsListViewAPI(ListAPIView):
 	permission_classes = (IsAuthenticated,)
-
-	queryset = SavedJob.objects.all()
-	serializer_class = SavedJobSerializer
+	query = AppliedJob.objects.all()
+	serializer_class = ApplicantViewingSerializer
 	lookup_field = 'job_id'
+
+	def get_queryset(self):
+		# return AppliedJob.objects.raw('SELECT * FROM account, jobofferings, appliedjob WHERE appliedjob.job_id = ' + self.kwargs['job_id'] +
+		# 	' AND appliedjob.job_id = jobofferings.id AND account.id = appliedjob.user_id ORDER BY appliedjob.final_score DESC')
+		return AppliedJob.objects.raw('SELECT * FROM "Account", "JobOfferings", "AppliedJob" WHERE "AppliedJob".job_id = ' + self.kwargs['job_id'] +
+			' AND "AppliedJob".job_id = "JobOfferings".id AND "Account".id = "AppliedJob".user_id ORDER BY "AppliedJob".final_score DESC')
 
 
 
@@ -206,12 +212,12 @@ def password_reset_request(request):
 					email_template_name = "password/password_reset_email.txt"
 					c = {
 					"email":user.email,
-					'domain':'127.0.0.1:8000',
+					'domain':'citu-interviewbot.herokuapp.com',
 					'site_name': 'Interview Bot',
 					"uid": urlsafe_base64_encode(force_bytes(user.pk)),
 					"user": user,
 					'token': default_token_generator.make_token(user),
-					'protocol': 'http',
+					'protocol': 'https',
 					}
 					email = render_to_string(email_template_name, c)
 					try:
