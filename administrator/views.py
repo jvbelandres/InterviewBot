@@ -753,8 +753,8 @@ class Applicants(View):
 			return redirect('user:access_denied_view')
 		job_id = request.session['job']
 		joblists = CreateJob.objects.filter(id = job_id)
-		#applicants = Account.objects.raw('SELECT DISTINCT account.id,firstname,lastname,appliedjob.final_score FROM account,jobofferings,appliedjob WHERE appliedjob.job_id =' + str(job_id) +' AND account.id = appliedjob.user_id ORDER BY appliedjob.final_score DESC')
-		applicants = Account.objects.raw('SELECT DISTINCT "Account".id,firstname,lastname,"AppliedJob".final_score FROM "Account","JobOfferings","AppliedJob" WHERE "AppliedJob".job_id =' + str(job_id) +' AND "Account".id = "AppliedJob".user_id ORDER BY "AppliedJob".final_score DESC')
+		#applicants = Account.objects.raw('SELECT DISTINCT account.id,firstname,lastname,appliedjob.final_score FROM account,jobofferings,appliedjob WHERE appliedjob.job_id =' + str(job_id) +' AND account.id = appliedjob.user_id AND appliedjob.final_score != 0 ORDER BY appliedjob.final_score DESC')
+		applicants = Account.objects.raw('SELECT DISTINCT "Account".id,firstname,lastname,"AppliedJob".final_score FROM "Account","JobOfferings","AppliedJob" WHERE "AppliedJob".job_id =' + str(job_id) +' AND "Account".id = "AppliedJob".user_id AND "AppliedJob".final_score != 0 ORDER BY "AppliedJob".final_score DESC')
 		
 		context = {
 			'joblists': joblists,
