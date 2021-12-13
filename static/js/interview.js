@@ -20,12 +20,16 @@ function record(){
 
     recognition.onstart = function(){
     document.getElementById('id-mic').style.backgroundColor = '#F8C400';
+    document.getElementById('id-mic').disabled = true;
     document.getElementById("repeater").disabled=true;
+    document.getElementById("send").disabled=true;
     }
 
     recognition.onend = function(){
     document.getElementById('id-mic').style.backgroundColor = '#781B1B';
+    document.getElementById('id-mic').disabled = false;
     document.getElementById("repeater").disabled=false;
+    document.getElementById("send").disabled=false;
     }
     
     recognition.onresult = function(event){

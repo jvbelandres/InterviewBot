@@ -2,10 +2,8 @@ from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.views.generic import View, CreateView, FormView
 
-from django.core.files.storage import FileSystemStorage
 from django.core.mail import send_mail, EmailMessage
 
-from django.utils.datastructures import MultiValueDictKeyError
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_text
 
@@ -33,8 +31,8 @@ def textProccessing(text):
 	return json.loads(response.text)
 
 # Scoring for each question
-def finalScoring(pos, weight, minutes, seconds, timer):
-	if pos != 0:
+def finalScoring(initScore, weight, minutes, seconds, timer):
+	if initScore != 0:
 		seconds_remaining = (minutes * 60) + seconds
 		total_seconds_timer = timer * 60
 		add_points_timer = 0
@@ -50,7 +48,7 @@ def finalScoring(pos, weight, minutes, seconds, timer):
 		else:
 			add_points_timer = 0
 
-		return (round(pos, 2) * float(weight) + float(add_points_timer)) * 100
+		return (round(initScore, 2) * float(weight) + float(add_points_timer)) * 100
 	else:
 		return 0
 
@@ -66,7 +64,7 @@ def deleteInterviewSessions(request):
 	try:
 		if request.session['instruction'] and not request.session['q1']:
 			AppliedJob.objects.filter(job_id=request.session['job'], user_id=request.user.id).delete()
-		else:
+		elif not request.session['instruction']:
 			AppliedJob.objects.filter(job_id = request.session['job'], user_id = request.user.id).update(final_score = 0)
 
 			del request.session['job']
