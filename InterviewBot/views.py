@@ -1,3 +1,4 @@
+from django.db.models import query
 from django.http.response import BadHeaderError, HttpResponse
 from django.views.generic import FormView
 from django.shortcuts import render, redirect
@@ -10,6 +11,7 @@ from django.core.mail import send_mail
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.contrib import messages
+from rest_framework import permissions
 
 from rest_framework.views import APIView
 from rest_framework.exceptions import AuthenticationFailed
@@ -163,6 +165,10 @@ class AppliedJobApplicantsListViewAPI(ListAPIView):
 		return AppliedJob.objects.raw('SELECT * FROM "Account", "JobOfferings", "AppliedJob" WHERE "AppliedJob".job_id = ' + self.kwargs['job_id'] +
 			' AND "AppliedJob".job_id = "JobOfferings".id AND "Account".id = "AppliedJob".user_id AND "AppliedJob".final_score != 0 ORDER BY "AppliedJob".final_score DESC')
 
+class AppliedJobListViewAPI(ListAPIView):
+	permissions = (IsAuthenticated,)
+	queryset = AppliedJob.objects.all()
+	serializer_class = AppliedJobListSerializer
 
 
 ############################################################################################################

@@ -32,6 +32,7 @@ from .views import(
     JobOfferingsViewAPI,
     UnsaveJobOfferingDestroyView,
     SaveJobOfferingCreateViewAPI,
+    AppliedJobListViewAPI,
 
     LoginView,
     password_reset_request
@@ -57,8 +58,7 @@ urlpatterns = [
     path('api/accounts/', AccountDetailsViewAPI.as_view()), #used - to get the email of all registered accounts
     path('api/admin/<admin_id>/job-offerings/', JobOfferingsAdminListViewAPI.as_view()), # used - to get the job offerings of an admin
     path('api/applied-jobs/applicants/<job_id>/', AppliedJobApplicantsListViewAPI.as_view()), #used - can be used to check if who applied a certain job
-
-
+    path('api/applied-jobs/', AppliedJobListViewAPI.as_view()), # can be used to count how many applicants have applied in a job of a certain staff
 
 
     # Login
@@ -69,6 +69,7 @@ urlpatterns = [
     path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(template_name='password/password_reset_done.html'), name='password_reset_done'),
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name="password/password_reset_confirm.html"), name='password_reset_confirm'),
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='password/password_reset_complete.html'), name='password_reset_complete'),  
+
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:

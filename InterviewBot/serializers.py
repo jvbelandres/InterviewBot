@@ -1,3 +1,4 @@
+from django.db.models import fields
 from rest_framework import serializers
 
 from user.models import Account, CreateJob, SavedJob, AppliedJob
@@ -44,3 +45,8 @@ class SavedJobUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CreateJob
         fields = ['id', 'title', 'description']
+
+class AppliedJobListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AppliedJob
+        fields = ['job_id',]
