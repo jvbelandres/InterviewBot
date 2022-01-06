@@ -49,4 +49,4 @@ class SavedJobUserSerializer(serializers.ModelSerializer):
 class AppliedJobListSerializer(serializers.ModelSerializer):
     class Meta:
         model = AppliedJob
-        fields = ['job_id',]
+        fields = ['job_id', 'final_score']
