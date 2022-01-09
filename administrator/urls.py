@@ -9,7 +9,7 @@ urlpatterns=[
     #path('api/data', views.get_data, name='api-data'),
 
     #TEST URL
-    path('dashboard', login_required(views.DashboardView.as_view()), name="dashboard_view"),
+    path('dashboard/', login_required(views.DashboardView.as_view()), name="dashboard_view"),
     path('job-lists/', login_required(views.JobListsView.as_view()), name="job-lists_view"),
     path('create-admin/', login_required(views.AdminRegistrationView.as_view()), name="create-admin_view"),
     path('create-staff/', login_required(views.StaffRegistrationView.as_view()), name="create-staff_view"),
