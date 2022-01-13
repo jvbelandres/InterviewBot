@@ -31,10 +31,10 @@ SECRET_KEY = '=i52%+87u=&q3tzf=pzautc-#u!sipm5pr&0e3^spna)pavd#7'
 DEBUG = False
 
 #ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['citu-interviewbot.herokuapp.com']
+ALLOWED_HOSTS = ['*']
 
 
-# Application definition
+# Application definition 
 
 INSTALLED_APPS = [
     'django.contrib.admin',
