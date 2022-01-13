@@ -1,0 +1,213 @@
+@font-face { font-family: Gotham; src: url("../../fonts/GothamLight.8566e2336952.ttf"); font-weight: normal;} 
+@font-face { font-family: GothamBook; src: url("../../fonts/GothamBook.b54724f54d4d.ttf"); font-weight: normal;} 
+@font-face { font-family: GothamBold; src: url("../../fonts/GothamBold.db33e70bc9de.ttf"); font-weight: normal;} 
+@font-face { font-family: GothamMedium; src: url("../../fonts/GothamMedium.77171d8f5b52.ttf"); font-weight: normal;} 
+
+html, body {
+    font-family: 'GothamBook';
+    background-image: url("/static/images/white_bg.8e7d7dd60d31.jpg");
+    background-size: cover;
+    position: fixed;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+}
+
+hr {
+  display: block;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: lightgrey;
+}
+
+input {
+	text-align: center;
+}
+
+input:hover {
+	background-color: black;
+}
+
+input:focus {
+    outline: none;
+}
+
+a,
+a:hover{
+	color: black;
+	font-family: 'GothamBook';
+	font-size: 14px;
+}
+
+select option {
+    background: rgba(0, 100, 100, 100);
+    color: grey;
+    background-color: white;
+
+}
+
+select {
+	color: #808080;
+}
+
+/* Remove arrows for NumberInput */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+h3 {
+	font-family: 'GothamBook';
+	margin-bottom: -2%;
+	color: #8C383E;
+}
+
+.logo {
+	position: relative;
+	margin:auto;
+
+}
+
+.errorlist {
+	list-style-type: none;
+}
+
+.register {
+	width: 55%;
+	overflow: hidden;
+	margin: auto;
+	padding: 50px;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+#firstName {
+	border-radius: 15px;
+	width: 175px;
+	text-align: center;
+	padding-left: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border-left-width: 0px;
+	border-right-width: 0px;
+	border-top-width: 0px;
+	border-bottom-width: 0px;
+	background-color: #ffcc00;
+	position: relative;	
+}
+
+#lastName {
+	border-radius: 15px;
+	width: 175px;
+	text-align: center;
+	padding-left: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border-left-width: 0px;
+	border-right-width: 0px;
+	border-top-width: 0px;
+	border-bottom-width: 0px;
+	background-color: #ffcc00;
+	position: relative;	
+}
+
+#phone {
+	border-radius: 15px;
+	width: 175px;
+	text-align: center;
+	padding-left: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border-left-width: 0px;
+	border-right-width: 0px;
+	border-top-width: 0px;
+	border-bottom-width: 0px;
+	background-color: #ffcc00;
+	position: relative;	
+}
+
+#gender {
+	border-radius: 30px;
+	width: 175px;
+	text-align: center;
+	padding-left: 55px;
+	padding-top: 7px;
+	padding-bottom: 7px;
+	border-left-width: 0px;
+	border-right-width: 0px;
+	border-top-width: 0px;
+	border-bottom-width: 0px;
+	background-color: #ffcc00;
+	position: relative;
+}
+
+#emailAdd {
+	border-radius: 15px;
+	width: 350px;
+	text-align: center;
+	padding-left: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border-left-width: 0px;
+	border-right-width: 0px;
+	border-top-width: 0px;
+	border-bottom-width: 0px;
+	background-color: #ffcc00;
+	position: relative;
+}
+
+#pass, #pass2 {
+	border-radius: 15px;
+	width: 350px;
+	text-align: center;
+	padding-left: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border-left-width: 0px;
+	border-right-width: 0px;
+	border-top-width: 0px;
+	border-bottom-width: 0px;
+	background-color: #ffcc00;
+	position: relative;
+	
+}
+
+.btn_register {
+	border-radius: 15px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	width:150px;
+	border-left-width: 0px;
+	border-right-width: 0px;
+	border-top-width: 0px;
+	border-bottom-width: 0px;
+	background-color: #8C383E;
+	position: relative;
+	font-weight: bold;
+	color: white;
+	cursor: pointer;
+}
+
+.btn_register:hover {
+	background-color: #781B1B;
+}
+
+.btn_cancel {
+	position: relative;
+	font-weight: bold;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+	img { width: 75%; }
+	h3 { font-size: 18px; }
+    .register { font-size: 14px; margin-top: 5%; width: 100%; }
+    #emailAdd, #pass, #pass2 { width: 90%; text-align: center; background-color: #ffcc00; position: relative; }
+    #firstName, #lastName, #phone, #gender { width: 45%; text-align: center; background-color: #ffcc00; position: relative; }
+}

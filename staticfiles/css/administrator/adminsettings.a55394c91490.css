@@ -1,0 +1,622 @@
+@font-face { font-family: Gotham; src: url("../../fonts/GothamLight.8566e2336952.ttf"); font-weight: normal;} 
+@font-face { font-family: GothamBook; src: url("../../fonts/GothamBook.b54724f54d4d.ttf"); font-weight: normal;} 
+@font-face { font-family: GothamBold; src: url("../../fonts/GothamBold.db33e70bc9de.ttf"); font-weight: normal;} 
+@font-face { font-family: GothamMedium; src: url("../../fonts/GothamMedium.77171d8f5b52.ttf"); font-weight: normal;} 
+
+html, body {
+    font-family: 'GothamBook';
+    background-image: url("/static/images/red_bg.34822dd85e7c.jpg");
+    background-size: cover;
+    position: fixed;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+}
+
+button {
+    cursor: pointer;
+}
+
+a,
+a:hover,
+a:focus {
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+i,
+span {
+    display: inline-block;
+}
+
+h1 {
+    font-family: 'GothamBold';
+    color: white; 
+    font-size: 48px; 
+    margin-top: 5%;
+}
+
+h3{
+    font-family: 'GothamBook';
+}
+
+hr {
+    border-color: white; 
+    width: 100%;  
+    float: center;
+    padding: 0px;
+    margin: 0px;  
+    margin-top: 20px;
+}
+
+#update{
+    border-radius: 100px;
+    padding: 10px; 
+    border: none;
+}
+
+/* Remove arrows for NumberInput */
+input[step="0"]::-webkit-outer-spin-button,
+input[step="0"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+#lastname, #phone, #email, #password, #firstname{
+    border-radius: 15px;
+    border: none;
+    outline: none;
+}
+
+#toggle{
+    position: absolute;
+    top: 50%;
+    right: -5%;
+    transform: translateY(85%);
+    width: 30px;
+    height: 30px;
+    background: url("/static/images/show.7786545d990d.png");
+    background-size: cover;
+    cursor: pointer;
+}
+
+#toggle.hide{
+    background: url("/static/images/hide.0ad488b30e06.png");
+    background-size: cover;
+}
+
+input:focus{
+    outline: none;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+/* ---------------------------------------------------
+    SWEET ALERT     source: https://sweetalert.js.org/docs/
+----------------------------------------------------- */
+
+.swal-modal {
+  border: 3px solid black;
+}
+
+.swal-title {
+    font-family: GothamBold;
+}
+
+.swal-text {
+    font-family: GothamBook;
+    color: black;
+}
+
+
+/* ---------------------------------------------------
+    SIDEBAR STYLE
+----------------------------------------------------- */
+
+.wrapper {
+    display: flex;
+    align-items: stretch;
+}
+
+#sidebar {
+    position: fixed;
+    height: 100%;
+    overflow-y: auto;
+    min-width: 25%;
+    max-width: 25%;
+    background: white;
+    color: black;
+    transition: all 0.3s;
+}
+
+#sidebar.active {
+    min-width: 80px;
+    max-width: 80px;
+    text-align: center;
+}
+
+#sidebar.active .sidebar-header h3,
+#sidebar.active .CTAs {
+    display: none;
+}
+
+#sidebar.active .sidebar-header strong {
+    display: block;
+}
+
+#sidebar ul li a {
+    text-align: left;
+}
+
+#sidebar.active ul li a {
+    padding: 20px 10px;
+    text-align: center;
+    font-size: 0.85em;
+}
+
+/*#sidebar.active ul li a i {
+    margin-right: 0;
+    display: block;
+    font-size: 1.8em;
+    margin-bottom: 5px;
+}*/
+
+#sidebar.active ul ul a {
+    padding: 10px !important;
+}
+
+#sidebar.active .dropdown-toggle::after {
+    top: auto;
+    bottom: 10px;
+    right: 50%;
+    -webkit-transform: translateX(50%);
+    -ms-transform: translateX(50%);
+    transform: translateX(50%);
+}
+
+#sidebar .sidebar-header {
+    padding: 20px;
+    background: white;
+}
+
+#sidebar .sidebar-header strong {
+    display: none;
+    font-size: 1.8em;
+}
+
+#sidebar ul li a {
+    padding: 20px;
+    display: block;
+}
+
+#sidebar ul li a:hover {
+    color: black;
+    background: lightgrey;
+}
+
+#sidebar ul li a i {
+    margin-right: 10px;
+}
+
+#sidebar ul li.active>a {
+    color: white;
+    background: #933633;
+}
+
+a[aria-expanded="true"] {
+    background-color: lightgrey;
+}
+
+a[data-toggle="collapse"] {
+    position: relative;
+}
+
+.dropdown-toggle::after {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+}
+
+ul ul a {
+    font-size: 0.9em !important;
+    padding-left: 30px !important;
+    background: white;
+}
+
+.addAdmin, .addStaff {
+    text-align: left;
+    margin-left: 22px;
+    color: #933633;
+    font-weight: bold;
+    transition: 0.1s;
+}
+
+.addAdmin:hover, .addStaff:hover {
+    color: #CD0000;
+    bottom: 0;
+}
+
+.jobCreate{
+    color: #ffffff;
+    text-decoration: none;
+    padding-left: 70px;
+    padding-right: 70px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    background-color: #ffcc00;
+    border: none;
+    font-weight: bold;
+    font-size: 20px;
+    border-radius: 15px;
+    transition: 0.3s;
+}
+
+.jobCreate:hover,
+.jobCreate:focus{
+    background-color: #933633;
+}
+
+/* ---------------------------------------------------
+    CONTENT STYLE
+----------------------------------------------------- */
+
+#content {
+    width: 100%;
+    padding: 20px;
+    margin-left: 26%;
+    min-height: 100vh;
+    transition: all 0.3s;
+}
+
+.row {
+    margin-left: 10px;
+}
+
+#modalContent {
+    padding: 20px;
+    transition: all 0.3s;
+}
+
+/*CREATE JOB CSS*/
+.jobCreateModal{
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4);
+}
+
+.createJob-content{
+    background-color: #fefefe;
+    margin: 2% auto; /* 15% from the top and centered */
+    /*padding: 20px;*/
+    width: 80%; /* Could be more or less, depending on screen size */
+    border-radius: 15px;
+}
+
+.close{
+    color: #aaa;
+    margin-right: 10px;
+    right: 0;
+    /*margin-right: 140px;*/
+    font-size: 28px;
+    font-weight: bold;
+    /*position: absolute;*/
+}
+
+.close:hover,
+.close:focus{
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.containerColor{
+    background-color: #DEDEDE;
+    border-radius: 15px;
+}
+
+.modalHeader{
+    background-color: #ffcc00;
+    height: 110px;
+    width: 100%;
+    border-radius: 15px 15px 0 0;
+    padding: 20px;
+}
+
+.imgNotepad{
+    width: 50px;
+}
+
+.note {
+    color: red;
+    float: right;
+    margin-right: 15%;
+}
+
+.questionTitle{
+    font-weight: bold;
+    font-size: 20px;
+    margin-left: 20px;
+}
+
+.btnPost{
+    background-color: #933633;
+    width: 100px;
+    height: 35px;
+    border: none;
+    color: #ffffff;
+    font-weight: bold;
+    border-radius: 10px;
+    float: right;
+    margin-top: 16px;
+    margin-right: 5px;
+    transition: 0.2s;
+}
+
+.btnPost:hover{
+    background-color: #A00000;
+}
+
+.btnPost:hover{
+    background-color: #781B1B;
+}
+
+.imgEllipsis{
+    width: 20px;
+    float: right;
+    margin-top: 25px;
+    margin-right: 5px;
+    opacity: 50%;
+    transition: 0.2s;
+}
+
+.imgEllipsis:hover{
+    opacity: 100%;
+}
+
+.imgProfile{
+    width: 70px;
+    float: right;
+}
+
+.tab-content header{
+    height: 20px;
+}
+
+.tab-content footer{
+    height: 20px;
+}
+
+.questionsContainer{
+    background-color: #ffffff;
+}
+
+.questionnaireTitle{
+    width: 80%;
+    height: 190px;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    border-top: 5px solid #933633;
+}
+
+.questionnaireTitle select, textarea{
+    float: left;
+    width: 100%;
+}
+
+#id-title{
+    font-weight: bold;
+    padding: 5px;
+    font-size: 20px;
+    border-radius: 8px;
+    border: 1px solid #000000;
+    width: 100%;
+    float: left;
+}
+
+#id-description{
+    border-style: none;
+    resize: none;
+    line-height: 2ch;
+    background-image: linear-gradient(transparent, transparent calc(2ch - 1px), #DEDEDE 0px);
+    background-size: 100% 2ch;
+}
+
+.questionContainer{
+    padding-top: 20px;
+}
+
+.container{
+    margin-left: 30px;
+    margin-top: 2%;
+}
+
+.tab-modal:hover,
+.tab-modal.active{
+    color: #ffffff;
+    border-bottom: 3px solid #933633;
+}
+
+.tools{
+    width: 25%;
+    height: 35px;
+    background-color: #ffffff;
+    border-radius: 8px 8px 0 0;
+    border-bottom: 3px solid #933633;
+    opacity: 25%;
+    transition: 0.3s;
+    margin-top: -2px;
+}
+
+.tools:hover{
+    opacity: 100%;
+}
+
+.tools img:hover{
+    background-color: #ECECEC;
+}
+
+.contentQuestion{
+    width: 80%;
+    min-height: 100px;
+    background-color: #ffffff;
+    border-radius: 0 0 10px 10px;
+    padding: 20px;
+    border-left: 5px solid #933633;
+    margin-bottom: 2%;
+}
+
+.contentQuestion label {
+    float: left;
+    margin-top: 2%;
+    margin-left: 1%;
+}
+
+.contentQuestion input[type=text]{
+    float: left;
+    width: 100%;
+    border: none;
+    border: 1px solid #ccc;
+    padding: 8px;
+    border-radius: 10px;
+    font-weight: bold;
+    margin-bottom: 2%;
+}
+
+.contentQuestion input[type=number]{
+    float: left;
+    width: 6%;
+    border: none;
+    border: 1px solid #ccc;
+    padding: 8px;
+    border-radius: 5px;
+    margin-top: 1%;
+    margin-right: 2%;
+}
+
+#id-answer{
+    border-style: none;
+    resize: none;
+    line-height: 2ch;
+    background-image: linear-gradient(transparent, transparent calc(2ch - 1px), #DEDEDE 0px);
+    background-size: 100% 2ch;
+}
+
+.tools img{
+    padding: 5px;
+    cursor: pointer;
+}
+
+.imgPlus{
+    width: 32px;
+}
+
+.imgForward{
+    width: 32px;
+}
+
+.imgTruetype{
+    width: 32px;
+}
+
+.imgGallery{
+    width: 38px;
+}
+
+.imgCopy{
+    width: 32px;
+}
+
+.imgDelete{
+    width: 32px;
+}
+
+.input_fields_wrap button{
+    margin: 5px;
+    padding: 5px;
+    border: none;
+    background-color: grey;
+    opacity: 50%;
+    border-radius: 8px;
+    color: #ffffff;
+}
+
+.input_fields_wrap button:hover{
+    opacity: 100%;
+}
+
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+.tab a {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+}
+
+.tab a:hover {
+  background-color: #ddd;
+}
+
+.tab a.active {
+  background-color: #ccc;
+}
+
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+
+.tabs {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+.tabs a {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+}
+
+.tabs a:hover {
+  background-color: #ddd;
+}
+
+.tabs a.active {
+  background-color: #ccc;
+}
+
+/* Question contents */
+.tabcontents {
+  display: none;
+  padding: 6px 12px;
+  border-top: none;
+  height: 80%;
+}

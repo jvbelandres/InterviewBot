@@ -1,0 +1,245 @@
+@font-face { font-family: GothamBook; src: url("/static/fonts/GothamBook.b54724f54d4d.ttf"); } 
+
+html, body {
+    font-family: 'GothamBook';
+    background-image: url("/static/images/red_bg.34822dd85e7c.jpg");
+    background-size: cover;
+    position: fixed;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+}
+
+.createJob{
+    position: relative;
+    margin: auto;
+}
+.imgJob {
+    width: 40px; 
+    height: 40px; 
+    border-radius: 2%;
+    position: relative;
+    left: 2%;
+}
+#job-form{
+    width: 100%;
+    overflow: hidden;
+    margin: auto;
+    padding: 30px;
+}
+#job-text{
+    font-weight: bold;
+    position: absolute;
+    left: 4%;
+    top: 27%;
+    font-size: 23px;
+}
+#btnPost{
+    width: 110px;
+    border-radius: 15px;
+    border-right-width: 0px;
+    border-top-width: 0px;
+    border-bottom-width: 0px;
+    border-left-width: 0px;
+    padding-top: 9px;
+    padding-bottom: 9px;
+    background-color: #8B0000;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    position: relative;
+    left: 510%;
+}
+.imgEllipsis{
+    width: 30px; 
+    height: 30px; 
+    border-radius: 2%;
+    position: relative;
+    left: 510%;
+}
+.imgCir{
+    width: 70px; 
+    height: 70px; 
+    border-radius: 2%;
+    position: relative;
+    left: 510%;
+}
+#label{
+    background-color: #FFCC00;
+}
+#question{
+    font-family: Arial;
+    font-size: 17px;
+    font-weight: bold;
+    position: relative;
+    border-style: none;
+    color: #696969;
+    top: 60px;
+    left: 540%;
+}
+#responses{
+    font-family: Arial;
+    font-size: 17px;
+    font-weight: bold;
+    position: relative;
+    border-style: none;
+    color: #696969;
+    top: 60px;
+    left: 540%;
+}
+#msg-form{
+    width: 80%;
+    position: absolute;
+    top: 20%;
+    left: 10%;
+    padding-top: 3%;
+    padding-bottom: 2%;
+    height: inherit;
+    border-radius: 5px;
+    border-top: 8px solid #8B0000;
+}
+#j-text{
+    font-weight: bold;
+    position: absolute;
+    left: 2.5%;
+    top: 27%;
+    font-size: 23px;
+}
+#message{
+    border-radius: 0px;
+    width: 1250px;
+    text-align: center;
+    border-left-width: 0px;
+    border-right-width: 0px;
+    border-top-width: 0px;
+    border-bottom-width: 3px;
+    background-color: #ffffff;
+    color: #696969;
+    position: relative;
+    text-align: left;
+    font-weight: bold;
+    left: 2%;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+#msg2-form{
+    width: 80%;
+    position: absolute;
+    border-left: 8px solid #8B0000;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    top: 40%;
+    left: 10%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    height: inherit;
+}
+#message2{
+    border-radius: 0px;
+    width: 1250px;
+    text-align: center;
+    border-left-width: 0px;
+    border-right-width: 0px;
+    border-top-width: 0px;
+    border-bottom-width: 3px;
+    background-color: #DCDCDC;
+    position: relative;
+    text-align: left;
+    left: 2%;
+    font-size: 20px;
+    padding-bottom: 25px;
+    padding-top: 25px;
+}
+#message3{
+    border-radius: 0px;
+    width: 1250px;
+    text-align: center;
+    border-left-width: 0px;
+    border-right-width: 0px;
+    border-top-width: 0px;
+    border-bottom-width: 3px;
+    background-color: #ffffff;
+    position: relative;
+    text-align: left;
+    left: 2%;
+    color: #696969;
+    font-size: 20px;
+    padding-bottom: 15px;
+    padding-top: 15px;
+}
+#message4{
+    border-radius: 0px;
+    width: 1250px;
+    text-align: center;
+    border-left-width: 0px;
+    border-right-width: 0px;
+    border-top-width: 0px;
+    border-bottom-width: 3px;
+    background-color: #ffffff;
+    position: relative;
+    text-align: left;
+    left: 2%;
+    font-size: 20px;
+    padding-bottom: 15px;
+    padding-top: 15px;
+}
+#imgCopy{
+    width: 40px;
+    height: 50px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    position: relative;
+    left: 95%;
+}
+#imgDelete{
+    width: 40px;
+    height: 55px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    position: relative;
+    left: 96%;
+}
+#function-form{
+    width: 4%;
+    height: 50px;
+    position: absolute;
+    border-radius: 20px;
+    top: 40%;
+    left: 91%;
+    padding-top: 1%;
+    padding-bottom: 5%;
+    height: inherit;
+}
+#imgPlus{
+    width: 40px;
+    height: 55px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    position: relative;
+    left: 35%;
+}
+#imgForward{
+    width: 40px;
+    height: 55px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    position: relative;
+    left: 35%;
+}
+#imgTT{
+    width: 40px;
+    height: 55px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    position: relative;
+    left: 35%;
+}
+#imgGallery{
+    width: 40px;
+    height: 55px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    position: relative;
+    left: 35%;
+}

@@ -1,0 +1,404 @@
+@font-face { font-family: Gotham; src: url("../../fonts/GothamLight.8566e2336952.ttf"); font-weight: normal;} 
+@font-face { font-family: GothamBook; src: url("../../fonts/GothamBook.b54724f54d4d.ttf"); font-weight: normal;} 
+@font-face { font-family: GothamBold; src: url("../../fonts/GothamBold.db33e70bc9de.ttf"); font-weight: normal;} 
+@font-face { font-family: GothamMedium; src: url("../../fonts/GothamMedium.77171d8f5b52.ttf"); font-weight: normal;} 
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: 'GothamBook';
+  background-size: cover;
+  line-height: 1.3;
+  overflow: hidden;
+}
+
+h5 {
+  text-align: justify;
+  margin-left: 3%;
+  width: 95%; 
+  padding: 5px;
+}
+
+ul#do {
+  list-style-image: url("../../images/checkmark.141267c7086a.png")
+}
+
+ul#dont {
+  list-style-image: url("../../images/wrong.cb0b8869e4d3.PNG")
+
+}
+
+.do {
+  margin-left: 5%;
+  border-width: 2px;
+  border-style: solid;
+  border-color: green;
+  height: 100%;
+}
+
+.dont {
+  margin-right: 5%;
+  border-width: 2px;
+  border-style: solid;
+  border-color: red;
+  height: 100%;
+}
+
+li {
+  margin-bottom: 2%;
+  margin-right: 5%;
+}
+
+a:hover {
+  text-align: center;
+  text-decoration: none;
+}
+
+.bg {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  background-color: #781B1B;
+}
+
+/*--------------------
+Chat
+--------------------*/
+.chat {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100vh;
+  max-height: 999px;
+  z-index: 2;
+  overflow: hidden;
+  background-image: url("/static/images/white_bg.8e7d7dd60d31.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 0px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+/*--------------------
+Chat Title
+--------------------*/
+.chat-title {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 1 45px;
+  flex: 0 1 45px;
+  position: relative;
+  z-index: 2;
+  background-color: #F8C400;
+  color: #fff;
+  text-transform: uppercase;
+  text-align: left;
+  padding: 40px 90px 10px 50px;
+}
+.chat-title h1, .chat-title h2 {
+  position: relative;
+  left: 20px;
+  bottom: 18px;
+  color: black;
+  font-weight: normal;
+  font-size: 20px;
+  margin: 0;
+  padding: 0;
+}
+.chat-title h2 {
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+.chat-title .avatar {
+  position: absolute;
+  z-index: 1;
+  top: 13px;
+  left: 9px;
+  border-radius: 30px;
+  width: 50px;
+  height: 50px;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  border: 2px solid rgba(255, 255, 255, 0.24);
+}
+.chat-title .avatar img {
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+}
+
+/*--------------------
+Messages
+--------------------*/
+.messages {
+  -webkit-box-flex: 1;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  color: black;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+.messages .messages-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+.messages .message {
+  clear: both;
+  float: left;
+  padding: 6px 10px 7px;
+  border-radius: 10px 10px 10px 0;
+  background-color: #F8C400;
+  margin: 8px 0;
+  font-size: 15px;
+  line-height: 1.4;
+  margin-left: 50px;
+  position: relative;
+}
+.messages .message .timestamp {
+  position: absolute;
+  bottom: -15px;
+  font-size: 10px;
+  color: black;
+}
+.messages .message::before {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  border-top: 6px solid rgba(0, 0, 0, 0.3);
+  left: 0;
+  border-right: 7px solid transparent;
+}
+.messages .message .avatar {
+  position: absolute;
+  z-index: 1;
+  bottom: -15px;
+  left: -35px;
+  border-radius: 50px;
+  width: 30px;
+  height: 30px;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  border: 2px solid rgba(255, 255, 255, 0.24);
+}
+.messages .message .avatar img {
+  border-radius: 50px;
+  width: 100%;
+  height: 100%;
+}
+.messages .message.message-personal {
+  float: right;
+  color: white;
+  position: relative;
+  right: 20px;
+  background-color:  #781B1B;
+  border-radius: 10px 10px 0 10px;
+}
+.messages .message.message-personal::before {
+  left: auto;
+  right: 0;
+  border-right: none;
+  border-left: 5px solid transparent;
+  border-top: 4px solid #257287;
+  bottom: -4px;
+}
+.messages .message:last-child {
+  margin-bottom: 30px;
+}
+.messages .message.new {
+  -webkit-transform: scale(0);
+  transform: scale(0);
+  -webkit-transform-origin: 0 0;
+  transform-origin: 0 0;
+  -webkit-animation: bounce 500ms linear both;
+  animation: bounce 500ms linear both;
+}
+.messages .message.loading::before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  content: '';
+  display: block;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  z-index: 2;
+  margin-top: 4px;
+  -webkit-animation: ball 0.45s cubic-bezier(0, 0, 0.15, 1) alternate infinite;
+  animation: ball 0.45s cubic-bezier(0, 0, 0.15, 1) alternate infinite;
+  border: none;
+  -webkit-animation-delay: .15s;
+  animation-delay: .15s;
+}
+.messages .message.loading span {
+  display: block;
+  font-size: 0;
+  width: 20px;
+  height: 10px;
+  position: relative;
+}
+.messages .message.loading span::before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  content: '';
+  display: block;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  z-index: 2;
+  margin-top: 4px;
+  -webkit-animation: ball 0.45s cubic-bezier(0, 0, 0.15, 1) alternate infinite;
+  animation: ball 0.45s cubic-bezier(0, 0, 0.15, 1) alternate infinite;
+  margin-left: -7px;
+}
+.messages .message.loading span::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  content: '';
+  display: block;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  z-index: 2;
+  margin-top: 4px;
+  -webkit-animation: ball 0.45s cubic-bezier(0, 0, 0.15, 1) alternate infinite;
+  animation: ball 0.45s cubic-bezier(0, 0, 0.15, 1) alternate infinite;
+  margin-left: 7px;
+  -webkit-animation-delay: .3s;
+  animation-delay: .3s;
+}
+
+.tabcontent {
+  color: white;
+  display: none;
+  padding: 100px 20px;
+  height: 100%;
+}
+
+
+/*--------------------
+Message Box
+--------------------*/
+textarea {
+  resize: none; /* hide resizer */
+  overflow: auto; /* hide scrollbar */
+}
+
+#time {
+  margin-left: 1%;
+  font-size: 18px;
+}
+
+.message-box {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 1 40px;
+  flex: 0 1 40px;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 0.5%;
+  margin-top: 5%;
+  height: 10%;
+}
+
+.message-input {
+  position: absolute;
+  top: 15%;
+  left: 6%;
+  border-right-width: 0px;
+  border-top-width: 0px;
+  border-left-width: 0px;
+  border-bottom-width: 0px;
+  border-radius: 10px;
+  outline: none !important;
+  color: black;
+  font-size: 15px;
+  height: 60%;
+  margin: 0;
+  width: 80%;
+}
+
+#id-mic{
+  position: absolute;
+  top: 17%;
+  left: 87%;
+  color: #fff;
+  border: none;
+  background-color: #781B1B;
+  font-size: 20px;
+  padding: 10px 15px;
+  border-radius: 50px;
+  outline: none !important; 
+}
+
+.message-submit {
+  position: absolute;
+  top: 17%;
+  color: #fff;
+  border: none;
+  left: 92%;
+  background-color: #781B1B;
+  font-size: 15px;
+  text-align: center;
+  text-transform: uppercase;
+  padding: 10px 15px;
+  border-radius: 50px;
+  outline: none !important;
+  height: 40px;
+}
+
+/*---------------------
+Paginator
+---------------------*/
+.paginator {
+  text-align: center;
+}
+
+#paginate {
+  width: 10%;
+  margin-left: 45%;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    h5 { font-size: 18px; }
+    .do, .dont { font-size: 14px; }
+}

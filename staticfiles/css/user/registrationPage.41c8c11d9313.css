@@ -1,0 +1,218 @@
+@font-face { font-family: Gotham; src: url("../../fonts/GothamLight.8566e2336952.ttf"); font-weight: normal;} 
+@font-face { font-family: GothamBook; src: url("../../fonts/GothamBook.b54724f54d4d.ttf"); font-weight: normal;} 
+@font-face { font-family: GothamBold; src: url("../../fonts/GothamBold.db33e70bc9de.ttf"); font-weight: normal;} 
+@font-face { font-family: GothamMedium; src: url("../../fonts/GothamMedium.77171d8f5b52.ttf"); font-weight: normal;} 
+
+body {
+    font-family: 'GothamBook';
+    background-image: url("/static/images/white_bg.8e7d7dd60d31.jpg");
+    background-size: cover;
+}
+hr {
+	height: 1px;
+	border: none;
+	background-color: black;
+}
+
+.register {
+	width: 55%;
+	overflow: hidden;
+	margin: auto;
+	padding: 50px;
+}
+
+input:focus{
+    outline: none;
+}
+
+a{
+	font-family: 'GothamBook';
+	font-size: 14px;
+}
+
+h6 {
+	text-align: center;
+	position: absolute;
+	top: 90px;
+	left: 647px;
+}
+h1 {
+	text-align: center;
+	position: absolute;
+	top: 110px;
+	left: 680px;
+}
+hr {
+  display: block;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: lightgrey;
+}
+.logo {
+	position: relative;
+	margin:auto;
+
+}
+
+.errorlist {
+	list-style-type: none;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+#firstName{
+	border-radius: 15px;
+	width: 175px;
+	text-align: center;
+	padding-left: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border-left-width: 0px;
+	border-right-width: 0px;
+	border-top-width: 0px;
+	border-bottom-width: 0px;
+	background-color: #ffcc00;
+	position: relative;	
+}
+
+#lastName{
+	border-radius: 15px;
+	width: 175px;
+	text-align: center;
+	padding-left: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border-left-width: 0px;
+	border-right-width: 0px;
+	border-top-width: 0px;
+	border-bottom-width: 0px;
+	background-color: #ffcc00;
+	position: relative;	
+}
+
+/* Remove arrows for NumberInput */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+#phone{
+	border-radius: 15px;
+	width: 175px;
+	text-align: center;
+	padding-left: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border-left-width: 0px;
+	border-right-width: 0px;
+	border-top-width: 0px;
+	border-bottom-width: 0px;
+	background-color: #ffcc00;
+	position: relative;	
+}
+
+#gender{
+	border-radius: 30px;
+	width: 175px;
+	text-align: center;
+	padding-left: 55px;
+	padding-top: 7px;
+	padding-bottom: 7px;
+	border-left-width: 0px;
+	border-right-width: 0px;
+	border-top-width: 0px;
+	border-bottom-width: 0px;
+	background-color: #ffcc00;
+	position: relative;
+}
+
+#emailAdd{
+	border-radius: 15px;
+	width: 350px;
+	text-align: center;
+	padding-left: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border-left-width: 0px;
+	border-right-width: 0px;
+	border-top-width: 0px;
+	border-bottom-width: 0px;
+	background-color: #ffcc00;
+	position: relative;
+}
+
+#pass, #pass2 {
+	border-radius: 15px;
+	width: 350px;
+	text-align: center;
+	padding-left: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border-left-width: 0px;
+	border-right-width: 0px;
+	border-top-width: 0px;
+	border-bottom-width: 0px;
+	background-color: #ffcc00;
+	position: relative;
+	
+}
+
+.btn_register {
+	border-radius: 15px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	width:150px;
+	border-left-width: 0px;
+	border-right-width: 0px;
+	border-top-width: 0px;
+	border-bottom-width: 0px;
+	background-color: #8C383E;
+	position: relative;
+	font-weight: bold;
+	color: white;
+}
+.btn_register:hover{
+	background-color: #781B1B;
+}
+
+input[type=button] {
+	cursor: pointer;
+}
+
+input {
+	text-align: center;
+}
+
+input:hover {
+	background-color: black;
+}
+
+a,
+a:hover{
+	color: black;
+}
+
+select option {
+    background: rgba(0, 100, 100, 100);
+    color: grey;
+    background-color: white;
+
+}
+
+select{
+	color: #808080;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+	img { width: 75%; }
+	h3 { font-size: 18px; }
+    .register { font-size: 14px; margin-top: 5%; width: 100%; }
+    #emailAdd, #pass, #pass2 { width: 90%; text-align: center; background-color: #ffcc00; position: relative; }
+    #firstName, #lastName, #phone, #gender { width: 45%; text-align: center; background-color: #ffcc00; position: relative; }
+}
