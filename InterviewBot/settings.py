@@ -223,4 +223,8 @@ COMPRESS_ENABLED = os.environ.get('COMPRESS_ENABLED', False)
 
 #WHITENOISE_MANIFEST_STRICT = False
 
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
 django_heroku.settings(locals())
