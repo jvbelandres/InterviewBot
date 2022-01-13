@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="{% static '/css/user/jobOffers.css' %}">
+    <link rel="stylesheet" href="{% static 'css/user/jobOffers.css' %}">
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/solid.css">
@@ -38,7 +38,7 @@
         <!-- Sidebar  -->
         <nav id="sidebar">
             <div class="sidebar-header">
-                <img src="{% static '/images/logo.png' %}" width="100%">
+                <img src="{% static 'images/logo.png' %}" width="100%">
             </div>
 
             <ul class="list-unstyled components">
@@ -125,7 +125,7 @@
                 <tbody>
                     {% for joblist in joblists %}
                     <tr>
-                        <td width="12%" align="center"> <img src="{% static '/images/citLogo.png' %}" class="imgJob"> </td>
+                        <td width="12%" align="center"> <img src="{% static 'images/citLogo.png' %}" class="imgJob"> </td>
                         <td width="60%">
                             <div hidden>{{joblist.email}}{{joblist.firstname}}{{joblist.lastname}}</div>
                             <div class="row jobTitle">{{joblist.title}}</div><br style="line-height: 2px;">
@@ -144,7 +144,7 @@
                         <div class="modal-dialog modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header" style="background-color: #ffcc00;">
-                                    <img src="{% static '/images/citLogo.png' %}" class="applyJobImg">
+                                    <img src="{% static 'images/citLogo.png' %}" class="applyJobImg">
                                     <h4 class="modal-title" id="myLargeModalLabel" style="margin-top: 1.5%;"><b>&nbsp;{{joblist.title}}</b></h4>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
@@ -182,7 +182,7 @@
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header" style="background-color:#933633; color: white">
-                                    <img src="{% static '/images/citLogo.png' %}" class="saveJobImg">
+                                    <img src="{% static 'images/citLogo.png' %}" class="saveJobImg">
                                     <h4 class="modal-title" id="myLargeModalLabel" style="margin-top: 2.5%;"><b>&nbsp;{{joblist.title}}</b></h4>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>

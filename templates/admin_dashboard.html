@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="{% static '/css/administrator/admindashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'css/administrator/admindashboard.css' %}">
 
 {% endblock headerinclude %}
 
@@ -37,7 +37,7 @@
         <!-- Sidebar  -->
         <nav id="sidebar">
             <div class="sidebar-header">
-                <img src="{% static '/images/logo.png' %}" width="100%">
+                <img src="{% static 'images/logo.png' %}" width="100%">
             </div>
             <center>
                 <button type="button" id="id-btnCreateJob" class="jobCreate" data-toggle="modal" data-target="#modalCreate" class="btn btn-warning">Create Job</button>
@@ -226,10 +226,10 @@
                 {% csrf_token %}
                 <div class="containerColor">
                     <div class="modalHeader">
-                        <img src="{% static '/images/Notepad.png' %}" class="imgNotepad">
+                        <img src="{% static 'images/Notepad.png' %}" class="imgNotepad">
                         <a class="questionTitle">Create Job Offering</a>
-                        <img src="{% static '/images/citLogo.png' %}" class="imgProfile">
-                        <a href="#"><img src="{% static '/images/ellipsis.png' %}" class="imgEllipsis"></a>
+                        <img src="{% static 'images/citLogo.png' %}" class="imgProfile">
+                        <a href="#"><img src="{% static 'images/ellipsis.png' %}" class="imgEllipsis"></a>
                         <button type="submit" class="btnPost" name="btnAdd" id="btnAdd">Post</button>
                     </div>
                     <div class="container">

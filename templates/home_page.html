@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="{% static '/css/user/homePage.css' %}">
+    <link rel="stylesheet" href="{% static 'css/user/homePage.css' %}">
 
 {% endblock headerinclude %}
 
@@ -35,7 +35,7 @@
         <!-- Sidebar  -->
         <nav id="sidebar">
             <div class="sidebar-header">
-                <img src="{% static '/images/logo.png' %}" width="100%">
+                <img src="{% static 'images/logo.png' %}" width="100%">
             </div>
 
             <ul class="list-unstyled components">
@@ -128,7 +128,7 @@
                     <tbody>
                         {% for savedjob in savedjobs %}
                         <tr>
-                            <td width="13%"> <img src="{% static '/images/citLogo.png' %}" class="imgJob"></td>
+                            <td width="13%"> <img src="{% static 'images/citLogo.png' %}" class="imgJob"></td>
                             <td width="60%">
                                 <div class="row jobTitle">
                                     <div style="margin-left: -1%;">{{savedjob.title}}</div>
@@ -148,7 +148,7 @@
                             <div class="modal-dialog modal-lg" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header" style="background-color: #ffcc00;">
-                                        <img src="{% static '/images/citLogo.png' %}" class="applyJobImg">
+                                        <img src="{% static 'images/citLogo.png' %}" class="applyJobImg">
                                         <h4 class="modal-title" id="myLargeModalLabel" style="margin-top: 1.5%;"><b>&nbsp;{{savedjob.title}}</b></h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
@@ -222,7 +222,7 @@
                     <tbody>
                         {% for appliedjob in appliedjobs %}
                         <tr>
-                            <td width="11%"> <img src="{% static '/images/citLogo.png' %}" class="imgJob"></td>
+                            <td width="11%"> <img src="{% static 'images/citLogo.png' %}" class="imgJob"></td>
                             <td width="70%">
                                 <div class="row jobTitle">
                                     <div class="col-sm-6">

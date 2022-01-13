@@ -11,7 +11,7 @@
     <script src="https://code.responsivevoice.org/responsivevoice.js?key=N9DRhuUu"></script>
 
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="{% static '/css/user/JobOffer_Interview.css' %}">
+    <link rel="stylesheet" href="{% static 'css/user/JobOffer_Interview.css' %}">
     
 {% endblock headerinclude %}
 
@@ -39,7 +39,7 @@
       <h2>{{job.description}}</h2>
       {% endfor %}
       <figure class="avatar">
-        <img src="{% static '/images/citLogo.png' %}" />
+        <img src="{% static 'images/citLogo.png' %}" />
       </figure>
 
       <script type="text/javascript">
@@ -105,7 +105,7 @@
 
     <div class="messages">
       <div class="messages-content">
-        <img id="paginate" src="{% static '/images/paginate2.png' %}">
+        <img id="paginate" src="{% static 'images/paginate2.png' %}">
         <h2 class="paginator">Question 10 of 20</h2><br><br>
         <h1 style="text-align: center; font-size: 75; margin: auto; width: 100%; padding: 25px;">
         {% for job in job %}
