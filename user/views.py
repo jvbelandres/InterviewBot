@@ -38,13 +38,13 @@ def finalScoring(initScore, weight, minutes, seconds, timer):
 		add_points_timer = 0
 
 		if float(seconds_remaining) >= (float(total_seconds_timer) * .8):
-			add_points_timer = 0.20
+			add_points_timer = 0.80
 		elif float(seconds_remaining) < (float(total_seconds_timer) * .8) and float(seconds_remaining) >= (float(total_seconds_timer) * .6):
-			add_points_timer = 0.15
+			add_points_timer = 0.60
 		elif float(seconds_remaining) < (float(total_seconds_timer) * .6) and float(seconds_remaining) >= (float(total_seconds_timer) * .4):
-			add_points_timer = 0.10
+			add_points_timer = 0.40
 		elif float(seconds_remaining) < (float(total_seconds_timer) * .4) and float(seconds_remaining) >= (float(total_seconds_timer) * .2):
-			add_points_timer = 0.05
+			add_points_timer = 0.20
 		else:
 			add_points_timer = 0
 
@@ -56,7 +56,8 @@ def finalScoring(initScore, weight, minutes, seconds, timer):
 def calculateSentimentScore(positive, negative, neutral):
 	if (positive == 0 or negative == 0 or neutral == 0):
 		return 0
-	return round((positive * 0.6) + (neutral * 0.3) + (negative * 0.1), 2)
+	return round((positive * 0.8) + (neutral * 0.1) + (negative * 0.1), 2)
+	#return round((positive * 0.6) + (neutral * 0.3) + (negative * 0.1), 2)
 
 # Delete sessions if user skip or did not continue the job interview session
 def deleteInterviewSessions(request):
