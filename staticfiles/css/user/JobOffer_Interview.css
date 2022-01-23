@@ -37,6 +37,14 @@ ul#dont {
   list-style-image: url('../../images/wrong.PNG')
 
 }
+.note {
+  margin-left: 5%;
+  border-width: 2px;
+  border-style: solid;
+  border-color: yellow;
+  height: 100%;
+}
+
 
 .do {
   margin-left: 5%;
