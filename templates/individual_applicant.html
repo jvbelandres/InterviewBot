@@ -75,6 +75,7 @@
                     <center>
                     <div class="tab-content" id="nav-tabContents">
                         <div class="tab-pane fade show active" id="summary-{{response.job_id}}" role="tabpanel" aria-labelledby="summary-tab" style="width: 87%; margin-top: -5%;">
+                            <h6 style="color: red;"> Note: Each question has its weight. The initial score are multiplied by its weight. </h6>
                             <h5>Overall Score based on Sentiment Analysis</h5>
                             <h3>{{response.final_score}}%</h3><br>
                             <h5 style="float: left;">Summary of Scores per Question</h5>
@@ -128,7 +129,7 @@
                                             display: true,
                                             ticks: {
                                                 beginAtZero: true,
-                                                max: 100
+                                                max: 300
                                             }
                                         }]
                                     },

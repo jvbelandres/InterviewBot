@@ -52,13 +52,6 @@ def finalScoring(positive, weight, minutes, seconds, timer):
 	else:
 		return 0
 
-# Scoring for sentiment score
-# def calculateSentimentScore(positive, negative, neutral):
-# 	if (positive == 0 or negative == 0 or neutral == 0):
-# 		return 0
-# 	return round((positive * 0.7) + (neutral * 0.2) + (negative * 0.1), 2)
-	#return round((positive * 0.6) + (neutral * 0.3) + (negative * 0.1), 2)
-
 # Delete sessions if user skip or did not continue the job interview session
 def deleteInterviewSessions(request):
 	# in case user will skip or not continue the job interview session
@@ -450,8 +443,6 @@ class JobInterviewQ1View(View):
 			else:
 				positive = 0
 
-			#sentimentScore = calculateSentimentScore(positive, negative, neutral)
-
 			# Calculate the final score
 			final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
@@ -500,8 +491,6 @@ class JobInterviewQ2View(View):
 				positive = dict_response.get('pos')
 			else:
 				positive = 0
-
-			#sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
 			# Calculate the final score
 			final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
@@ -552,8 +541,6 @@ class JobInterviewQ3View(View):
 			else:
 				positive = 0
 
-			#sentimentScore = calculateSentimentScore(positive, negative, neutral)
-
 			# Calculate the final score
 			final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
@@ -602,8 +589,6 @@ class JobInterviewQ4View(View):
 				positive = dict_response.get('pos')
 			else:
 				positive = 0
-
-			#sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
 			# Calculate the final score
 			final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
@@ -654,8 +639,6 @@ class JobInterviewQ5View(View):
 			else:
 				positive = 0
 
-			#sentimentScore = calculateSentimentScore(positive, negative, neutral)
-
 			# Calculate the final score
 			final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
@@ -704,8 +687,6 @@ class JobInterviewQ6View(View):
 				positive = dict_response.get('pos')
 			else:
 				positive = 0
-
-			#sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
 			# Calculate the final score
 			final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
@@ -756,8 +737,6 @@ class JobInterviewQ7View(View):
 			else:
 				positive = 0
 
-			#sentimentScore = calculateSentimentScore(positive, negative, neutral)
-
 			# Calculate the final score
 			final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
@@ -806,8 +785,6 @@ class JobInterviewQ8View(View):
 				positive = dict_response.get('pos')
 			else:
 				positive = 0
-
-			#sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
 			# Calculate the final score
 			final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
@@ -858,8 +835,6 @@ class JobInterviewQ9View(View):
 			else:
 				positive = 0
 
-			#sentimentScore = calculateSentimentScore(positive, negative, neutral)
-
 			# Calculate the final score
 			final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
@@ -908,8 +883,6 @@ class JobInterviewQ10View(View):
 				positive = dict_response.get('pos')
 			else:
 				positive = 0
-
-			#sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
 			# Calculate the final score
 			final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
@@ -960,8 +933,6 @@ class JobInterviewQ11View(View):
 			else:
 				positive = 0
 
-			#sentimentScore = calculateSentimentScore(positive, negative, neutral)
-
 			# Calculate the final score
 			final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
@@ -1010,8 +981,6 @@ class JobInterviewQ12View(View):
 				positive = dict_response.get('pos')
 			else:
 				positive = 0
-
-			#sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
 			# Calculate the final score
 			final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
@@ -1062,8 +1031,6 @@ class JobInterviewQ13View(View):
 			else:
 				positive = 0
 
-			#sentimentScore = calculateSentimentScore(positive, negative, neutral)
-
 			# Calculate the final score
 			final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
@@ -1112,8 +1079,6 @@ class JobInterviewQ14View(View):
 				positive = dict_response.get('pos')
 			else:
 				positive = 0
-
-			#sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
 			# Calculate the final score
 			final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
@@ -1164,8 +1129,6 @@ class JobInterviewQ15View(View):
 			else:
 				positive = 0
 
-			#sentimentScore = calculateSentimentScore(positive, negative, neutral)
-
 			# Calculate the final score
 			final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
@@ -1214,8 +1177,6 @@ class JobInterviewQ16View(View):
 				positive = dict_response.get('pos')
 			else:
 				positive = 0
-
-			#sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
 			# Calculate the final score
 			final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
@@ -1266,8 +1227,6 @@ class JobInterviewQ17View(View):
 			else:
 				positive = 0
 
-			#sentimentScore = calculateSentimentScore(positive, negative, neutral)
-
 			# Calculate the final score
 			final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
@@ -1317,8 +1276,6 @@ class JobInterviewQ18View(View):
 			else:
 				positive = 0
 
-			#sentimentScore = calculateSentimentScore(positive, negative, neutral)
-
 			# Calculate the final score
 			final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
@@ -1367,8 +1324,6 @@ class JobInterviewQ19View(View):
 				positive = dict_response.get('pos')
 			else:
 				positive = 0
-
-			#sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
 			# Calculate the final score
 			final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
@@ -1438,57 +1393,32 @@ class JobInterviewQ20View(View):
 			else:
 				positive = 0
 
-			#sentimentScore = calculateSentimentScore(positive, negative, neutral)
-
 			# Calculate the final score
 			score20 = finalScoring(positive, job_weight20, float(minutes), float(seconds), job_timer)
 
 			# get final score for the overall interview session
 			user_appliedJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id)
 			for u in user_appliedJob:
-				print(u.score1)
-				print(u.score2)
-				print(u.score3)
-				print(u.score4)
-				print(u.score5)
-				print(u.score6)
-				print(u.score7)
-				print(u.score8)
-				print(u.score9)
-				print(u.score10)
-				print(u.score11)
-				print(u.score12)
-				print(u.score13)
-				print(u.score14)
-				print(u.score15)
-				print(u.score16)
-				print(u.score17)
-				print(u.score18)
-				print(u.score19)
-				print(score20)
-
-
 				if u.score1 != None and u.score2 != None and u.score3 != None and u.score4 != None and u.score5 != None and u.score6 != None and u.score7 != None and u.score8 != None and u.score9 != None and u.score10 != None and u.score11 != None and u.score12 != None and u.score13 != None and u.score14 != None and u.score15 != None and u.score16 != None and u.score17 != None and u.score18 != None and u.score19 != None and score20 != 0:	
-					final_score = (
-						(float(u.score1) * float(job_weight1)) + 
-						(float(u.score2) * float(job_weight2)) +
-						(float(u.score3) * float(job_weight3)) +
-						(float(u.score4) * float(job_weight4)) +
-						(float(u.score5) * float(job_weight5)) +
-						(float(u.score6) * float(job_weight6)) +
-						(float(u.score7) * float(job_weight7)) +
-						(float(u.score8) * float(job_weight8)) +
-						(float(u.score9) * float(job_weight9)) +
-						(float(u.score10) * float(job_weight10)) +
-						(float(u.score11) * float(job_weight11)) +
-						(float(u.score12) * float(job_weight12)) +
-						(float(u.score13) * float(job_weight13)) +
-						(float(u.score14) * float(job_weight14)) +
-						(float(u.score15) * float(job_weight15)) +
-						(float(u.score16) * float(job_weight16)) +
-						(float(u.score17) * float(job_weight17)) +
-						(float(u.score18) * float(job_weight18)) +
-						(float(u.score19) * float(job_weight19)) +
+					final_score = (float(u.score1) + 
+						float(u.score2) +
+						float(u.score3) +
+						float(u.score4) +
+						float(u.score5) +
+						float(u.score6) +
+						float(u.score7) +
+						float(u.score8) +
+						float(u.score9) +
+						float(u.score10) +
+						float(u.score11) +
+						float(u.score12) +
+						float(u.score13) +
+						float(u.score14) +
+						float(u.score15) +
+						float(u.score16) +
+						float(u.score17) +
+						float(u.score18) +
+						float(u.score19) +
 						(float(score20) * float(job_weight20))) / (
 						float(job_weight1) + 
 						float(job_weight2) + 
@@ -1518,7 +1448,7 @@ class JobInterviewQ20View(View):
 					return redirect('user:interview_forfeit_view')
 
 			AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
-				response_20 = response_20, score20 = math.ceil(score20), final_score = final_score)
+				response_20 = response_20, score20 = math.ceil(score20), final_score = round(final_score, 2))
 
 			return redirect('user:interview_success_view')
 		except KeyError:
