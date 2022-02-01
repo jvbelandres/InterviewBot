@@ -31,8 +31,8 @@ def textProccessing(text):
 	return json.loads(response.text)
 
 # Scoring for each question
-def finalScoring(initScore, weight, minutes, seconds, timer):
-	if initScore != 0:
+def finalScoring(positive, weight, minutes, seconds, timer):
+	if positive != 0:
 		seconds_remaining = (minutes * 60) + seconds
 		total_seconds_timer = timer * 60
 		add_points_timer = 0
@@ -48,15 +48,15 @@ def finalScoring(initScore, weight, minutes, seconds, timer):
 		else:
 			add_points_timer = 0
 
-		return (round(initScore, 2) * float(weight) + float(add_points_timer)) * 100
+		return (round(positive, 2) * float(weight) + float(add_points_timer)) * 100
 	else:
 		return 0
 
 # Scoring for sentiment score
-def calculateSentimentScore(positive, negative, neutral):
-	if (positive == 0 or negative == 0 or neutral == 0):
-		return 0
-	return round((positive * 0.7) + (neutral * 0.2) + (negative * 0.1), 2)
+# def calculateSentimentScore(positive, negative, neutral):
+# 	if (positive == 0 or negative == 0 or neutral == 0):
+# 		return 0
+# 	return round((positive * 0.7) + (neutral * 0.2) + (negative * 0.1), 2)
 	#return round((positive * 0.6) + (neutral * 0.3) + (negative * 0.1), 2)
 
 # Delete sessions if user skip or did not continue the job interview session
@@ -447,17 +447,13 @@ class JobInterviewQ1View(View):
 				# getting the sentiment scores
 				dict_response = json_object.get('probability')
 				positive = dict_response.get('pos')
-				negative = dict_response.get('neg')
-				neutral = dict_response.get('neutral')
 			else:
 				positive = 0
-				negative = 0
-				neutral = 0
 
-			sentimentScore = calculateSentimentScore(positive, negative, neutral)
+			#sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
 			# Calculate the final score
-			final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
+			final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
 			AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 				response_1 = response_1, score1 = math.ceil(final_score))
@@ -502,17 +498,13 @@ class JobInterviewQ2View(View):
 				# getting the sentiment scores
 				dict_response = json_object.get('probability')
 				positive = dict_response.get('pos')
-				negative = dict_response.get('neg')
-				neutral = dict_response.get('neutral')
 			else:
 				positive = 0
-				negative = 0
-				neutral = 0
 
-			sentimentScore = calculateSentimentScore(positive, negative, neutral)
+			#sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
 			# Calculate the final score
-			final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
+			final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
 			AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 				response_2 = response_2, score2 = math.ceil(final_score))
@@ -557,17 +549,13 @@ class JobInterviewQ3View(View):
 				# getting the sentiment scores
 				dict_response = json_object.get('probability')
 				positive = dict_response.get('pos')
-				negative = dict_response.get('neg')
-				neutral = dict_response.get('neutral')
 			else:
 				positive = 0
-				negative = 0
-				neutral = 0
 
-			sentimentScore = calculateSentimentScore(positive, negative, neutral)
+			#sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
 			# Calculate the final score
-			final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
+			final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
 			AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 				response_3 = response_3, score3 = math.ceil(final_score))
@@ -612,17 +600,13 @@ class JobInterviewQ4View(View):
 				# getting the sentiment scores
 				dict_response = json_object.get('probability')
 				positive = dict_response.get('pos')
-				negative = dict_response.get('neg')
-				neutral = dict_response.get('neutral')
 			else:
 				positive = 0
-				negative = 0
-				neutral = 0
 
-			sentimentScore = calculateSentimentScore(positive, negative, neutral)
+			#sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
 			# Calculate the final score
-			final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
+			final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
 			AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 				response_4 = response_4, score4 = math.ceil(final_score))
@@ -667,17 +651,13 @@ class JobInterviewQ5View(View):
 				# getting the sentiment scores
 				dict_response = json_object.get('probability')
 				positive = dict_response.get('pos')
-				negative = dict_response.get('neg')
-				neutral = dict_response.get('neutral')
 			else:
 				positive = 0
-				negative = 0
-				neutral = 0
 
-			sentimentScore = calculateSentimentScore(positive, negative, neutral)
+			#sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
 			# Calculate the final score
-			final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
+			final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
 			AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 				response_5 = response_5, score5 = math.ceil(final_score))
@@ -722,17 +702,13 @@ class JobInterviewQ6View(View):
 				# getting the sentiment scores
 				dict_response = json_object.get('probability')
 				positive = dict_response.get('pos')
-				negative = dict_response.get('neg')
-				neutral = dict_response.get('neutral')
 			else:
 				positive = 0
-				negative = 0
-				neutral = 0
 
-			sentimentScore = calculateSentimentScore(positive, negative, neutral)
+			#sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
 			# Calculate the final score
-			final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
+			final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
 			AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 				response_6 = response_6, score6 = math.ceil(final_score))
@@ -777,17 +753,13 @@ class JobInterviewQ7View(View):
 				# getting the sentiment scores
 				dict_response = json_object.get('probability')
 				positive = dict_response.get('pos')
-				negative = dict_response.get('neg')
-				neutral = dict_response.get('neutral')
 			else:
 				positive = 0
-				negative = 0
-				neutral = 0
 
-			sentimentScore = calculateSentimentScore(positive, negative, neutral)
+			#sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
 			# Calculate the final score
-			final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
+			final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
 			AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 				response_7 = response_7, score7 = math.ceil(final_score))
@@ -832,17 +804,13 @@ class JobInterviewQ8View(View):
 				# getting the sentiment scores
 				dict_response = json_object.get('probability')
 				positive = dict_response.get('pos')
-				negative = dict_response.get('neg')
-				neutral = dict_response.get('neutral')
 			else:
 				positive = 0
-				negative = 0
-				neutral = 0
 
-			sentimentScore = calculateSentimentScore(positive, negative, neutral)
+			#sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
 			# Calculate the final score
-			final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
+			final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
 			AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 				response_8 = response_8, score8 = math.ceil(final_score))
@@ -887,17 +855,13 @@ class JobInterviewQ9View(View):
 				# getting the sentiment scores
 				dict_response = json_object.get('probability')
 				positive = dict_response.get('pos')
-				negative = dict_response.get('neg')
-				neutral = dict_response.get('neutral')
 			else:
 				positive = 0
-				negative = 0
-				neutral = 0
 
-			sentimentScore = calculateSentimentScore(positive, negative, neutral)
+			#sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
 			# Calculate the final score
-			final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
+			final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
 			AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 				response_9 = response_9, score9 = math.ceil(final_score))
@@ -942,17 +906,13 @@ class JobInterviewQ10View(View):
 				# getting the sentiment scores
 				dict_response = json_object.get('probability')
 				positive = dict_response.get('pos')
-				negative = dict_response.get('neg')
-				neutral = dict_response.get('neutral')
 			else:
 				positive = 0
-				negative = 0
-				neutral = 0
 
-			sentimentScore = calculateSentimentScore(positive, negative, neutral)
+			#sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
 			# Calculate the final score
-			final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
+			final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
 			AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 				response_10 = response_10, score10 = math.ceil(final_score))
@@ -997,17 +957,13 @@ class JobInterviewQ11View(View):
 				# getting the sentiment scores
 				dict_response = json_object.get('probability')
 				positive = dict_response.get('pos')
-				negative = dict_response.get('neg')
-				neutral = dict_response.get('neutral')
 			else:
 				positive = 0
-				negative = 0
-				neutral = 0
 
-			sentimentScore = calculateSentimentScore(positive, negative, neutral)
+			#sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
 			# Calculate the final score
-			final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
+			final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
 			AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 				response_11 = response_11, score11 = math.ceil(final_score))
@@ -1052,17 +1008,13 @@ class JobInterviewQ12View(View):
 				# getting the sentiment scores
 				dict_response = json_object.get('probability')
 				positive = dict_response.get('pos')
-				negative = dict_response.get('neg')
-				neutral = dict_response.get('neutral')
 			else:
 				positive = 0
-				negative = 0
-				neutral = 0
 
-			sentimentScore = calculateSentimentScore(positive, negative, neutral)
+			#sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
 			# Calculate the final score
-			final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
+			final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
 			AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 				response_12 = response_12, score12 = math.ceil(final_score))
@@ -1107,17 +1059,13 @@ class JobInterviewQ13View(View):
 				# getting the sentiment scores
 				dict_response = json_object.get('probability')
 				positive = dict_response.get('pos')
-				negative = dict_response.get('neg')
-				neutral = dict_response.get('neutral')
 			else:
 				positive = 0
-				negative = 0
-				neutral = 0
 
-			sentimentScore = calculateSentimentScore(positive, negative, neutral)
+			#sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
 			# Calculate the final score
-			final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
+			final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
 			AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 				response_13 = response_13, score13 = math.ceil(final_score))
@@ -1162,17 +1110,13 @@ class JobInterviewQ14View(View):
 				# getting the sentiment scores
 				dict_response = json_object.get('probability')
 				positive = dict_response.get('pos')
-				negative = dict_response.get('neg')
-				neutral = dict_response.get('neutral')
 			else:
 				positive = 0
-				negative = 0
-				neutral = 0
 
-			sentimentScore = calculateSentimentScore(positive, negative, neutral)
+			#sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
 			# Calculate the final score
-			final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
+			final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
 			AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 				response_14 = response_14, score14 = math.ceil(final_score))
@@ -1217,17 +1161,13 @@ class JobInterviewQ15View(View):
 				# getting the sentiment scores
 				dict_response = json_object.get('probability')
 				positive = dict_response.get('pos')
-				negative = dict_response.get('neg')
-				neutral = dict_response.get('neutral')
 			else:
 				positive = 0
-				negative = 0
-				neutral = 0
 
-			sentimentScore = calculateSentimentScore(positive, negative, neutral)
+			#sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
 			# Calculate the final score
-			final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
+			final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
 			AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 				response_15 = response_15, score15 = math.ceil(final_score))
@@ -1272,17 +1212,13 @@ class JobInterviewQ16View(View):
 				# getting the sentiment scores
 				dict_response = json_object.get('probability')
 				positive = dict_response.get('pos')
-				negative = dict_response.get('neg')
-				neutral = dict_response.get('neutral')
 			else:
 				positive = 0
-				negative = 0
-				neutral = 0
 
-			sentimentScore = calculateSentimentScore(positive, negative, neutral)
+			#sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
 			# Calculate the final score
-			final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
+			final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
 			AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 				response_16 = response_16, score16 = math.ceil(final_score))
@@ -1327,17 +1263,13 @@ class JobInterviewQ17View(View):
 				# getting the sentiment scores
 				dict_response = json_object.get('probability')
 				positive = dict_response.get('pos')
-				negative = dict_response.get('neg')
-				neutral = dict_response.get('neutral')
 			else:
 				positive = 0
-				negative = 0
-				neutral = 0
 
-			sentimentScore = calculateSentimentScore(positive, negative, neutral)
+			#sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
 			# Calculate the final score
-			final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
+			final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
 			AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 				response_17 = response_17, score17 = math.ceil(final_score))
@@ -1382,17 +1314,13 @@ class JobInterviewQ18View(View):
 				# getting the sentiment scores
 				dict_response = json_object.get('probability')
 				positive = dict_response.get('pos')
-				negative = dict_response.get('neg')
-				neutral = dict_response.get('neutral')
 			else:
 				positive = 0
-				negative = 0
-				neutral = 0
 
-			sentimentScore = calculateSentimentScore(positive, negative, neutral)
+			#sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
 			# Calculate the final score
-			final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
+			final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
 			AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 				response_18 = response_18, score18 = math.ceil(final_score))
@@ -1437,17 +1365,13 @@ class JobInterviewQ19View(View):
 				# getting the sentiment scores
 				dict_response = json_object.get('probability')
 				positive = dict_response.get('pos')
-				negative = dict_response.get('neg')
-				neutral = dict_response.get('neutral')
 			else:
 				positive = 0
-				negative = 0
-				neutral = 0
 
-			sentimentScore = calculateSentimentScore(positive, negative, neutral)
+			#sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
 			# Calculate the final score
-			final_score = finalScoring(sentimentScore, job_weight, float(minutes), float(seconds), job_timer)
+			final_score = finalScoring(positive, job_weight, float(minutes), float(seconds), job_timer)
 
 			AppliedJob.objects.filter(job_id = job_id, user_id = user.id).update(
 				response_19 = response_19, score19 = math.ceil(final_score))
@@ -1511,17 +1435,13 @@ class JobInterviewQ20View(View):
 				# getting the sentiment scores
 				dict_response = json_object.get('probability')
 				positive = dict_response.get('pos')
-				negative = dict_response.get('neg')
-				neutral = dict_response.get('neutral')
 			else:
 				positive = 0
-				negative = 0
-				neutral = 0
 
-			sentimentScore = calculateSentimentScore(positive, negative, neutral)
+			#sentimentScore = calculateSentimentScore(positive, negative, neutral)
 
 			# Calculate the final score
-			score20 = finalScoring(sentimentScore, job_weight20, float(minutes), float(seconds), job_timer)
+			score20 = finalScoring(positive, job_weight20, float(minutes), float(seconds), job_timer)
 
 			# get final score for the overall interview session
 			user_appliedJob = AppliedJob.objects.filter(job_id = job_id, user_id = user.id)
