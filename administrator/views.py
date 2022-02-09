@@ -503,12 +503,13 @@ class AdminRegistrationView(CreateView):
 		user.save() # If dili mag user.save() kay dili mu gana ang token
 		current_site = get_current_site(self.request)
 		mail_subject = 'Activate your administrator account.'
-		message = render_to_string('account_activation/administrator/spAcc_active_email.html', {
+		message = render_to_string('account_activation/administrator/spAcc_active_email.txt', {
             'user': user,
             'domain': current_site.domain,
             'uid':urlsafe_base64_encode(force_bytes(user.pk)),
             'token':account_activation_token.make_token(user),
             'type': 'administrator',
+			'protocol': 'https',
 	    })
 		to_email = form.cleaned_data.get('email')
 		email = EmailMessage(

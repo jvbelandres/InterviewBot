@@ -101,11 +101,12 @@ class RegisterView(CreateView):
 		user.save()
 		current_site = get_current_site(self.request)
 		mail_subject = 'Activate your account.'
-		message = render_to_string('account_activation/user/acc_active_email.html', {
+		message = render_to_string('account_activation/user/acc_active_email.txt', {
             'user': user,
             'domain': current_site.domain,
             'uid':urlsafe_base64_encode(force_bytes(user.pk)),
             'token':account_activation_token.make_token(user),
+			'protocol': 'https',
 	    })
 		to_email = form.cleaned_data.get('email')
 		email = EmailMessage(
