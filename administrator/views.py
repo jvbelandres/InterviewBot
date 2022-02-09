@@ -577,9 +577,9 @@ def sp_activate(request, uidb64, token):
 		user.is_active = True
 		user.save()
 		login(request, user)
-		return redirect('administrator:activation-success')
+		return redirect('administrator:activation-success', {'userTest': user})
 	else:
-		return redirect('administrator:activation-failed')
+		return redirect('administrator:activation-failed', {'userTest': user})
 
 class RegisterComplete(View): # After staff and administrator registration
 	def get(self, request):
