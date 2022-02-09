@@ -1,3 +1,4 @@
+from distutils.log import Log
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.views.generic import View, CreateView, FormView
@@ -133,8 +134,7 @@ def activate(request, uidb64, token):
 	except(TypeError, ValueError, OverflowError, Account.DoesNotExist):
 		user = None
 
-	#if (user is not None or user != "") and account_activation_token.check_token(user, token):
-	if account_activation_token.check_token(user, token):
+	if user is not None and account_activation_token.check_token(user, token):
 		user.is_active = True
 		user.save()
 		login(request, user)

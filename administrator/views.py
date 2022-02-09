@@ -573,14 +573,13 @@ def sp_activate(request, uidb64, token):
 	except(TypeError, ValueError, OverflowError, Account.DoesNotExist):
 		user = None
 
-	#if (user is not None or user != "") and account_activation_token.check_token(user, token):
-	if account_activation_token.check_token(user, token):
+	if user is not None and account_activation_token.check_token(user, token):
 		user.is_active = True
 		user.save()
 		login(request, user)
-		return redirect('administrator:activate-success')
+		return redirect('administrator:activation-success')
 	else:
-		return redirect('administrator:activate-failed')
+		return redirect('administrator:activation-failed')
 
 class RegisterComplete(View): # After staff and administrator registration
 	def get(self, request):
