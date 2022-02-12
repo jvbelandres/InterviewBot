@@ -151,7 +151,7 @@ class JobOfferingsAdminListViewAPI(ListAPIView):
 
 	def get_queryset(self):
 		admin_id = self.kwargs['admin_id']
-		return CreateJob.objects.filter(admin_id=admin_id)
+		return CreateJob.objects.filter(admin_id=19)
 
 class AppliedJobApplicantsListViewAPI(ListAPIView):
 	permission_classes = (IsAuthenticated,)
