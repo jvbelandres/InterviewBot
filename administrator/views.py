@@ -184,7 +184,7 @@ class JobListsView(View):
 		accounts = Account.objects.filter(staff=1, is_active=1)
 		# Raw query to get DISTINCT job_id since required ang primary key if apilon siyas GROUP BY or DISTINCT
 		#appliedjobs = AppliedJob.objects.raw('SELECT * FROM (SELECT id, job_id, ROW_NUMBER() OVER (PARTITION BY job_id) AS RowNumber FROM AppliedJob WHERE final_score IS NOT NULL) AS a WHERE a.RowNumber = 1;')
-		appliedjobs = AppliedJob.objects.raw('SELECT * FROM (SELECT id, job_id, ROW_NUMBER() OVER (PARTITION BY job_id) AS RowNumber FROM "AppliedJob" WHERE final_score IS NOT NULL) AS a WHERE a.RowNumber = 1;')
+		appliedjobs = AppliedJob.objects.raw('SELECT * FROM (SELECT id, job_id, ROW_NUMBER() OVER (PARTITION BY job_id) AS RowNumber FROM "AppliedJob" WHERE final_score IS NOT NULL OR final_score <> 0) AS a WHERE a.RowNumber = 1;')
 
 		admin_joblist = request.GET.get('job-list-filter')
 		if admin_joblist == None:
